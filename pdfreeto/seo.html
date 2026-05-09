@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free SEO Analyser — Check and Improve Your SEO — PDFreeto</title>
+<meta name="description" content="Enter any URL and get a full SEO analysis with actionable improvements. Check title, meta tags, headings, content, speed and more. Free and instant.">
+<link rel="canonical" href="https://pdfreeto.com/seo">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a;
+    --border: #2a2a2a; --accent: #e8ff3c; --accent2: #ff5533; --accent3: #3cffd0;
+    --text: #f0ede6; --muted: #666;
+    --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif;
+    --good: #3cffd0; --warn: #ffaa00; --bad: #ff5533;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px); background-size: 60px 60px; }
+  header { position: relative; z-index: 10; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .main-nav { display: flex; align-items: center; gap: 4px; }
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  .burger { display: none; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  @media (max-width: 860px) {
+    .main-nav { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+    .main-nav.open { display: flex; }
+    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
+    .burger { display: flex; }
+  }
+  .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
+  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .content { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 36px 40px 80px; }
+
+  /* URL input */
+  .url-row { display: flex; gap: 0; }
+  .url-input { flex: 1; padding: 16px 20px; background: var(--surface); border: 2px solid var(--border); border-right: none; color: var(--text); font-family: var(--mono); font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+  .url-input:focus { border-color: var(--accent); }
+  .url-input::placeholder { color: var(--muted); }
+  .url-btn { padding: 16px 28px; background: var(--accent); color: #0a0a0a; font-family: var(--display); font-size: 1.1rem; letter-spacing: 0.1em; border: none; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .url-btn:hover { opacity: 0.9; }
+  .url-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+  /* Loading */
+  .loading-state { display: none; padding: 40px; text-align: center; }
+  .loading-state .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 16px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-state p { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* Score ring */
+  .score-section { display: none; margin-top: 32px; }
+  .score-header { display: flex; align-items: center; gap: 32px; padding: 28px; background: var(--surface); border: 1px solid var(--border); margin-bottom: 20px; }
+  .score-ring { position: relative; width: 100px; height: 100px; flex-shrink: 0; }
+  .score-ring svg { transform: rotate(-90deg); }
+  .score-ring circle.track { fill: none; stroke: var(--border); stroke-width: 8; }
+  .score-ring circle.fill { fill: none; stroke-width: 8; stroke-linecap: round; stroke-dasharray: 283; transition: stroke-dashoffset 1s ease, stroke 0.5s; }
+  .score-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 1.8rem; letter-spacing: 0.05em; }
+  .score-info h2 { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 6px; }
+  .score-info p { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; }
+  .score-info .url-display { font-family: var(--mono); font-size: 0.68rem; color: var(--accent); margin-top: 8px; word-break: break-all; }
+
+  /* Check items */
+  .checks-section { display: flex; flex-direction: column; gap: 8px; }
+  .check-group-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 20px 0 8px; }
+  .check-item { background: var(--surface); border: 1px solid var(--border); overflow: hidden; }
+  .check-header { display: flex; align-items: center; gap: 14px; padding: 14px 16px; cursor: pointer; transition: background 0.15s; }
+  .check-header:hover { background: var(--surface2); }
+  .check-status { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; font-weight: bold; }
+  .status-good { background: rgba(60,255,208,0.15); color: var(--good); border: 1px solid var(--good); }
+  .status-warn { background: rgba(255,170,0,0.15); color: var(--warn); border: 1px solid var(--warn); }
+  .status-bad { background: rgba(255,85,51,0.15); color: var(--bad); border: 1px solid var(--bad); }
+  .check-title { flex: 1; font-family: var(--sans); font-size: 0.9rem; color: var(--text); }
+  .check-value { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .check-arrow { color: var(--muted); font-size: 0.7rem; transition: transform 0.2s; }
+  .check-item.open .check-arrow { transform: rotate(180deg); }
+  .check-body { display: none; padding: 0 16px 16px 50px; }
+  .check-item.open .check-body { display: block; }
+  .check-body p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; margin-bottom: 10px; }
+  .check-body .fix { background: rgba(232,255,60,0.06); border: 1px solid rgba(232,255,60,0.2); padding: 12px 14px; font-family: var(--mono); font-size: 0.78rem; color: var(--text); line-height: 1.6; margin-top: 8px; white-space: pre-wrap; }
+  .fix-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .copy-fix-btn { margin-top: 8px; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; background: none; border: 1px solid var(--border); color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .copy-fix-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* AI analysis streaming */
+  .ai-analysis { margin-top: 20px; padding: 20px; background: var(--surface); border: 1px solid var(--border); }
+  .ai-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .ai-body { font-size: 0.92rem; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
+  .ai-body.streaming::after { content: '▋'; animation: blink 0.8s infinite; color: var(--accent); }
+  @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+
+  .seo-block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .seo-block h2 { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px; }
+  .seo-block p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
+  .footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-sep { color: var(--border); font-family: var(--mono); font-size: 0.65rem; }
+  .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  @media (max-width: 600px) {
+    header { padding: 16px 20px; } .hero { padding: 40px 20px 20px; } .content { padding: 24px 20px 60px; }
+    .url-row { flex-direction: column; } .url-input { border-right: 2px solid var(--border); border-bottom: none; }
+    .score-header { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo">PDF<span>reeto</span></a>
+  <nav class="main-nav" id="main-nav">
+    <a href="index.html">JPG ↔ PDF</a>
+    <a href="pdf-to-word.html">Word to PDF</a>
+    <a href="compress-pdf.html">Compress PDF</a>
+    <a href="compress-jpg.html">Compress JPG</a>
+    <a href="merge-jpg.html">Merge JPG</a>
+    <a href="merge-pdf.html">Merge PDF</a>
+    <a href="tts.html">Text to Speech</a>
+    <a href="pdf-ai.html">PDF AI</a>
+    <a href="social-media.html">Social Media</a>
+    <a href="seo.html">SEO</a>
+  </nav>
+  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="hero">
+  <h1>SEO<br><span class="hl">Analyser</span></h1>
+  <p>Paste a URL · Get a full SEO audit · Fix it fast · Free</p>
+</div>
+
+<div class="content">
+  <div class="url-row">
+    <input class="url-input" id="url-input" type="url" placeholder="https://yourwebsite.com/page" onkeydown="if(event.key==='Enter')analyse()">
+    <button class="url-btn" onclick="analyse()">ANALYSE</button>
+  </div>
+
+  <div class="loading-state" id="loading">
+    <div class="spinner"></div>
+    <p id="loading-text">Fetching page...</p>
+  </div>
+
+  <div class="score-section" id="score-section">
+    <div class="score-header">
+      <div class="score-ring">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle class="track" cx="50" cy="50" r="45"/>
+          <circle class="fill" id="score-circle" cx="50" cy="50" r="45" stroke-dashoffset="283"/>
+        </svg>
+        <div class="score-num" id="score-num">0</div>
+      </div>
+      <div class="score-info">
+        <h2 id="score-label">Analysing...</h2>
+        <p id="score-desc"></p>
+        <div class="url-display" id="score-url"></div>
+      </div>
+    </div>
+
+    <div class="checks-section" id="checks-section"></div>
+
+    <div class="ai-analysis" id="ai-analysis" style="display:none">
+      <div class="ai-label">🤖 AI SEO Recommendations</div>
+      <div class="ai-body streaming" id="ai-body"></div>
+    </div>
+  </div>
+
+  <div class="seo-block">
+    <h2>Free SEO Audit Tool</h2>
+    <p>PDFreeto's SEO Analyser fetches your page and checks all key on-page SEO factors: title tag length and keywords, meta description quality, heading structure, image alt tags, canonical tags, Open Graph tags, and more. Each issue comes with a specific fix you can copy and apply immediately.</p>
+    <h2>What Does the SEO Score Mean?</h2>
+    <p>The score (0-100) reflects how well your page follows on-page SEO best practices. A score above 80 is strong. Between 60-79 there are clear improvements to make. Below 60 means the page has significant issues affecting its ability to rank. The AI analysis provides prioritised recommendations tailored to your specific page.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">JPG ↔ PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="pdf-to-word.html">Word to PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="compress-pdf.html">Compress PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="compress-jpg.html">Compress JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="merge-jpg.html">Merge JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="merge-pdf.html">Merge PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="tts.html">Text to Speech</a>
+    <span class="footer-sep">·</span>
+    <a href="pdf-ai.html">PDF AI</a>
+    <span class="footer-sep">·</span>
+    <a href="social-media.html">Social Media</a>
+  </div>
+  <div class="footer-note">Powered by Claude AI · Page content sent only for analysis</div>
+</footer>
+
+<script>
+  function toggleNav() {
+    document.getElementById('main-nav').classList.toggle('open');
+    document.getElementById('burger').classList.toggle('open');
+  }
+  (function() {
+    const path = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.main-nav a').forEach(a => {
+      if (a.getAttribute('href') === path) a.classList.add('active');
+    });
+  })();
+
+  async function fetchPage(url) {
+    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+    const data = await res.json();
+    return data.contents || '';
+  }
+
+  function extractMeta(html) {
+    const get = (re) => (html.match(re) || [])[1] || '';
+    const getAll = (re) => [...html.matchAll(re)].map(m => m[1]);
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    tmp.querySelectorAll('script,style').forEach(e => e.remove());
+    const bodyText = tmp.textContent.replace(/\s+/g,' ').trim();
+    const wordCount = bodyText.split(/\s+/).filter(Boolean).length;
+    const images = [...html.matchAll(/<img[^>]*>/gi)].map(m => m[0]);
+    const imgsNoAlt = images.filter(i => !i.match(/alt=["'][^"']+["']/i));
+
+    return {
+      title: get(/<title[^>]*>([^<]+)<\/title>/i),
+      metaDesc: get(/name=["']description["'][^>]*content=["']([^"']{1,500})/i) || get(/content=["']([^"']{1,500})["'][^>]*name=["']description["']/i),
+      canonical: get(/rel=["']canonical["'][^>]*href=["']([^"']+)/i) || get(/href=["']([^"']+)["'][^>]*rel=["']canonical["']/i),
+      ogTitle: get(/property=["']og:title["'][^>]*content=["']([^"']+)/i) || get(/content=["']([^"']+)["'][^>]*property=["']og:title["']/i),
+      ogDesc: get(/property=["']og:description["'][^>]*content=["']([^"']+)/i) || get(/content=["']([^"']+)["'][^>]*property=["']og:description["']/i),
+      ogImage: get(/property=["']og:image["'][^>]*content=["']([^"']+)/i) || get(/content=["']([^"']+)["'][^>]*property=["']og:image["']/i),
+      h1s: getAll(/<h1[^>]*>([^<]+)<\/h1>/gi),
+      h2s: getAll(/<h2[^>]*>([^<]+)<\/h2>/gi),
+      h3s: getAll(/<h3[^>]*>([^<]+)<\/h3>/gi),
+      totalImages: images.length,
+      imgsNoAlt: imgsNoAlt.length,
+      wordCount,
+      hasViewport: /name=["']viewport["']/i.test(html),
+      hasHttps: true,
+      bodyText: bodyText.slice(0, 5000)
+    };
+  }
+
+  function runChecks(meta, url) {
+    const checks = [];
+
+    // Title
+    const tl = meta.title.length;
+    checks.push({ group: 'On-Page Basics', title: 'Title Tag', value: meta.title || 'Missing',
+      status: !meta.title ? 'bad' : tl < 30 || tl > 60 ? 'warn' : 'good',
+      problem: !meta.title ? 'No title tag found.' : tl < 30 ? `Title is too short (${tl} chars). Aim for 50-60.` : tl > 60 ? `Title is too long (${tl} chars). Keep it under 60.` : `Good length (${tl} chars).`,
+      fix: !meta.title ? 'Add a <title> tag to your <head>: <title>Your Page Title — Brand Name</title>' : tl < 30 ? `Expand your title to include your target keyword and brand:\n<title>${meta.title} | Your Brand Name</title>` : tl > 60 ? `Shorten your title to under 60 chars:\n<title>${meta.title.slice(0,55)}...</title>` : null
+    });
+
+    // Meta description
+    const dl = meta.metaDesc.length;
+    checks.push({ group: 'On-Page Basics', title: 'Meta Description', value: meta.metaDesc || 'Missing',
+      status: !meta.metaDesc ? 'bad' : dl < 70 || dl > 160 ? 'warn' : 'good',
+      problem: !meta.metaDesc ? 'No meta description found. Google may auto-generate one.' : dl < 70 ? `Description too short (${dl} chars). Aim for 120-160.` : dl > 160 ? `Description too long (${dl} chars). Keep under 160.` : `Good length (${dl} chars).`,
+      fix: !meta.metaDesc ? `Add a meta description to your <head>:\n<meta name="description" content="A clear, keyword-rich description of this page. Aim for 120-160 characters.">` : dl < 70 ? `Expand your description:\n<meta name="description" content="${meta.metaDesc} — Add more detail about what the user will find on this page.">` : dl > 160 ? `Shorten to under 160 chars:\n<meta name="description" content="${meta.metaDesc.slice(0,155)}...">` : null
+    });
+
+    // H1
+    checks.push({ group: 'On-Page Basics', title: 'H1 Heading', value: meta.h1s.length ? meta.h1s[0] : 'Missing',
+      status: meta.h1s.length === 0 ? 'bad' : meta.h1s.length > 1 ? 'warn' : 'good',
+      problem: meta.h1s.length === 0 ? 'No H1 heading found. Every page should have exactly one.' : meta.h1s.length > 1 ? `${meta.h1s.length} H1 headings found. Use only one.` : 'One H1 found — correct.',
+      fix: meta.h1s.length === 0 ? `Add an H1 near the top of your page:\n<h1>Your Primary Keyword — Page Topic</h1>` : meta.h1s.length > 1 ? `Remove extra H1 tags. Keep only:\n<h1>${meta.h1s[0]}</h1>\nChange the others to H2 or H3.` : null
+    });
+
+    // Word count
+    checks.push({ group: 'Content', title: 'Word Count', value: `${meta.wordCount} words`,
+      status: meta.wordCount < 300 ? 'bad' : meta.wordCount < 600 ? 'warn' : 'good',
+      problem: meta.wordCount < 300 ? `Only ${meta.wordCount} words. Thin content ranks poorly.` : meta.wordCount < 600 ? `${meta.wordCount} words. Google prefers 600+ for most pages.` : `${meta.wordCount} words — good content depth.`,
+      fix: meta.wordCount < 600 ? `Add more relevant content. Aim for at least 600 words for blog posts, 300+ for landing pages. Cover related subtopics, FAQs, and use cases.` : null
+    });
+
+    // H2s
+    checks.push({ group: 'Content', title: 'H2 Subheadings', value: `${meta.h2s.length} found`,
+      status: meta.h2s.length === 0 ? 'warn' : 'good',
+      problem: meta.h2s.length === 0 ? 'No H2 headings found. Subheadings improve readability and SEO.' : `${meta.h2s.length} H2 headings found — good structure.`,
+      fix: meta.h2s.length === 0 ? `Break up your content with H2 headings that include keywords:\n<h2>How to [Topic]</h2>\n<h2>Why [Topic] Matters</h2>\n<h2>Frequently Asked Questions</h2>` : null
+    });
+
+    // Images alt
+    checks.push({ group: 'Content', title: 'Image Alt Tags', value: `${meta.imgsNoAlt} of ${meta.totalImages} missing`,
+      status: meta.totalImages === 0 ? 'warn' : meta.imgsNoAlt === 0 ? 'good' : meta.imgsNoAlt < meta.totalImages / 2 ? 'warn' : 'bad',
+      problem: meta.totalImages === 0 ? 'No images found. Images with alt text improve SEO and accessibility.' : meta.imgsNoAlt === 0 ? 'All images have alt tags.' : `${meta.imgsNoAlt} images are missing alt tags.`,
+      fix: meta.imgsNoAlt > 0 ? `Add descriptive alt text to all images:\n<img src="image.jpg" alt="Descriptive keyword-rich description of the image">\n\nAvoid "image.jpg" or "photo1" — describe what's in the image.` : null
+    });
+
+    // Canonical
+    checks.push({ group: 'Technical SEO', title: 'Canonical Tag', value: meta.canonical || 'Missing',
+      status: !meta.canonical ? 'warn' : 'good',
+      problem: !meta.canonical ? 'No canonical tag. This can cause duplicate content issues.' : 'Canonical tag found.',
+      fix: !meta.canonical ? `Add a canonical tag to your <head>:\n<link rel="canonical" href="${url}">` : null
+    });
+
+    // Open Graph
+    const ogScore = [meta.ogTitle, meta.ogDesc, meta.ogImage].filter(Boolean).length;
+    checks.push({ group: 'Technical SEO', title: 'Open Graph Tags', value: `${ogScore}/3 present`,
+      status: ogScore === 3 ? 'good' : ogScore >= 1 ? 'warn' : 'bad',
+      problem: ogScore === 3 ? 'All key Open Graph tags present.' : `Missing: ${[!meta.ogTitle&&'og:title',!meta.ogDesc&&'og:description',!meta.ogImage&&'og:image'].filter(Boolean).join(', ')}`,
+      fix: ogScore < 3 ? `Add to your <head>:\n${!meta.ogTitle?`<meta property="og:title" content="${meta.title||'Your Page Title'}">\n`:''}${!meta.ogDesc?`<meta property="og:description" content="${meta.metaDesc||'Your page description'}">\n`:''}${!meta.ogImage?`<meta property="og:image" content="https://yourdomain.com/og-image.jpg">`:''}\nThis controls how your page looks when shared on social media.` : null
+    });
+
+    // Viewport
+    checks.push({ group: 'Technical SEO', title: 'Mobile Viewport', value: meta.hasViewport ? 'Present' : 'Missing',
+      status: meta.hasViewport ? 'good' : 'bad',
+      problem: meta.hasViewport ? 'Viewport meta tag present — good for mobile.' : 'No viewport tag. Your page may not be mobile-friendly.',
+      fix: !meta.hasViewport ? `Add to your <head>:\n<meta name="viewport" content="width=device-width, initial-scale=1">` : null
+    });
+
+    return checks;
+  }
+
+  function renderChecks(checks) {
+    const container = document.getElementById('checks-section');
+    container.innerHTML = '';
+    let group = '';
+    checks.forEach((c, i) => {
+      if (c.group !== group) {
+        group = c.group;
+        const lbl = document.createElement('div');
+        lbl.className = 'check-group-label';
+        lbl.textContent = c.group;
+        container.appendChild(lbl);
+      }
+      const icons = { good: '✓', warn: '!', bad: '✕' };
+      const item = document.createElement('div');
+      item.className = 'check-item';
+      item.innerHTML = `
+        <div class="check-header" onclick="toggleCheck(this)">
+          <div class="check-status status-${c.status}">${icons[c.status]}</div>
+          <span class="check-title">${c.title}</span>
+          <span class="check-value">${c.value.slice(0,40)}</span>
+          <span class="check-arrow">▾</span>
+        </div>
+        <div class="check-body">
+          <p>${c.problem}</p>
+          ${c.fix ? `<div class="fix-label">Suggested Fix</div><div class="fix">${c.fix}</div><button class="copy-fix-btn" onclick="copyFix(this)">Copy fix</button>` : ''}
+        </div>`;
+      container.appendChild(item);
+    });
+  }
+
+  function toggleCheck(header) {
+    header.parentElement.classList.toggle('open');
+  }
+
+  function copyFix(btn) {
+    const fix = btn.previousElementSibling.textContent;
+    navigator.clipboard.writeText(fix).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy fix', 1500);
+    });
+  }
+
+  function calcScore(checks) {
+    const weights = { good: 1, warn: 0.5, bad: 0 };
+    const total = checks.reduce((s, c) => s + weights[c.status], 0);
+    return Math.round((total / checks.length) * 100);
+  }
+
+  function setScore(score) {
+    const circle = document.getElementById('score-circle');
+    const num = document.getElementById('score-num');
+    const label = document.getElementById('score-label');
+    const desc = document.getElementById('score-desc');
+    const circumference = 283;
+    const offset = circumference - (score / 100) * circumference;
+    circle.style.strokeDashoffset = offset;
+    const color = score >= 80 ? 'var(--good)' : score >= 60 ? 'var(--warn)' : 'var(--bad)';
+    circle.style.stroke = color;
+    num.style.color = color;
+    num.textContent = score;
+    label.textContent = score >= 80 ? 'Strong SEO' : score >= 60 ? 'Needs Improvement' : 'Critical Issues';
+    desc.textContent = score >= 80 ? 'Your page is well-optimised.' : score >= 60 ? 'Several improvements available.' : 'Multiple critical issues found.';
+  }
+
+  async function streamAI(text, url, checks) {
+    const issues = checks.filter(c => c.status !== 'good').map(c => `- ${c.title}: ${c.problem}`).join('\n');
+    const prompt = `You are an expert SEO consultant. Analyse the following page and provide 5 prioritised, actionable SEO recommendations. Be specific, practical and concise. Use plain language.\n\nURL: ${url}\nIssues found:\n${issues}\n\nPage content excerpt:\n${text.slice(0,3000)}`;
+
+    const res = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const aiDiv = document.getElementById('ai-analysis');
+    const aiBody = document.getElementById('ai-body');
+    aiDiv.style.display = 'block';
+    aiBody.classList.remove('streaming');
+
+    const data = await res.json();
+    aiBody.textContent = data.content?.[0]?.text || 'No response received.';
+  }
+
+    async function analyse() {
+    const url = document.getElementById('url-input').value.trim();
+    if (!url) return;
+
+    document.getElementById('score-section').style.display = 'none';
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('loading-text').textContent = 'Fetching page...';
+
+    try {
+      const html = await fetchPage(url);
+      document.getElementById('loading-text').textContent = 'Running SEO checks...';
+      const meta = extractMeta(html, url);
+      const checks = runChecks(meta, url);
+      const score = calcScore(checks);
+
+      document.getElementById('score-url').textContent = url;
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('score-section').style.display = 'block';
+      document.getElementById('ai-analysis').style.display = 'none';
+
+      setTimeout(() => setScore(score), 100);
+      renderChecks(checks);
+
+      streamAI(meta.bodyText, url, checks);
+    } catch (err) {
+      document.getElementById('loading').style.display = 'none';
+      alert('Could not fetch the page. Make sure the URL is correct and publicly accessible.\n\nError: ' + err.message);
+    }
+  }
+</script>
+</body>
+</html>
