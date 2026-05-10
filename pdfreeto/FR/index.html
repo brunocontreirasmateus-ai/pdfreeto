@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Convertir JPG en PDF Gratuit en Ligne | PDFreeto - Rapide et Sécurisé</title>
-<meta name="description" content="Convertir JPG en PDF gratuit en ligne. Rapide, sécurisé, traitement 100% local. Vos fichiers ne quittent jamais votre appareil. Sans inscription.">
+<meta name="description" content="Convertissez JPG en PDF gratuitement en ligne. Rapide, sécurisé, traitement 100% local. Vos fichiers ne quittent jamais votre appareil. Sans inscription.">
 <link rel="alternate" hreflang="en" href="https://pdfreeto.com/">
 <link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/">
 <link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/">
@@ -21,9 +21,9 @@
 <link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/">
 <link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/">
 <link rel="canonical" href="https://pdfreeto.com/fr/">
-<meta property="og:title" content="Convertir JPG en PDF Gratuit | PDFreeto">
-<meta property="og:description" content="Convertir JPG en PDF gratuit. Traitement 100% local et sécurisé.">
-<meta property="og:url" content="https://pdfreeto.com/fr/">
+<meta property="og:title" content="Free JPG to PDF Converter Online | PDFreeto">
+<meta property="og:description" content="Free JPG to PDF converter. 100% secure local processing. Convert images to PDF instantly. No signup required.">
+<meta property="og:url" content="https://pdfreeto.com/">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://pdfreeto.com/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -547,117 +547,119 @@
   }
 
 
-  /* Language switcher */
-  .lang-switcher {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    flex-wrap: wrap;
+  
+
+  
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
   }
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
   .lang-btn {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    padding: 4px 7px;
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s;
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
   }
   .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
 
-  /* ── NAV ── */
-  .main-nav {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .main-nav a {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-ofcoration: none;
-    padding: 6px 10px;
-    border: 1px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
-  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: 1px solid var(--border);
-    padding: 8px 10px;
-    cursor: pointer;
-    z-index: 200;
-  }
-  .burger span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: var(--text);
-    transition: all 0.3s;
-  }
-  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .burger.open span:nth-child(2) { opacity: 0; }
-  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  @media (max-width: 1200px) {
-    .main-nav {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
-      align-items: stretch;
-      padding: 70px 20px 20px;
-      gap: 4px;
-      z-index: 100;
-    }
-    .main-nav.open { display: flex; }
-    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">PDF<span>reeto</span></div>
-  <nav class="main-nav" id="main-nav">
-    <a href="/fr/">JPG ↔ PDF</a>
-    <a href="/fr/pdf-to-word.html">Word en PDF</a>
-    <a href="/fr/compress-pdf.html">Compresser PDF</a>
-    <a href="/fr/compress-jpg.html">Compresser JPG</a>
-    <a href="/fr/merge-jpg.html">Fusionner JPG</a>
-    <a href="/fr/merge-pdf.html">Fusionner PDF</a>
-    <a href="/fr/tts.html">Texte en Parole</a>
-    <a href="/fr/pdf-ai.html">PDF AI</a>
-    <a href="/fr/social-media.html">Réseaux Sociaux</a>
-    <a href="/fr/seo.html">SEO</a>
-  </nav>
-  <div class="lang-switcher">
-    <a href="/" class="lang-btn">EN</a>
-    <a href="/pt/" class="lang-btn">PT</a>
-    <a href="/br/" class="lang-btn">BR</a>
-    <a href="/es/" class="lang-btn">ES</a>
-    <a href="/fr/" class="lang-btn  active">FR</a>
-    <a href="/de/" class="lang-btn">DE</a>
+  <a href="/fr/" class="logo">PDF<span>reeto</span></a>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Tous <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/fr/" class="active">JPG &#8596; PDF</a>
+      <a href="/fr/pdf-to-word.html">Word en PDF</a>
+      <a href="/fr/compress-pdf.html">Compresser PDF</a>
+      <a href="/fr/compress-jpg.html">Compresser JPG</a>
+      <a href="/fr/merge-jpg.html">Fusionner JPG</a>
+      <a href="/fr/merge-pdf.html">Fusionner PDF</a>
+      <a href="/fr/tts.html">Texte en Parole</a>
+      <a href="/fr/pdf-ai.html">PDF AI</a>
+      <a href="/fr/social-media.html">R&#233;seaux Sociaux</a>
+      <a href="/fr/seo.html">SEO</a>
+    </div>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="lang-switcher">
+    <a href="/fr/" class="lang-btn">EN</a>
+    <a href="/pt/index.html" class="lang-btn">PT</a>
+    <a href="/br/index.html" class="lang-btn">BR</a>
+    <a href="/es/index.html" class="lang-btn">ES</a>
+    <a href="/fr/index.html" class="lang-btn active">FR</a>
+    <a href="/de/index.html" class="lang-btn">DE</a>
+  </div>
 </header>
 
-<div class="hero">
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
   <div class="logo-display"><span class="hl">PDF</span>reeto</div>
   <h1>Convertisseur JPG en PDF Gratuit — Convertissez des Images en PDF en Ligne</h1>
   <p>Le meilleur outil pour convertir JPG en PDF gratuitement</p>
@@ -672,7 +674,7 @@
 
   <!-- JPG to PDF -->
   <div class="panel active" id="panel-jpg2pdf">
-    <h2 style="font-family:var(--display);font-size:1.4rem;letter-spacing:0.05em;color:var(--text);margin-bottom:16px;">Convertir JPG en PDF</h2>
+    <h2 style="font-family:var(--display);font-size:1.4rem;letter-spacing:0.05em;color:var(--text);margin-bottom:16px">Convertir JPG en PDF</h2>
     <div class="drop-zone" id="dz-jpg" onclick="document.getElementById('input-jpg').click()">
       <input type="file" id="input-jpg" accept="image/jpeg,image/jpg,image/png,image/webp" multiple>
       <span class="dz-icon">🖼</span>
@@ -687,29 +689,29 @@
       <div class="options-title">⚙ Conversion Options</div>
       <div class="options-row">
         <div class="opt-group">
-          <span class="opt-label">Page size</span>
+          <span class="opt-label">Taille de page</span>
           <select id="page-size">
             <option value="a4">A4</option>
             <option value="a3">A3</option>
             <option value="letter">Letter</option>
             <option value="legal">Legal</option>
-            <option value="fit">Fit to image</option>
+            <option value="fit">À l'image</option>
           </select>
         </div>
         <div class="opt-group">
           <span class="opt-label">Orientation</span>
           <select id="orientation">
-            <option value="auto">Automatic</option>
+            <option value="auto">Automatique</option>
             <option value="portrait">Portrait</option>
-            <option value="landscape">Landscape</option>
+            <option value="landscape">Paysage</option>
           </select>
         </div>
         <div class="opt-group">
-          <span class="opt-label">Margin (mm)</span>
+          <span class="opt-label">Marge (mm)</span>
           <input type="number" id="margin" value="10" min="0" max="50">
         </div>
         <div class="opt-group">
-          <span class="opt-label">File name</span>
+          <span class="opt-label">Nom du fichier</span>
           <input type="text" id="pdf-name" value="documento" style="width:140px; background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--mono); font-size:0.8rem; padding:8px 12px; border-radius:2px; outline:none;">
         </div>
       </div>
@@ -721,23 +723,23 @@
     </div>
 
     <button class="convert-btn" id="btn-jpg2pdf" onclick="convertJpgToPdf()" disabled>
-      CONVERT TO PDF
-    </button>
+      CONVERTIR EN PDF
+        </button>
 
     <div class="result-section" id="result-jpg">
-      <div class="result-title">✓ Conversion complete</div>
+      <div class="result-title">✓ Conversion terminée</div>
       <div class="result-list" id="result-list-jpg"></div>
     </div>
   </div>
 
   <!-- PDF to JPG -->
   <div class="panel" id="panel-pdf2jpg">
-    <h2 style="font-family:var(--display);font-size:1.4rem;letter-spacing:0.05em;color:var(--text);margin-bottom:16px;">Convertir PDF en JPG</h2>
+    <h2 style="font-family:var(--display);font-size:1.4rem;letter-spacing:0.05em;color:var(--text);margin-bottom:16px">Convertir PDF en JPG</h2>
     <div class="drop-zone" id="dz-pdf" onclick="document.getElementById('input-pdf').click()">
       <input type="file" id="input-pdf" accept="application/pdf" multiple>
       <span class="dz-icon">📄</span>
       <div class="dz-title">Glissez ou cliquez ici</div>
-      <div class="dz-sub">PDF files — multiple files supported</div>
+      <div class="dz-sub">Fichiers PDF — plusieurs fichiers supportés</div>
     </div>
 
     <div class="file-list" id="filelist-pdf"></div>
@@ -746,11 +748,11 @@
       <div class="options-title">⚙ Conversion Options</div>
       <div class="options-row">
         <div class="opt-group">
-          <span class="opt-label">Image quality</span>
+          <span class="opt-label">Qualité d'image</span>
           <select id="img-quality">
-            <option value="1.5">Low (fast)</option>
-            <option value="2" selected>Medium</option>
-            <option value="3">High</option>
+            <option value="1.5">Basse (rapide)</option>
+            <option value="2" selected>Moyenne</option>
+            <option value="3">Haute</option>
             <option value="4">Maximum</option>
           </select>
         </div>
@@ -764,13 +766,13 @@
         <div class="opt-group">
           <span class="opt-label">Pages</span>
           <select id="pages-moof">
-            <option value="all">All pages</option>
-            <option value="first">First page only</option>
-            <option value="range">Range</option>
+            <option value="all">Toutes</option>
+            <option value="first">Première seulement</option>
+            <option value="range">Plage</option>
           </select>
         </div>
         <div class="opt-group" id="range-group" style="display:none">
-          <span class="opt-label">From — To</span>
+          <span class="opt-label">De — À</span>
           <div style="display:flex;gap:6px">
             <input type="number" id="page-from" value="1" min="1" style="width:60px">
             <input type="number" id="page-to" value="5" min="1" style="width:60px">
@@ -785,11 +787,11 @@
     </div>
 
     <button class="convert-btn" id="btn-pdf2jpg" onclick="convertPdfToJpg()" disabled>
-      CONVERT TO JPG
-    </button>
+      CONVERTIR EN JPG
+        </button>
 
     <div class="result-section" id="result-pdf">
-      <div class="result-title">✓ Conversion complete</div>
+      <div class="result-title">✓ Conversion terminée</div>
       <div class="result-list" id="result-list-pdf"></div>
     </div>
   </div>
@@ -799,54 +801,54 @@
 <!-- SEO Content -->
 <div style="position:relative;z-index:10;max-width:860px;margin:0 auto;padding:0 40px 60px;border-top:1px solid var(--border);margin-top:40px">
 
-  <h2 style="font-family:var(--display);font-size:2rem;letter-spacing:0.05em;color:var(--text);margin:40px 0 12px">How to Convertir JPG en PDF</h2>
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:16px">Converting JPG images to PDF with PDFreeto is fast and simple. Drag your JPG, PNG or WEBP files into the upload area, or click to browse your files. You can upload multiple images at once and they will all be combined into a single PDF document. Choose your page size (A4, A3, Letter or Legal), set the orientation and margin, then click Convert to PDF. Your file downloads instantly — no waiting, no email required. If you need to reduce the file size afterwards, use our free <a href="/fr/compress-pdf.html" style="color:var(--accent);text-decoration:none">PDF compressor</a> tool.</p>
+  <h2 style="font-family:var(--display);font-size:2rem;letter-spacing:0.05em;color:var(--text);margin:40px 0 12px">Comment Convertir JPG en PDF</h2>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:16px">Convertir des images JPG en PDF avec PDFreeto est rapide et simple. Glissez vos fichiers JPG, PNG ou WEBP dans la zone de dépôt, ou cliquez pour parcourir vos fichiers. Vous pouvez téléverser plusieurs images à la fois et elles seront toutes regroupées dans un seul document PDF. Choisissez le format de page (A4, A3, Letter ou Legal), définissez l'orientation et la marge, puis cliquez sur Convertir en PDF. Le fichier se télécharge instantanément, sans attente. Si vous devez réduire la taille du fichier, utilisez notre <a href="/fr/compress-pdf.html" style="color:var(--accent);text-decoration:none">outil de compression PDF</a>.</p>
 
   <h2 style="font-family:var(--display);font-size:2rem;letter-spacing:0.05em;color:var(--text);margin:32px 0 12px">Avantages de Convertir JPG en PDF</h2>
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:16px">PDF is the preferred format for sharing professional documents because it preserves your layout across all devices and operating systems. When you convert JPG images to PDF, you create a single, portable file that anyone can open without special software. This is ideal for sharing invoices, portfolios, photo albums, scanned documents and presentations. PDFs are also easier to print, archive and attach to emails than multiple image files. You can also <a href="/fr/merge-pdf.html" style="color:var(--accent);text-decoration:none">merge multiple PDFs</a> into one document using our free tool.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:16px">Le PDF est le format préféré pour partager des documents professionnels car il préserve la mise en page sur tous les appareils et systèmes d'exploitation. En convertissant des images JPG en PDF, vous créez un seul fichier portable que tout le monde peut ouvrir sans logiciel spécial. C'est idéal pour partager des factures, portfolios, albums photo, documents scannés et présentations. Vous pouvez aussi <a href="/fr/merge-pdf.html" style="color:var(--accent);text-decoration:none">fusionner plusieurs PDF</a> en un seul document.</p>
 
   <h2 style="font-family:var(--display);font-size:2rem;letter-spacing:0.05em;color:var(--text);margin:32px 0 12px">Cas d'Utilisation Fréquents</h2>
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:16px">PDFreeto is used by thousands of people every day for a wide range of tasks. Students scan handwritten notes and convert them to PDF for submission. Freelancers combine portfolio images into a single PDF to send to clients. Small businesses convert receipts and invoices from photos to PDF for accounting. Photographers create PDF contact sheets from their JPG images. Anyone who needs to send multiple images as a single, professional-looking file will find JPG to PDF conversion essential. If you work with Word documents, you can also use our <a href="/fr/pdf-to-word.html" style="color:var(--accent);text-decoration:none">Word to PDF converter</a> to create PDFs from .docx files.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:16px">PDFreeto est utilisé par des milliers de personnes chaque jour. Les étudiants scannent leurs notes et les convertissent en PDF. Les freelances regroupent leurs images de portfolio en un seul PDF. Les petites entreprises convertissent leurs reçus et factures en PDF. Les photographes créent des planches contact en PDF. Si vous travaillez avec des documents Word, utilisez notre <a href="/fr/pdf-to-word.html" style="color:var(--accent);text-decoration:none">convertisseur Word en PDF</a>.</p>
 
-  <h2 style="font-family:var(--display);font-size:2rem;letter-spacing:0.05em;color:var(--text);margin:32px 0 12px">Pourquoi Choisir PDFreeto?</h2>
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:16px">PDFreeto processes all files directly in your browser using JavaScript. This means your images and PDFs are never uploaded to any server — they stay on your device at all times. This makes PDFreeto one of the most private and secure file conversion tools available online. There is no account to create, no subscription to pay, and no file size limits imposed by server quotas. The tool works on any modern browser including Chrome, Firefox, Safari and Edge, on desktop and mobile. Beyond JPG and PDF conversion, PDFreeto also offers <a href="/fr/compress-jpg.html" style="color:var(--accent);text-decoration:none">JPG compression</a>, <a href="/fr/merge-jpg.html" style="color:var(--accent);text-decoration:none">image merging</a>, <a href="/fr/tts.html" style="color:var(--accent);text-decoration:none">text to speech</a>, <a href="/fr/pdf-ai.html" style="color:var(--accent);text-decoration:none">AI-powered PDF analysis</a>, <a href="/fr/social-media.html" style="color:var(--accent);text-decoration:none">social media copy generation</a> and <a href="/fr/seo.html" style="color:var(--accent);text-decoration:none">SEO analysis</a> — all free.</p>
+  <h2 style="font-family:var(--display);font-size:2rem;letter-spacing:0.05em;color:var(--text);margin:32px 0 12px">Pourquoi Choisir PDFreeto ?</h2>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:16px">PDFreeto traite tous les fichiers directement dans votre navigateur. Vos images et PDF ne sont jamais envoyés à un serveur. Aucun compte à créer, aucun abonnement, aucune limite de taille. L'outil fonctionne sur tous les navigateurs modernes : Chrome, Firefox, Safari et Edge, sur ordinateur et mobile. PDFreeto propose aussi la <a href="/fr/compress-jpg.html" style="color:var(--accent);text-decoration:none">compression de JPG</a>, la <a href="/fr/merge-jpg.html" style="color:var(--accent);text-decoration:none">fusion d'images</a>, le <a href="/fr/tts.html" style="color:var(--accent);text-decoration:none">texte en parole</a>, l'<a href="/fr/pdf-ai.html" style="color:var(--accent);text-decoration:none">analyse PDF par IA</a>, la <a href="/fr/social-media.html" style="color:var(--accent);text-decoration:none">génération de contenu réseaux sociaux</a> et l'<a href="/fr/seo.html" style="color:var(--accent);text-decoration:none">analyse SEO</a> — tout gratuit.</p>
 
   <h2 style="font-family:var(--display);font-size:2rem;letter-spacing:0.05em;color:var(--text);margin:32px 0 12px">Questions Fréquentes</h2>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Is PDFreeto free to use?</strong><br>Yes, all tools on PDFreeto are completely free with no hidden costs or subscriptions. You can convert, compress, merge and analyse files as many times as you need.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">PDFreeto est-il gratuit ?</strong><br>Oui, tous les outils de PDFreeto sont entièrement gratuits, sans frais cachés ni abonnement. Vous pouvez convertir, compresser, fusionner et analyser des fichiers autant de fois que nécessaire.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Are my files safe?</strong><br>Yes. PDFreeto runs entirely in your browser — your files are never sent to any server. All processing happens locally on your device, making it one of the most private conversion tools available.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Mes fichiers sont-ils en sécurité ?</strong><br>Oui. PDFreeto fonctionne entièrement dans votre navigateur — vos fichiers ne sont jamais envoyés à un serveur. Tout le traitement s'effectue localement sur votre appareil.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">What image formats are supported?</strong><br>PDFreeto supports JPG, PNG and WEBP images for conversion to PDF. You can mix different formats in the same conversion.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Quels formats d'image sont pris en charge ?</strong><br>PDFreeto prend en charge les images JPG, PNG et WEBP pour la conversion en PDF. Vous pouvez mélanger différents formats dans la même conversion.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Can I convert multiple images at once?</strong><br>Yes. You can upload as many images as you need and they will all be merged into a single PDF, in the order you choose. There is no limit on the number of images.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Puis-je convertir plusieurs images à la fois ?</strong><br>Oui. Vous pouvez téléverser autant d'images que vous le souhaitez et elles seront toutes regroupées dans un seul PDF, dans l'ordre de votre choix.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Does it work offline?</strong><br>Once the page has loaded, the JPG to PDF and PDF to JPG converters work fully offline. The AI-powered tools require an internet connection to process requests.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Fonctionne-t-il hors ligne ?</strong><br>Une fois la page chargée, les convertisseurs JPG en PDF et PDF en JPG fonctionnent complètement hors ligne. Les outils basés sur l'IA nécessitent une connexion internet.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">What is the maximum file size?</strong><br>There is no server-imposed file size limit because everything runs in your browser. Very large files may take longer to process depending on your device's performance.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Quelle est la taille maximale des fichiers ?</strong><br>Il n'y a pas de limite de taille imposée par le serveur car tout s'exécute dans votre navigateur. Les fichiers très volumineux peuvent prendre plus de temps selon les performances de votre appareil.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">What other tools does PDFreeto offer?</strong><br>Besides JPG to PDF conversion, PDFreeto offers <a href="/fr/compress-pdf.html" style="color:var(--accent);text-decoration:none">Compresser PDF</a>, <a href="/fr/compress-jpg.html" style="color:var(--accent);text-decoration:none">Compresser JPG</a>, <a href="/fr/merge-pdf.html" style="color:var(--accent);text-decoration:none">Fusionner PDF</a>, <a href="/fr/merge-jpg.html" style="color:var(--accent);text-decoration:none">Fusionner JPG</a>, <a href="/fr/pdf-to-word.html" style="color:var(--accent);text-decoration:none">Word en PDF</a>, <a href="/fr/tts.html" style="color:var(--accent);text-decoration:none">Texte en Parole</a>, <a href="/fr/pdf-ai.html" style="color:var(--accent);text-decoration:none">PDF AI</a>, <a href="/fr/social-media.html" style="color:var(--accent);text-decoration:none">Social Media copy</a> and <a href="/fr/seo.html" style="color:var(--accent);text-decoration:none">SEO analysis</a> — all completely free.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Quels autres outils PDFreeto propose-t-il ?</strong><br>En plus de la conversion JPG en PDF, PDFreeto propose <a href="/fr/compress-pdf.html" style="color:var(--accent);text-decoration:none">Compresser PDF</a>, <a href="/fr/compress-jpg.html" style="color:var(--accent);text-decoration:none">Compresser JPG</a>, <a href="/fr/merge-pdf.html" style="color:var(--accent);text-decoration:none">Fusionner PDF</a>, <a href="/fr/merge-jpg.html" style="color:var(--accent);text-decoration:none">Fusionner JPG</a>, <a href="/fr/pdf-to-word.html" style="color:var(--accent);text-decoration:none">Word en PDF</a>, <a href="/fr/tts.html" style="color:var(--accent);text-decoration:none">Texte en Parole</a>, <a href="/fr/pdf-ai.html" style="color:var(--accent);text-decoration:none">PDF AI</a>, <a href="/fr/social-media.html" style="color:var(--accent);text-decoration:none">Réseaux Sociaux</a> et <a href="/fr/seo.html" style="color:var(--accent);text-decoration:none">SEO</a> — tout entièrement gratuit.</p>
 
 </div>
 <footer>
   <div class="footer-links">
-    <a href="/fr/pdf-to-word.html">Convert Word to PDF</a>
+    <a href="pdf-to-word.html">Convert Word to PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/fr/compress-pdf.html">Compresser PDF</a>
+    <a href="compress-pdf.html">Compresser PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/fr/compress-jpg.html">Compresser JPG</a>
+    <a href="compress-jpg.html">Compresser JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/fr/merge-jpg.html">Fusionner JPG</a>
+    <a href="merge-jpg.html">Fusionner JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/fr/merge-pdf.html">Fusionner PDF</a>
+    <a href="merge-pdf.html">Fusionner PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/fr/tts.html">Texte en Parole</a>
+    <a href="tts.html">Texte en Parole</a>
     <span class="footer-sep">·</span>
-    <a href="/fr/pdf-ai.html">PDF AI</a>
+    <a href="pdf-ai.html">PDF AI</a>
     <span class="footer-sep">·</span>
-    <a href="/fr/social-media.html">Réseaux Sociaux</a>
+    <a href="social-media.html">Réseaux Sociaux</a>
     <span class="footer-sep">·</span>
-    <a href="/fr/seo.html">SEO</a>
+    <a href="seo.html">SEO</a>
   </div>
   <div class="footer-note">Traitement 100% local — vos fichiers ne quittent jamais votre appareil</div>
 </footer>
@@ -1242,10 +1244,7 @@
 </script>
 
 <script>
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   // Mark active link
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';

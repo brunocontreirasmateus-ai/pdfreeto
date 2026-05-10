@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EXHT3PYZF8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EXHT3PYZF8');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF en Word et Word en PDF Gratuit — PDFreeto</title>
+<meta name="description" content="Convertissez PDF en Word (.docx) et Word en PDF gratuitement. Sans téléversement, sans inscription. 100% local et privé.">
+<link rel="canonical" href="https://pdfreeto.com/fr/pdf-to-word.html">
+<link rel="alternate" hreflang="en" href="https://pdfreeto.com/pdf-to-word.html">
+<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/pdf-to-word.html">
+<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/pdf-to-word.html">
+<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/pdf-to-word.html">
+<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/pdf-to-word.html">
+<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/pdf-to-word.html">
+<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/pdf-to-word.html">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  :root { --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a; --border: #2a2a2a; --accent: #e8ff3c; --accent2: #ff5533; --text: #f0ede6; --muted: #666; --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px); background-size: 60px 60px; }
+  header { position: relative; z-index: 100; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 16px; }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu { display: none; position: absolute; top: calc(100% + 8px); left: 0; background: var(--surface); border: 1px solid var(--border); min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  .nav-menu.open { display: block; }
+  .nav-menu a { display: block; padding: 10px 16px; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); transition: all 0.15s; }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; padding: 5px 9px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+  .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
+  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .tabs-wrap { position: relative; z-index: 10; display: flex; justify-content: center; margin: 0 40px; border-bottom: 1px solid var(--border); }
+  .tab { font-family: var(--display); font-size: 1.2rem; letter-spacing: 0.1em; padding: 14px 40px; cursor: pointer; color: var(--muted); background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -1px; transition: all 0.2s; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .content { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; padding: 36px 40px 80px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .drop-zone { border: 2px dashed var(--border); padding: 60px 40px; text-align: center; cursor: pointer; transition: all 0.25s; background: var(--surface); overflow: hidden; position: relative; }
+  .drop-zone::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 60%, rgba(232,255,60,0.04)); pointer-events: none; }
+  .drop-zone:hover, .drop-zone.dragging { border-color: var(--accent); background: rgba(232,255,60,0.04); }
+  .drop-zone:hover .dz-icon, .drop-zone.dragging .dz-icon { transform: scale(1.1) translateY(-4px); color: var(--accent); }
+  .dz-icon { font-size: 3rem; margin-bottom: 16px; display: block; color: var(--muted); transition: all 0.3s; }
+  .dz-title { font-family: var(--display); font-size: 1.8rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 8px; }
+  .dz-sub { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  input[type="file"] { display: none; }
+  .file-list { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .file-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.78rem; }
+  .file-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .file-name { flex: 1; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-size { color: var(--muted); flex-shrink: 0; }
+  .convert-btn { margin-top: 28px; width: 100%; padding: 18px; background: var(--accent); color: #0a0a0a; font-family: var(--display); font-size: 1.4rem; letter-spacing: 0.12em; border: none; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+  .convert-btn::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0); transition: background 0.2s; }
+  .convert-btn:hover::after { background: rgba(255,255,255,0.1); }
+  .convert-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+  .progress-wrap { margin-top: 16px; display: none; }
+  .progress-bar { height: 3px; background: var(--border); overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .progress-text { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-align: center; letter-spacing: 0.1em; text-transform: uppercase; }
+  .result-section { margin-top: 24px; display: none; }
+  .result-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .result-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(232,255,60,0.05); border: 1px solid rgba(232,255,60,0.2); }
+  .result-name { font-family: var(--mono); font-size: 0.78rem; color: var(--text); }
+  .download-btn { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 16px; background: none; border: 1px solid var(--accent); color: var(--accent); cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+  .download-btn:hover { background: var(--accent); color: #0a0a0a; }
+  .seo-block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .seo-block h2 { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px; }
+  .seo-block p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
+  .footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-sep { color: var(--border); font-family: var(--mono); font-size: 0.65rem; }
+  .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  @media (max-width: 600px) { header { padding: 12px 16px; } .logo { font-size: 1.5rem; } .lang-btn { padding: 4px 6px; font-size: 0.55rem; } .hero { padding: 40px 20px 20px; } .content { padding: 24px 20px 60px; } .tabs-wrap { margin: 0 20px; } .tab { padding: 12px 20px; font-size: 1rem; } }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/fr/" class="logo">PDF<span>reeto</span></a>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Tous <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/fr/">JPG &#8596; PDF</a>
+      <a href="/fr/pdf-to-word.html" class="active">Word en PDF</a>
+      <a href="/fr/compress-pdf.html">Compresser PDF</a>
+      <a href="/fr/compress-jpg.html">Compresser JPG</a>
+      <a href="/fr/merge-jpg.html">Fusionner JPG</a>
+      <a href="/fr/merge-pdf.html">Fusionner PDF</a>
+      <a href="/fr/tts.html">Texte en Parole</a>
+      <a href="/fr/pdf-ai.html">PDF AI</a>
+      <a href="/fr/social-media.html">Réseaux Sociaux</a>
+      <a href="/fr/seo.html">SEO</a>
+    </div>
+  </div>
+  <div class="lang-switcher">
+    <a href="/fr/pdf-to-word.html" class="lang-btn">EN</a>
+    <a href="/pt/pdf-to-word.html" class="lang-btn">PT</a>
+    <a href="/br/pdf-to-word.html" class="lang-btn">BR</a>
+    <a href="/es/pdf-to-word.html" class="lang-btn">ES</a>
+    <a href="/fr/pdf-to-word.html" class="lang-btn active">FR</a>
+    <a href="/de/pdf-to-word.html" class="lang-btn">DE</a>
+  </div>
+</header>
+
+<div class="hero">
+  <h1><span class="hl">PDF</span> &#8596; Word</h1>
+  <p>Convertir PDF en Word · Word en PDF · Gratuit · Privé · Sans inscription</p>
+</div>
+
+<div class="tabs-wrap">
+  <button class="tab active" onclick="switchTab('pdf2word')">PDF &#8594; Word</button>
+  <button class="tab" onclick="switchTab('word2pdf')">Word &#8594; PDF</button>
+</div>
+
+<div class="content">
+
+  <!-- PDF to Word -->
+  <div class="panel active" id="panel-pdf2word">
+    <div class="drop-zone" id="dz-pdf2word" onclick="document.getElementById('input-pdf2word').click()">
+      <input type="file" id="input-pdf2word" accept="application/pdf">
+      <span class="dz-icon">&#128196;</span>
+      <div class="dz-title">Déposez votre PDF ici</div>
+      <div class="dz-sub">Fichiers PDF &#8212; converti en .docx</div>
+    </div>
+    <div class="file-list" id="filelist-pdf2word"></div>
+    <div class="progress-wrap" id="prog-pdf2word">
+      <div class="progress-bar"><div class="progress-fill" id="fill-pdf2word"></div></div>
+      <div class="progress-text" id="prog-text-pdf2word">Converting...</div>
+    </div>
+    <button class="convert-btn" id="btn-pdf2word" onclick="convertPdfToWord()" disabled>CONVERTIR EN WORD</button>
+    <div class="result-section" id="result-pdf2word">
+      <div class="result-title">&#10003; Conversion terminée</div>
+      <div id="result-list-pdf2word"></div>
+    </div>
+    <div class="seo-block">
+      <h2>Comment Convertir un PDF en Word</h2>
+      <p>PDFreeto extrait tout le texte de votre PDF et crée un document Word (.docx) propre et modifiable directement dans votre navigateur. Aucun fichier n'est envoyé à un serveur. Déposez votre PDF, cliquez sur Convertir en Word et téléchargez votre .docx instantanément.</p>
+      <h2>Quand Convertir un PDF en Word ?</h2>
+      <p>Convertir un PDF en Word est utile lorsque vous devez modifier un document reçu en PDF, copier du texte en conservant la mise en forme, ou réutiliser le contenu d'un rapport ou contrat PDF dans un nouveau document.</p>
+    </div>
+  </div>
+
+  <!-- Word to PDF -->
+  <div class="panel" id="panel-word2pdf">
+    <div class="drop-zone" id="dz-word2pdf" onclick="document.getElementById('input-word2pdf').click()">
+      <input type="file" id="input-word2pdf" accept=".docx">
+      <span class="dz-icon">&#128221;</span>
+      <div class="dz-title">Déposez votre .docx ici</div>
+      <div class="dz-sub">Documents Microsoft Word (.docx)</div>
+    </div>
+    <div class="file-list" id="filelist-word2pdf"></div>
+    <div class="progress-wrap" id="prog-word2pdf">
+      <div class="progress-bar"><div class="progress-fill" id="fill-word2pdf"></div></div>
+      <div class="progress-text" id="prog-text-word2pdf">Converting...</div>
+    </div>
+    <button class="convert-btn" id="btn-word2pdf" onclick="convertWordToPdf()" disabled>CONVERTIR EN PDF</button>
+    <div class="result-section" id="result-word2pdf">
+      <div class="result-title">&#10003; Conversion terminée</div>
+      <div id="result-list-word2pdf"></div>
+    </div>
+    <div class="seo-block">
+      <h2>Comment Convertir Word en PDF</h2>
+      <p>PDFreeto convertit n'importe quel document Word (.docx) en PDF directement dans votre navigateur &#8212; sans compte, sans téléversement, entièrement gratuit. Vos documents sont traités localement et ne sont jamais envoyés à un serveur.</p>
+      <h2>Pourquoi Convertir Word en PDF ?</h2>
+      <p>Les fichiers PDF préservent la mise en forme sur tous les appareils et systèmes d'exploitation. Ils sont idéaux pour partager des contrats, rapports, CV et tout document où la présentation compte.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="/fr/">JPG &#8596; PDF</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/fr/compress-pdf.html">Compresser PDF</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/fr/compress-jpg.html">Compresser JPG</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/fr/merge-jpg.html">Fusionner JPG</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/fr/merge-pdf.html">Fusionner PDF</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/fr/tts.html">Texte en Parole</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/fr/pdf-ai.html">PDF AI</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/fr/social-media.html">Réseaux Sociaux</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/fr/seo.html">SEO</a>
+  </div>
+  <div class="footer-note">Traitement 100% local &#8212; vos fichiers ne quittent jamais votre appareil</div>
+</footer>
+
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  function toggleMenu() {
+    document.getElementById('nav-toggle').classList.toggle('open');
+    document.getElementById('nav-menu').classList.toggle('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-dropdown')) {
+      document.getElementById('nav-toggle').classList.remove('open');
+      document.getElementById('nav-menu').classList.remove('open');
+    }
+  });
+
+  function switchTab(id) {
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', (i===0&&id==='pdf2word')||(i===1&&id==='word2pdf'));
+    });
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+  }
+
+  // PDF to Word
+  let pdf2wordFile = null;
+  const dzP = document.getElementById('dz-pdf2word');
+  const inpP = document.getElementById('input-pdf2word');
+  dzP.addEventListener('dragover', e => { e.preventDefault(); dzP.classList.add('dragging'); });
+  dzP.addEventListener('dragleave', () => dzP.classList.remove('dragging'));
+  dzP.addEventListener('drop', e => { e.preventDefault(); dzP.classList.remove('dragging'); setPdf2wordFile(e.dataTransfer.files[0]); });
+  inpP.addEventListener('change', () => setPdf2wordFile(inpP.files[0]));
+
+  function setPdf2wordFile(f) {
+    if (!f || f.type !== 'application/pdf') return;
+    pdf2wordFile = f;
+    document.getElementById('filelist-pdf2word').innerHTML =
+      `<div class="file-item"><div class="file-dot"></div><span class="file-name">${f.name}</span><span class="file-size">${fmt(f.size)}</span></div>`;
+    document.getElementById('btn-pdf2word').disabled = false;
+    document.getElementById('result-pdf2word').style.display = 'none';
+  }
+
+  async function convertPdfToWord() {
+    if (!pdf2wordFile) return;
+    const btn = document.getElementById('btn-pdf2word');
+    const progWrap = document.getElementById('prog-pdf2word');
+    const fill = document.getElementById('fill-pdf2word');
+    const progText = document.getElementById('prog-text-pdf2word');
+    btn.disabled = true; progWrap.style.display = 'block';
+    progText.textContent = 'Lecture du PDF...'; fill.style.width = '10%';
+
+    const ab = await pdf2wordFile.arrayBuffer();
+    const pdfDoc = await pdfjsLib.getDocument({ data: ab }).promise;
+    const numPages = pdfDoc.numPages;
+    let fullText = '';
+
+    for (let i = 1; i <= numPages; i++) {
+      progText.textContent = `Extracting page ${i} of ${numPages}...`;
+      fill.style.width = (10 + (i / numPages) * 60) + '%';
+      const page = await pdfDoc.getPage(i);
+      const content = await page.getTextContent();
+      fullText += content.items.map(item => item.str).join(' ') + '\n\n';
+    }
+
+    progText.textContent = 'Création du document Word...'; fill.style.width = '80%';
+
+    const paragraphs = fullText.split('\n').filter(l => l.trim());
+    const bodyXml = paragraphs.map(p => {
+      const safe = p.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return `<w:p><w:r><w:t xml:space="preserve">${safe}</w:t></w:r></w:p>`;
+    }).join('\n');
+
+    const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>${bodyXml}<w:sectPr><w:pgSz w:w="12240" w:h="15840"/></w:sectPr></w:body>
+</w:document>`;
+
+    const zip = new JSZip();
+    zip.file('[Content_Types].xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>');
+    zip.file('_rels/.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
+    zip.file('word/document.xml', documentXml);
+    zip.file('word/_rels/document.xml.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>');
+
+    const blob = await zip.generateAsync({ type: 'blob', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    const url = URL.createObjectURL(blob);
+    const name = pdf2wordFile.name.replace(/\.pdf$/i, '') + '.docx';
+
+    fill.style.width = '100%'; progWrap.style.display = 'none'; btn.disabled = false;
+    showResult('result-pdf2word', 'result-list-pdf2word', `&#128221; ${name}`, url, name);
+  }
+
+  // Word to PDF
+  let word2pdfFile = null;
+  const dzW = document.getElementById('dz-word2pdf');
+  const inpW = document.getElementById('input-word2pdf');
+  dzW.addEventListener('dragover', e => { e.preventDefault(); dzW.classList.add('dragging'); });
+  dzW.addEventListener('dragleave', () => dzW.classList.remove('dragging'));
+  dzW.addEventListener('drop', e => { e.preventDefault(); dzW.classList.remove('dragging'); setWord2pdfFile(e.dataTransfer.files[0]); });
+  inpW.addEventListener('change', () => setWord2pdfFile(inpW.files[0]));
+
+  function setWord2pdfFile(f) {
+    if (!f || !f.name.endsWith('.docx')) return;
+    word2pdfFile = f;
+    document.getElementById('filelist-word2pdf').innerHTML =
+      `<div class="file-item"><div class="file-dot"></div><span class="file-name">${f.name}</span><span class="file-size">${fmt(f.size)}</span></div>`;
+    document.getElementById('btn-word2pdf').disabled = false;
+    document.getElementById('result-word2pdf').style.display = 'none';
+  }
+
+  async function convertWordToPdf() {
+    if (!word2pdfFile) return;
+    const btn = document.getElementById('btn-word2pdf');
+    const progWrap = document.getElementById('prog-word2pdf');
+    const fill = document.getElementById('fill-word2pdf');
+    const progText = document.getElementById('prog-text-word2pdf');
+    btn.disabled = true; progWrap.style.display = 'block';
+    progText.textContent = 'Lecture du document Word...'; fill.style.width = '15%';
+
+    const ab = await word2pdfFile.arrayBuffer();
+    const result = await mammoth.convertToHtml({ arrayBuffer: ab });
+    fill.style.width = '45%'; progText.textContent = 'Génération du PDF...';
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const raw = result.value
+      .replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/gi, '\n\n').replace(/<\/h[1-6]>/gi, '\n\n')
+      .replace(/<li>/gi, '\u2022 ').replace(/<\/li>/gi, '\n').replace(/<[^>]+>/g, '')
+      .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+
+    const margin = 18, lineH = 6, usableW = 210 - margin * 2;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(30,30,30);
+    let y = margin + 10;
+    for (const para of raw.split(/\n/).map(l => l.trimEnd())) {
+      if (!para.trim()) { y += lineH * 0.6; continue; }
+      const isH = para.length < 80 && /^[A-Z\u00C0-\u00FF\u2022]/.test(para);
+      doc.setFont('helvetica', isH && para.length < 60 ? 'bold' : 'normal');
+      doc.setFontSize(isH && para.length < 60 ? 13 : 10);
+      for (const line of doc.splitTextToSize(para, usableW)) {
+        if (y + lineH > 297 - margin) { doc.addPage(); y = margin + 10; }
+        doc.text(line, margin, y);
+        y += isH && para.length < 60 ? 7 : lineH;
+      }
+      if (isH && para.length < 60) y += 2;
+    }
+
+    fill.style.width = '100%'; progWrap.style.display = 'none'; btn.disabled = false;
+    const blob = doc.output('blob');
+    const url = URL.createObjectURL(blob);
+    const name = word2pdfFile.name.replace(/\.docx$/i, '') + '.pdf';
+    showResult('result-word2pdf', 'result-list-word2pdf', `&#128196; ${name}`, url, name);
+  }
+
+  function showResult(secId, listId, label, url, filename) {
+    const sec = document.getElementById(secId);
+    const list = document.getElementById(listId);
+    list.innerHTML = ''; sec.style.display = 'block';
+    const item = document.createElement('div');
+    item.className = 'result-item';
+    item.innerHTML = `<span class="result-name">${label}</span>`;
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.className = 'download-btn'; a.textContent = 'Télécharger';
+    item.appendChild(a); list.appendChild(item);
+  }
+
+  function fmt(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+    return (b/1048576).toFixed(1) + ' MB';
+  }
+</script>
+</body>
+</html>
