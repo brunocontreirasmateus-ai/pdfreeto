@@ -145,35 +145,7 @@
   .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
   .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
 
-  /* ── 2-ROW HEADER ── */
-  header {
-    position: relative; z-index: 10;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-top {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 40px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-bottom {
-    display: flex; align-items: center; justify-content: center;
-    padding: 0 40px;
-    overflow-x: auto;
-    gap: 0;
-  }
-  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
-  .logo span { color: var(--accent); }
-  .lang-switcher { display: flex; align-items: center; gap: 4px; }
-  .lang-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 5px 10px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
-  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
-  .nav-link {
-    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none; padding: 12px 14px;
-    border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
-  }
-  .nav-link:hover { color: var(--text); }
-  .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+  
   /* Hide old nav/burger */
   .main-nav, .burger { display: none !important; }
   @media (max-width: 600px) {
@@ -182,36 +154,107 @@
     .nav-link { padding: 10px 8px; font-size: 0.58rem; }
     .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
   }
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
+  }
 </style>
 </head>
 <body>
 <header>
-  <div class="header-top">
-    <a href="/pt/" class="logo">PDF<span>reeto</span></a>
-    <div class="lang-switcher">
-      <a href="/social-media.html" class="lang-btn">EN</a>
-      <a href="/pt/social-media.html" class="lang-btn  active">PT</a>
-      <a href="/br/social-media.html" class="lang-btn">BR</a>
-      <a href="/es/social-media.html" class="lang-btn">ES</a>
-      <a href="/fr/social-media.html" class="lang-btn">FR</a>
-      <a href="/de/social-media.html" class="lang-btn">DE</a>
+  <a href="/pt/" class="logo">PDF<span>reeto</span></a>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/pt/">JPG &#8596; PDF</a>
+      <a href="/pt/pdf-to-word.html">Word para PDF</a>
+      <a href="/pt/compress-pdf.html">Comprimir PDF</a>
+      <a href="/pt/compress-jpg.html">Comprimir JPG</a>
+      <a href="/pt/merge-jpg.html">Juntar JPG</a>
+      <a href="/pt/merge-pdf.html">Juntar PDF</a>
+      <a href="/pt/tts.html">Texto para Voz</a>
+      <a href="/pt/pdf-ai.html">PDF AI</a>
+      <a href="/pt/social-media.html" class="active">Redes Sociais</a>
+      <a href="/pt/seo.html">SEO</a>
     </div>
   </div>
-  <div class="header-bottom">
-    <a href="/pt/" class="nav-link">JPG ↔ PDF</a>
-    <a href="/pt/pdf-to-word.html" class="nav-link">Word para PDF</a>
-    <a href="/pt/compress-pdf.html" class="nav-link">Comprimir PDF</a>
-    <a href="/pt/compress-jpg.html" class="nav-link">Comprimir JPG</a>
-    <a href="/pt/merge-jpg.html" class="nav-link">Juntar JPG</a>
-    <a href="/pt/merge-pdf.html" class="nav-link">Juntar PDF</a>
-    <a href="/pt/tts.html" class="nav-link">Texto para Voz</a>
-    <a href="/pt/pdf-ai.html" class="nav-link">PDF AI</a>
-    <a href="/pt/social-media.html" class="nav-link active">Redes Sociais</a>
-    <a href="/pt/seo.html" class="nav-link">SEO</a>
+  <div class="lang-switcher">
+    <a href="/social-media.html" class="lang-btn">EN</a>
+    <a href="/pt/social-media.html" class="lang-btn active">PT</a>
+    <a href="/br/social-media.html" class="lang-btn">BR</a>
+    <a href="/es/social-media.html" class="lang-btn">ES</a>
+    <a href="/fr/social-media.html" class="lang-btn">FR</a>
+    <a href="/de/social-media.html" class="lang-btn">DE</a>
   </div>
 </header>
 
-<div class="hero">
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
   <h1><span class="hl">Redes</span><br>Sociais</h1>
   <p>Cole um URL · Obtenha copy IA para cada plataforma · Grátis</p>
 </div>
@@ -274,10 +317,10 @@
   </div>
 
   <div class="seo-block">
-    <h2>AI Social Media Copy Generator</h2>
-    <p>Paste any URL — a blog post, product page, news article or landing page — and PDFreeto's AI instantly writes platform-optimised copy for Instagram, Facebook, LinkedIn and TikTok. Each post is tailored to the tone, length and style that performs best on that platform.</p>
-    <h2>Why Tailor Copy Per Platform?</h2>
-    <p>Instagram thrives on emotion and hashtags. LinkedIn rewards professional insight and longer-form storytelling. Facebook favors conversational, shareable posts. TikTok needs punchy hooks and trending tags. One URL, four platform-ready posts — ready to copy and paste.</p>
+    <h2>Gerador de Copy para Redes Sociais com IA</h2>
+    <p>Cole qualquer URL — um artigo de blog, página de produto, notícia ou landing page — e a IA do PDFreeto escreve instantaneamente copy otimizado para Instagram, Facebook, LinkedIn e TikTok. Cada publicação é adaptada ao tom, comprimento e estilo que melhor funciona em cada plataforma.</p>
+    <h2>Por que Adaptar o Copy por Plataforma?</h2>
+    <p>O Instagram valoriza emoção e hashtags. O LinkedIn recompensa insight profissional e narrativas mais longas. O Facebook favorece publicações conversacionais e partilháveis. O TikTok precisa de ganchos curtos e tags em tendência. Um URL, quatro publicações prontas — prontas a copiar e colar.</p>
   </div>
 </div>
 
