@@ -11,8 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF AI — Analise PDFs com IA Grátis | PDFreeto</title>
-<meta name="description" content="Upload a PDF and use AI to summarize it, extract topics, ask questions, and listen to the summary. Free, private and browser-based.">
+<title>PDF AI — Resumir, Q&A e Analisar PDFs Grátis — PDFreeto</title>
+<meta name="description" content="Carregue um PDF e use IA para o resumir, extrair tópicos, fazer perguntas e ouvir o resumo. Grátis e privado.">
 <link rel="alternate" hreflang="en" href="https://pdfreeto.com/pdf-ai.html">
 <link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/pdf-ai.html">
 <link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/pdf-ai.html">
@@ -162,6 +162,24 @@
     header { padding: 16px 20px; } .hero { padding: 40px 20px 20px; } .content { padding: 24px 20px 60px; }
     .actions { grid-template-columns: repeat(2, 1fr); }
   }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  /* Nav */
+  .main-nav { display: none; align-items: center; gap: 4px; }
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+  .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
 </style>
 </head>
 <body>
@@ -182,7 +200,7 @@
   </nav>
   <div class="lang-switcher">
     <a href="/pdf-ai.html" class="lang-btn">EN</a>
-    <a href="/pt/pdf-ai.html" class="lang-btn active">PT</a>
+    <a href="/pt/pdf-ai.html" class="lang-btn  active">PT</a>
     <a href="/br/pdf-ai.html" class="lang-btn">BR</a>
     <a href="/es/pdf-ai.html" class="lang-btn">ES</a>
     <a href="/fr/pdf-ai.html" class="lang-btn">FR</a>
@@ -194,8 +212,8 @@
 </header>
 
 <div class="hero">
-  <h1>PDF <span class="hl2">AI</span></h1>
-  <p>Resumir · Tópicos · Q&A · Ouvir — com IA</p>
+  <h1><span class="hl">PDF</span><br>AI</h1>
+  <p>Resumir · Tópicos · Q&A · Ouvir — com IA Claude</p>
 </div>
 
 <div class="content">
@@ -204,8 +222,8 @@
   <div class="drop-zone" id="dz" onclick="document.getElementById('input-pdf').click()">
     <input type="file" id="input-pdf" accept="application/pdf">
     <span class="dz-icon">🤖</span>
-    <div class="dz-title">Drop your PDF here</div>
-    <div class="dz-sub">AI will read, analyse and answer questions about it</div>
+    <div class="dz-title">Arraste o seu PDF aqui</div>
+    <div class="dz-sub">A IA irá ler, analisar e responder a perguntas sobre o documento</div>
   </div>
 
   <div class="file-bar" id="file-bar">
@@ -289,8 +307,14 @@
     <a href="/pt/merge-pdf.html">Juntar PDF</a>
     <span class="footer-sep">·</span>
     <a href="/pt/tts.html">Texto para Voz</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/pdf-ai.html">PDF AI</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/social-media.html">Redes Sociais</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/seo.html">SEO</a>
   </div>
-  <div class="footer-note">Processamento 100% local — os seus ficheiros nunca saem do seu dispositivo</div>
+  <div class="footer-note">O conteúdo do PDF é enviado ao Claude AI apenas para gerar a sua resposta · Nunca é armazenado</div>
 </footer>
 
 <script>

@@ -11,8 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerador de Conteúdo para Redes Sociais Grátis | PDFreeto</title>
-<meta name="description" content="Enter any URL and get AI-generated social media copy for Instagram, Facebook, LinkedIn and TikTok. Free and instant.">
+<title>Gerador de Copy para Redes Sociais Grátis — PDFreeto</title>
+<meta name="description" content="Cole um URL e obtenha copy gerado por IA para Instagram, Facebook, LinkedIn e TikTok. Grátis e instantâneo.">
 <link rel="alternate" hreflang="en" href="https://pdfreeto.com/social-media.html">
 <link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/social-media.html">
 <link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/social-media.html">
@@ -130,6 +130,24 @@
     .platform-tabs { overflow-x: auto; }
     .ptab { padding: 10px 14px; font-size: 0.65rem; }
   }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  /* Nav */
+  .main-nav { display: none; align-items: center; gap: 4px; }
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+  .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
 </style>
 </head>
 <body>
@@ -149,7 +167,7 @@
   </nav>
   <div class="lang-switcher">
     <a href="/social-media.html" class="lang-btn">EN</a>
-    <a href="/pt/social-media.html" class="lang-btn active">PT</a>
+    <a href="/pt/social-media.html" class="lang-btn  active">PT</a>
     <a href="/br/social-media.html" class="lang-btn">BR</a>
     <a href="/es/social-media.html" class="lang-btn">ES</a>
     <a href="/fr/social-media.html" class="lang-btn">FR</a>
@@ -162,7 +180,7 @@
 
 <div class="hero">
   <h1>Social<br><span class="hl">Media</span></h1>
-  <p>Cola um URL · Obtém copy para todas as plataformas · Grátis</p>
+  <p>Cole um URL · Obtenha copy IA para cada plataforma · Grátis</p>
 </div>
 
 <div class="content">
@@ -248,9 +266,11 @@
     <span class="footer-sep">·</span>
     <a href="/pt/pdf-ai.html">PDF AI</a>
     <span class="footer-sep">·</span>
+    <a href="/pt/social-media.html">Redes Sociais</a>
+    <span class="footer-sep">·</span>
     <a href="/pt/seo.html">SEO</a>
   </div>
-  <div class="footer-note">Processamento 100% local — os seus ficheiros nunca saem do seu dispositivo</div>
+  <div class="footer-note">Desenvolvido pelo Claude AI · Conteúdo enviado apenas para gerar a sua publicação</div>
 </footer>
 
 <script>

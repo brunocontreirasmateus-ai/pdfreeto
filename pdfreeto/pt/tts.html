@@ -11,8 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Texto para Voz Grátis | PDFreeto</title>
-<meta name="description" content="Convert any text to speech for free. Choose voice, speed and pitch. Listen instantly or download as audio. No upload required — 100% browser-based.">
+<title>Texto para Voz Grátis — Converter Texto em Áudio Online — PDFreeto</title>
+<meta name="description" content="Converta qualquer texto em fala grátis. Escolha a voz, velocidade e tom. Ouça instantaneamente ou descarregue o áudio. Sem upload necessário.">
 <link rel="alternate" hreflang="en" href="https://pdfreeto.com/tts.html">
 <link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/tts.html">
 <link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/tts.html">
@@ -157,6 +157,24 @@
     .opts-grid { grid-template-columns: 1fr; }
     .actions { flex-direction: column; }
   }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  /* Nav */
+  .main-nav { display: none; align-items: center; gap: 4px; }
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+  .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
 </style>
 </head>
 <body>
@@ -177,7 +195,7 @@
   </nav>
   <div class="lang-switcher">
     <a href="/tts.html" class="lang-btn">EN</a>
-    <a href="/pt/tts.html" class="lang-btn active">PT</a>
+    <a href="/pt/tts.html" class="lang-btn  active">PT</a>
     <a href="/br/tts.html" class="lang-btn">BR</a>
     <a href="/es/tts.html" class="lang-btn">ES</a>
     <a href="/fr/tts.html" class="lang-btn">FR</a>
@@ -190,7 +208,7 @@
 
 <div class="hero">
   <h1>Text to<br><span class="hl">Speech</span></h1>
-  <p>Converta texto em áudio · Escolha a voz · Grátis</p>
+  <p>Escreva ou cole texto · Escolha a voz · Ouça ou descarregue · Grátis</p>
 </div>
 
 <div class="content">
@@ -257,8 +275,8 @@
   <div class="seo-block">
     <h2>Free Text to Speech Online</h2>
     <p>PDFreeto's Text to Speech tool converts any written text into spoken audio directly in your browser, using your device's built-in voices. Choose from dozens of languages and voices, adjust the reading speed and pitch, and listen instantly — no account or installation needed.</p>
-    <h2>How to Use Text to Speech</h2>
-    <p>Paste or type your text, select a voice and language, then click Speak. The current word is highlighted as it's read aloud. You can pause and resume at any time. The audio download feature records the speech and saves it as a WAV file (available in Chrome and Edge).</p>
+    <h2 style="font-family:var(--display);font-size:1.6rem;letter-spacing:0.05em;color:var(--text);margin-bottom:12px">Texto para Voz Online Grátis</h2>
+<p style="font-size:0.9rem;color:var(--muted);line-height:1.7;margin-bottom:16px">A ferramenta Texto para Voz do PDFreeto converte qualquer texto escrito em áudio falado diretamente no seu browser, usando as vozes incorporadas no seu dispositivo. Escolha entre dezenas de idiomas e vozes, ajuste a velocidade e o tom de leitura, e ouça instantaneamente.</p>
   </div>
 
 </div>
@@ -276,6 +294,14 @@
     <a href="/pt/merge-jpg.html">Juntar JPG</a>
     <span class="footer-sep">·</span>
     <a href="/pt/merge-pdf.html">Juntar PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/tts.html">Texto para Voz</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/pdf-ai.html">PDF AI</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/social-media.html">Redes Sociais</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/seo.html">SEO</a>
   </div>
   <div class="footer-note">Processamento 100% local — os seus ficheiros nunca saem do seu dispositivo</div>
 </footer>

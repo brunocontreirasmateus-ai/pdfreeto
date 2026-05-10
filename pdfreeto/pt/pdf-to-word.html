@@ -11,8 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Converter Word para PDF Grátis | PDFreeto</title>
-<meta name="description" content="Convert Word documents (.docx) to PDF for free. No upload, no signup. 100% browser-based and private.">
+<title>Converter Word para PDF Grátis — PDFreeto</title>
+<meta name="description" content="Converta documentos Word (.docx) para PDF grátis. Sem upload, sem registo. 100% local e privado.">
 <link rel="alternate" hreflang="en" href="https://pdfreeto.com/pdf-to-word.html">
 <link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/pdf-to-word.html">
 <link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/pdf-to-word.html">
@@ -151,6 +151,24 @@
     .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
     .burger { display: flex; }
   }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  /* Nav */
+  .main-nav { display: none; align-items: center; gap: 4px; }
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+  .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
 </style>
 </head>
 <body>
@@ -171,7 +189,7 @@
   </nav>
   <div class="lang-switcher">
     <a href="/pdf-to-word.html" class="lang-btn">EN</a>
-    <a href="/pt/pdf-to-word.html" class="lang-btn active">PT</a>
+    <a href="/pt/pdf-to-word.html" class="lang-btn  active">PT</a>
     <a href="/br/pdf-to-word.html" class="lang-btn">BR</a>
     <a href="/es/pdf-to-word.html" class="lang-btn">ES</a>
     <a href="/fr/pdf-to-word.html" class="lang-btn">FR</a>
@@ -184,7 +202,7 @@
 
 <div class="hero">
   <h1>Convert <span class="hl">Word</span><br>to PDF</h1>
-  <p>Converta documentos .docx para PDF · Grátis · Sem registo</p>
+  <p>Grátis · Instantâneo · 100% Privado — os ficheiros ficam no seu dispositivo</p>
 </div>
 
 <div class="content">
@@ -192,8 +210,8 @@
   <div class="drop-zone" id="dz-word" onclick="document.getElementById('input-word').click()">
     <input type="file" id="input-word" accept=".docx">
     <span class="dz-icon">📝</span>
-    <div class="dz-title">Drop your .docx here</div>
-    <div class="dz-sub">Microsoft Word documents (.docx)</div>
+    <div class="dz-title">Arraste o seu .docx aqui</div>
+    <div class="dz-sub">Documentos Microsoft Word (.docx)</div>
   </div>
 
   <div class="file-list" id="filelist-word"></div>
@@ -203,18 +221,16 @@
     <div class="progress-text" id="prog-text-word">Processing...</div>
   </div>
 
-  <button class="convert-btn" id="btn-convert" onclick="convertWordToPdf()" disabled>
-    CONVERT TO PDF
-  </button>
+  <button class="convert-btn" id="btn-convert" onclick="convertWordToPdf()" disabled>CONVERTER PARA PDF</button>
 
   <div class="result-section" id="result-word">
-    <div class="result-title">✓ Conversion complete</div>
+    <div class="result-title">✓ Conversão concluída</div>
     <div id="result-list-word"></div>
   </div>
 
   <div class="seo-block">
-    <h2>How to Convert Word to PDF for Free</h2>
-    <p>PDFreeto lets you convert any Word document (.docx) to a PDF file directly in your browser — no account needed, no file uploads, completely free. Your documents are processed locally on your device and never sent to any server.</p>
+    <h2 style="font-family:var(--display);font-size:1.6rem;letter-spacing:0.05em;color:var(--text);margin-bottom:12px">Como Converter Word para PDF Gratuitamente</h2>
+<p style="font-size:0.9rem;color:var(--muted);line-height:1.7;margin-bottom:16px">O PDFreeto converte qualquer documento Word (.docx) para PDF diretamente no browser — sem conta necessária, sem uploads de ficheiros, completamente grátis. Os seus documentos são processados localmente no seu dispositivo e nunca enviados para qualquer servidor.</p>
     <h2>Why Convert Word to PDF?</h2>
     <p>PDF files preserve your formatting across all devices and operating systems. They're ideal for sharing contracts, reports, CVs, and any document where layout matters. Converting from Word ensures the recipient sees exactly what you intended.</p>
   </div>
@@ -224,6 +240,8 @@
 <footer>
   <div class="footer-links">
     <a href="/pt/">JPG ↔ PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/pdf-to-word.html">Word para PDF</a>
     <span class="footer-sep">·</span>
     <a href="/pt/compress-pdf.html">Comprimir PDF</a>
     <span class="footer-sep">·</span>

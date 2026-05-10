@@ -11,8 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comprimir JPG Grátis | PDFreeto</title>
-<meta name="description" content="Compress JPG and PNG images for free. Reduce image file size without visible quality loss. No upload — 100% browser-based and private.">
+<title>Comprimir JPG Grátis — Reduzir Tamanho de Imagens Online — PDFreeto</title>
+<meta name="description" content="Comprima imagens JPG e PNG online grátis. Reduza o tamanho do ficheiro sem perda visível de qualidade. Sem upload — 100% local e privado.">
 <link rel="alternate" hreflang="en" href="https://pdfreeto.com/compress-jpg.html">
 <link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/compress-jpg.html">
 <link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/compress-jpg.html">
@@ -176,6 +176,24 @@
     .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
     .burger { display: flex; }
   }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  /* Nav */
+  .main-nav { display: none; align-items: center; gap: 4px; }
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+  .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
 </style>
 </head>
 <body>
@@ -196,7 +214,7 @@
   </nav>
   <div class="lang-switcher">
     <a href="/compress-jpg.html" class="lang-btn">EN</a>
-    <a href="/pt/compress-jpg.html" class="lang-btn active">PT</a>
+    <a href="/pt/compress-jpg.html" class="lang-btn  active">PT</a>
     <a href="/br/compress-jpg.html" class="lang-btn">BR</a>
     <a href="/es/compress-jpg.html" class="lang-btn">ES</a>
     <a href="/fr/compress-jpg.html" class="lang-btn">FR</a>
@@ -209,7 +227,7 @@
 
 <div class="hero">
   <h1><span class="hl">Compress</span><br>JPG</h1>
-  <p>Reduza o tamanho das imagens · Grátis · Sem registo</p>
+  <p>Reduza o tamanho das imagens · Grátis · Instantâneo · Sem upload necessário</p>
 </div>
 
 <div class="content">
@@ -217,8 +235,8 @@
   <div class="drop-zone" id="dz" onclick="document.getElementById('input-img').click()">
     <input type="file" id="input-img" accept="image/jpeg,image/jpg,image/png,image/webp" multiple>
     <span class="dz-icon">🖼</span>
-    <div class="dz-title">Drop images here</div>
-    <div class="dz-sub">JPG · PNG · WEBP — multiple files supported</div>
+    <div class="dz-title">Arraste as imagens aqui</div>
+    <div class="dz-sub">JPG · PNG · WEBP — múltiplos ficheiros suportados</div>
   </div>
 
   <div class="file-list" id="filelist"></div>
@@ -262,18 +280,16 @@
     <div class="progress-text" id="prog-text">Compressing...</div>
   </div>
 
-  <button class="convert-btn" id="btn-compress" onclick="compressImages()" disabled>
-    COMPRESS IMAGES
-  </button>
+  <button class="convert-btn" id="btn-compress" onclick="compressImages()" disabled>COMPRIMIR IMAGENS</button>
 
   <div class="result-section" id="result">
-    <div class="result-title">✓ Compression complete</div>
+    <div class="result-title">✓ Compressão concluída</div>
     <div class="result-list" id="result-list"></div>
   </div>
 
   <div class="seo-block">
-    <h2>How to Compress JPG Images for Free</h2>
-    <p>PDFreeto compresses your JPG, PNG, and WEBP images directly in your browser using the HTML Canvas API. Adjust the quality slider to balance file size and visual quality, optionally resize the image, and download your compressed files instantly — no signup, no limits.</p>
+    <h2 style="font-family:var(--display);font-size:1.6rem;letter-spacing:0.05em;color:var(--text);margin-bottom:12px">Como Comprimir Imagens JPG Gratuitamente</h2>
+<p style="font-size:0.9rem;color:var(--muted);line-height:1.7;margin-bottom:16px">O PDFreeto comprime as suas imagens JPG, PNG e WEBP diretamente no browser usando a API Canvas do HTML. Ajuste o slider de qualidade para equilibrar tamanho e qualidade visual, opcionalmente redimensione a imagem, e descarregue os ficheiros comprimidos instantaneamente.</p>
     <h2>Why Compress Images?</h2>
     <p>Smaller images load faster on websites, take up less storage, and are easier to send by email. Compressing a JPG to 75% quality typically reduces file size by 50–70% with barely any visible difference — ideal for web publishing, social media, and sharing.</p>
   </div>
@@ -287,6 +303,8 @@
     <a href="/pt/pdf-to-word.html">Word para PDF</a>
     <span class="footer-sep">·</span>
     <a href="/pt/compress-pdf.html">Comprimir PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/compress-jpg.html">Comprimir JPG</a>
     <span class="footer-sep">·</span>
     <a href="/pt/merge-jpg.html">Juntar JPG</a>
     <span class="footer-sep">·</span>

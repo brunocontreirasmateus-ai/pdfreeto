@@ -11,8 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Juntar JPG Grátis | PDFreeto</title>
-<meta name="description" content="Merge multiple JPG, PNG or WEBP images into a single image for free. Arrange, reorder and combine images vertically or horizontally. No upload required.">
+<title>Juntar JPG Grátis — Combinar Imagens Online — PDFreeto</title>
+<meta name="description" content="Junte múltiplas imagens JPG, PNG ou WEBP numa só imagem grátis. Arraste para reordenar. Sem upload — 100% local e privado.">
 <link rel="alternate" hreflang="en" href="https://pdfreeto.com/merge-jpg.html">
 <link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/merge-jpg.html">
 <link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/merge-jpg.html">
@@ -172,6 +172,24 @@
     .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
     .burger { display: flex; }
   }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  /* Nav */
+  .main-nav { display: none; align-items: center; gap: 4px; }
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+  .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
 </style>
 </head>
 <body>
@@ -192,7 +210,7 @@
   </nav>
   <div class="lang-switcher">
     <a href="/merge-jpg.html" class="lang-btn">EN</a>
-    <a href="/pt/merge-jpg.html" class="lang-btn active">PT</a>
+    <a href="/pt/merge-jpg.html" class="lang-btn  active">PT</a>
     <a href="/br/merge-jpg.html" class="lang-btn">BR</a>
     <a href="/es/merge-jpg.html" class="lang-btn">ES</a>
     <a href="/fr/merge-jpg.html" class="lang-btn">FR</a>
@@ -205,7 +223,7 @@
 
 <div class="hero">
   <h1><span class="hl">Merge</span><br>JPG</h1>
-  <p>Combine múltiplas imagens numa só · Grátis · Arraste para reordenar</p>
+  <p>Combine múltiplas imagens numa só · Grátis · Arraste para reordenar · Sem upload</p>
 </div>
 
 <div class="content">
@@ -213,8 +231,8 @@
   <div class="drop-zone" id="dz" onclick="document.getElementById('input-img').click()">
     <input type="file" id="input-img" accept="image/jpeg,image/jpg,image/png,image/webp" multiple>
     <span class="dz-icon">🖼</span>
-    <div class="dz-title">Drop images here</div>
-    <div class="dz-sub">JPG · PNG · WEBP — add as many as you need</div>
+    <div class="dz-title">Arraste as imagens aqui</div>
+    <div class="dz-sub">JPG · PNG · WEBP — adicione quantas precisar</div>
   </div>
 
   <div id="sort-wrap" style="display:none">
@@ -258,16 +276,16 @@
     <div class="progress-text" id="prog-text">Merging images...</div>
   </div>
 
-  <button class="convert-btn" id="btn-merge" onclick="mergeImages()" disabled>MERGE IMAGES</button>
+  <button class="convert-btn" id="btn-merge" onclick="mergeImages()" disabled>JUNTAR IMAGENS</button>
 
   <div class="result-section" id="result">
-    <div class="result-title">✓ Merge complete</div>
+    <div class="result-title">✓ Junção concluída</div>
     <div id="result-list"></div>
   </div>
 
   <div class="seo-block">
-    <h2>How to Merge JPG Images for Free</h2>
-    <p>PDFreeto lets you combine multiple JPG, PNG, or WEBP images into a single image — entirely in your browser. Upload your images, drag to arrange them in any order, choose vertical or horizontal layout, and download the result instantly. No account, no limits, no uploads to servers.</p>
+    <h2 style="font-family:var(--display);font-size:1.6rem;letter-spacing:0.05em;color:var(--text);margin-bottom:12px">Como Juntar Imagens JPG Gratuitamente</h2>
+<p style="font-size:0.9rem;color:var(--muted);line-height:1.7;margin-bottom:16px">O PDFreeto permite combinar múltiplas imagens JPG, PNG ou WEBP numa única imagem — inteiramente no seu browser. Faça upload das imagens, arraste para as organizar na ordem pretendida, escolha layout vertical ou horizontal e descarregue o resultado instantaneamente.</p>
     <h2>When to Merge Images?</h2>
     <p>Merging images is useful for creating before/after comparisons, combining screenshots into a single file, building photo collages, or preparing product images for e-commerce. The drag-to-reorder feature makes it easy to get the exact sequence you want.</p>
   </div>
@@ -282,6 +300,8 @@
     <a href="/pt/compress-pdf.html">Comprimir PDF</a>
     <span class="footer-sep">·</span>
     <a href="/pt/compress-jpg.html">Comprimir JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/merge-jpg.html">Juntar JPG</a>
     <span class="footer-sep">·</span>
     <a href="/pt/merge-pdf.html">Juntar PDF</a>
     <span class="footer-sep">·</span>

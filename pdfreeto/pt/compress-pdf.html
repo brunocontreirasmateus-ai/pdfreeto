@@ -11,8 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comprimir PDF Grátis | PDFreeto</title>
-<meta name="description" content="Compress PDF files online for free. Reduce PDF file size without losing quality. No upload required — 100% browser-based and private.">
+<title>Comprimir PDF Grátis — Reduzir Tamanho do PDF Online — PDFreeto</title>
+<meta name="description" content="Comprima ficheiros PDF online grátis. Reduza o tamanho do PDF sem perder qualidade. Sem upload necessário — 100% local e privado.">
 <link rel="alternate" hreflang="en" href="https://pdfreeto.com/compress-pdf.html">
 <link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/compress-pdf.html">
 <link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/compress-pdf.html">
@@ -168,6 +168,24 @@
     .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
     .burger { display: flex; }
   }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  /* Nav */
+  .main-nav { display: none; align-items: center; gap: 4px; }
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+  .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
 </style>
 </head>
 <body>
@@ -188,7 +206,7 @@
   </nav>
   <div class="lang-switcher">
     <a href="/compress-pdf.html" class="lang-btn">EN</a>
-    <a href="/pt/compress-pdf.html" class="lang-btn active">PT</a>
+    <a href="/pt/compress-pdf.html" class="lang-btn  active">PT</a>
     <a href="/br/compress-pdf.html" class="lang-btn">BR</a>
     <a href="/es/compress-pdf.html" class="lang-btn">ES</a>
     <a href="/fr/compress-pdf.html" class="lang-btn">FR</a>
@@ -201,7 +219,7 @@
 
 <div class="hero">
   <h1><span class="hl">Compress</span><br>PDF</h1>
-  <p>Reduza o tamanho do PDF · Grátis · Sem registo</p>
+  <p>Reduza o tamanho do PDF · Grátis · Sem registo · Os seus ficheiros ficam no seu dispositivo</p>
 </div>
 
 <div class="content">
@@ -209,8 +227,8 @@
   <div class="drop-zone" id="dz" onclick="document.getElementById('input-pdf').click()">
     <input type="file" id="input-pdf" accept="application/pdf">
     <span class="dz-icon">📦</span>
-    <div class="dz-title">Drop your PDF here</div>
-    <div class="dz-sub">PDF documents — up to any size</div>
+    <div class="dz-title">Arraste o seu PDF aqui</div>
+    <div class="dz-sub">Ficheiros PDF — qualquer tamanho</div>
   </div>
 
   <div class="file-list" id="filelist"></div>
@@ -241,19 +259,17 @@
     <div class="progress-text" id="prog-text">Compressing...</div>
   </div>
 
-  <button class="convert-btn" id="btn-compress" onclick="compressPdf()" disabled>
-    COMPRESS PDF
-  </button>
+  <button class="convert-btn" id="btn-compress" onclick="compressPdf()" disabled>COMPRIMIR PDF</button>
 
   <div class="result-section" id="result">
-    <div class="result-title">✓ Compression complete</div>
+    <div class="result-title">✓ Compressão concluída</div>
     <div id="result-list"></div>
     <div class="size-stats" id="size-stats"></div>
   </div>
 
   <div class="seo-block">
-    <h2>How to Compress a PDF for Free</h2>
-    <p>PDFreeto compresses your PDF by re-rendering each page at a reduced resolution — entirely in your browser. No file ever leaves your device. Simply drop your PDF, choose a compression level, and download the smaller file instantly.</p>
+    <h2 style="font-family:var(--display);font-size:1.6rem;letter-spacing:0.05em;color:var(--text);margin-bottom:12px">Como Comprimir um PDF Gratuitamente</h2>
+<p style="font-size:0.9rem;color:var(--muted);line-height:1.7;margin-bottom:16px">O PDFreeto comprime o seu PDF re-renderizando cada página com menor resolução — tudo no seu browser. Sem enviar ficheiros para servidores. Simplesmente arraste o seu PDF, escolha o nível de compressão e descarregue o ficheiro mais pequeno instantaneamente.</p>
     <h2>When Should You Compress a PDF?</h2>
     <p>PDF compression is useful when emailing documents (many servers limit attachments to 10MB), uploading to web forms, or storing large batches of scanned files. PDFreeto lets you choose between maximum compression for the smallest file size, or high quality when visual clarity matters most.</p>
   </div>
@@ -265,6 +281,8 @@
     <a href="/pt/">JPG ↔ PDF</a>
     <span class="footer-sep">·</span>
     <a href="/pt/pdf-to-word.html">Word para PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
     <span class="footer-sep">·</span>
     <a href="/pt/compress-jpg.html">Comprimir JPG</a>
     <span class="footer-sep">·</span>
