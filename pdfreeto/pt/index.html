@@ -684,32 +684,32 @@ document.addEventListener('click', function(e) {
     <div class="file-list" id="filelist-jpg"></div>
 
     <div class="options" id="opts-jpg" style="display:none">
-      <div class="options-title">⚙ Conversion Options</div>
+      <div class="options-title">⚙ Opções de Conversão</div>
       <div class="options-row">
         <div class="opt-group">
-          <span class="opt-label">Page size</span>
+          <span class="opt-label">Tamanho da página</span>
           <select id="page-size">
             <option value="a4">A4</option>
             <option value="a3">A3</option>
             <option value="letter">Letter</option>
             <option value="legal">Legal</option>
-            <option value="fit">Fit to image</option>
+            <option value="fit">Ajustar à imagem</option>
           </select>
         </div>
         <div class="opt-group">
-          <span class="opt-label">Orientation</span>
+          <span class="opt-label">Orientação</span>
           <select id="orientation">
-            <option value="auto">Automatic</option>
-            <option value="portrait">Portrait</option>
-            <option value="landscape">Landscape</option>
+            <option value="auto">Automático</option>
+            <option value="portrait">Vertical</option>
+            <option value="landscape">Horizontal</option>
           </select>
         </div>
         <div class="opt-group">
-          <span class="opt-label">Margin (mm)</span>
+          <span class="opt-label">Margem (mm)</span>
           <input type="number" id="margin" value="10" min="0" max="50">
         </div>
         <div class="opt-group">
-          <span class="opt-label">File name</span>
+          <span class="opt-label">Nome do ficheiro</span>
           <input type="text" id="pdf-name" value="documento" style="width:140px; background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--mono); font-size:0.8rem; padding:8px 12px; border-radius:2px; outline:none;">
         </div>
       </div>
@@ -717,7 +717,7 @@ document.addEventListener('click', function(e) {
 
     <div class="progress-wrap" id="prog-jpg">
       <div class="progress-bar"><div class="progress-fill" id="fill-jpg"></div></div>
-      <div class="progress-text" id="prog-text-jpg">Processing...</div>
+      <div class="progress-text" id="prog-text-jpg">A processar...</div>
     </div>
 
     <button class="convert-btn" id="btn-jpg2pdf" onclick="convertJpgToPdf()" disabled>
@@ -725,7 +725,7 @@ document.addEventListener('click', function(e) {
     </button>
 
     <div class="result-section" id="result-jpg">
-      <div class="result-title">✓ Conversion complete</div>
+      <div class="result-title">✓ Conversão concluída</div>
       <div class="result-list" id="result-list-jpg"></div>
     </div>
   </div>
@@ -737,21 +737,21 @@ document.addEventListener('click', function(e) {
       <input type="file" id="input-pdf" accept="application/pdf" multiple>
       <span class="dz-icon">📄</span>
       <div class="dz-title">Arraste ou clique aqui</div>
-      <div class="dz-sub">PDF files — multiple files supported</div>
+      <div class="dz-sub">Ficheiros PDF — múltiplos ficheiros suportados</div>
     </div>
 
     <div class="file-list" id="filelist-pdf"></div>
 
     <div class="options" id="opts-pdf" style="display:none">
-      <div class="options-title">⚙ Conversion Options</div>
+      <div class="options-title">⚙ Opções de Conversão</div>
       <div class="options-row">
         <div class="opt-group">
-          <span class="opt-label">Image quality</span>
+          <span class="opt-label">Qualidade de imagem</span>
           <select id="img-quality">
-            <option value="1.5">Low (fast)</option>
-            <option value="2" selected>Medium</option>
-            <option value="3">High</option>
-            <option value="4">Maximum</option>
+            <option value="1.5">Baixa (rápida)</option>
+            <option value="2" selected>Média</option>
+            <option value="3">Alta</option>
+            <option value="4">Máxima</option>
           </select>
         </div>
         <div class="opt-group">
@@ -764,13 +764,13 @@ document.addEventListener('click', function(e) {
         <div class="opt-group">
           <span class="opt-label">Pages</span>
           <select id="pages-moof">
-            <option value="all">All pages</option>
-            <option value="first">First page only</option>
-            <option value="range">Range</option>
+            <option value="all">Todas</option>
+            <option value="first">Só a primeira</option>
+            <option value="range">Intervalo</option>
           </select>
         </div>
         <div class="opt-group" id="range-group" style="display:none">
-          <span class="opt-label">From — To</span>
+          <span class="opt-label">De — Até</span>
           <div style="display:flex;gap:6px">
             <input type="number" id="page-from" value="1" min="1" style="width:60px">
             <input type="number" id="page-to" value="5" min="1" style="width:60px">
@@ -781,7 +781,7 @@ document.addEventListener('click', function(e) {
 
     <div class="progress-wrap" id="prog-pdf">
       <div class="progress-bar"><div class="progress-fill" id="fill-pdf"></div></div>
-      <div class="progress-text" id="prog-text-pdf">Processing...</div>
+      <div class="progress-text" id="prog-text-pdf">A processar...</div>
     </div>
 
     <button class="convert-btn" id="btn-pdf2jpg" onclick="convertPdfToJpg()" disabled>
@@ -789,7 +789,7 @@ document.addEventListener('click', function(e) {
     </button>
 
     <div class="result-section" id="result-pdf">
-      <div class="result-title">✓ Conversion complete</div>
+      <div class="result-title">✓ Conversão concluída</div>
       <div class="result-list" id="result-list-pdf"></div>
     </div>
   </div>
@@ -799,7 +799,7 @@ document.addEventListener('click', function(e) {
 <!-- SEO Content -->
 <div style="position:relative;z-index:10;max-width:860px;margin:0 auto;padding:0 40px 60px;border-top:1px solid var(--border);margin-top:40px">
 
-  <h2 style="font-family:var(--display);font-size:2rem;letter-spacing:0.05em;color:var(--text);margin:40px 0 12px">How to Converter JPG para PDF</h2>
+  <h2 style="font-family:var(--display);font-size:2rem;letter-spacing:0.05em;color:var(--text);margin:40px 0 12px">Como Converter JPG para PDF</h2>
   <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:16px">Converting JPG images to PDF with PDFreeto is fast and simple. Drag your JPG, PNG or WEBP files into the upload area, or click to browse your files. You can upload multiple images at once and they will all be combined into a single PDF document. Choose your page size (A4, A3, Letter or Legal), set the orientation and margin, then click Convert to PDF. Your file downloads instantly — no waiting, no email required. If you need to reduce the file size afterwards, use our free <a href="/pt/compress-pdf.html" style="color:var(--accent);text-decoration:none">PDF compressor</a> tool.</p>
 
   <h2 style="font-family:var(--display);font-size:2rem;letter-spacing:0.05em;color:var(--text);margin:32px 0 12px">Vantagens de Converter JPG para PDF</h2>
@@ -813,19 +813,19 @@ document.addEventListener('click', function(e) {
 
   <h2 style="font-family:var(--display);font-size:2rem;letter-spacing:0.05em;color:var(--text);margin:32px 0 12px">Perguntas Frequentes</h2>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Is PDFreeto free to use?</strong><br>Yes, all tools on PDFreeto are completely free with no hidden costs or subscriptions. You can convert, compress, merge and analyse files as many times as you need.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">O PDFreeto é gratuito?</strong><br>Sim, todas as ferramentas do PDFreeto são completamente gratuitas sem custos ocultos ou subscrições. Pode converter, comprimir, juntar e analisar ficheiros quantas vezes precisar.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Are my files safe?</strong><br>Yes. PDFreeto runs entirely in your browser — your files are never sent to any server. All processing happens locally on your device, making it one of the most private conversion tools available.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Os meus ficheiros estão seguros?</strong><br>Sim. O PDFreeto funciona inteiramente no seu browser — os seus ficheiros nunca são enviados para qualquer servidor. Todo o processamento acontece localmente no seu dispositivo.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">What image formats are supported?</strong><br>PDFreeto supports JPG, PNG and WEBP images for conversion to PDF. You can mix different formats in the same conversion.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Que formatos de imagem são suportados?</strong><br>O PDFreeto suporta imagens JPG, PNG e WEBP para conversão para PDF. Pode misturar diferentes formatos na mesma conversão.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Can I convert multiple images at once?</strong><br>Yes. You can upload as many images as you need and they will all be merged into a single PDF, in the order you choose. There is no limit on the number of images.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Posso converter múltiplas imagens de uma vez?</strong><br>Sim. Pode carregar quantas imagens precisar e todas serão combinadas num único PDF, na ordem que escolher. Não há limite no número de imagens.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Does it work offline?</strong><br>Once the page has loaded, the JPG to PDF and PDF to JPG converters work fully offline. The AI-powered tools require an internet connection to process requests.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Funciona offline?</strong><br>Após a página ter carregado, os conversores JPG para PDF e PDF para JPG funcionam completamente offline. As ferramentas com IA requerem ligação à internet.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">What is the maximum file size?</strong><br>There is no server-imposed file size limit because everything runs in your browser. Very large files may take longer to process depending on your device's performance.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Qual é o tamanho máximo de ficheiro?</strong><br>Não há limite de tamanho de ficheiro imposto pelo servidor porque tudo corre no seu browser. Ficheiros muito grandes podem demorar mais a processar dependendo do desempenho do seu dispositivo.</p>
 
-  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">What other tools does PDFreeto offer?</strong><br>Besides JPG to PDF conversion, PDFreeto offers <a href="/pt/compress-pdf.html" style="color:var(--accent);text-decoration:none">Comprimir PDF</a>, <a href="/pt/compress-jpg.html" style="color:var(--accent);text-decoration:none">Comprimir JPG</a>, <a href="/pt/merge-pdf.html" style="color:var(--accent);text-decoration:none">Juntar PDF</a>, <a href="/pt/merge-jpg.html" style="color:var(--accent);text-decoration:none">Juntar JPG</a>, <a href="/pt/pdf-to-word.html" style="color:var(--accent);text-decoration:none">Word para PDF</a>, <a href="/pt/tts.html" style="color:var(--accent);text-decoration:none">Texto para Voz</a>, <a href="/pt/pdf-ai.html" style="color:var(--accent);text-decoration:none">PDF AI</a>, <a href="/pt/social-media.html" style="color:var(--accent);text-decoration:none">Social Media copy</a> and <a href="/pt/seo.html" style="color:var(--accent);text-decoration:none">SEO analysis</a> — all completely free.</p>
+  <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:12px"><strong style="color:var(--text)">Que outras ferramentas oferece o PDFreeto?</strong><br>Besides JPG to PDF conversion, PDFreeto offers <a href="/pt/compress-pdf.html" style="color:var(--accent);text-decoration:none">Comprimir PDF</a>, <a href="/pt/compress-jpg.html" style="color:var(--accent);text-decoration:none">Comprimir JPG</a>, <a href="/pt/merge-pdf.html" style="color:var(--accent);text-decoration:none">Juntar PDF</a>, <a href="/pt/merge-jpg.html" style="color:var(--accent);text-decoration:none">Juntar JPG</a>, <a href="/pt/pdf-to-word.html" style="color:var(--accent);text-decoration:none">Word para PDF</a>, <a href="/pt/tts.html" style="color:var(--accent);text-decoration:none">Texto para Voz</a>, <a href="/pt/pdf-ai.html" style="color:var(--accent);text-decoration:none">PDF AI</a>, <a href="/pt/social-media.html" style="color:var(--accent);text-decoration:none">Social Media copy</a> and <a href="/pt/seo.html" style="color:var(--accent);text-decoration:none">SEO analysis</a> — all completely free.</p>
 
 </div>
 <footer>
@@ -951,7 +951,7 @@ document.addEventListener('click', function(e) {
     let doc = null;
 
     for (let i = 0; i < jpgFiles.length; i++) {
-      progText.textContent = `Processing image ${i + 1} of ${jpgFiles.length}...`;
+      progText.textContent = `A processar imagem ${i + 1} of ${jpgFiles.length}...`;
       fill.style.width = ((i / jpgFiles.length) * 100) + '%';
 
       const imgData = await fileToDataURL(jpgFiles[i]);
@@ -989,7 +989,7 @@ document.addEventListener('click', function(e) {
     }
 
     fill.style.width = '100%';
-    progText.textContent = 'Generating PDF...';
+    progText.textContent = 'A gerar PDF...';
     await sleep(100);
 
     const blob = doc.output('blob');
@@ -1194,7 +1194,7 @@ document.addEventListener('click', function(e) {
     let doc = null;
 
     for (let i = 1; i <= numPages; i++) {
-      progText.textContent = `Processing page ${i} of ${numPages}...`;
+      progText.textContent = `A processar página ${i} of ${numPages}...`;
       fill.style.width = ((i - 1) / numPages * 90) + '%';
 
       const page = await pdfDoc.getPage(i);
