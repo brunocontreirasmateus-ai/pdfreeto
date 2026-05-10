@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDFreeto — JPG ↔ PDF</title>
+<title>Free JPG to PDF Converter Online | PDFreeto - Fast & Secure</title>
+<meta name="description" content="Convert JPG to PDF and PDF to JPG for free. 100% browser-based converter - your files never leave your device. Also supports PNG, WEBP, compression, and merging.">
+<link rel="canonical" href="https://pdfreeto.com/">
+<meta property="og:title" content="Free JPG to PDF Converter Online | PDFreeto">
+<meta property="og:description" content="Convert JPG to PDF and PDF to JPG for free. 100% browser-based - your files never leave your device.">
+<meta property="og:url" content="https://pdfreeto.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free JPG to PDF Converter Online | PDFreeto">
+<meta name="twitter:description" content="Convert JPG to PDF and PDF to JPG for free. 100% browser-based - your files never leave your device.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -83,13 +92,18 @@
     padding: 60px 40px 40px;
   }
 
-  .hero h1 {
+  .logo-display {
     font-family: var(--display);
     font-size: clamp(4rem, 12vw, 9rem);
     line-height: 0.92;
     letter-spacing: 0.02em;
     color: var(--text);
-    position: relative;
+  }
+  .hero h1 {
+    font-size: 0;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
   }
 
   .hero h1 .hl { color: var(--accent); }
@@ -569,7 +583,8 @@
 </header>
 
 <div class="hero">
-  <h1><span class="hl">PDF</span>reeto</h1>
+  <div class="logo-display"><span class="hl">PDF</span>reeto</div>
+  <h1>Free JPG to PDF Converter — Convert Images to PDF Online</h1>
   <p>The best tool to convert JPG to PDF for free</p>
 </div>
 
@@ -582,6 +597,7 @@
 
   <!-- JPG to PDF -->
   <div class="panel active" id="panel-jpg2pdf">
+    <h2 style="font-family:var(--display);font-size:1.4rem;letter-spacing:0.05em;color:var(--text);margin-bottom:16px;">Convert JPG to PDF</h2>
     <div class="drop-zone" id="dz-jpg" onclick="document.getElementById('input-jpg').click()">
       <input type="file" id="input-jpg" accept="image/jpeg,image/jpg,image/png,image/webp" multiple>
       <span class="dz-icon">🖼</span>
@@ -641,6 +657,7 @@
 
   <!-- PDF to JPG -->
   <div class="panel" id="panel-pdf2jpg">
+    <h2 style="font-family:var(--display);font-size:1.4rem;letter-spacing:0.05em;color:var(--text);margin-bottom:16px;">Convert PDF to JPG</h2>
     <div class="drop-zone" id="dz-pdf" onclick="document.getElementById('input-pdf').click()">
       <input type="file" id="input-pdf" accept="application/pdf" multiple>
       <span class="dz-icon">📄</span>
