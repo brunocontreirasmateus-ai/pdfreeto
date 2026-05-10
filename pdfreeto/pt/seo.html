@@ -36,20 +36,20 @@
   header { position: relative; z-index: 10; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
   .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
   .logo span { color: var(--accent); }
-  .main-nav { display: none; align-items: center; gap: 4px; }
+  
   .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
   .main-nav a:hover { color: var(--accent); border-color: var(--border); }
   .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  
   .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
   .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger.open span:nth-child(2) { opacity: 0; }
   .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   @media (max-width: 1200px) {
-    .main-nav { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+    
     .main-nav.open { display: flex; }
     .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
+    
   }
   .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
   .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
@@ -128,51 +128,84 @@
     .score-header { flex-direction: column; text-align: center; }
   }
 
-  /* Lang switcher */
-  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
-  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  
   /* Nav */
-  .main-nav { display: none; align-items: center; gap: 4px; }
+  
   .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
   .main-nav a:hover { color: var(--accent); border-color: var(--border); }
   .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  
   .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
   .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger.open span:nth-child(2) { opacity: 0; }
   .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
   .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
+
+  /* ── 2-ROW HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-bottom {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 40px;
+    overflow-x: auto;
+    gap: 0;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 5px 10px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  .nav-link {
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; padding: 12px 14px;
+    border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
+  }
+  .nav-link:hover { color: var(--text); }
+  .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
+  }
 </style>
 </head>
 <body>
 <header>
-  <a href="/pt/" class="logo">PDF<span>reeto</span></a>
-  <nav class="main-nav" id="main-nav">
-    <a href="/pt/">JPG ↔ PDF</a>
-    <a href="/pt/pdf-to-word.html">Word para PDF</a>
-    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
-    <a href="/pt/compress-jpg.html">Comprimir JPG</a>
-    <a href="/pt/merge-jpg.html">Juntar JPG</a>
-    <a href="/pt/merge-pdf.html">Juntar PDF</a>
-    <a href="/pt/tts.html">Texto para Voz</a>
-    <a href="/pt/pdf-ai.html">PDF AI</a>
-    <a href="/pt/social-media.html">Redes Sociais</a>
-    <a href="/pt/seo.html">SEO</a>
-  </nav>
-  <div class="lang-switcher">
-    <a href="/seo.html" class="lang-btn">EN</a>
-    <a href="/pt/seo.html" class="lang-btn  active">PT</a>
-    <a href="/br/seo.html" class="lang-btn">BR</a>
-    <a href="/es/seo.html" class="lang-btn">ES</a>
-    <a href="/fr/seo.html" class="lang-btn">FR</a>
-    <a href="/de/seo.html" class="lang-btn">DE</a>
+  <div class="header-top">
+    <a href="/pt/" class="logo">PDF<span>reeto</span></a>
+    <div class="lang-switcher">
+      <a href="/seo.html" class="lang-btn">EN</a>
+      <a href="/pt/seo.html" class="lang-btn  active">PT</a>
+      <a href="/br/seo.html" class="lang-btn">BR</a>
+      <a href="/es/seo.html" class="lang-btn">ES</a>
+      <a href="/fr/seo.html" class="lang-btn">FR</a>
+      <a href="/de/seo.html" class="lang-btn">DE</a>
+    </div>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="header-bottom">
+    <a href="/pt/" class="nav-link">JPG ↔ PDF</a>
+    <a href="/pt/pdf-to-word.html" class="nav-link">Word para PDF</a>
+    <a href="/pt/compress-pdf.html" class="nav-link">Comprimir PDF</a>
+    <a href="/pt/compress-jpg.html" class="nav-link">Comprimir JPG</a>
+    <a href="/pt/merge-jpg.html" class="nav-link">Juntar JPG</a>
+    <a href="/pt/merge-pdf.html" class="nav-link">Juntar PDF</a>
+    <a href="/pt/tts.html" class="nav-link">Texto para Voz</a>
+    <a href="/pt/pdf-ai.html" class="nav-link">PDF AI</a>
+    <a href="/pt/social-media.html" class="nav-link">Redes Sociais</a>
+    <a href="/pt/seo.html" class="nav-link active">SEO</a>
+  </div>
 </header>
 
 <div class="hero">
@@ -183,12 +216,12 @@
 <div class="content">
   <div class="url-row">
     <input class="url-input" id="url-input" type="url" placeholder="https://yourwebsite.com/page" onkeydown="if(event.key==='Enter')analyse()">
-    <button class="url-btn" onclick="analyse()">ANALYSE</button>
+    <button class="url-btn" onclick="analyse()">ANALISAR</button>
   </div>
 
   <div class="loading-state" id="loading">
     <div class="spinner"></div>
-    <p id="loading-text">Fetching page...</p>
+    <p id="loading-text">A obter a página...</p>
   </div>
 
   <div class="score-section" id="score-section">
@@ -210,7 +243,7 @@
     <div class="checks-section" id="checks-section"></div>
 
     <div class="ai-analysis" id="ai-analysis" style="display:none">
-      <div class="ai-label">🤖 AI SEO Recommendations</div>
+      <div class="ai-label">🤖 Recomendações SEO com IA</div>
       <div class="ai-body streaming" id="ai-body"></div>
     </div>
   </div>
@@ -249,10 +282,7 @@
 </footer>
 
 <script>
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.main-nav a').forEach(a => {
@@ -392,7 +422,7 @@
         </div>
         <div class="check-body">
           <p>${c.problem}</p>
-          ${c.fix ? `<div class="fix-label">Suggested Fix</div><div class="fix">${c.fix}</div><button class="copy-fix-btn" onclick="copyFix(this)">Copy fix</button>` : ''}
+          ${c.fix ? `<div class="fix-label">Suggested Fix</div><div class="fix">${c.fix}</div><button class="copy-fix-btn" onclick="copyFix(this)">Copiar correção</button>` : ''}
         </div>`;
       container.appendChild(item);
     });
@@ -406,7 +436,7 @@
     const fix = btn.previousElementSibling.textContent;
     navigator.clipboard.writeText(fix).then(() => {
       btn.textContent = 'Copied!';
-      setTimeout(() => btn.textContent = 'Copy fix', 1500);
+      setTimeout(() => btn.textContent = 'Copiar correção', 1500);
     });
   }
 
@@ -428,7 +458,7 @@
     circle.style.stroke = color;
     num.style.color = color;
     num.textContent = score;
-    label.textContent = score >= 80 ? 'Strong SEO' : score >= 60 ? 'Needs Improvement' : 'Critical Issues';
+    label.textContent = score >= 80 ? 'SEO Forte' : score >= 60 ? 'Precisa de Melhorias' : 'Problemas Críticos';
     desc.textContent = score >= 80 ? 'Your page is well-optimised.' : score >= 60 ? 'Several improvements available.' : 'Multiple critical issues found.';
   }
 
@@ -461,11 +491,11 @@
 
     document.getElementById('score-section').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
-    document.getElementById('loading-text').textContent = 'Fetching page...';
+    document.getElementById('loading-text').textContent = 'A obter a página...';
 
     try {
       const html = await fetchPage(url);
-      document.getElementById('loading-text').textContent = 'Running SEO checks...';
+      document.getElementById('loading-text').textContent = 'A executar verificações SEO...';
       const meta = extractMeta(html, url);
       const checks = runChecks(meta, url);
       const score = calcScore(checks);

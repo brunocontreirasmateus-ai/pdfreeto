@@ -36,20 +36,20 @@
   header { position: relative; z-index: 10; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
   .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
   .logo span { color: var(--accent); }
-  .main-nav { display: none; align-items: center; gap: 4px; }
+  
   .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
   .main-nav a:hover { color: var(--accent); border-color: var(--border); }
   .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  
   .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
   .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger.open span:nth-child(2) { opacity: 0; }
   .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   @media (max-width: 1200px) {
-    .main-nav { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+    
     .main-nav.open { display: flex; }
     .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
+    
   }
   .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
   .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
@@ -131,67 +131,100 @@
     .ptab { padding: 10px 14px; font-size: 0.65rem; }
   }
 
-  /* Lang switcher */
-  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
-  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  
   /* Nav */
-  .main-nav { display: none; align-items: center; gap: 4px; }
+  
   .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
   .main-nav a:hover { color: var(--accent); border-color: var(--border); }
   .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  
   .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
   .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger.open span:nth-child(2) { opacity: 0; }
   .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
   .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
+
+  /* ── 2-ROW HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-bottom {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 40px;
+    overflow-x: auto;
+    gap: 0;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 5px 10px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  .nav-link {
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; padding: 12px 14px;
+    border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
+  }
+  .nav-link:hover { color: var(--text); }
+  .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
+  }
 </style>
 </head>
 <body>
 <header>
-  <a href="/pt/" class="logo">PDF<span>reeto</span></a>
-  <nav class="main-nav" id="main-nav">
-    <a href="/pt/">JPG ↔ PDF</a>
-    <a href="/pt/pdf-to-word.html">Word para PDF</a>
-    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
-    <a href="/pt/compress-jpg.html">Comprimir JPG</a>
-    <a href="/pt/merge-jpg.html">Juntar JPG</a>
-    <a href="/pt/merge-pdf.html">Juntar PDF</a>
-    <a href="/pt/tts.html">Texto para Voz</a>
-    <a href="/pt/pdf-ai.html">PDF AI</a>
-    <a href="/pt/social-media.html">Redes Sociais</a>
-    <a href="/pt/seo.html">SEO</a>
-  </nav>
-  <div class="lang-switcher">
-    <a href="/social-media.html" class="lang-btn">EN</a>
-    <a href="/pt/social-media.html" class="lang-btn  active">PT</a>
-    <a href="/br/social-media.html" class="lang-btn">BR</a>
-    <a href="/es/social-media.html" class="lang-btn">ES</a>
-    <a href="/fr/social-media.html" class="lang-btn">FR</a>
-    <a href="/de/social-media.html" class="lang-btn">DE</a>
+  <div class="header-top">
+    <a href="/pt/" class="logo">PDF<span>reeto</span></a>
+    <div class="lang-switcher">
+      <a href="/social-media.html" class="lang-btn">EN</a>
+      <a href="/pt/social-media.html" class="lang-btn  active">PT</a>
+      <a href="/br/social-media.html" class="lang-btn">BR</a>
+      <a href="/es/social-media.html" class="lang-btn">ES</a>
+      <a href="/fr/social-media.html" class="lang-btn">FR</a>
+      <a href="/de/social-media.html" class="lang-btn">DE</a>
+    </div>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="header-bottom">
+    <a href="/pt/" class="nav-link">JPG ↔ PDF</a>
+    <a href="/pt/pdf-to-word.html" class="nav-link">Word para PDF</a>
+    <a href="/pt/compress-pdf.html" class="nav-link">Comprimir PDF</a>
+    <a href="/pt/compress-jpg.html" class="nav-link">Comprimir JPG</a>
+    <a href="/pt/merge-jpg.html" class="nav-link">Juntar JPG</a>
+    <a href="/pt/merge-pdf.html" class="nav-link">Juntar PDF</a>
+    <a href="/pt/tts.html" class="nav-link">Texto para Voz</a>
+    <a href="/pt/pdf-ai.html" class="nav-link">PDF AI</a>
+    <a href="/pt/social-media.html" class="nav-link active">Redes Sociais</a>
+    <a href="/pt/seo.html" class="nav-link">SEO</a>
+  </div>
 </header>
 
 <div class="hero">
-  <h1>Social<br><span class="hl">Media</span></h1>
+  <h1><span class="hl">Redes</span><br>Sociais</h1>
   <p>Cole um URL · Obtenha copy IA para cada plataforma · Grátis</p>
 </div>
 
 <div class="content">
   <div class="url-row">
     <input class="url-input" id="url-input" type="url" placeholder="https://yourwebsite.com/article" onkeydown="if(event.key==='Enter')generate()">
-    <button class="url-btn" onclick="generate()">GENERATE</button>
+    <button class="url-btn" onclick="generate()">GERAR</button>
   </div>
 
   <div class="loading-state" id="loading">
     <div class="spinner"></div>
-    <p id="loading-text">Reading page content...</p>
+    <p id="loading-text">A ler conteúdo da página...</p>
   </div>
 
   <div id="results" style="display:none">
@@ -205,8 +238,8 @@
     <div class="copy-panels">
       <div class="copy-panel active" id="panel-instagram">
         <div class="panel-header">
-          <span class="panel-label">📸 Instagram Caption</span>
-          <button class="copy-btn" onclick="copyPanel('instagram')">Copy</button>
+          <span class="panel-label">📸 Legenda Instagram</span>
+          <button class="copy-btn" onclick="copyPanel('instagram')">Copiar</button>
         </div>
         <textarea class="copy-text" id="text-instagram" oninput="updateCount('instagram',2200)"></textarea>
         <div class="copy-meta"><span id="count-instagram">0 / 2200 chars</span><span>Max 2,200 characters</span></div>
@@ -214,24 +247,24 @@
       </div>
       <div class="copy-panel" id="panel-facebook">
         <div class="panel-header">
-          <span class="panel-label">👍 Facebook Post</span>
-          <button class="copy-btn" onclick="copyPanel('facebook')">Copy</button>
+          <span class="panel-label">👍 Publicação Facebook</span>
+          <button class="copy-btn" onclick="copyPanel('facebook')">Copiar</button>
         </div>
         <textarea class="copy-text" id="text-facebook" oninput="updateCount('facebook',63206)"></textarea>
         <div class="copy-meta"><span id="count-facebook">0 chars</span><span>Recommended: under 80 words</span></div>
       </div>
       <div class="copy-panel" id="panel-linkedin">
         <div class="panel-header">
-          <span class="panel-label">💼 LinkedIn Post</span>
-          <button class="copy-btn" onclick="copyPanel('linkedin')">Copy</button>
+          <span class="panel-label">💼 Publicação LinkedIn</span>
+          <button class="copy-btn" onclick="copyPanel('linkedin')">Copiar</button>
         </div>
         <textarea class="copy-text" id="text-linkedin" oninput="updateCount('linkedin',3000)" style="min-height:200px"></textarea>
         <div class="copy-meta"><span id="count-linkedin">0 / 3000 chars</span><span>Max 3,000 characters</span></div>
       </div>
       <div class="copy-panel" id="panel-tiktok">
         <div class="panel-header">
-          <span class="panel-label">🎵 TikTok Caption</span>
-          <button class="copy-btn" onclick="copyPanel('tiktok')">Copy</button>
+          <span class="panel-label">🎵 Legenda TikTok</span>
+          <button class="copy-btn" onclick="copyPanel('tiktok')">Copiar</button>
         </div>
         <textarea class="copy-text" id="text-tiktok" oninput="updateCount('tiktok',2200)"></textarea>
         <div class="copy-meta"><span id="count-tiktok">0 / 2200 chars</span><span>Max 2,200 characters</span></div>
@@ -274,10 +307,7 @@
 </footer>
 
 <script>
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.main-nav a').forEach(a => {
@@ -347,12 +377,12 @@
 
     document.getElementById('results').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
-    document.getElementById('loading-text').textContent = 'Reading page content...';
+    document.getElementById('loading-text').textContent = 'A ler conteúdo da página...';
 
     try {
       const page = await fetchPageContent(url);
 
-      document.getElementById('loading-text').textContent = 'Writing social media copy...';
+      document.getElementById('loading-text').textContent = 'A criar copy para redes sociais...';
 
       const context = `Page Title: ${page.title}\nMeta Description: ${page.desc}\nURL: ${page.url}\n\nPage Content:\n${page.text}`;
 
@@ -410,7 +440,7 @@ ${context}`;
   function renderHashtags(p, tags) {
     const wrap = document.getElementById('hashtags-' + p);
     if (!wrap || !tags.length) return;
-    wrap.innerHTML = `<div class="hashtags-label">Hashtags (click to copy)</div><div class="hashtags">${tags.map(t => `<span class="htag" onclick="copyTag(this)">#${t.replace(/^#/,'')}</span>`).join('')}</div>`;
+    wrap.innerHTML = `<div class="hashtags-label">Hashtags (clique para copiar)</div><div class="hashtags">${tags.map(t => `<span class="htag" onclick="copyTag(this)">#${t.replace(/^#/,'')}</span>`).join('')}</div>`;
   }
 
   function copyTag(el) {

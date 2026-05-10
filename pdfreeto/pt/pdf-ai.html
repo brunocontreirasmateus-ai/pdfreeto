@@ -40,20 +40,20 @@
   header { position: relative; z-index: 10; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
   .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
   .logo span { color: var(--accent); }
-  .main-nav { display: none; align-items: center; gap: 4px; }
+  
   .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
   .main-nav a:hover { color: var(--accent); border-color: var(--border); }
   .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  
   .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
   .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger.open span:nth-child(2) { opacity: 0; }
   .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   @media (max-width: 1200px) {
-    .main-nav { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+    
     .main-nav.open { display: flex; }
     .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
+    
   }
 
   .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
@@ -113,7 +113,7 @@
   }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-  /* Topics chips */
+  /* Tópicos chips */
   .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
   .topic-chip { padding: 6px 14px; border: 1px solid var(--border); font-family: var(--mono); font-size: 0.72rem; color: var(--text); letter-spacing: 0.06em; background: var(--surface2); }
 
@@ -163,56 +163,89 @@
     .actions { grid-template-columns: repeat(2, 1fr); }
   }
 
-  /* Lang switcher */
-  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
-  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  
   /* Nav */
-  .main-nav { display: none; align-items: center; gap: 4px; }
+  
   .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
   .main-nav a:hover { color: var(--accent); border-color: var(--border); }
   .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  
   .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
   .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger.open span:nth-child(2) { opacity: 0; }
   .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
   .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
+
+  /* ── 2-ROW HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-bottom {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 40px;
+    overflow-x: auto;
+    gap: 0;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 5px 10px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  .nav-link {
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; padding: 12px 14px;
+    border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
+  }
+  .nav-link:hover { color: var(--text); }
+  .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <a href="/pt/" class="logo">PDF<span>reeto</span></a>
-  <nav class="main-nav" id="main-nav">
-    <a href="/pt/">JPG ↔ PDF</a>
-    <a href="/pt/pdf-to-word.html">Word para PDF</a>
-    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
-    <a href="/pt/compress-jpg.html">Comprimir JPG</a>
-    <a href="/pt/merge-jpg.html">Juntar JPG</a>
-    <a href="/pt/merge-pdf.html">Juntar PDF</a>
-    <a href="/pt/tts.html">Texto para Voz</a>
-    <a href="/pt/pdf-ai.html">PDF AI</a>
-    <a href="/pt/social-media.html">Redes Sociais</a>
-    <a href="/pt/seo.html">SEO</a>
-  </nav>
-  <div class="lang-switcher">
-    <a href="/pdf-ai.html" class="lang-btn">EN</a>
-    <a href="/pt/pdf-ai.html" class="lang-btn  active">PT</a>
-    <a href="/br/pdf-ai.html" class="lang-btn">BR</a>
-    <a href="/es/pdf-ai.html" class="lang-btn">ES</a>
-    <a href="/fr/pdf-ai.html" class="lang-btn">FR</a>
-    <a href="/de/pdf-ai.html" class="lang-btn">DE</a>
+  <div class="header-top">
+    <a href="/pt/" class="logo">PDF<span>reeto</span></a>
+    <div class="lang-switcher">
+      <a href="/pdf-ai.html" class="lang-btn">EN</a>
+      <a href="/pt/pdf-ai.html" class="lang-btn  active">PT</a>
+      <a href="/br/pdf-ai.html" class="lang-btn">BR</a>
+      <a href="/es/pdf-ai.html" class="lang-btn">ES</a>
+      <a href="/fr/pdf-ai.html" class="lang-btn">FR</a>
+      <a href="/de/pdf-ai.html" class="lang-btn">DE</a>
+    </div>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="header-bottom">
+    <a href="/pt/" class="nav-link">JPG ↔ PDF</a>
+    <a href="/pt/pdf-to-word.html" class="nav-link">Word para PDF</a>
+    <a href="/pt/compress-pdf.html" class="nav-link">Comprimir PDF</a>
+    <a href="/pt/compress-jpg.html" class="nav-link">Comprimir JPG</a>
+    <a href="/pt/merge-jpg.html" class="nav-link">Juntar JPG</a>
+    <a href="/pt/merge-pdf.html" class="nav-link">Juntar PDF</a>
+    <a href="/pt/tts.html" class="nav-link">Texto para Voz</a>
+    <a href="/pt/pdf-ai.html" class="nav-link active">PDF AI</a>
+    <a href="/pt/social-media.html" class="nav-link">Redes Sociais</a>
+    <a href="/pt/seo.html" class="nav-link">SEO</a>
+  </div>
 </header>
 
 <div class="hero">
-  <h1><span class="hl">PDF</span><br>AI</h1>
+  <h1>PDF <span class="hl2">AI</span></h1>
   <p>Resumir · Tópicos · Q&A · Ouvir — com IA Claude</p>
 </div>
 
@@ -237,11 +270,11 @@
   <div class="actions">
     <button class="action-btn" id="btn-summarize" onclick="runAction('summarize')" disabled>
       <span class="ab-icon">📋</span>
-      <span class="ab-label">Summarize</span>
+      <span class="ab-label">Resumir</span>
     </button>
     <button class="action-btn" id="btn-topics" onclick="runAction('topics')" disabled>
       <span class="ab-icon">🏷</span>
-      <span class="ab-label">Topics</span>
+      <span class="ab-label">Tópicos</span>
     </button>
     <button class="action-btn" id="btn-qa" onclick="showQA()" disabled>
       <span class="ab-icon">💬</span>
@@ -249,7 +282,7 @@
     </button>
     <button class="action-btn" id="btn-tts" onclick="runAction('tts')" disabled>
       <span class="ab-icon">🔊</span>
-      <span class="ab-label">Summarize + TTS</span>
+      <span class="ab-label">Resumir + TTS</span>
     </button>
   </div>
 
@@ -258,8 +291,8 @@
     <div class="result-header">
       <span class="result-tag" id="result-tag">Summary</span>
       <div class="result-actions">
-        <button class="icon-btn" onclick="copyResult()">Copy</button>
-        <button class="icon-btn" id="tts-btn" onclick="speakResult()" style="display:none">▶ Listen</button>
+        <button class="icon-btn" onclick="copyResult()">Copiar</button>
+        <button class="icon-btn" id="tts-btn" onclick="speakResult()" style="display:none">▶ Ouvir</button>
       </div>
     </div>
     <div class="result-body" id="result-body"></div>
@@ -273,12 +306,12 @@
   <!-- Q&A panel -->
   <div class="result-panel" id="qa-panel">
     <div class="result-header">
-      <span class="result-tag">💬 Ask a question about your PDF</span>
+      <span class="result-tag">💬 Faça uma pergunta sobre o seu PDF</span>
     </div>
     <div class="qa-wrap">
       <div class="qa-input-row">
-        <input class="qa-input" id="qa-input" type="text" placeholder="e.g. What are the main conclusions?" onkeydown="if(event.key==='Enter')sendQuestion()">
-        <button class="qa-send" id="qa-send-btn" onclick="sendQuestion()">ASK</button>
+        <input class="qa-input" id="qa-input" type="text" placeholder="ex: Quais são as principais conclusões?" onkeydown="if(event.key==='Enter')sendQuestion()">
+        <button class="qa-send" id="qa-send-btn" onclick="sendQuestion()">PERGUNTAR</button>
       </div>
       <div class="qa-history" id="qa-history"></div>
     </div>
@@ -288,7 +321,7 @@
     <h2>AI-Powered PDF Analysis</h2>
     <p>PDFreeto's PDF AI uses Claude to instantly analyse any PDF document. Upload a report, paper, contract or book and get a clear summary, a list of key topics, or ask any question about the content in plain language.</p>
     <h2>What Can PDF AI Do?</h2>
-    <p>Summarize long documents in seconds, extract the main topics as tags, ask specific questions and get precise answers, or have the summary read aloud with Text-to-Speech. All processing happens through a secure API — your PDF content is only used to generate your answer and never stored.</p>
+    <p>Resumir long documents in seconds, extract the main topics as tags, ask specific questions and get precise answers, or have the summary read aloud with Text-to-Speech. All processing happens through a secure API — your PDF content is only used to generate your answer and never stored.</p>
   </div>
 </div>
 
@@ -321,10 +354,7 @@
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
   // ── NAV ──
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.main-nav a').forEach(a => {
@@ -338,7 +368,7 @@
   let currentSummary = '';
   let ttsUtterance = null;
   let ttsSpeaking = false;
-  let ttsPaused = false;
+  let ttsEm pausa = false;
 
   // ── FILE LOADING ──
   const dz = document.getElementById('dz');
@@ -425,7 +455,7 @@
     const body = document.getElementById('result-body');
     const tag = document.getElementById('result-tag');
 
-    const labels = { summarize: '📋 Summary', topics: '🏷 Key Topics', tts: '🔊 Spoken Summary' };
+    const labels = { summarize: '📋 Summary', topics: '🏷 Key Tópicos', tts: '🔊 Spoken Summary' };
     tag.textContent = labels[type];
     body.textContent = '';
     body.classList.add('streaming');
@@ -547,7 +577,7 @@
       }
     };
     ttsUtterance.onstart = () => {
-      ttsSpeaking = true; ttsPaused = false;
+      ttsSpeaking = true; ttsEm pausa = false;
       document.getElementById('tts-bar').style.display = 'flex';
       document.getElementById('tts-play-btn').textContent = '⏸';
     };
@@ -562,19 +592,19 @@
   }
 
   function toggleTts() {
-    if (!ttsSpeaking && !ttsPaused) { speakResult(); return; }
-    if (ttsPaused) {
-      speechSynthesis.resume(); ttsPaused = false;
+    if (!ttsSpeaking && !ttsEm pausa) { speakResult(); return; }
+    if (ttsEm pausa) {
+      speechSynthesis.resume(); ttsEm pausa = false;
       document.getElementById('tts-play-btn').textContent = '⏸';
     } else {
-      speechSynthesis.pause(); ttsPaused = true;
+      speechSynthesis.pause(); ttsEm pausa = true;
       document.getElementById('tts-play-btn').textContent = '▶';
     }
   }
 
   function stopTts() {
     if (window.speechSynthesis) speechSynthesis.cancel();
-    ttsSpeaking = false; ttsPaused = false;
+    ttsSpeaking = false; ttsEm pausa = false;
     document.getElementById('tts-bar').style.display = 'none';
     document.getElementById('tts-fill').style.width = '0%';
   }

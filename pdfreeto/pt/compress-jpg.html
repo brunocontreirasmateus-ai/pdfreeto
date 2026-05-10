@@ -65,7 +65,7 @@
   .options { margin-top: 24px; padding: 20px; background: var(--surface); border: 1px solid var(--border); display: none; }
   .options-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
 
-  /* Quality slider */
+  /* Qualidade slider */
   .slider-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
   .opt-label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; min-width: 80px; }
   input[type="range"] { flex: 1; -webkit-appearance: none; height: 3px; background: var(--border); outline: none; }
@@ -73,7 +73,7 @@
   input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; background: var(--accent); border-radius: 50%; cursor: pointer; border: none; }
   .slider-val { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); min-width: 40px; text-align: right; }
 
-  /* Resize options */
+  /* Redimensionar options */
   .resize-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .resize-btn { padding: 10px 6px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-family: var(--mono); font-size: 0.7rem; cursor: pointer; text-align: center; transition: all 0.2s; }
   .resize-btn:hover { border-color: var(--accent); color: var(--text); }
@@ -119,114 +119,90 @@
     .preview-grid { grid-template-columns: 1fr; } .resize-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
-  /* ── NAV ── */
-  .main-nav {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .main-nav a {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    padding: 6px 10px;
-    border: 1px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
-  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: 1px solid var(--border);
-    padding: 8px 10px;
-    cursor: pointer;
-    z-index: 200;
-  }
-  .burger span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: var(--text);
-    transition: all 0.3s;
-  }
-  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .burger.open span:nth-child(2) { opacity: 0; }
-  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  @media (max-width: 1200px) {
-    .main-nav {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
-      align-items: stretch;
-      padding: 70px 20px 20px;
-      gap: 4px;
-      z-index: 100;
-    }
-    .main-nav.open { display: flex; }
-    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
-  }
-
-  /* Lang switcher */
-  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
-  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  
+  
   /* Nav */
-  .main-nav { display: none; align-items: center; gap: 4px; }
+  
   .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
   .main-nav a:hover { color: var(--accent); border-color: var(--border); }
   .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  
   .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
   .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger.open span:nth-child(2) { opacity: 0; }
   .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
   .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
+
+  /* ── 2-ROW HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-bottom {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 40px;
+    overflow-x: auto;
+    gap: 0;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 5px 10px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  .nav-link {
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; padding: 12px 14px;
+    border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
+  }
+  .nav-link:hover { color: var(--text); }
+  .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <a href="/pt/" class="logo">PDF<span>reeto</span></a>
-  <nav class="main-nav" id="main-nav">
-    <a href="/pt/">JPG ↔ PDF</a>
-    <a href="/pt/pdf-to-word.html">Word para PDF</a>
-    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
-    <a href="/pt/compress-jpg.html">Comprimir JPG</a>
-    <a href="/pt/merge-jpg.html">Juntar JPG</a>
-    <a href="/pt/merge-pdf.html">Juntar PDF</a>
-    <a href="/pt/tts.html">Texto para Voz</a>
-    <a href="/pt/pdf-ai.html">PDF AI</a>
-    <a href="/pt/social-media.html">Redes Sociais</a>
-    <a href="/pt/seo.html">SEO</a>
-  </nav>
-  <div class="lang-switcher">
-    <a href="/compress-jpg.html" class="lang-btn">EN</a>
-    <a href="/pt/compress-jpg.html" class="lang-btn  active">PT</a>
-    <a href="/br/compress-jpg.html" class="lang-btn">BR</a>
-    <a href="/es/compress-jpg.html" class="lang-btn">ES</a>
-    <a href="/fr/compress-jpg.html" class="lang-btn">FR</a>
-    <a href="/de/compress-jpg.html" class="lang-btn">DE</a>
+  <div class="header-top">
+    <a href="/pt/" class="logo">PDF<span>reeto</span></a>
+    <div class="lang-switcher">
+      <a href="/compress-jpg.html" class="lang-btn">EN</a>
+      <a href="/pt/compress-jpg.html" class="lang-btn  active">PT</a>
+      <a href="/br/compress-jpg.html" class="lang-btn">BR</a>
+      <a href="/es/compress-jpg.html" class="lang-btn">ES</a>
+      <a href="/fr/compress-jpg.html" class="lang-btn">FR</a>
+      <a href="/de/compress-jpg.html" class="lang-btn">DE</a>
+    </div>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="header-bottom">
+    <a href="/pt/" class="nav-link">JPG ↔ PDF</a>
+    <a href="/pt/pdf-to-word.html" class="nav-link">Word para PDF</a>
+    <a href="/pt/compress-pdf.html" class="nav-link">Comprimir PDF</a>
+    <a href="/pt/compress-jpg.html" class="nav-link active">Comprimir JPG</a>
+    <a href="/pt/merge-jpg.html" class="nav-link">Juntar JPG</a>
+    <a href="/pt/merge-pdf.html" class="nav-link">Juntar PDF</a>
+    <a href="/pt/tts.html" class="nav-link">Texto para Voz</a>
+    <a href="/pt/pdf-ai.html" class="nav-link">PDF AI</a>
+    <a href="/pt/social-media.html" class="nav-link">Redes Sociais</a>
+    <a href="/pt/seo.html" class="nav-link">SEO</a>
+  </div>
 </header>
 
 <div class="hero">
-  <h1><span class="hl">Compress</span><br>JPG</h1>
+  <h1><span class="hl">Comprimir</span><br>JPG</h1>
   <p>Reduza o tamanho das imagens · Grátis · Instantâneo · Sem upload necessário</p>
 </div>
 
@@ -245,22 +221,22 @@
     <div class="options-title">⚙ Compression Settings</div>
 
     <div class="slider-row">
-      <span class="opt-label">Quality</span>
+      <span class="opt-label">Qualidade</span>
       <input type="range" id="quality-slider" min="10" max="95" value="75" oninput="document.getElementById('quality-val').textContent=this.value+'%'">
       <span class="slider-val" id="quality-val">75%</span>
     </div>
 
-    <div class="opt-label" style="margin-bottom:8px">Resize</div>
+    <div class="opt-label" style="margin-bottom:8px">Redimensionar</div>
     <div class="resize-grid">
-      <div class="resize-btn active" onclick="setResize(this,1)">100%<br><span style="font-size:0.6rem;color:var(--muted)">Original</span></div>
-      <div class="resize-btn" onclick="setResize(this,0.75)">75%</div>
-      <div class="resize-btn" onclick="setResize(this,0.5)">50%</div>
-      <div class="resize-btn" onclick="setResize(this,0.25)">25%</div>
+      <div class="resize-btn active" onclick="setRedimensionar(this,1)">100%<br><span style="font-size:0.6rem;color:var(--muted)">Original</span></div>
+      <div class="resize-btn" onclick="setRedimensionar(this,0.75)">75%</div>
+      <div class="resize-btn" onclick="setRedimensionar(this,0.5)">50%</div>
+      <div class="resize-btn" onclick="setRedimensionar(this,0.25)">25%</div>
     </div>
   </div>
 
   <div class="preview-section" id="preview-sec">
-    <div class="preview-title">Preview (first image)</div>
+    <div class="preview-title">Pré-visualização (primeira imagem)</div>
     <div class="preview-grid">
       <div class="preview-card">
         <img id="prev-original" src="" alt="Original">
@@ -268,8 +244,8 @@
         <div class="preview-card-size" id="prev-orig-size">—</div>
       </div>
       <div class="preview-card">
-        <img id="prev-compressed" src="" alt="Compressed">
-        <div class="preview-card-label">Compressed</div>
+        <img id="prev-compressed" src="" alt="Comprimido">
+        <div class="preview-card-label">Comprimido</div>
         <div class="preview-card-size" id="prev-comp-size">—</div>
       </div>
     </div>
@@ -277,7 +253,7 @@
 
   <div class="progress-wrap" id="prog">
     <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
-    <div class="progress-text" id="prog-text">Compressing...</div>
+    <div class="progress-text" id="prog-text">A comprimir...</div>
   </div>
 
   <button class="convert-btn" id="btn-compress" onclick="compressImages()" disabled>COMPRIMIR IMAGENS</button>
@@ -291,7 +267,7 @@
     <h2 style="font-family:var(--display);font-size:1.6rem;letter-spacing:0.05em;color:var(--text);margin-bottom:12px">Como Comprimir Imagens JPG Gratuitamente</h2>
 <p style="font-size:0.9rem;color:var(--muted);line-height:1.7;margin-bottom:16px">O PDFreeto comprime as suas imagens JPG, PNG e WEBP diretamente no browser usando a API Canvas do HTML. Ajuste o slider de qualidade para equilibrar tamanho e qualidade visual, opcionalmente redimensione a imagem, e descarregue os ficheiros comprimidos instantaneamente.</p>
     <h2>Why Compress Images?</h2>
-    <p>Smaller images load faster on websites, take up less storage, and are easier to send by email. Compressing a JPG to 75% quality typically reduces file size by 50–70% with barely any visible difference — ideal for web publishing, social media, and sharing.</p>
+    <p>Smaller images load faster on websites, take up less storage, and are easier to send by email. A comprimir a JPG to 75% quality typically reduces file size by 50–70% with barely any visible difference — ideal for web publishing, social media, and sharing.</p>
   </div>
 
 </div>
@@ -335,7 +311,7 @@
 
   document.getElementById('quality-slider').addEventListener('input', updatePreview);
 
-  function setResize(el, val) {
+  function setRedimensionar(el, val) {
     resizeFactor = val;
     document.querySelectorAll('.resize-btn').forEach(b => b.classList.remove('active'));
     el.classList.add('active');
@@ -403,7 +379,7 @@
 
     for (let i = 0; i < imgFiles.length; i++) {
       const f = imgFiles[i];
-      progText.textContent = `Compressing ${f.name}...`;
+      progText.textContent = `A comprimir ${f.name}...`;
       fill.style.width = ((i / imgFiles.length) * 100) + '%';
 
       const dataUrl = await fileToDataURL(f);
@@ -450,10 +426,7 @@
 </script>
 
 <script>
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   // Mark active link
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';

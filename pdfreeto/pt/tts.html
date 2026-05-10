@@ -40,30 +40,7 @@
   .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
   .logo span { color: var(--accent); }
 
-  /* ── NAV ── */
-  .main-nav { display: none; align-items: center; gap: 4px; }
-  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
-  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
-  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
-  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
-  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .burger.open span:nth-child(2) { opacity: 0; }
-  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  @media (max-width: 1200px) {
-    .main-nav { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
-    .main-nav.open { display: flex; }
-    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
-  }
-
-  .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
-  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
-  .hero h1 .hl { color: var(--accent); }
-  .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-
-  .content { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; padding: 36px 40px 80px; }
-
+  
   /* Textarea */
   .textarea-wrap { position: relative; }
   textarea {
@@ -158,64 +135,97 @@
     .actions { flex-direction: column; }
   }
 
-  /* Lang switcher */
-  .lang-switcher { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-  .lang-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; padding: 4px 7px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
-  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  
   /* Nav */
-  .main-nav { display: none; align-items: center; gap: 4px; }
+  
   .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
   .main-nav a:hover { color: var(--accent); border-color: var(--border); }
   .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  
   .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
   .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger.open span:nth-child(2) { opacity: 0; }
   .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
   .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
+
+  /* ── 2-ROW HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-bottom {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 40px;
+    overflow-x: auto;
+    gap: 0;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 5px 10px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+  .nav-link {
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; padding: 12px 14px;
+    border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
+  }
+  .nav-link:hover { color: var(--text); }
+  .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <a href="/pt/" class="logo">PDF<span>reeto</span></a>
-  <nav class="main-nav" id="main-nav">
-    <a href="/pt/">JPG ↔ PDF</a>
-    <a href="/pt/pdf-to-word.html">Word para PDF</a>
-    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
-    <a href="/pt/compress-jpg.html">Comprimir JPG</a>
-    <a href="/pt/merge-jpg.html">Juntar JPG</a>
-    <a href="/pt/merge-pdf.html">Juntar PDF</a>
-    <a href="/pt/tts.html">Texto para Voz</a>
-    <a href="/pt/pdf-ai.html">PDF AI</a>
-    <a href="/pt/social-media.html">Redes Sociais</a>
-    <a href="/pt/seo.html">SEO</a>
-  </nav>
-  <div class="lang-switcher">
-    <a href="/tts.html" class="lang-btn">EN</a>
-    <a href="/pt/tts.html" class="lang-btn  active">PT</a>
-    <a href="/br/tts.html" class="lang-btn">BR</a>
-    <a href="/es/tts.html" class="lang-btn">ES</a>
-    <a href="/fr/tts.html" class="lang-btn">FR</a>
-    <a href="/de/tts.html" class="lang-btn">DE</a>
+  <div class="header-top">
+    <a href="/pt/" class="logo">PDF<span>reeto</span></a>
+    <div class="lang-switcher">
+      <a href="/tts.html" class="lang-btn">EN</a>
+      <a href="/pt/tts.html" class="lang-btn  active">PT</a>
+      <a href="/br/tts.html" class="lang-btn">BR</a>
+      <a href="/es/tts.html" class="lang-btn">ES</a>
+      <a href="/fr/tts.html" class="lang-btn">FR</a>
+      <a href="/de/tts.html" class="lang-btn">DE</a>
+    </div>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="header-bottom">
+    <a href="/pt/" class="nav-link">JPG ↔ PDF</a>
+    <a href="/pt/pdf-to-word.html" class="nav-link">Word para PDF</a>
+    <a href="/pt/compress-pdf.html" class="nav-link">Comprimir PDF</a>
+    <a href="/pt/compress-jpg.html" class="nav-link">Comprimir JPG</a>
+    <a href="/pt/merge-jpg.html" class="nav-link">Juntar JPG</a>
+    <a href="/pt/merge-pdf.html" class="nav-link">Juntar PDF</a>
+    <a href="/pt/tts.html" class="nav-link active">Texto para Voz</a>
+    <a href="/pt/pdf-ai.html" class="nav-link">PDF AI</a>
+    <a href="/pt/social-media.html" class="nav-link">Redes Sociais</a>
+    <a href="/pt/seo.html" class="nav-link">SEO</a>
+  </div>
 </header>
 
 <div class="hero">
-  <h1>Text to<br><span class="hl">Speech</span></h1>
+  <h1><span class="hl">Texto para</span><br>Voz</h1>
   <p>Escreva ou cole texto · Escolha a voz · Ouça ou descarregue · Grátis</p>
 </div>
 
 <div class="content">
 
   <div class="textarea-wrap">
-    <textarea id="tts-input" placeholder="Type or paste your text here..." oninput="onTextInput()"></textarea>
-    <div class="char-count">Characters: <span id="char-count">0</span></div>
+    <textarea id="tts-input" placeholder="Escreva ou cole o seu texto aqui..." oninput="onTextInput()"></textarea>
+    <div class="char-count">Caracteres: <span id="char-count">0</span></div>
   </div>
 
   <div class="no-support" id="no-support">
@@ -223,25 +233,25 @@
   </div>
 
   <div class="options" id="opts">
-    <div class="options-title">⚙ Voice Settings</div>
+    <div class="options-title">⚙ Definições de Voz</div>
     <div class="opts-grid">
       <div class="opt-group">
-        <span class="opt-label">Voice</span>
+        <span class="opt-label">Voz</span>
         <select id="voice-select"></select>
       </div>
       <div class="opt-group">
-        <span class="opt-label">Language</span>
-        <select id="lang-select" onchange="filterVoices()"></select>
+        <span class="opt-label">Idioma</span>
+        <select id="lang-select" onchange="filterVozs()"></select>
       </div>
       <div class="opt-group">
-        <span class="opt-label">Speed — <span id="rate-val">1×</span></span>
+        <span class="opt-label">Velocidade — <span id="rate-val">1×</span></span>
         <div class="slider-row">
           <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1"
             oninput="document.getElementById('rate-val').textContent=this.value+'×'">
         </div>
       </div>
       <div class="opt-group">
-        <span class="opt-label">Pitch — <span id="pitch-val">1</span></span>
+        <span class="opt-label">Tom — <span id="pitch-val">1</span></span>
         <div class="slider-row">
           <input type="range" id="pitch" min="0.5" max="2" step="0.1" value="1"
             oninput="document.getElementById('pitch-val').textContent=parseFloat(this.value).toFixed(1)">
@@ -256,7 +266,7 @@
       <button class="play-btn" id="play-btn" onclick="togglePlay()">▶</button>
       <button class="stop-btn" onclick="stopSpeech()" title="Stop">■</button>
       <div class="player-info">
-        <div class="player-status" id="player-status">Ready</div>
+        <div class="player-status" id="player-status">Pronto</div>
         <div class="player-word" id="player-word"></div>
       </div>
     </div>
@@ -265,10 +275,10 @@
 
   <div class="actions">
     <button class="convert-btn" id="btn-speak" onclick="startSpeech()" disabled>
-      ▶ SPEAK
+      ▶ FALAR
     </button>
     <button class="dl-btn" id="btn-download" onclick="downloadAudio()" disabled title="Download audio (Chrome only)">
-      ⬇ AUDIO
+      ⬇ ÁUDIO
     </button>
   </div>
 
@@ -308,10 +318,7 @@
 
 <script>
   // ── NAV ──
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.main-nav a').forEach(a => {
@@ -323,7 +330,7 @@
   const synth = window.speechSynthesis;
   if (!synth) document.getElementById('no-support').style.display = 'block';
 
-  let allVoices = [];
+  let allVozs = [];
   let utterance = null;
   let speaking = false;
   let paused = false;
@@ -334,30 +341,30 @@
   let destination = null;
 
   // Load voices
-  function loadVoices() {
-    allVoices = synth.getVoices();
-    if (!allVoices.length) return;
+  function loadVozs() {
+    allVozs = synth.getVozs();
+    if (!allVozs.length) return;
 
     // Build language list
-    const langs = [...new Set(allVoices.map(v => v.lang))].sort();
+    const langs = [...new Set(allVozs.map(v => v.lang))].sort();
     const langSel = document.getElementById('lang-select');
     langSel.innerHTML = '<option value="">All languages</option>' +
       langs.map(l => `<option value="${l}">${l}</option>`).join('');
 
-    filterVoices();
+    filterVozs();
   }
 
-  function filterVoices() {
+  function filterVozs() {
     const lang = document.getElementById('lang-select').value;
-    const filtered = lang ? allVoices.filter(v => v.lang === lang) : allVoices;
+    const filtered = lang ? allVozs.filter(v => v.lang === lang) : allVozs;
     const sel = document.getElementById('voice-select');
     sel.innerHTML = filtered.map((v, i) =>
-      `<option value="${allVoices.indexOf(v)}">${v.name} (${v.lang})</option>`
+      `<option value="${allVozs.indexOf(v)}">${v.name} (${v.lang})</option>`
     ).join('');
   }
 
-  synth.onvoiceschanged = loadVoices;
-  loadVoices();
+  synth.onvoiceschanged = loadVozs;
+  loadVozs();
 
   function onTextInput() {
     const txt = document.getElementById('tts-input').value;
@@ -392,7 +399,7 @@
     const pitch = parseFloat(document.getElementById('pitch').value);
 
     utterance = new SpeechSynthesisUtterance(text);
-    utterance.voice = allVoices[voiceIdx] || null;
+    utterance.voice = allVozs[voiceIdx] || null;
     utterance.rate = rate;
     utterance.pitch = pitch;
 
@@ -413,7 +420,7 @@
     utterance.onstart = () => {
       speaking = true; paused = false;
       document.getElementById('play-btn').textContent = '⏸';
-      document.getElementById('player-status').textContent = 'Speaking...';
+      document.getElementById('player-status').textContent = 'A falar...';
       document.getElementById('player').style.display = 'block';
       document.getElementById('btn-speak').textContent = '■ STOP';
       document.getElementById('btn-speak').onclick = stopSpeech;
@@ -422,10 +429,10 @@
     utterance.onend = () => {
       speaking = false; paused = false;
       document.getElementById('play-btn').textContent = '▶';
-      document.getElementById('player-status').textContent = 'Done';
+      document.getElementById('player-status').textContent = 'Concluído';
       document.getElementById('player-word').textContent = '';
       document.getElementById('prog-fill').style.width = '100%';
-      document.getElementById('btn-speak').textContent = '▶ SPEAK';
+      document.getElementById('btn-speak').textContent = '▶ FALAR';
       document.getElementById('btn-speak').onclick = startSpeech;
       renderTextDisplay(document.getElementById('tts-input').value, words.length);
     };
@@ -444,12 +451,12 @@
       synth.resume();
       paused = false;
       document.getElementById('play-btn').textContent = '⏸';
-      document.getElementById('player-status').textContent = 'Speaking...';
+      document.getElementById('player-status').textContent = 'A falar...';
     } else {
       synth.pause();
       paused = true;
       document.getElementById('play-btn').textContent = '▶';
-      document.getElementById('player-status').textContent = 'Paused';
+      document.getElementById('player-status').textContent = 'Em pausa';
     }
   }
 
@@ -457,10 +464,10 @@
     synth.cancel();
     speaking = false; paused = false;
     document.getElementById('play-btn').textContent = '▶';
-    document.getElementById('player-status').textContent = 'Stopped';
+    document.getElementById('player-status').textContent = 'Parado';
     document.getElementById('player-word').textContent = '';
     document.getElementById('prog-fill').style.width = '0%';
-    document.getElementById('btn-speak').textContent = '▶ SPEAK';
+    document.getElementById('btn-speak').textContent = '▶ FALAR';
     document.getElementById('btn-speak').onclick = startSpeech;
     renderTextDisplay(document.getElementById('tts-input').value, -1);
   }
@@ -492,7 +499,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url; a.download = 'speech.wav'; a.click();
-        btn.textContent = '⬇ AUDIO';
+        btn.textContent = '⬇ ÁUDIO';
         btn.disabled = false;
         audioCtx.close();
       };
@@ -504,16 +511,16 @@
       const pitch = parseFloat(document.getElementById('pitch').value);
 
       const utt = new SpeechSynthesisUtterance(text);
-      utt.voice = allVoices[voiceIdx] || null;
+      utt.voice = allVozs[voiceIdx] || null;
       utt.rate = rate;
       utt.pitch = pitch;
       utt.onend = () => { setTimeout(() => mediaRecorder.stop(), 300); };
-      utt.onerror = () => { mediaRecorder.stop(); btn.textContent = '⬇ AUDIO'; btn.disabled = false; };
+      utt.onerror = () => { mediaRecorder.stop(); btn.textContent = '⬇ ÁUDIO'; btn.disabled = false; };
 
       synth.speak(utt);
     } catch(e) {
       alert('Audio download failed: ' + e.message);
-      btn.textContent = '⬇ AUDIO';
+      btn.textContent = '⬇ ÁUDIO';
       btn.disabled = false;
     }
   }
