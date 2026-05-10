@@ -13,6 +13,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free JPG to PDF Converter Online | PDFreeto - Fast & Secure</title>
 <meta name="description" content="Convert JPG to PDF free online. Fast, secure, 100% local processing. Your files never leave your device. No signup needed.">
+<link rel="alternate" hreflang="en" href="https://pdfreeto.com/">
+<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/">
+<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/">
+<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/">
+<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/">
+<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/">
+<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/">
 <link rel="canonical" href="https://pdfreeto.com/">
 <meta property="og:title" content="Free JPG to PDF Converter Online | PDFreeto">
 <meta property="og:description" content="Free JPG to PDF converter. 100% secure local processing. Convert images to PDF instantly. No signup required.">
@@ -539,6 +546,29 @@
     .options-row { flex-direction: column; gap: 16px; }
   }
 
+
+  /* Language switcher */
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .lang-btn {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 4px 7px;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+
   /* ── NAV ── */
   .main-nav {
     display: flex;
@@ -614,6 +644,14 @@
     <a href="social-media.html">Social Media</a>
     <a href="seo.html">SEO</a>
   </nav>
+  <div class="lang-switcher">
+    <a href="/" class="lang-btn active">EN</a>
+    <a href="/pt/" class="lang-btn">PT</a>
+    <a href="/br/" class="lang-btn">BR</a>
+    <a href="/es/" class="lang-btn">ES</a>
+    <a href="/fr/" class="lang-btn">FR</a>
+    <a href="/de/" class="lang-btn">DE</a>
+  </div>
   <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
