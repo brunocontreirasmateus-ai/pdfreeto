@@ -11,15 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Texto para Voz Grátis — Converter Texto em Áudio Online — PDFreeto</title>
-<meta name="description" content="Converta qualquer texto em fala grátis. Escolha a voz, velocidade e tom. Ouça instantaneamente ou descarregue o áudio. Sem upload necessário.">
-<link rel="alternate" hreflang="en" href="https://pdfreeto.com/tts.html">
-<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/tts.html">
-<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/tts.html">
-<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/tts.html">
-<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/tts.html">
-<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/tts.html">
-<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/tts.html">
+<title>Texto para Voz Grátis — Converter Texto em Áudio — PDFreeto</title>
+<meta name="description" content="Converta qualquer texto em voz grátis. Escolha a voz, velocidade e tom. Ouça instantaneamente ou descarregue o áudio. 100% local e privado.">
 <link rel="canonical" href="https://pdfreeto.com/pt/tts.html">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
@@ -41,6 +34,12 @@
   .logo span { color: var(--accent); }
 
   
+  .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
+  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .content { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; padding: 36px 40px 80px; }
+
   /* Textarea */
   .textarea-wrap { position: relative; }
   textarea {
@@ -136,48 +135,6 @@
   }
 
   
-  /* Nav */
-  
-  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
-  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
-  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  
-  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
-  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .burger.open span:nth-child(2) { opacity: 0; }
-  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
-  .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-
-  /* ── 2-ROW HEADER ── */
-  header {
-    position: relative; z-index: 10;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-top {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 40px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-bottom {
-    display: flex; align-items: center; justify-content: center;
-    padding: 0 40px;
-    overflow-x: auto;
-    gap: 0;
-  }
-  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
-  .logo span { color: var(--accent); }
-  .lang-switcher { display: flex; align-items: center; gap: 4px; }
-  .lang-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 5px 10px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
-  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
-  .nav-link {
-    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none; padding: 12px 14px;
-    border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
-  }
-  .nav-link:hover { color: var(--text); }
-  .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
   /* Hide old nav/burger */
   .main-nav, .burger { display: none !important; }
   @media (max-width: 600px) {
@@ -186,38 +143,107 @@
     .nav-link { padding: 10px 8px; font-size: 0.58rem; }
     .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
   }
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-top">
-    <a href="/pt/" class="logo">PDF<span>reeto</span></a>
-    <div class="lang-switcher">
-      <a href="/tts.html" class="lang-btn">EN</a>
-      <a href="/pt/tts.html" class="lang-btn  active">PT</a>
-      <a href="/br/tts.html" class="lang-btn">BR</a>
-      <a href="/es/tts.html" class="lang-btn">ES</a>
-      <a href="/fr/tts.html" class="lang-btn">FR</a>
-      <a href="/de/tts.html" class="lang-btn">DE</a>
+  <a href="/pt/" class="logo">PDF<span>reeto</span></a>
+
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">▾</span></button>
+    <div class="nav-menu" id="nav-menu">
+    <a href="/pt/">JPG ↔ PDF</a>
+    <a href="/pt/pdf-to-word.html">Word para PDF</a>
+    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
+    <a href="/pt/compress-jpg.html">Comprimir JPG</a>
+    <a href="/pt/merge-jpg.html">Juntar JPG</a>
+    <a href="/pt/merge-pdf.html">Juntar PDF</a>
+    <a href="/pt/tts.html"  class=active>Texto para Voz</a>
+    <a href="/pt/pdf-ai.html">PDF AI</a>
+    <a href="/pt/social-media.html">Redes Sociais</a>
+    <a href="/pt/seo.html">SEO</a>
     </div>
   </div>
-  <div class="header-bottom">
-    <a href="/pt/" class="nav-link">JPG ↔ PDF</a>
-    <a href="/pt/pdf-to-word.html" class="nav-link">Word para PDF</a>
-    <a href="/pt/compress-pdf.html" class="nav-link">Comprimir PDF</a>
-    <a href="/pt/compress-jpg.html" class="nav-link">Comprimir JPG</a>
-    <a href="/pt/merge-jpg.html" class="nav-link">Juntar JPG</a>
-    <a href="/pt/merge-pdf.html" class="nav-link">Juntar PDF</a>
-    <a href="/pt/tts.html" class="nav-link active">Texto para Voz</a>
-    <a href="/pt/pdf-ai.html" class="nav-link">PDF AI</a>
-    <a href="/pt/social-media.html" class="nav-link">Redes Sociais</a>
-    <a href="/pt/seo.html" class="nav-link">SEO</a>
+
+  <div class="lang-switcher">
+    
+<a href="/pt/tts.html" class="lang-btn  active">EN</a>    <a href="/pt/tts.html" class="lang-btn active">PT</a>    <a href="/br/tts.html" class="lang-btn">BR</a>    <a href="/es/tts.html" class="lang-btn">ES</a>    <a href="/fr/tts.html" class="lang-btn">FR</a>    <a href="/de/tts.html" class="lang-btn">DE</a>
   </div>
 </header>
 
-<div class="hero">
-  <h1><span class="hl">Texto para</span><br>Voz</h1>
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
+  <h1>Texto para<br><span class="hl">Voz</span></h1>
   <p>Escreva ou cole texto · Escolha a voz · Ouça ou descarregue · Grátis</p>
 </div>
 
@@ -229,7 +255,7 @@
   </div>
 
   <div class="no-support" id="no-support">
-    ⚠ Your browser does not support the Web Speech API. Please try Chrome, Edge or Safari.
+    ⚠ O seu browser não suporta a API Web Speech. Experimente Chrome, Edge ou Safari.
   </div>
 
   <div class="options" id="opts">
@@ -241,17 +267,17 @@
       </div>
       <div class="opt-group">
         <span class="opt-label">Idioma</span>
-        <select id="lang-select" onchange="filterVozs()"></select>
+        <select id="lang-select" onchange="filterVoices()"></select>
       </div>
       <div class="opt-group">
-        <span class="opt-label">Velocidade — <span id="rate-val">1×</span></span>
+        <span class="opt-label">Speed — <span id="rate-val">1×</span></span>
         <div class="slider-row">
           <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1"
             oninput="document.getElementById('rate-val').textContent=this.value+'×'">
         </div>
       </div>
       <div class="opt-group">
-        <span class="opt-label">Tom — <span id="pitch-val">1</span></span>
+        <span class="opt-label">Pitch — <span id="pitch-val">1</span></span>
         <div class="slider-row">
           <input type="range" id="pitch" min="0.5" max="2" step="0.1" value="1"
             oninput="document.getElementById('pitch-val').textContent=parseFloat(this.value).toFixed(1)">
@@ -266,7 +292,7 @@
       <button class="play-btn" id="play-btn" onclick="togglePlay()">▶</button>
       <button class="stop-btn" onclick="stopSpeech()" title="Stop">■</button>
       <div class="player-info">
-        <div class="player-status" id="player-status">Pronto</div>
+        <div class="player-status" id="player-status">Ready</div>
         <div class="player-word" id="player-word"></div>
       </div>
     </div>
@@ -283,35 +309,27 @@
   </div>
 
   <div class="seo-block">
-    <h2>Free Text to Speech Online</h2>
-    <p>PDFreeto's Text to Speech tool converts any written text into spoken audio directly in your browser, using your device's built-in voices. Choose from dozens of languages and voices, adjust the reading speed and pitch, and listen instantly — no account or installation needed.</p>
-    <h2 style="font-family:var(--display);font-size:1.6rem;letter-spacing:0.05em;color:var(--text);margin-bottom:12px">Texto para Voz Online Grátis</h2>
-<p style="font-size:0.9rem;color:var(--muted);line-height:1.7;margin-bottom:16px">A ferramenta Texto para Voz do PDFreeto converte qualquer texto escrito em áudio falado diretamente no seu browser, usando as vozes incorporadas no seu dispositivo. Escolha entre dezenas de idiomas e vozes, ajuste a velocidade e o tom de leitura, e ouça instantaneamente.</p>
+    <h2>Texto para Voz Online Grátis</h2>
+    <p>A ferramenta Texto para Voz do PDFreeto converte qualquer texto escrito em áudio falado diretamente no seu browser, usando as vozes incorporadas no seu dispositivo. Escolha entre dezenas de idiomas e vozes, ajuste a velocidade e o tom de leitura, e ouça instantaneamente — sem conta ou instalação necessária.</p>
+    <h2>Como Usar o Texto para Voz</h2>
+    <p>Cole ou escreva o seu texto, selecione uma voz e idioma, e clique em Falar. A palavra atual é destacada à medida que é lida em voz alta. Pode pausar e retomar em qualquer momento. A funcionalidade de descarregar áudio grava a fala e guarda como ficheiro WAV (disponível no Chrome e Edge).</p>
   </div>
 
 </div>
 
 <footer>
   <div class="footer-links">
-    <a href="/pt/">JPG ↔ PDF</a>
+    <a href="index.html">JPG ↔ PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/pt/pdf-to-word.html">Word para PDF</a>
+    <a href="pdf-to-word.html">Word para PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
+    <a href="compress-pdf.html">Comprimir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/pt/compress-jpg.html">Comprimir JPG</a>
+    <a href="compress-jpg.html">Comprimir JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/pt/merge-jpg.html">Juntar JPG</a>
+    <a href="merge-jpg.html">Juntar JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/pt/merge-pdf.html">Juntar PDF</a>
-    <span class="footer-sep">·</span>
-    <a href="/pt/tts.html">Texto para Voz</a>
-    <span class="footer-sep">·</span>
-    <a href="/pt/pdf-ai.html">PDF AI</a>
-    <span class="footer-sep">·</span>
-    <a href="/pt/social-media.html">Redes Sociais</a>
-    <span class="footer-sep">·</span>
-    <a href="/pt/seo.html">SEO</a>
+    <a href="merge-pdf.html">Juntar PDF</a>
   </div>
   <div class="footer-note">Processamento 100% local — os seus ficheiros nunca saem do seu dispositivo</div>
 </footer>
@@ -330,7 +348,7 @@
   const synth = window.speechSynthesis;
   if (!synth) document.getElementById('no-support').style.display = 'block';
 
-  let allVozs = [];
+  let allVoices = [];
   let utterance = null;
   let speaking = false;
   let paused = false;
@@ -341,30 +359,30 @@
   let destination = null;
 
   // Load voices
-  function loadVozs() {
-    allVozs = synth.getVozs();
-    if (!allVozs.length) return;
+  function loadVoices() {
+    allVoices = synth.getVoices();
+    if (!allVoices.length) return;
 
     // Build language list
-    const langs = [...new Set(allVozs.map(v => v.lang))].sort();
+    const langs = [...new Set(allVoices.map(v => v.lang))].sort();
     const langSel = document.getElementById('lang-select');
     langSel.innerHTML = '<option value="">All languages</option>' +
       langs.map(l => `<option value="${l}">${l}</option>`).join('');
 
-    filterVozs();
+    filterVoices();
   }
 
-  function filterVozs() {
+  function filterVoices() {
     const lang = document.getElementById('lang-select').value;
-    const filtered = lang ? allVozs.filter(v => v.lang === lang) : allVozs;
+    const filtered = lang ? allVoices.filter(v => v.lang === lang) : allVoices;
     const sel = document.getElementById('voice-select');
     sel.innerHTML = filtered.map((v, i) =>
-      `<option value="${allVozs.indexOf(v)}">${v.name} (${v.lang})</option>`
+      `<option value="${allVoices.indexOf(v)}">${v.name} (${v.lang})</option>`
     ).join('');
   }
 
-  synth.onvoiceschanged = loadVozs;
-  loadVozs();
+  synth.onvoiceschanged = loadVoices;
+  loadVoices();
 
   function onTextInput() {
     const txt = document.getElementById('tts-input').value;
@@ -399,7 +417,7 @@
     const pitch = parseFloat(document.getElementById('pitch').value);
 
     utterance = new SpeechSynthesisUtterance(text);
-    utterance.voice = allVozs[voiceIdx] || null;
+    utterance.voice = allVoices[voiceIdx] || null;
     utterance.rate = rate;
     utterance.pitch = pitch;
 
@@ -511,7 +529,7 @@
       const pitch = parseFloat(document.getElementById('pitch').value);
 
       const utt = new SpeechSynthesisUtterance(text);
-      utt.voice = allVozs[voiceIdx] || null;
+      utt.voice = allVoices[voiceIdx] || null;
       utt.rate = rate;
       utt.pitch = pitch;
       utt.onend = () => { setTimeout(() => mediaRecorder.stop(), 300); };
