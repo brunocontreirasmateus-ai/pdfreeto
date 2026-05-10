@@ -270,10 +270,10 @@
   }
 
   async function fetchPageContent(url) {
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const proxyUrl = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
     const res = await fetch(proxyUrl);
-    const data = await res.json();
-    const html = data.contents || '';
+    const html = await res.text();
+    
     const tmp = document.createElement('div');
     tmp.innerHTML = html;
     // Remove scripts, styles, nav, footer

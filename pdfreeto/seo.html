@@ -218,9 +218,9 @@
   })();
 
   async function fetchPage(url) {
-    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-    const data = await res.json();
-    return data.contents || '';
+    const res = await fetch(`https://corsproxy.io/?url=${encodeURIComponent(url)}`);
+    const data = await res.text();
+    return data || '';
   }
 
   function extractMeta(html) {
