@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EXHT3PYZF8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EXHT3PYZF8');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Copy para Redes Sociais Grátis — PDFreeto</title>
+<meta name="description" content="Cole uma URL e obtenha copy gerado por IA para Instagram, Facebook, LinkedIn e TikTok. Grátis e instantâneo.">
+<link rel="alternate" hreflang="en" href="https://pdfreeto.com/social-media.html">
+<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/social-media.html">
+<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/social-media.html">
+<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/social-media.html">
+<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/social-media.html">
+<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/social-media.html">
+<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/social-media.html">
+<link rel="canonical" href="https://pdfreeto.com/br/social-media.html">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a;
+    --border: #2a2a2a; --accent: #e8ff3c; --accent2: #ff5533; --accent3: #3cffd0;
+    --text: #f0ede6; --muted: #666;
+    --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif;
+    --ig: #e1306c; --fb: #1877f2; --li: #0a66c2; --tt: #ff0050;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px); background-size: 60px 60px; }
+  header { position: relative; z-index: 10; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  @media (max-width: 1200px) {
+    
+    .main-nav.open { display: flex; }
+    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
+    
+  }
+  .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
+  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .content { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 36px 40px 80px; }
+
+  /* URL input */
+  .url-row { display: flex; gap: 0; }
+  .url-input { flex: 1; padding: 16px 20px; background: var(--surface); border: 2px solid var(--border); border-right: none; color: var(--text); font-family: var(--mono); font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+  .url-input:focus { border-color: var(--accent); }
+  .url-input::placeholder { color: var(--muted); }
+  .url-btn { padding: 16px 28px; background: var(--accent); color: #0a0a0a; font-family: var(--display); font-size: 1.1rem; letter-spacing: 0.1em; border: none; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .url-btn:hover { opacity: 0.9; }
+  .url-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+  /* Platform tabs */
+  .platform-tabs { display: flex; gap: 0; margin-top: 28px; border-bottom: 1px solid var(--border); }
+  .ptab { padding: 12px 20px; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; color: var(--muted); background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -1px; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+  .ptab:hover { color: var(--text); }
+  .ptab.active { color: var(--text); }
+  .ptab[data-p="instagram"].active { color: var(--ig); border-bottom-color: var(--ig); }
+  .ptab[data-p="facebook"].active { color: var(--fb); border-bottom-color: var(--fb); }
+  .ptab[data-p="linkedin"].active { color: var(--li); border-bottom-color: var(--li); }
+  .ptab[data-p="tiktok"].active { color: var(--tt); border-bottom-color: var(--tt); }
+  .ptab-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .ptab[data-p="instagram"] .ptab-dot { background: var(--ig); }
+  .ptab[data-p="facebook"] .ptab-dot { background: var(--fb); }
+  .ptab[data-p="linkedin"] .ptab-dot { background: var(--li); }
+  .ptab[data-p="tiktok"] .ptab-dot { background: var(--tt); }
+
+  /* Copy panels */
+  .copy-panels { margin-top: 0; }
+  .copy-panel { display: none; padding: 24px 0; }
+  .copy-panel.active { display: block; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .panel-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .copy-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; background: none; border: 1px solid var(--border); color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied { border-color: var(--accent3); color: var(--accent3); }
+  .copy-text {
+    width: 100%; min-height: 160px; padding: 18px; resize: vertical;
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    font-family: var(--sans); font-size: 0.95rem; line-height: 1.7; outline: none;
+    transition: border-color 0.2s;
+  }
+  .copy-text:focus { border-color: var(--accent); }
+  .copy-meta { margin-top: 8px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.65rem; color: var(--muted); }
+  .char-ok { color: var(--accent3); }
+  .char-warn { color: var(--accent2); }
+
+  /* Hashtags */
+  .hashtags-wrap { margin-top: 16px; }
+  .hashtags-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .hashtags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .htag { font-family: var(--mono); font-size: 0.72rem; padding: 4px 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .htag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Loading state */
+  .loading-state { display: none; padding: 40px; text-align: center; }
+  .loading-state .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 16px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-state p { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .seo-block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .seo-block h2 { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px; }
+  .seo-block p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
+  .footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-sep { color: var(--border); font-family: var(--mono); font-size: 0.65rem; }
+  .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  @media (max-width: 600px) {
+    header { padding: 16px 20px; } .hero { padding: 40px 20px 20px; } .content { padding: 24px 20px 60px; }
+    .url-row { flex-direction: column; }
+    .url-input { border-right: 2px solid var(--border); border-bottom: none; }
+    .platform-tabs { overflow-x: auto; }
+    .ptab { padding: 10px 14px; font-size: 0.65rem; }
+  }
+
+  
+  /* Nav */
+  
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+  .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
+
+  
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
+  }
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <a href="/br/" class="logo">PDF<span>reeto</span></a>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/br/">JPG &#8596; PDF</a>
+      <a href="/br/pdf-to-word.html">Word para PDF</a>
+      <a href="/br/compress-pdf.html">Comprimir PDF</a>
+      <a href="/br/compress-jpg.html">Comprimir JPG</a>
+      <a href="/br/merge-jpg.html">Unir JPG</a>
+      <a href="/br/merge-pdf.html">Unir PDF</a>
+      <a href="/br/tts.html">Texto para &#193;udio</a>
+      <a href="/br/pdf-ai.html">PDF AI</a>
+      <a href="/br/social-media.html"  class=active>Redes Sociais</a>
+      <a href="/br/seo.html">SEO</a>
+    </div>
+  </div>
+  <div class="lang-switcher">
+    <a href="/social-media.html" class="lang-btn">EN</a>
+    <a href="/br/social-media.html" class="lang-btn">PT</a>
+    <a href="/br/social-media.html" class="lang-btn active">BR</a>
+    <a href="/es/social-media.html" class="lang-btn">ES</a>
+    <a href="/fr/social-media.html" class="lang-btn">FR</a>
+    <a href="/de/social-media.html" class="lang-btn">DE</a>
+  </div>
+</header>
+
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
+  <h1><span class="hl">Redes</span><br>Sociais</h1>
+  <p>Cole um URL · Obtenha copy IA para cada plataforma · Grátis</p>
+</div>
+
+<div class="content">
+  <div class="url-row">
+    <input class="url-input" id="url-input" type="url" placeholder="https://yoursite.com/article" onkeydown="if(event.key==='Enter')generate()">
+    <button class="url-btn" onclick="generate()">GERAR</button>
+  </div>
+
+  <div class="loading-state" id="loading">
+    <div class="spinner"></div>
+    <p id="loading-text">A ler conteúdo da página...</p>
+  </div>
+
+  <div id="results" style="display:none">
+    <div class="platform-tabs">
+      <button class="ptab active" data-p="instagram" onclick="switchTab('instagram')"><span class="ptab-dot"></span>Instagram</button>
+      <button class="ptab" data-p="facebook" onclick="switchTab('facebook')"><span class="ptab-dot"></span>Facebook</button>
+      <button class="ptab" data-p="linkedin" onclick="switchTab('linkedin')"><span class="ptab-dot"></span>LinkedIn</button>
+      <button class="ptab" data-p="tiktok" onclick="switchTab('tiktok')"><span class="ptab-dot"></span>TikTok</button>
+    </div>
+
+    <div class="copy-panels">
+      <div class="copy-panel active" id="panel-instagram">
+        <div class="panel-header">
+          <span class="panel-label">📸 Legenda Instagram</span>
+          <button class="copy-btn" onclick="copyPanel('instagram')">Copiar</button>
+        </div>
+        <textarea class="copy-text" id="text-instagram" oninput="updateCount('instagram',2200)"></textarea>
+        <div class="copy-meta"><span id="count-instagram">0 / 2200 chars</span><span>Max 2,200 characters</span></div>
+        <div class="hashtags-wrap" id="hashtags-instagram"></div>
+      </div>
+      <div class="copy-panel" id="panel-facebook">
+        <div class="panel-header">
+          <span class="panel-label">👍 Publicação Facebook</span>
+          <button class="copy-btn" onclick="copyPanel('facebook')">Copiar</button>
+        </div>
+        <textarea class="copy-text" id="text-facebook" oninput="updateCount('facebook',63206)"></textarea>
+        <div class="copy-meta"><span id="count-facebook">0 chars</span><span>Recommended: under 80 words</span></div>
+      </div>
+      <div class="copy-panel" id="panel-linkedin">
+        <div class="panel-header">
+          <span class="panel-label">💼 Publicação LinkedIn</span>
+          <button class="copy-btn" onclick="copyPanel('linkedin')">Copiar</button>
+        </div>
+        <textarea class="copy-text" id="text-linkedin" oninput="updateCount('linkedin',3000)" style="min-height:200px"></textarea>
+        <div class="copy-meta"><span id="count-linkedin">0 / 3000 chars</span><span>Max 3,000 characters</span></div>
+      </div>
+      <div class="copy-panel" id="panel-tiktok">
+        <div class="panel-header">
+          <span class="panel-label">🎵 Legenda TikTok</span>
+          <button class="copy-btn" onclick="copyPanel('tiktok')">Copiar</button>
+        </div>
+        <textarea class="copy-text" id="text-tiktok" oninput="updateCount('tiktok',2200)"></textarea>
+        <div class="copy-meta"><span id="count-tiktok">0 / 2200 chars</span><span>Max 2,200 characters</span></div>
+        <div class="hashtags-wrap" id="hashtags-tiktok"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-block">
+    <h2>Gerador de Copy para Redes Sociais com IA</h2>
+    <p>Cole qualquer URL — um artigo de blog, página de produto, notícia ou landing page — e a IA do PDFreeto escreve instantaneamente copy otimizado para Instagram, Facebook, LinkedIn e TikTok. Cada publicação é adaptada ao tom, comprimento e estilo que melhor funciona em cada plataforma.</p>
+    <h2>Por que Adaptar o Copy por Plataforma?</h2>
+    <p>O Instagram valoriza emoção e hashtags. O LinkedIn recompensa insight profissional e narrativas mais longas. O Facebook favorece publicações conversacionais e partilháveis. O TikTok precisa de ganchos curtos e tags em tendência. Um URL, quatro publicações prontas — prontas a copiar e colar.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="/br/">JPG ↔ PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/br/pdf-to-word.html">Word para PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/br/compress-pdf.html">Comprimir PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/br/compress-jpg.html">Comprimir JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="/br/merge-jpg.html">Juntar JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="/br/merge-pdf.html">Juntar PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/br/tts.html">Texto para Voz</a>
+    <span class="footer-sep">·</span>
+    <a href="/br/pdf-ai.html">PDF AI</a>
+    <span class="footer-sep">·</span>
+    <a href="/br/social-media.html">Redes Sociais</a>
+    <span class="footer-sep">·</span>
+    <a href="/br/seo.html">SEO</a>
+  </div>
+  <div class="footer-note">Desenvolvido pelo Claude AI · Conteúdo enviado apenas para gerar sua publicação</div>
+</footer>
+
+<script>
+  
+  (function() {
+    const path = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.main-nav a').forEach(a => {
+      if (a.getAttribute('href') === path) a.classList.add('active');
+    });
+  })();
+
+  function switchTab(p) {
+    document.querySelectorAll('.ptab').forEach(t => t.classList.toggle('active', t.dataset.p === p));
+    document.querySelectorAll('.copy-panel').forEach(panel => panel.classList.toggle('active', panel.id === 'panel-' + p));
+  }
+
+  function updateCount(p, max) {
+    const len = document.getElementById('text-' + p).value.length;
+    const el = document.getElementById('count-' + p);
+    el.textContent = max ? `${len} / ${max} chars` : `${len} chars`;
+    el.className = max && len > max ? 'char-warn' : 'char-ok';
+  }
+
+  function copyPanel(p) {
+    const text = document.getElementById('text-' + p).value;
+    const tags = p === 'instagram' ? getHashtags('instagram') : p === 'tiktok' ? getHashtags('tiktok') : '';
+    navigator.clipboard.writeText(text + (tags ? '\n\n' + tags : '')).then(() => {
+      const btn = document.querySelector(`#panel-${p} .copy-btn`);
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+    });
+  }
+
+  function getHashtags(p) {
+    const chips = document.querySelectorAll(`#hashtags-${p} .htag`);
+    return [...chips].map(c => c.textContent).join(' ');
+  }
+
+  async function fetchPageContent(url) {
+    const proxyUrl = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxyUrl);
+    const html = await res.text();
+    
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    // Remove scripts, styles, nav, footer
+    tmp.querySelectorAll('script,style,nav,footer,header,noscript,iframe').forEach(el => el.remove());
+    const text = tmp.textContent.replace(/\s+/g, ' ').trim().slice(0, 8000);
+    const title = (html.match(/<title[^>]*>([^<]+)<\/title>/i) || [])[1] || '';
+    const desc = (html.match(/name=["']description["'][^>]*content=["']([^"']+)/i) || html.match(/content=["']([^"']+)["'][^>]*name=["']description["']/i) || [])[1] || '';
+    return { text, title, desc, url };
+  }
+
+  async function callClaude(prompt) {
+    const res = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    return data.content?.[0]?.text || '';
+  }
+
+  async function generate() {
+    const url = document.getElementById('url-input').value.trim();
+    if (!url) return;
+
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('loading-text').textContent = 'A ler conteúdo da página...';
+
+    try {
+      const page = await fetchPageContent(url);
+
+      document.getElementById('loading-text').textContent = 'A criar copy para redes sociais...';
+
+      const context = `Page Title: ${page.title}\nMeta Description: ${page.desc}\nURL: ${page.url}\n\nPage Content:\n${page.text}`;
+
+      const prompt = `You are a social media expert. Based on the following web page content, write optimised posts for all 4 platforms. Return ONLY valid JSON, nothing else, in this exact format:
+{
+  "instagram": {
+    "caption": "Instagram caption here (emotional, engaging, max 2200 chars, no hashtags in caption)",
+    "hashtags": ["hashtag1","hashtag2","hashtag3","hashtag4","hashtag5","hashtag6","hashtag7","hashtag8"]
+  },
+  "facebook": {
+    "post": "Facebook post here (conversational, shareable, under 80 words, with the URL at the end)"
+  },
+  "linkedin": {
+    "post": "LinkedIn post here (professional, insightful, 150-300 words, with a hook first line, line breaks for readability)"
+  },
+  "tiktok": {
+    "caption": "TikTok caption here (punchy, fun, max 150 chars)",
+    "hashtags": ["hashtag1","hashtag2","hashtag3","hashtag4","hashtag5"]
+  }
+}
+
+PAGE CONTENT:
+${context}`;
+
+      const raw = await callClaude(prompt);
+      const json = JSON.parse(raw.match(/\{[\s\S]*\}/)?.[0] || '{}');
+
+      // Instagram
+      document.getElementById('text-instagram').value = json.instagram?.caption || '';
+      updateCount('instagram', 2200);
+      renderHashtags('instagram', json.instagram?.hashtags || []);
+
+      // Facebook
+      document.getElementById('text-facebook').value = json.facebook?.post || '';
+      updateCount('facebook', 0);
+
+      // LinkedIn
+      document.getElementById('text-linkedin').value = json.linkedin?.post || '';
+      updateCount('linkedin', 3000);
+
+      // TikTok
+      document.getElementById('text-tiktok').value = json.tiktok?.caption || '';
+      updateCount('tiktok', 2200);
+      renderHashtags('tiktok', json.tiktok?.hashtags || []);
+
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('results').style.display = 'block';
+
+    } catch (err) {
+      document.getElementById('loading').style.display = 'none';
+      alert('Error: ' + err.message + '\n\nMake sure you are running PDFreeto from a server with the Anthropic API key configured.');
+    }
+  }
+
+  function renderHashtags(p, tags) {
+    const wrap = document.getElementById('hashtags-' + p);
+    if (!wrap || !tags.length) return;
+    wrap.innerHTML = `<div class="hashtags-label">Hashtags (clique para copiar)</div><div class="hashtags">${tags.map(t => `<span class="htag" onclick="copyTag(this)">#${t.replace(/^#/,'')}</span>`).join('')}</div>`;
+  }
+
+  function copyTag(el) {
+    navigator.clipboard.writeText(el.textContent);
+    const orig = el.textContent;
+    el.textContent = '✓'; setTimeout(() => el.textContent = orig, 1000);
+  }
+</script>
+</body>
+</html>
