@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EXHT3PYZF8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EXHT3PYZF8');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juntar JPG Grátis | PDFreeto</title>
+<meta name="description" content="Merge multiple JPG, PNG or WEBP images into a single image for free. Arrange, reorder and combine images vertically or horizontally. No upload required.">
+<link rel="alternate" hreflang="en" href="https://pdfreeto.com/merge-jpg.html">
+<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/merge-jpg.html">
+<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/merge-jpg.html">
+<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/merge-jpg.html">
+<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/merge-jpg.html">
+<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/merge-jpg.html">
+<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/merge-jpg.html">
+<link rel="canonical" href="https://pdfreeto.com/pt/merge-jpg.html">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a;
+    --border: #2a2a2a; --accent: #e8ff3c; --accent2: #ff5533;
+    --text: #f0ede6; --muted: #666;
+    --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  header { position: relative; z-index: 10; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .back-link { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: 6px 14px; transition: all 0.2s; }
+  .back-link:hover { color: var(--accent); border-color: var(--accent); }
+  .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
+  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .content { position: relative; z-index: 10; max-width: 860px; margin: 0 auto; padding: 36px 40px 80px; }
+  .drop-zone { border: 2px dashed var(--border); padding: 50px 40px; text-align: center; cursor: pointer; transition: all 0.25s; background: var(--surface); overflow: hidden; position: relative; }
+  .drop-zone::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 60%, rgba(232,255,60,0.04)); pointer-events: none; }
+  .drop-zone:hover, .drop-zone.dragging { border-color: var(--accent); background: rgba(232,255,60,0.04); }
+  .drop-zone:hover .dz-icon, .drop-zone.dragging .dz-icon { transform: scale(1.1) translateY(-4px); color: var(--accent); }
+  .dz-icon { font-size: 2.6rem; margin-bottom: 14px; display: block; color: var(--muted); transition: all 0.3s; }
+  .dz-title { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 6px; }
+  .dz-sub { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  input[type="file"] { display: none; }
+
+  /* Sortable image grid */
+  .sort-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin: 20px 0 10px; }
+  .sort-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .sort-item {
+    background: var(--surface); border: 1px solid var(--border); padding: 8px;
+    cursor: grab; user-select: none; transition: border-color 0.2s, opacity 0.2s;
+    animation: slideIn 0.2s ease; position: relative;
+  }
+  .sort-item:active { cursor: grabbing; }
+  .sort-item.dragging-item { opacity: 0.4; border-color: var(--accent); }
+  .sort-item.drag-over { border-color: var(--accent); background: rgba(232,255,60,0.06); }
+  .sort-item img { width: 100%; height: 90px; object-fit: cover; display: block; pointer-events: none; }
+  .sort-item-name { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); margin-top: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sort-item-remove { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.7); border: none; color: var(--muted); cursor: pointer; font-size: 0.7rem; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; transition: color 0.15s; }
+  .sort-item-remove:hover { color: var(--accent2); }
+  .sort-hint { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); margin-top: 8px; letter-spacing: 0.08em; }
+
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .options { margin-top: 24px; padding: 20px; background: var(--surface); border: 1px solid var(--border); display: none; }
+  .options-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  .opt-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .direction-btn { flex: 1; min-width: 120px; padding: 14px 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; cursor: pointer; text-align: center; transition: all 0.2s; }
+  .direction-btn:hover { border-color: var(--accent); color: var(--text); }
+  .direction-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(232,255,60,0.06); }
+  .direction-btn .dir-icon { font-size: 1.4rem; display: block; margin-bottom: 6px; }
+  .opt-group { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }
+  .opt-label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.8rem; padding: 8px 12px; outline: none; cursor: pointer; transition: border-color 0.2s; }
+  select:focus { border-color: var(--accent); }
+
+  .convert-btn { margin-top: 28px; width: 100%; padding: 18px; background: var(--accent); color: #0a0a0a; font-family: var(--display); font-size: 1.4rem; letter-spacing: 0.12em; border: none; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+  .convert-btn::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0); transition: background 0.2s; }
+  .convert-btn:hover::after { background: rgba(255,255,255,0.1); }
+  .convert-btn:active { transform: scale(0.99); }
+  .convert-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+  .progress-wrap { margin-top: 16px; display: none; }
+  .progress-bar { height: 3px; background: var(--border); overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .progress-text { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-align: center; letter-spacing: 0.1em; text-transform: uppercase; }
+  .result-section { margin-top: 24px; display: none; }
+  .result-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .result-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(232,255,60,0.05); border: 1px solid rgba(232,255,60,0.2); animation: slideIn 0.3s ease; }
+  .result-name { font-family: var(--mono); font-size: 0.78rem; color: var(--text); }
+  .download-btn { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 16px; background: none; border: 1px solid var(--accent); color: var(--accent); cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; flex-shrink: 0; }
+  .download-btn:hover { background: var(--accent); color: #0a0a0a; }
+  .seo-block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .seo-block h2 { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px; }
+  .seo-block p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
+  .footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-sep { color: var(--border); font-family: var(--mono); font-size: 0.65rem; }
+  .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  @media (max-width: 600px) {
+    header { padding: 16px 20px; } .hero { padding: 40px 20px 20px; } .content { padding: 24px 20px 60px; }
+    .sort-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+  }
+
+  /* ── NAV ── */
+  .main-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .main-nav a {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  .burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    cursor: pointer;
+    z-index: 200;
+  }
+  .burger span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text);
+    transition: all 0.3s;
+  }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  @media (max-width: 1200px) {
+    .main-nav {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      align-items: stretch;
+      padding: 70px 20px 20px;
+      gap: 4px;
+      z-index: 100;
+    }
+    .main-nav.open { display: flex; }
+    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
+    .burger { display: flex; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/pt/" class="logo">PDF<span>reeto</span></a>
+  <nav class="main-nav" id="main-nav">
+    <a href="/pt/">JPG ↔ PDF</a>
+    <a href="/pt/pdf-to-word.html">Word para PDF</a>
+    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
+    <a href="/pt/compress-jpg.html">Comprimir JPG</a>
+    <a href="/pt/merge-jpg.html">Juntar JPG</a>
+    <a href="/pt/merge-pdf.html">Juntar PDF</a>
+    <a href="/pt/tts.html">Texto para Voz</a>
+    <a href="/pt/pdf-ai.html">PDF AI</a>
+    <a href="/pt/social-media.html">Redes Sociais</a>
+    <a href="/pt/seo.html">SEO</a>
+  </nav>
+  <div class="lang-switcher">
+    <a href="/merge-jpg.html" class="lang-btn">EN</a>
+    <a href="/pt/merge-jpg.html" class="lang-btn active">PT</a>
+    <a href="/br/merge-jpg.html" class="lang-btn">BR</a>
+    <a href="/es/merge-jpg.html" class="lang-btn">ES</a>
+    <a href="/fr/merge-jpg.html" class="lang-btn">FR</a>
+    <a href="/de/merge-jpg.html" class="lang-btn">DE</a>
+  </div>
+  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="hero">
+  <h1><span class="hl">Merge</span><br>JPG</h1>
+  <p>Combine múltiplas imagens numa só · Grátis · Arraste para reordenar</p>
+</div>
+
+<div class="content">
+
+  <div class="drop-zone" id="dz" onclick="document.getElementById('input-img').click()">
+    <input type="file" id="input-img" accept="image/jpeg,image/jpg,image/png,image/webp" multiple>
+    <span class="dz-icon">🖼</span>
+    <div class="dz-title">Drop images here</div>
+    <div class="dz-sub">JPG · PNG · WEBP — add as many as you need</div>
+  </div>
+
+  <div id="sort-wrap" style="display:none">
+    <div class="sort-label">Drag to reorder · <span id="img-count">0</span> images</div>
+    <div class="sort-grid" id="sort-grid"></div>
+    <div class="sort-hint">↕ Drag cards to change the merge order</div>
+  </div>
+
+  <div class="options" id="opts">
+    <div class="options-title">⚙ Merge Direction</div>
+    <div class="opt-row">
+      <div class="direction-btn active" onclick="setDir(this,'vertical')">
+        <span class="dir-icon">↕</span>
+        VERTICAL<br><span style="font-size:0.6rem;color:var(--muted)">Stack top to bottom</span>
+      </div>
+      <div class="direction-btn" onclick="setDir(this,'horizontal')">
+        <span class="dir-icon">↔</span>
+        HORIZONTAL<br><span style="font-size:0.6rem;color:var(--muted)">Place side by side</span>
+      </div>
+    </div>
+    <div class="opt-group">
+      <span class="opt-label">Output Format</span>
+      <select id="out-format" style="width:200px">
+        <option value="jpeg">JPEG</option>
+        <option value="png">PNG (lossless)</option>
+      </select>
+    </div>
+    <div class="opt-group">
+      <span class="opt-label">Gap between images</span>
+      <select id="gap-size" style="width:200px">
+        <option value="0">None</option>
+        <option value="10" selected>Small (10px)</option>
+        <option value="30">Medium (30px)</option>
+        <option value="60">Large (60px)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="progress-wrap" id="prog">
+    <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+    <div class="progress-text" id="prog-text">Merging images...</div>
+  </div>
+
+  <button class="convert-btn" id="btn-merge" onclick="mergeImages()" disabled>MERGE IMAGES</button>
+
+  <div class="result-section" id="result">
+    <div class="result-title">✓ Merge complete</div>
+    <div id="result-list"></div>
+  </div>
+
+  <div class="seo-block">
+    <h2>How to Merge JPG Images for Free</h2>
+    <p>PDFreeto lets you combine multiple JPG, PNG, or WEBP images into a single image — entirely in your browser. Upload your images, drag to arrange them in any order, choose vertical or horizontal layout, and download the result instantly. No account, no limits, no uploads to servers.</p>
+    <h2>When to Merge Images?</h2>
+    <p>Merging images is useful for creating before/after comparisons, combining screenshots into a single file, building photo collages, or preparing product images for e-commerce. The drag-to-reorder feature makes it easy to get the exact sequence you want.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="/pt/">JPG ↔ PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/pdf-to-word.html">Word para PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/compress-jpg.html">Comprimir JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/merge-pdf.html">Juntar PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/tts.html">Texto para Voz</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/pdf-ai.html">PDF AI</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/social-media.html">Redes Sociais</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/seo.html">SEO</a>
+  </div>
+  <div class="footer-note">Processamento 100% local — os seus ficheiros nunca saem do seu dispositivo</div>
+</footer>
+
+<script>
+  let imgFiles = [];
+  let direction = 'vertical';
+  let dragSrcIdx = null;
+
+  const dz = document.getElementById('dz');
+  const input = document.getElementById('input-img');
+
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragging'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('dragging'));
+  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragging'); addFiles([...e.dataTransfer.files]); });
+  input.addEventListener('change', () => addFiles([...input.files]));
+
+  function setDir(el, dir) {
+    direction = dir;
+    document.querySelectorAll('.direction-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function addFiles(files) {
+    files = files.filter(f => f.type.startsWith('image/'));
+    files.forEach(f => { if (!imgFiles.find(x => x.name === f.name && x.size === f.size)) imgFiles.push(f); });
+    renderGrid();
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById('sort-grid');
+    const wrap = document.getElementById('sort-wrap');
+    grid.innerHTML = '';
+    document.getElementById('img-count').textContent = imgFiles.length;
+
+    imgFiles.forEach((f, i) => {
+      const card = document.createElement('div');
+      card.className = 'sort-item';
+      card.draggable = true;
+      card.dataset.idx = i;
+
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(f);
+      card.appendChild(img);
+
+      const name = document.createElement('div');
+      name.className = 'sort-item-name';
+      name.textContent = f.name;
+      card.appendChild(name);
+
+      const rm = document.createElement('button');
+      rm.className = 'sort-item-remove';
+      rm.textContent = '✕';
+      rm.onclick = e => { e.stopPropagation(); imgFiles.splice(i, 1); renderGrid(); };
+      card.appendChild(rm);
+
+      card.addEventListener('dragstart', () => { dragSrcIdx = i; card.classList.add('dragging-item'); });
+      card.addEventListener('dragend', () => card.classList.remove('dragging-item'));
+      card.addEventListener('dragover', e => { e.preventDefault(); card.classList.add('drag-over'); });
+      card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+      card.addEventListener('drop', e => {
+        e.preventDefault(); card.classList.remove('drag-over');
+        if (dragSrcIdx !== null && dragSrcIdx !== i) {
+          const moved = imgFiles.splice(dragSrcIdx, 1)[0];
+          imgFiles.splice(i, 0, moved);
+          renderGrid();
+        }
+      });
+
+      grid.appendChild(card);
+    });
+
+    wrap.style.display = imgFiles.length ? 'block' : 'none';
+    document.getElementById('opts').style.display = imgFiles.length ? 'block' : 'none';
+    document.getElementById('btn-merge').disabled = imgFiles.length < 2;
+    document.getElementById('result').style.display = 'none';
+  }
+
+  async function mergeImages() {
+    if (imgFiles.length < 2) return;
+    const btn = document.getElementById('btn-merge');
+    const progWrap = document.getElementById('prog');
+    const fill = document.getElementById('fill');
+    const progText = document.getElementById('prog-text');
+    const gap = parseInt(document.getElementById('gap-size').value);
+    const fmt = document.getElementById('out-format').value;
+
+    btn.disabled = true;
+    progWrap.style.display = 'block';
+
+    // Load all images
+    const imgs = [];
+    for (let i = 0; i < imgFiles.length; i++) {
+      progText.textContent = `Loading image ${i + 1} of ${imgFiles.length}...`;
+      fill.style.width = ((i / imgFiles.length) * 60) + '%';
+      const img = await loadImage(URL.createObjectURL(imgFiles[i]));
+      imgs.push(img);
+    }
+
+    progText.textContent = 'Compositing...';
+    fill.style.width = '75%';
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    if (direction === 'vertical') {
+      const maxW = Math.max(...imgs.map(i => i.naturalWidth));
+      const totalH = imgs.reduce((s, i) => s + i.naturalHeight, 0) + gap * (imgs.length - 1);
+      canvas.width = maxW;
+      canvas.height = totalH;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      let y = 0;
+      for (const img of imgs) {
+        const x = Math.round((maxW - img.naturalWidth) / 2);
+        ctx.drawImage(img, x, y);
+        y += img.naturalHeight + gap;
+      }
+    } else {
+      const totalW = imgs.reduce((s, i) => s + i.naturalWidth, 0) + gap * (imgs.length - 1);
+      const maxH = Math.max(...imgs.map(i => i.naturalHeight));
+      canvas.width = totalW;
+      canvas.height = maxH;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      let x = 0;
+      for (const img of imgs) {
+        const y = Math.round((maxH - img.naturalHeight) / 2);
+        ctx.drawImage(img, x, y);
+        x += img.naturalWidth + gap;
+      }
+    }
+
+    fill.style.width = '95%';
+    const mimeType = fmt === 'png' ? 'image/png' : 'image/jpeg';
+    const ext = fmt === 'png' ? 'png' : 'jpg';
+    const dataUrl = canvas.toDataURL(mimeType, 0.92);
+    const name = `merged_${imgFiles.length}images.${ext}`;
+
+    fill.style.width = '100%';
+    progWrap.style.display = 'none';
+    btn.disabled = false;
+
+    const sec = document.getElementById('result');
+    const list = document.getElementById('result-list');
+    list.innerHTML = '';
+    sec.style.display = 'block';
+
+    const item = document.createElement('div');
+    item.className = 'result-item';
+    item.innerHTML = `<span class="result-name">🖼 ${name} — ${canvas.width}×${canvas.height}px</span>`;
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = name; a.className = 'download-btn'; a.textContent = 'Descarregar';
+    item.appendChild(a);
+    list.appendChild(item);
+  }
+
+  function loadImage(src) {
+    return new Promise((res, rej) => {
+      const img = new Image();
+      img.onload = () => res(img);
+      img.onerror = rej;
+      img.src = src;
+    });
+  }
+</script>
+
+<script>
+  function toggleNav() {
+    document.getElementById('main-nav').classList.toggle('open');
+    document.getElementById('burger').classList.toggle('open');
+  }
+  // Mark active link
+  (function() {
+    const path = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.main-nav a').forEach(a => {
+      if (a.getAttribute('href') === path) a.classList.add('active');
+    });
+  })();
+</script>
+</body>
+</html>
