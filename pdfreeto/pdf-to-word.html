@@ -89,35 +89,7 @@
 
   
 
-  /* ── 2-ROW HEADER ── */
-  header {
-    position: relative; z-index: 10;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-top {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 40px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-bottom {
-    display: flex; align-items: center; justify-content: center;
-    padding: 0 40px;
-    overflow-x: auto;
-    gap: 0;
-  }
-  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
-  .logo span { color: var(--accent); }
-  .lang-switcher { display: flex; align-items: center; gap: 4px; }
-  .lang-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 5px 10px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
-  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
-  .nav-link {
-    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none; padding: 12px 14px;
-    border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
-  }
-  .nav-link:hover { color: var(--text); }
-  .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+  
   /* Hide old nav/burger */
   .main-nav, .burger { display: none !important; }
   @media (max-width: 600px) {
@@ -126,37 +98,106 @@
     .nav-link { padding: 10px 8px; font-size: 0.58rem; }
     .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
   }
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-top">
-    <a href="/" class="logo">PDF<span>reeto</span></a>
-    <div class="lang-switcher">
-      <a href="/pdf-to-word.html" class="lang-btn  active">EN</a>
-      <a href="/pt/pdf-to-word.html" class="lang-btn">PT</a>
-      <a href="/br/pdf-to-word.html" class="lang-btn">BR</a>
-      <a href="/es/pdf-to-word.html" class="lang-btn">ES</a>
-      <a href="/fr/pdf-to-word.html" class="lang-btn">FR</a>
-      <a href="/de/pdf-to-word.html" class="lang-btn">DE</a>
+  <a href="/" class="logo">PDF<span>reeto</span></a>
+
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">All <span class="arrow">▾</span></button>
+    <div class="nav-menu" id="nav-menu">
+    <a href="/">JPG ↔ PDF</a>
+    <a href="/pdf-to-word.html"  class=active>Word to PDF</a>
+    <a href="/compress-pdf.html">Compress PDF</a>
+    <a href="/compress-jpg.html">Compress JPG</a>
+    <a href="/merge-jpg.html">Merge JPG</a>
+    <a href="/merge-pdf.html">Merge PDF</a>
+    <a href="/tts.html">Text to Speech</a>
+    <a href="/pdf-ai.html">PDF AI</a>
+    <a href="/social-media.html">Social Media</a>
+    <a href="/seo.html">SEO</a>
     </div>
   </div>
-  <div class="header-bottom">
-    <a href="/" class="nav-link">JPG ↔ PDF</a>
-    <a href="/pdf-to-word.html" class="nav-link active">Word to PDF</a>
-    <a href="/compress-pdf.html" class="nav-link">Compress PDF</a>
-    <a href="/compress-jpg.html" class="nav-link">Compress JPG</a>
-    <a href="/merge-jpg.html" class="nav-link">Merge JPG</a>
-    <a href="/merge-pdf.html" class="nav-link">Merge PDF</a>
-    <a href="/tts.html" class="nav-link">Text to Speech</a>
-    <a href="/pdf-ai.html" class="nav-link">PDF AI</a>
-    <a href="/social-media.html" class="nav-link">Social Media</a>
-    <a href="/seo.html" class="nav-link">SEO</a>
+
+  <div class="lang-switcher">
+    
+<a href="/pdf-to-word.html" class="lang-btn  active">EN</a>    <a href="/pt/pdf-to-word.html" class="lang-btn">PT</a>    <a href="/br/pdf-to-word.html" class="lang-btn">BR</a>    <a href="/es/pdf-to-word.html" class="lang-btn">ES</a>    <a href="/fr/pdf-to-word.html" class="lang-btn">FR</a>    <a href="/de/pdf-to-word.html" class="lang-btn">DE</a>
   </div>
 </header>
 
-<div class="hero">
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
   <h1>Convert <span class="hl">Word</span><br>to PDF</h1>
   <p>Free · Instant · 100% Private — files never leave your device</p>
 </div>
