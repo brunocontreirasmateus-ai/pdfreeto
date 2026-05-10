@@ -270,14 +270,14 @@ document.addEventListener('click', function(e) {
         <select id="lang-select" onchange="filterVoices()"></select>
       </div>
       <div class="opt-group">
-        <span class="opt-label">Speed — <span id="rate-val">1×</span></span>
+        <span class="opt-label">Velocidade — <span id="rate-val">1×</span></span>
         <div class="slider-row">
           <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1"
             oninput="document.getElementById('rate-val').textContent=this.value+'×'">
         </div>
       </div>
       <div class="opt-group">
-        <span class="opt-label">Pitch — <span id="pitch-val">1</span></span>
+        <span class="opt-label">Tom — <span id="pitch-val">1</span></span>
         <div class="slider-row">
           <input type="range" id="pitch" min="0.5" max="2" step="0.1" value="1"
             oninput="document.getElementById('pitch-val').textContent=parseFloat(this.value).toFixed(1)">
@@ -366,7 +366,7 @@ document.addEventListener('click', function(e) {
     // Build language list
     const langs = [...new Set(allVoices.map(v => v.lang))].sort();
     const langSel = document.getElementById('lang-select');
-    langSel.innerHTML = '<option value="">All languages</option>' +
+    langSel.innerHTML = '<option value="">Todos os idiomas</option>' +
       langs.map(l => `<option value="${l}">${l}</option>`).join('');
 
     filterVoices();
