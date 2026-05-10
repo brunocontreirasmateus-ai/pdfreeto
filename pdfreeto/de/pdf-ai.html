@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EXHT3PYZF8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EXHT3PYZF8');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF AI — PDFs mit KI Analysieren, Zusammenfassen & Q&A — PDFreeto</title>
+<meta name="description" content="Laden Sie ein PDF hoch und nutzen Sie KI zum Zusammenfassen, Themenextraktion, Fragen stellen und Anhören der Zusammenfassung. Kostenlos und privat.">
+<link rel="canonical" href="https://pdfreeto.com/de/pdf-ai.html">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a;
+    --border: #2a2a2a; --accent: #e8ff3c; --accent2: #ff5533; --accent3: #3cffd0;
+    --text: #f0ede6; --muted: #666;
+    --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  header { position: relative; z-index: 10; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  @media (max-width: 1200px) {
+    
+    .main-nav.open { display: flex; }
+    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
+    
+  }
+
+  .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
+  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero h1 .hl2 { color: var(--accent3); }
+  .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .content { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 36px 40px 80px; }
+
+  /* Drop zone */
+  .drop-zone { border: 2px dashed var(--border); padding: 50px 40px; text-align: center; cursor: pointer; transition: all 0.25s; background: var(--surface); overflow: hidden; position: relative; }
+  .drop-zone::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 60%, rgba(60,255,208,0.04)); pointer-events: none; }
+  .drop-zone:hover, .drop-zone.dragging { border-color: var(--accent3); background: rgba(60,255,208,0.04); }
+  .drop-zone:hover .dz-icon, .drop-zone.dragging .dz-icon { transform: scale(1.1) translateY(-4px); color: var(--accent3); }
+  .dz-icon { font-size: 2.8rem; margin-bottom: 14px; display: block; color: var(--muted); transition: all 0.3s; }
+  .dz-title { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 6px; }
+  .dz-sub { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  input[type="file"] { display: none; }
+
+  /* File info bar */
+  .file-bar { display: none; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); margin-top: 12px; }
+  .file-bar-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent3); flex-shrink: 0; }
+  .file-bar-name { flex: 1; font-family: var(--mono); font-size: 0.78rem; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-bar-meta { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); flex-shrink: 0; }
+  .file-bar-clear { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; transition: color 0.15s; }
+  .file-bar-clear:hover { color: var(--accent2); }
+
+  /* Action buttons */
+  .actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 20px; }
+  .action-btn {
+    padding: 16px 8px; background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; text-align: center; transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .action-btn:hover:not(:disabled) { border-color: var(--accent3); color: var(--text); }
+  .action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .action-btn.loading { border-color: var(--accent); color: var(--accent); }
+  .action-btn .ab-icon { font-size: 1.4rem; }
+  .action-btn .ab-label { font-size: 0.65rem; }
+
+  /* Result panel */
+  .result-panel { margin-top: 20px; display: none; }
+  .result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .result-tag { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent3); }
+  .result-actions { display: flex; gap: 8px; }
+  .icon-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 6px 10px; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+  .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .result-body {
+    background: var(--surface); border: 1px solid var(--border); padding: 24px;
+    font-size: 0.95rem; line-height: 1.8; color: var(--text); min-height: 120px;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .result-body.streaming::after {
+    content: '▋'; animation: blink 0.8s infinite; color: var(--accent);
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* Topics chips */
+  .topics-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+  .topic-chip { padding: 6px 14px; border: 1px solid var(--border); font-family: var(--mono); font-size: 0.72rem; color: var(--text); letter-spacing: 0.06em; background: var(--surface2); }
+
+  /* Q&A section */
+  .qa-wrap { display: flex; flex-direction: column; gap: 0; }
+  .qa-input-row { display: flex; gap: 0; }
+  .qa-input {
+    flex: 1; padding: 14px 16px; background: var(--surface2); border: 1px solid var(--border);
+    border-right: none; color: var(--text); font-family: var(--sans); font-size: 0.9rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .qa-input:focus { border-color: var(--accent3); }
+  .qa-input::placeholder { color: var(--muted); }
+  .qa-send { padding: 14px 20px; background: var(--accent3); color: #0a0a0a; font-family: var(--display); font-size: 1rem; letter-spacing: 0.1em; border: none; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .qa-send:hover { opacity: 0.9; }
+  .qa-send:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+  .qa-history { margin-top: 12px; display: flex; flex-direction: column; gap: 12px; }
+  .qa-item { display: flex; flex-direction: column; gap: 6px; }
+  .qa-question { font-family: var(--mono); font-size: 0.72rem; color: var(--accent3); letter-spacing: 0.08em; text-transform: uppercase; }
+  .qa-answer { background: var(--surface2); border: 1px solid var(--border); padding: 14px 16px; font-size: 0.9rem; line-height: 1.7; color: var(--text); }
+
+  /* TTS player */
+  .tts-bar { display: none; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface2); border: 1px solid var(--border); margin-top: 8px; }
+  .tts-play { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+  .tts-play:hover { transform: scale(1.1); }
+  .tts-progress { flex: 1; height: 3px; background: var(--border); }
+  .tts-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.15s; }
+  .tts-word { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); min-width: 80px; }
+
+  /* Spinner */
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .seo-block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .seo-block h2 { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px; }
+  .seo-block p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+
+  footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
+  .footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-sep { color: var(--border); font-family: var(--mono); font-size: 0.65rem; }
+  .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  @media (max-width: 600px) {
+    header { padding: 16px 20px; } .hero { padding: 40px 20px 20px; } .content { padding: 24px 20px 60px; }
+    .actions { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
+  }
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/de/" class="logo">PDF<span>reeto</span></a>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Alle <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/de/">JPG &#8596; PDF</a>
+      <a href="/de/pdf-to-word.html">Word zu PDF</a>
+      <a href="/de/compress-pdf.html">PDF komprimieren</a>
+      <a href="/de/compress-jpg.html">JPG komprimieren</a>
+      <a href="/de/merge-jpg.html">JPG zusammenführen</a>
+      <a href="/de/merge-pdf.html">PDF zusammenführen</a>
+      <a href="/de/tts.html">Text zu Sprache</a>
+      <a href="/de/pdf-ai.html" class="active">PDF AI</a>
+      <a href="/de/social-media.html">Soziale Medien</a>
+      <a href="/de/seo.html">SEO</a>
+    </div>
+  </div>
+  <div class="lang-switcher">
+    <a href="/de/pdf-ai.html" class="lang-btn">EN</a>
+    <a href="/pt/pdf-ai.html" class="lang-btn">PT</a>
+    <a href="/br/pdf-ai.html" class="lang-btn">BR</a>
+    <a href="/es/pdf-ai.html" class="lang-btn">ES</a>
+    <a href="/fr/pdf-ai.html" class="lang-btn">FR</a>
+    <a href="/de/pdf-ai.html" class="lang-btn active">DE</a>
+  </div>
+</header>
+
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
+  <h1>PDF <span class="hl2">AI</span></h1>
+  <p>Zusammenfassen · Themen · Q&amp;A · Anhören — mit Claude KI</p>
+</div>
+
+<div class="content">
+
+  <!-- Drop zone -->
+  <div class="drop-zone" id="dz" onclick="document.getElementById('input-pdf').click()">
+    <input type="file" id="input-pdf" accept="application/pdf">
+    <span class="dz-icon">🤖</span>
+    <div class="dz-title">PDF hier ablegen</div>
+    <div class="dz-sub">Die KI liest, analysiert und beantwortet Fragen zu Ihrem Dokument</div>
+  </div>
+
+  <div class="file-bar" id="file-bar">
+    <div class="file-bar-dot"></div>
+    <span class="file-bar-name" id="file-bar-name"></span>
+    <span class="file-bar-meta" id="file-bar-meta"></span>
+    <button class="file-bar-clear" onclick="clearFile()">✕</button>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="actions">
+    <button class="action-btn" id="btn-summarize" onclick="runAction('summarize')" disabled>
+      <span class="ab-icon">📋</span>
+      <span class="ab-label">Zusammenfassen</span>
+    </button>
+    <button class="action-btn" id="btn-topics" onclick="runAction('topics')" disabled>
+      <span class="ab-icon">🏷</span>
+      <span class="ab-label">Themen</span>
+    </button>
+    <button class="action-btn" id="btn-qa" onclick="showQA()" disabled>
+      <span class="ab-icon">💬</span>
+      <span class="ab-label">Q&amp;A</span>
+    </button>
+    <button class="action-btn" id="btn-tts" onclick="runAction('tts')" disabled>
+      <span class="ab-icon">🔊</span>
+      <span class="ab-label">Zusammenfassen + Sprache</span>
+    </button>
+  </div>
+
+  <!-- Result panel -->
+  <div class="result-panel" id="result-panel">
+    <div class="result-header">
+      <span class="result-tag" id="result-tag">Summary</span>
+      <div class="result-actions">
+        <button class="icon-btn" onclick="copyResult()">Kopieren</button>
+        <button class="icon-btn" id="tts-btn" onclick="speakResult()" style="display:none">▶ Anhören</button>
+      </div>
+    </div>
+    <div class="result-body" id="result-body"></div>
+    <div class="tts-bar" id="tts-bar">
+      <button class="tts-play" id="tts-play-btn" onclick="toggleTts()">⏸</button>
+      <div class="tts-progress"><div class="tts-fill" id="tts-fill"></div></div>
+      <span class="tts-word" id="tts-word"></span>
+    </div>
+  </div>
+
+  <!-- Q&A panel -->
+  <div class="result-panel" id="qa-panel">
+    <div class="result-header">
+      <span class="result-tag">💬 Ask a question about your PDF</span>
+    </div>
+    <div class="qa-wrap">
+      <div class="qa-input-row">
+        <input class="qa-input" id="qa-input" type="text" placeholder="z.B. Was sind die Hauptschlussfolgerungen?" onkeydown="if(event.key==='Enter')sendQuestion()">
+        <button class="qa-send" id="qa-send-btn" onclick="sendQuestion()">FRAGEN</button>
+      </div>
+      <div class="qa-history" id="qa-history"></div>
+    </div>
+  </div>
+
+  <div class="seo-block">
+    <h2>KI-gestützte PDF-Analyse</h2>
+    <p>Das PDF AI von PDFreeto nutzt Claude, um beliebige PDF-Dokumente sofort zu analysieren. Laden Sie einen Bericht, Artikel, Vertrag oder ein Buch hoch und erhalten Sie eine klare Zusammenfassung, eine Liste der Hauptthemen oder stellen Sie beliebige Fragen zum Inhalt in normaler Sprache.</p>
+    <h2>Was kann PDF AI leisten?</h2>
+    <p>Fassen Sie lange Dokumente in Sekunden zusammen, extrahieren Sie Hauptthemen als Schlagworte, stellen Sie gezielte Fragen und erhalten Sie präzise Antworten, oder lassen Sie die Zusammenfassung mit Text zu Sprache vorlesen. Die gesamte Verarbeitung erfolgt über eine sichere API — Ihr PDF-Inhalt wird nur zur Generierung Ihrer Antwort verwendet und nie gespeichert.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">JPG ↔ PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="pdf-to-word.html">Word zu PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="compress-pdf.html">PDF komprimieren</a>
+    <span class="footer-sep">·</span>
+    <a href="compress-jpg.html">JPG komprimieren</a>
+    <span class="footer-sep">·</span>
+    <a href="merge-jpg.html">JPG zusammenführen</a>
+    <span class="footer-sep">·</span>
+    <a href="merge-pdf.html">PDF zusammenführen</a>
+    <span class="footer-sep">·</span>
+    <a href="tts.html">Text zu Sprache</a>
+  </div>
+  <div class="footer-note">PDF content is sent to Claude AI only to generate your response · Never stored</div>
+</footer>
+
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  // ── NAV ──
+  
+  (function() {
+    const path = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.main-nav a').forEach(a => {
+      if (a.getAttribute('href') === path) a.classList.add('active');
+    });
+  })();
+
+  // ── STATE ──
+  let pdfText = '';
+  let pdfFile = null;
+  let currentSummary = '';
+  let ttsUtterance = null;
+  let ttsSpeaking = false;
+  let ttsPaused = false;
+
+  // ── FILE LOADING ──
+  const dz = document.getElementById('dz');
+  const input = document.getElementById('input-pdf');
+
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragging'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('dragging'));
+  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragging'); loadFile(e.dataTransfer.files[0]); });
+  input.addEventListener('change', () => loadFile(input.files[0]));
+
+  async function loadFile(f) {
+    if (!f || f.type !== 'application/pdf') return;
+    pdfFile = f;
+
+    document.getElementById('file-bar-name').textContent = f.name;
+
+    // Extract text with PDF.js
+    const ab = await f.arrayBuffer();
+    const doc = await pdfjsLib.getDocument({ data: ab }).promise;
+    const pages = doc.numPages;
+    let text = '';
+    for (let i = 1; i <= Math.min(pages, 40); i++) {
+      const page = await doc.getPage(i);
+      const content = await page.getTextContent();
+      text += content.items.map(s => s.str).join(' ') + '\n';
+    }
+    pdfText = text.trim();
+
+    document.getElementById('file-bar-meta').textContent = `${pages} pages · ${fmt(f.size)}`;
+    document.getElementById('file-bar').style.display = 'flex';
+    setButtons(true);
+    document.getElementById('result-panel').style.display = 'none';
+    document.getElementById('qa-panel').style.display = 'none';
+  }
+
+  function clearFile() {
+    pdfFile = null; pdfText = '';
+    input.value = '';
+    document.getElementById('file-bar').style.display = 'none';
+    document.getElementById('result-panel').style.display = 'none';
+    document.getElementById('qa-panel').style.display = 'none';
+    setButtons(false);
+    stopTts();
+  }
+
+  function setButtons(enabled) {
+    ['btn-summarize','btn-topics','btn-qa','btn-tts'].forEach(id => {
+      document.getElementById(id).disabled = !enabled;
+    });
+  }
+
+  // ── AI CALLS ──
+  const PROMPTS = {
+    summarize: `You are a document analyst. Read the following PDF text and write a clear, concise summary in 3-5 paragraphs. Be informative and well-structured. Use plain language.\n\nPDF TEXT:\n`,
+    topics: `You are a document analyst. Extract the 8-15 most important topics, themes and keywords from the following PDF text. Return ONLY a JSON array of strings, nothing else. Example: ["topic1","topic2"]\n\nPDF TEXT:\n`,
+    tts: `You are a document analyst. Write a clear, concise spoken summary of the following PDF — suitable for listening, not reading. Use natural spoken language, short sentences, and no markdown or special characters. Aim for 150-200 words.\n\nPDF TEXT:\n`
+  };
+
+  async function callClaude(prompt, onChunk) {
+    const truncated = pdfText.slice(0, 60000); // stay within context
+    const response = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt + truncated }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content?.[0]?.text || '';
+    if (text) onChunk(text);
+  }
+
+    async function runAction(type) {
+    if (!pdfText) return;
+
+    stopTts();
+    document.getElementById('qa-panel').style.display = 'none';
+    document.getElementById('result-panel').style.display = 'block';
+    document.getElementById('tts-bar').style.display = 'none';
+    document.getElementById('tts-btn').style.display = 'none';
+
+    const body = document.getElementById('result-body');
+    const tag = document.getElementById('result-tag');
+
+    const labels = { summarize: '📋 Zusammenfassung', topics: '🏷 Hauptthemen', tts: '🔊 Gesprochene Zusammenfassung' };
+    tag.textContent = labels[type];
+    body.textContent = '';
+    body.classList.add('streaming');
+    body.innerHTML = '<span class="spinner"></span>';
+
+    const btnId = { summarize: 'btn-summarize', topics: 'btn-topics', tts: 'btn-tts' }[type];
+    document.getElementById(btnId).classList.add('loading');
+
+    try {
+      let full = '';
+      body.textContent = '';
+
+      await callClaude(PROMPTS[type], chunk => {
+        full += chunk;
+        if (type === 'topics') {
+          body.textContent = 'Themen werden extrahiert...';
+        } else {
+          body.textContent = full;
+        }
+      });
+
+      body.classList.remove('streaming');
+
+      if (type === 'topics') {
+        try {
+          console.log('RAW topics response:', full);
+          const match = full.match(/\[.*?\]/s);
+          console.log('Regex match:', match);
+          const arr = match ? JSON.parse(match[0]) : [];
+          console.log('Parsed array:', arr);
+          body.innerHTML = '';
+          if (arr.length === 0) {
+            body.textContent = 'Raw response: ' + full;
+          } else {
+            const wrap = document.createElement('div');
+            wrap.className = 'topics-wrap';
+            arr.forEach(t => {
+              const chip = document.createElement('div');
+              chip.className = 'topic-chip';
+              chip.textContent = t;
+              wrap.appendChild(chip);
+            });
+            body.appendChild(wrap);
+          }
+        } catch(e) {
+          body.textContent = 'Parse error: ' + e.message + ' | Raw: ' + full;
+        }
+      } else {
+        currentSummary = full;
+        document.getElementById('tts-btn').style.display = 'inline-block';
+        if (type === 'tts') {
+          speakResult(full);
+        }
+      }
+    } catch (err) {
+      body.classList.remove('streaming');
+      body.textContent = '⚠ Error: ' + err.message + '\n\nMake sure you are using PDFreeto from a server that provides the Anthropic API key.';
+    }
+
+    document.getElementById(btnId).classList.remove('loading');
+  }
+
+  // ── Q&A ──
+  function showQA() {
+    document.getElementById('result-panel').style.display = 'none';
+    document.getElementById('qa-panel').style.display = 'block';
+    document.getElementById('qa-input').focus();
+  }
+
+  async function sendQuestion() {
+    const input = document.getElementById('qa-input');
+    const q = input.value.trim();
+    if (!q || !pdfText) return;
+
+    input.value = '';
+    document.getElementById('qa-send-btn').disabled = true;
+
+    const history = document.getElementById('qa-history');
+    const item = document.createElement('div');
+    item.className = 'qa-item';
+    item.innerHTML = `
+      <div class="qa-question">Q: ${q}</div>
+      <div class="qa-answer" id="qa-ans-${Date.now()}"><span class="spinner"></span></div>`;
+    history.appendChild(item);
+    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    const ansEl = item.querySelector('.qa-answer');
+    const prompt = `You are a document analyst. Answer the following question based ONLY on the PDF text provided. Be concise and accurate. If the answer is not in the document, say so clearly.\n\nQUESTION: ${q}\n\nPDF TEXT:\n`;
+
+    try {
+      let full = '';
+      ansEl.textContent = '';
+      await callClaude(prompt, chunk => { full += chunk; ansEl.textContent = full; });
+    } catch (err) {
+      ansEl.textContent = '⚠ Error: ' + err.message;
+    }
+
+    document.getElementById('qa-send-btn').disabled = false;
+    document.getElementById('qa-input').focus();
+  }
+
+  // ── TTS ──
+  function speakResult(text) {
+    if (!window.speechSynthesis) return;
+    const t = text || currentSummary || document.getElementById('result-body').textContent;
+    if (!t.trim()) return;
+
+    stopTts();
+
+    ttsUtterance = new SpeechSynthesisUtterance(t);
+    ttsUtterance.rate = 1;
+    const words = t.split(/\s+/);
+
+    ttsUtterance.onboundary = e => {
+      if (e.name === 'word') {
+        const spoken = t.substring(0, e.charIndex).trim().split(/\s+/).filter(Boolean).length;
+        document.getElementById('tts-word').textContent = words[spoken] || '';
+        document.getElementById('tts-fill').style.width = ((spoken / words.length) * 100) + '%';
+      }
+    };
+    ttsUtterance.onstart = () => {
+      ttsSpeaking = true; ttsPaused = false;
+      document.getElementById('tts-bar').style.display = 'flex';
+      document.getElementById('tts-play-btn').textContent = '⏸';
+    };
+    ttsUtterance.onend = () => {
+      ttsSpeaking = false;
+      document.getElementById('tts-play-btn').textContent = '▶';
+      document.getElementById('tts-fill').style.width = '100%';
+      document.getElementById('tts-word').textContent = '';
+    };
+
+    speechSynthesis.speak(ttsUtterance);
+  }
+
+  function toggleTts() {
+    if (!ttsSpeaking && !ttsPaused) { speakResult(); return; }
+    if (ttsPaused) {
+      speechSynthesis.resume(); ttsPaused = false;
+      document.getElementById('tts-play-btn').textContent = '⏸';
+    } else {
+      speechSynthesis.pause(); ttsPaused = true;
+      document.getElementById('tts-play-btn').textContent = '▶';
+    }
+  }
+
+  function stopTts() {
+    if (window.speechSynthesis) speechSynthesis.cancel();
+    ttsSpeaking = false; ttsPaused = false;
+    document.getElementById('tts-bar').style.display = 'none';
+    document.getElementById('tts-fill').style.width = '0%';
+  }
+
+  function copyResult() {
+    const text = document.getElementById('result-body').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.icon-btn');
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = orig, 1500);
+    });
+  }
+
+  function fmt(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+    return (b/1048576).toFixed(1) + ' MB';
+  }
+</script>
+</body>
+</html>
