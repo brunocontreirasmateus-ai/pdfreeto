@@ -11,15 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comprimir PDF Gratis | PDFreeto</title>
-<meta name="description" content="Compress PDF files online for free. Reduce PDF file size without losing quality. No upload required — 100% browser-based and private.">
-<link rel="alternate" hreflang="en" href="https://pdfreeto.com/compress-pdf.html">
-<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/compress-pdf.html">
-<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/compress-pdf.html">
-<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/compress-pdf.html">
-<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/compress-pdf.html">
-<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/compress-pdf.html">
-<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/compress-pdf.html">
+<title>Comprimir PDF Gratis Online — Reducir Tamaño PDF — PDFreeto</title>
+<meta name="description" content="Comprime archivos PDF online gratis. Reduce el tamaño sin perder calidad. Sin subida de archivos — 100% local y privado.">
 <link rel="canonical" href="https://pdfreeto.com/es/compress-pdf.html">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -111,62 +104,75 @@
     .level-selector { grid-template-columns: 1fr; }
   }
 
-  /* ── NAV ── */
-  .main-nav {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  
+
+  
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
   }
-  .main-nav a {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    padding: 6px 10px;
-    border: 1px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
   }
-  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
-  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: 1px solid var(--border);
-    padding: 8px 10px;
-    cursor: pointer;
-    z-index: 200;
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
   }
-  .burger span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: var(--text);
-    transition: all 0.3s;
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
-  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .burger.open span:nth-child(2) { opacity: 0; }
-  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  @media (max-width: 1200px) {
-    .main-nav {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
-      align-items: stretch;
-      padding: 70px 20px 20px;
-      gap: 4px;
-      z-index: 100;
-    }
-    .main-nav.open { display: flex; }
-    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
   }
 </style>
 </head>
@@ -174,34 +180,45 @@
 
 <header>
   <a href="/es/" class="logo">PDF<span>reeto</span></a>
-  <nav class="main-nav" id="main-nav">
-    <a href="/es/">JPG ↔ PDF</a>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
-    <a href="/es/compress-pdf.html">Comprimir PDF</a>
-    <a href="/es/compress-jpg.html">Comprimir JPG</a>
-    <a href="/es/merge-jpg.html">Unir JPG</a>
-    <a href="/es/merge-pdf.html">Unir PDF</a>
-    <a href="/es/tts.html">Texto a Voz</a>
-    <a href="/es/pdf-ai.html">PDF AI</a>
-    <a href="/es/social-media.html">Redes Sociales</a>
-    <a href="/es/seo.html">SEO</a>
-  </nav>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/es/">JPG &#8596; PDF</a>
+      <a href="/es/pdf-to-word.html">Word a PDF</a>
+      <a href="/es/compress-pdf.html"  class=active>Comprimir PDF</a>
+      <a href="/es/compress-jpg.html">Comprimir JPG</a>
+      <a href="/es/merge-jpg.html">Unir JPG</a>
+      <a href="/es/merge-pdf.html">Unir PDF</a>
+      <a href="/es/tts.html">Texto a Voz</a>
+      <a href="/es/pdf-ai.html">PDF AI</a>
+      <a href="/es/social-media.html">Redes Sociales</a>
+      <a href="/es/seo.html">SEO</a>
+    </div>
+  </div>
   <div class="lang-switcher">
-    <a href="/compress-pdf.html" class="lang-btn">EN</a>
+    <a href="/es/compress-pdf.html" class="lang-btn">EN</a>
     <a href="/pt/compress-pdf.html" class="lang-btn">PT</a>
     <a href="/br/compress-pdf.html" class="lang-btn">BR</a>
     <a href="/es/compress-pdf.html" class="lang-btn active">ES</a>
     <a href="/fr/compress-pdf.html" class="lang-btn">FR</a>
     <a href="/de/compress-pdf.html" class="lang-btn">DE</a>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </header>
 
-<div class="hero">
-  <h1><span class="hl">Compress</span><br>PDF</h1>
-  <p>Reduce el tamaño del PDF · Gratis · Sin registro</p>
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
+  <h1><span class="hl">Comprimir</span><br>PDF</h1>
+  <p>Reduce el tamaño del PDF · Gratis · Sin registro · Tus archivos se quedan en tu dispositivo</p>
 </div>
 
 <div class="content">
@@ -216,22 +233,22 @@
   <div class="file-list" id="filelist"></div>
 
   <div class="options" id="opts">
-    <div class="options-title">⚙ Compression Level</div>
+    <div class="options-title">⚙ Nivel de Compresión</div>
     <div class="level-selector">
       <div class="level-btn" onclick="setLevel(this, 0.5)">
         <span class="lv-icon">🗜</span>
-        <span class="lv-name">Maximum</span>
-        <span class="lv-desc">Smallest file, lower quality</span>
+        <span class="lv-name">Máxima</span>
+        <span class="lv-desc">Archivo más pequeño, menor calidad</span>
       </div>
       <div class="level-btn active" onclick="setLevel(this, 0.8)">
         <span class="lv-icon">⚖️</span>
-        <span class="lv-name">Balanced</span>
-        <span class="lv-desc">Good quality, smaller size</span>
+        <span class="lv-name">Equilibrado</span>
+        <span class="lv-desc">Buena calidad, tamaño menor</span>
       </div>
       <div class="level-btn" onclick="setLevel(this, 1.2)">
         <span class="lv-icon">🔍</span>
-        <span class="lv-name">High Quality</span>
-        <span class="lv-desc">Best quality, less compression</span>
+        <span class="lv-name">Alta Calidad</span>
+        <span class="lv-desc">Mejor calidad, menos compresión</span>
       </div>
     </div>
   </div>
@@ -241,44 +258,41 @@
     <div class="progress-text" id="prog-text">Compressing...</div>
   </div>
 
-  <button class="convert-btn" id="btn-compress" onclick="compressPdf()" disabled>
-    COMPRESS PDF
-  </button>
+  <button class="convert-btn" id="btn-compress" onclick="compressPdf()" disabled>COMPRIMIR PDF</button>
 
   <div class="result-section" id="result">
-    <div class="result-title">✓ Compression complete</div>
+    <div class="result-title">✓ Compresión completada</div>
     <div id="result-list"></div>
     <div class="size-stats" id="size-stats"></div>
   </div>
 
   <div class="seo-block">
-    <h2>How to Compress a PDF for Free</h2>
-    <p>PDFreeto compresses your PDF by re-rendering each page at a reduced resolution — entirely in your browser. No file ever leaves your device. Simply drop your PDF, choose a compression level, and download the smaller file instantly.</p>
-    <h2>When Should You Compress a PDF?</h2>
-    <p>PDF compression is useful when emailing documents (many servers limit attachments to 10MB), uploading to web forms, or storing large batches of scanned files. PDFreeto lets you choose between maximum compression for the smallest file size, or high quality when visual clarity matters most.</p>
-  </div>
-
-</div>
+      <h2>Cómo Comprimir un PDF Gratis</h2>
+      <p>PDFreeto comprime tu PDF re-renderizando cada página con menor resolución — todo en tu navegador. Sin enviar archivos a servidores. Arrastra tu PDF, elige el nivel de compresión y descarga el archivo más pequeño al instante.</p>
+      <h2>¿Cuándo Comprimir un PDF?</h2>
+      <p>La compresión de PDF es útil para enviar documentos por correo electrónico, subir a formularios web o almacenar grandes lotes de archivos escaneados. PDFreeto te permite elegir entre compresión máxima o alta calidad.</p>
+    </div>
+    </div>
 
 <footer>
   <div class="footer-links">
-    <a href="/es/">JPG ↔ PDF</a>
+    <a href="index.html">JPG ↔ PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
+    <a href="pdf-to-word.html">Word a PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/compress-jpg.html">Comprimir JPG</a>
+    <a href="compress-jpg.html">Comprimir JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/es/merge-jpg.html">Unir JPG</a>
+    <a href="merge-jpg.html">Unir JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/es/merge-pdf.html">Unir PDF</a>
+    <a href="merge-pdf.html">Unir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/tts.html">Texto a Voz</a>
+    <a href="tts.html">Texto a Voz</a>
     <span class="footer-sep">·</span>
-    <a href="/es/pdf-ai.html">PDF AI</a>
+    <a href="pdf-ai.html">PDF AI</a>
     <span class="footer-sep">·</span>
-    <a href="/es/social-media.html">Redes Sociales</a>
+    <a href="social-media.html">Redes Sociales</a>
     <span class="footer-sep">·</span>
-    <a href="/es/seo.html">SEO</a>
+    <a href="seo.html">SEO</a>
   </div>
   <div class="footer-note">Procesamiento 100% local — tus archivos nunca salen de tu dispositivo</div>
 </footer>
@@ -332,7 +346,7 @@
     let doc = null;
 
     for (let i = 1; i <= numPages; i++) {
-      progText.textContent = `Processing page ${i} of ${numPages}...`;
+      progText.textContent = `Procesando página ${i} of ${numPages}...`;
       fill.style.width = ((i - 1) / numPages * 90) + '%';
 
       const page = await pdfDoc.getPage(i);
@@ -378,7 +392,7 @@
     document.getElementById('size-stats').innerHTML =
       `<div class="stat">Original: <span>${fmt(originalSize)}</span></div>
        <div class="stat">Compressed: <span>${fmt(blob.size)}</span></div>
-       <div class="stat">Saved: <span class="saved">${saved}%</span></div>`;
+       <div class="stat">Ahorrado: <span class="saved">${saved}%</span></div>`;
   }
 
   function fmt(b) {
@@ -389,10 +403,7 @@
 </script>
 
 <script>
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   // Mark active link
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';

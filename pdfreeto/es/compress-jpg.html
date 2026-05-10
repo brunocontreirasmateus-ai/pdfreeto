@@ -11,15 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Comprimir JPG Gratis | PDFreeto</title>
-<meta name="description" content="Compress JPG and PNG images for free. Reduce image file size without visible quality loss. No upload — 100% browser-based and private.">
-<link rel="alternate" hreflang="en" href="https://pdfreeto.com/compress-jpg.html">
-<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/compress-jpg.html">
-<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/compress-jpg.html">
-<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/compress-jpg.html">
-<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/compress-jpg.html">
-<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/compress-jpg.html">
-<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/compress-jpg.html">
+<title>Comprimir JPG Gratis Online — Reducir Tamaño de Imágenes — PDFreeto</title>
+<meta name="description" content="Comprime imágenes JPG y PNG online gratis. Reduce el tamaño sin pérdida visible de calidad. Sin subida — 100% local.">
 <link rel="canonical" href="https://pdfreeto.com/es/compress-jpg.html">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
@@ -65,7 +58,7 @@
   .options { margin-top: 24px; padding: 20px; background: var(--surface); border: 1px solid var(--border); display: none; }
   .options-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
 
-  /* Quality slider */
+  /* Calidad slider */
   .slider-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
   .opt-label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; min-width: 80px; }
   input[type="range"] { flex: 1; -webkit-appearance: none; height: 3px; background: var(--border); outline: none; }
@@ -73,7 +66,7 @@
   input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; background: var(--accent); border-radius: 50%; cursor: pointer; border: none; }
   .slider-val { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); min-width: 40px; text-align: right; }
 
-  /* Resize options */
+  /* Redimensionar options */
   .resize-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .resize-btn { padding: 10px 6px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-family: var(--mono); font-size: 0.7rem; cursor: pointer; text-align: center; transition: all 0.2s; }
   .resize-btn:hover { border-color: var(--accent); color: var(--text); }
@@ -119,62 +112,75 @@
     .preview-grid { grid-template-columns: 1fr; } .resize-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
-  /* ── NAV ── */
-  .main-nav {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  
+
+  
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
   }
-  .main-nav a {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    padding: 6px 10px;
-    border: 1px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
   }
-  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
-  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: 1px solid var(--border);
-    padding: 8px 10px;
-    cursor: pointer;
-    z-index: 200;
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
   }
-  .burger span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: var(--text);
-    transition: all 0.3s;
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
-  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .burger.open span:nth-child(2) { opacity: 0; }
-  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  @media (max-width: 1200px) {
-    .main-nav {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
-      align-items: stretch;
-      padding: 70px 20px 20px;
-      gap: 4px;
-      z-index: 100;
-    }
-    .main-nav.open { display: flex; }
-    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
   }
 </style>
 </head>
@@ -182,34 +188,45 @@
 
 <header>
   <a href="/es/" class="logo">PDF<span>reeto</span></a>
-  <nav class="main-nav" id="main-nav">
-    <a href="/es/">JPG ↔ PDF</a>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
-    <a href="/es/compress-pdf.html">Comprimir PDF</a>
-    <a href="/es/compress-jpg.html">Comprimir JPG</a>
-    <a href="/es/merge-jpg.html">Unir JPG</a>
-    <a href="/es/merge-pdf.html">Unir PDF</a>
-    <a href="/es/tts.html">Texto a Voz</a>
-    <a href="/es/pdf-ai.html">PDF AI</a>
-    <a href="/es/social-media.html">Redes Sociales</a>
-    <a href="/es/seo.html">SEO</a>
-  </nav>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/es/">JPG &#8596; PDF</a>
+      <a href="/es/pdf-to-word.html">Word a PDF</a>
+      <a href="/es/compress-pdf.html">Comprimir PDF</a>
+      <a href="/es/compress-jpg.html"  class=active>Comprimir JPG</a>
+      <a href="/es/merge-jpg.html">Unir JPG</a>
+      <a href="/es/merge-pdf.html">Unir PDF</a>
+      <a href="/es/tts.html">Texto a Voz</a>
+      <a href="/es/pdf-ai.html">PDF AI</a>
+      <a href="/es/social-media.html">Redes Sociales</a>
+      <a href="/es/seo.html">SEO</a>
+    </div>
+  </div>
   <div class="lang-switcher">
-    <a href="/compress-jpg.html" class="lang-btn">EN</a>
+    <a href="/es/compress-jpg.html" class="lang-btn">EN</a>
     <a href="/pt/compress-jpg.html" class="lang-btn">PT</a>
     <a href="/br/compress-jpg.html" class="lang-btn">BR</a>
     <a href="/es/compress-jpg.html" class="lang-btn active">ES</a>
     <a href="/fr/compress-jpg.html" class="lang-btn">FR</a>
     <a href="/de/compress-jpg.html" class="lang-btn">DE</a>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </header>
 
-<div class="hero">
-  <h1><span class="hl">Compress</span><br>JPG</h1>
-  <p>Reduce el tamaño de las imágenes · Gratis · Sin registro</p>
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
+  <h1><span class="hl">Comprimir</span><br>JPG</h1>
+  <p>Reduce el tamaño de las imágenes · Gratis · Instantáneo · Sin subida necesaria</p>
 </div>
 
 <div class="content">
@@ -224,25 +241,25 @@
   <div class="file-list" id="filelist"></div>
 
   <div class="options" id="opts">
-    <div class="options-title">⚙ Compression Settings</div>
+    <div class="options-title">⚙ Configuración de Compresión</div>
 
     <div class="slider-row">
-      <span class="opt-label">Quality</span>
+      <span class="opt-label">Calidad</span>
       <input type="range" id="quality-slider" min="10" max="95" value="75" oninput="document.getElementById('quality-val').textContent=this.value+'%'">
       <span class="slider-val" id="quality-val">75%</span>
     </div>
 
-    <div class="opt-label" style="margin-bottom:8px">Resize</div>
+    <div class="opt-label" style="margin-bottom:8px">Redimensionar</div>
     <div class="resize-grid">
-      <div class="resize-btn active" onclick="setResize(this,1)">100%<br><span style="font-size:0.6rem;color:var(--muted)">Original</span></div>
-      <div class="resize-btn" onclick="setResize(this,0.75)">75%</div>
-      <div class="resize-btn" onclick="setResize(this,0.5)">50%</div>
-      <div class="resize-btn" onclick="setResize(this,0.25)">25%</div>
+      <div class="resize-btn active" onclick="setRedimensionar(this,1)">100%<br><span style="font-size:0.6rem;color:var(--muted)">Original</span></div>
+      <div class="resize-btn" onclick="setRedimensionar(this,0.75)">75%</div>
+      <div class="resize-btn" onclick="setRedimensionar(this,0.5)">50%</div>
+      <div class="resize-btn" onclick="setRedimensionar(this,0.25)">25%</div>
     </div>
   </div>
 
   <div class="preview-section" id="preview-sec">
-    <div class="preview-title">Preview (first image)</div>
+    <div class="preview-title">Vista previa (primera imagen)</div>
     <div class="preview-grid">
       <div class="preview-card">
         <img id="prev-original" src="" alt="Original">
@@ -250,8 +267,8 @@
         <div class="preview-card-size" id="prev-orig-size">—</div>
       </div>
       <div class="preview-card">
-        <img id="prev-compressed" src="" alt="Compressed">
-        <div class="preview-card-label">Compressed</div>
+        <img id="prev-compressed" src="" alt="Comprimido">
+        <div class="preview-card-label">Comprimido</div>
         <div class="preview-card-size" id="prev-comp-size">—</div>
       </div>
     </div>
@@ -262,43 +279,40 @@
     <div class="progress-text" id="prog-text">Compressing...</div>
   </div>
 
-  <button class="convert-btn" id="btn-compress" onclick="compressImages()" disabled>
-    COMPRESS IMAGES
-  </button>
+  <button class="convert-btn" id="btn-compress" onclick="compressImages()" disabled>COMPRIMIR IMÁGENES</button>
 
   <div class="result-section" id="result">
-    <div class="result-title">✓ Compression complete</div>
+    <div class="result-title">✓ Compresión completada</div>
     <div class="result-list" id="result-list"></div>
   </div>
 
   <div class="seo-block">
-    <h2>How to Compress JPG Images for Free</h2>
-    <p>PDFreeto compresses your JPG, PNG, and WEBP images directly in your browser using the HTML Canvas API. Adjust the quality slider to balance file size and visual quality, optionally resize the image, and download your compressed files instantly — no signup, no limits.</p>
-    <h2>Why Compress Images?</h2>
-    <p>Smaller images load faster on websites, take up less storage, and are easier to send by email. Compressing a JPG to 75% quality typically reduces file size by 50–70% with barely any visible difference — ideal for web publishing, social media, and sharing.</p>
-  </div>
-
-</div>
+      <h2>Cómo Comprimir Imágenes JPG Gratis</h2>
+      <p>PDFreeto comprime tus imágenes JPG, PNG y WEBP directamente en el navegador usando la API Canvas de HTML. Ajusta el slider de calidad, redimensiona si lo deseas, y descarga los archivos comprimidos al instante.</p>
+      <h2>¿Por qué Comprimir Imágenes?</h2>
+      <p>Las imágenes más pequeñas cargan más rápido en webs, ocupan menos espacio y son más fáciles de enviar por correo. Comprimir un JPG al 75% de calidad reduce el tamaño un 50-70% con apenas diferencia visual.</p>
+    </div>
+    </div>
 
 <footer>
   <div class="footer-links">
-    <a href="/es/">JPG ↔ PDF</a>
+    <a href="index.html">JPG ↔ PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
+    <a href="pdf-to-word.html">Word a PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/compress-pdf.html">Comprimir PDF</a>
+    <a href="compress-pdf.html">Comprimir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/merge-jpg.html">Unir JPG</a>
+    <a href="merge-jpg.html">Unir JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/es/merge-pdf.html">Unir PDF</a>
+    <a href="merge-pdf.html">Unir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/tts.html">Texto a Voz</a>
+    <a href="tts.html">Texto a Voz</a>
     <span class="footer-sep">·</span>
-    <a href="/es/pdf-ai.html">PDF AI</a>
+    <a href="pdf-ai.html">PDF AI</a>
     <span class="footer-sep">·</span>
-    <a href="/es/social-media.html">Redes Sociales</a>
+    <a href="social-media.html">Redes Sociales</a>
     <span class="footer-sep">·</span>
-    <a href="/es/seo.html">SEO</a>
+    <a href="seo.html">SEO</a>
   </div>
   <div class="footer-note">Procesamiento 100% local — tus archivos nunca salen de tu dispositivo</div>
 </footer>
@@ -317,7 +331,7 @@
 
   document.getElementById('quality-slider').addEventListener('input', updatePreview);
 
-  function setResize(el, val) {
+  function setRedimensionar(el, val) {
     resizeFactor = val;
     document.querySelectorAll('.resize-btn').forEach(b => b.classList.remove('active'));
     el.classList.add('active');
@@ -432,10 +446,7 @@
 </script>
 
 <script>
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   // Mark active link
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';

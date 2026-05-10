@@ -11,15 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF AI — Analiza PDFs con IA Gratis | PDFreeto</title>
-<meta name="description" content="Upload a PDF and use AI to summarize it, extract topics, ask questions, and listen to the summary. Free, private and browser-based.">
-<link rel="alternate" hreflang="en" href="https://pdfreeto.com/pdf-ai.html">
-<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/pdf-ai.html">
-<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/pdf-ai.html">
-<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/pdf-ai.html">
-<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/pdf-ai.html">
-<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/pdf-ai.html">
-<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/pdf-ai.html">
+<title>PDF AI — Resumir, Q&A y Analizar PDFs Gratis — PDFreeto</title>
+<meta name="description" content="Sube un PDF y usa IA para resumirlo, extraer temas, hacer preguntas y escuchar el resumen. Gratis y privado.">
 <link rel="canonical" href="https://pdfreeto.com/es/pdf-ai.html">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -40,20 +33,20 @@
   header { position: relative; z-index: 10; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
   .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
   .logo span { color: var(--accent); }
-  .main-nav { display: none; align-items: center; gap: 4px; }
+  
   .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
   .main-nav a:hover { color: var(--accent); border-color: var(--border); }
   .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  
   .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
   .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger.open span:nth-child(2) { opacity: 0; }
   .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   @media (max-width: 1200px) {
-    .main-nav { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+    
     .main-nav.open { display: flex; }
     .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
+    
   }
 
   .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
@@ -162,40 +155,120 @@
     header { padding: 16px 20px; } .hero { padding: 40px 20px 20px; } .content { padding: 24px 20px 60px; }
     .actions { grid-template-columns: repeat(2, 1fr); }
   }
+
+  
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
+  }
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
+  }
 </style>
 </head>
 <body>
 
 <header>
   <a href="/es/" class="logo">PDF<span>reeto</span></a>
-  <nav class="main-nav" id="main-nav">
-    <a href="/es/">JPG ↔ PDF</a>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
-    <a href="/es/compress-pdf.html">Comprimir PDF</a>
-    <a href="/es/compress-jpg.html">Comprimir JPG</a>
-    <a href="/es/merge-jpg.html">Unir JPG</a>
-    <a href="/es/merge-pdf.html">Unir PDF</a>
-    <a href="/es/tts.html">Texto a Voz</a>
-    <a href="/es/pdf-ai.html">PDF AI</a>
-    <a href="/es/social-media.html">Redes Sociales</a>
-    <a href="/es/seo.html">SEO</a>
-  </nav>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/es/">JPG &#8596; PDF</a>
+      <a href="/es/pdf-to-word.html">Word a PDF</a>
+      <a href="/es/compress-pdf.html">Comprimir PDF</a>
+      <a href="/es/compress-jpg.html">Comprimir JPG</a>
+      <a href="/es/merge-jpg.html">Unir JPG</a>
+      <a href="/es/merge-pdf.html">Unir PDF</a>
+      <a href="/es/tts.html">Texto a Voz</a>
+      <a href="/es/pdf-ai.html"  class=active>PDF AI</a>
+      <a href="/es/social-media.html">Redes Sociales</a>
+      <a href="/es/seo.html">SEO</a>
+    </div>
+  </div>
   <div class="lang-switcher">
-    <a href="/pdf-ai.html" class="lang-btn">EN</a>
+    <a href="/es/pdf-ai.html" class="lang-btn">EN</a>
     <a href="/pt/pdf-ai.html" class="lang-btn">PT</a>
     <a href="/br/pdf-ai.html" class="lang-btn">BR</a>
     <a href="/es/pdf-ai.html" class="lang-btn active">ES</a>
     <a href="/fr/pdf-ai.html" class="lang-btn">FR</a>
     <a href="/de/pdf-ai.html" class="lang-btn">DE</a>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </header>
 
-<div class="hero">
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
   <h1>PDF <span class="hl2">AI</span></h1>
-  <p>Resumir · Temas · Q&A · Escuchar — con IA</p>
+  <p>Resumir · Temas · Q&amp;A · Escuchar — con IA Claude</p>
 </div>
 
 <div class="content">
@@ -204,8 +277,8 @@
   <div class="drop-zone" id="dz" onclick="document.getElementById('input-pdf').click()">
     <input type="file" id="input-pdf" accept="application/pdf">
     <span class="dz-icon">🤖</span>
-    <div class="dz-title">Drop your PDF here</div>
-    <div class="dz-sub">AI will read, analyse and answer questions about it</div>
+    <div class="dz-title">Arrastra tu PDF aquí</div>
+    <div class="dz-sub">La IA leerá, analizará y responderá preguntas sobre tu documento</div>
   </div>
 
   <div class="file-bar" id="file-bar">
@@ -219,11 +292,11 @@
   <div class="actions">
     <button class="action-btn" id="btn-summarize" onclick="runAction('summarize')" disabled>
       <span class="ab-icon">📋</span>
-      <span class="ab-label">Summarize</span>
+      <span class="ab-label">Resumir</span>
     </button>
     <button class="action-btn" id="btn-topics" onclick="runAction('topics')" disabled>
       <span class="ab-icon">🏷</span>
-      <span class="ab-label">Topics</span>
+      <span class="ab-label">Temas</span>
     </button>
     <button class="action-btn" id="btn-qa" onclick="showQA()" disabled>
       <span class="ab-icon">💬</span>
@@ -231,7 +304,7 @@
     </button>
     <button class="action-btn" id="btn-tts" onclick="runAction('tts')" disabled>
       <span class="ab-icon">🔊</span>
-      <span class="ab-label">Summarize + TTS</span>
+      <span class="ab-label">Resumir + Voz</span>
     </button>
   </div>
 
@@ -240,8 +313,8 @@
     <div class="result-header">
       <span class="result-tag" id="result-tag">Summary</span>
       <div class="result-actions">
-        <button class="icon-btn" onclick="copyResult()">Copy</button>
-        <button class="icon-btn" id="tts-btn" onclick="speakResult()" style="display:none">▶ Listen</button>
+        <button class="icon-btn" onclick="copyResult()">Copiar</button>
+        <button class="icon-btn" id="tts-btn" onclick="speakResult()" style="display:none">▶ Escuchar</button>
       </div>
     </div>
     <div class="result-body" id="result-body"></div>
@@ -259,48 +332,45 @@
     </div>
     <div class="qa-wrap">
       <div class="qa-input-row">
-        <input class="qa-input" id="qa-input" type="text" placeholder="e.g. What are the main conclusions?" onkeydown="if(event.key==='Enter')sendQuestion()">
-        <button class="qa-send" id="qa-send-btn" onclick="sendQuestion()">ASK</button>
+        <input class="qa-input" id="qa-input" type="text" placeholder="ej. ¿Cuáles son las principales conclusiones?" onkeydown="if(event.key==='Enter')sendQuestion()">
+        <button class="qa-send" id="qa-send-btn" onclick="sendQuestion()">PREGUNTAR</button>
       </div>
       <div class="qa-history" id="qa-history"></div>
     </div>
   </div>
 
   <div class="seo-block">
-    <h2>AI-Powered PDF Analysis</h2>
-    <p>PDFreeto's PDF AI uses Claude to instantly analyse any PDF document. Upload a report, paper, contract or book and get a clear summary, a list of key topics, or ask any question about the content in plain language.</p>
-    <h2>What Can PDF AI Do?</h2>
-    <p>Summarize long documents in seconds, extract the main topics as tags, ask specific questions and get precise answers, or have the summary read aloud with Text-to-Speech. All processing happens through a secure API — your PDF content is only used to generate your answer and never stored.</p>
+    <h2>Análisis de PDF con Inteligencia Artificial</h2>
+    <p>El PDF AI de PDFreeto usa Claude para analizar instantáneamente cualquier documento PDF. Sube un informe, artículo, contrato o libro y obtén un resumen claro, una lista de temas principales, o haz cualquier pregunta sobre el contenido.</p>
+    <h2>¿Qué Puede Hacer el PDF AI?</h2>
+    <p>Resume documentos largos en segundos, extrae los temas principales como etiquetas, haz preguntas específicas y obtén respuestas precisas, o escucha el resumen con Texto a Voz. Todo el procesamiento ocurre a través de una API segura — el contenido de tu PDF solo se usa para generar tu respuesta y nunca se almacena.</p>
   </div>
 </div>
 
 <footer>
   <div class="footer-links">
-    <a href="/es/">JPG ↔ PDF</a>
+    <a href="index.html">JPG ↔ PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
+    <a href="pdf-to-word.html">Word a PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/compress-pdf.html">Comprimir PDF</a>
+    <a href="compress-pdf.html">Comprimir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/compress-jpg.html">Comprimir JPG</a>
+    <a href="compress-jpg.html">Comprimir JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/es/merge-jpg.html">Unir JPG</a>
+    <a href="merge-jpg.html">Unir JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/es/merge-pdf.html">Unir PDF</a>
+    <a href="merge-pdf.html">Unir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/tts.html">Texto a Voz</a>
+    <a href="tts.html">Texto a Voz</a>
   </div>
-  <div class="footer-note">Procesamiento 100% local — tus archivos nunca salen de tu dispositivo</div>
+  <div class="footer-note">PDF content is sent to Claude AI only to generate your response · Never stored</div>
 </footer>
 
 <script>
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
   // ── NAV ──
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.main-nav a').forEach(a => {
@@ -401,7 +471,7 @@
     const body = document.getElementById('result-body');
     const tag = document.getElementById('result-tag');
 
-    const labels = { summarize: '📋 Summary', topics: '🏷 Key Topics', tts: '🔊 Spoken Summary' };
+    const labels = { summarize: '📋 Resumen', topics: '🏷 Temas Principales', tts: '🔊 Resumen Hablado' };
     tag.textContent = labels[type];
     body.textContent = '';
     body.classList.add('streaming');
@@ -417,7 +487,7 @@
       await callClaude(PROMPTS[type], chunk => {
         full += chunk;
         if (type === 'topics') {
-          body.textContent = 'Extracting topics...';
+          body.textContent = 'Extrayendo temas...';
         } else {
           body.textContent = full;
         }

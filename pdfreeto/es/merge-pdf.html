@@ -11,15 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unir PDF Gratis | PDFreeto</title>
-<meta name="description" content="Merge multiple PDF files into one document for free. Drag to reorder pages, combine any number of PDFs. No upload required — 100% private and browser-based.">
-<link rel="alternate" hreflang="en" href="https://pdfreeto.com/merge-pdf.html">
-<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/merge-pdf.html">
-<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/merge-pdf.html">
-<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/merge-pdf.html">
-<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/merge-pdf.html">
-<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/merge-pdf.html">
-<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/merge-pdf.html">
+<title>Unir PDF Gratis Online — Combinar PDFs — PDFreeto</title>
+<meta name="description" content="Une múltiples archivos PDF en un único documento gratis. Arrastra para reordenar. Sin subida — 100% privado y local.">
 <link rel="canonical" href="https://pdfreeto.com/es/merge-pdf.html">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -112,62 +105,75 @@
     header { padding: 16px 20px; } .hero { padding: 40px 20px 20px; } .content { padding: 24px 20px 60px; }
   }
 
-  /* ── NAV ── */
-  .main-nav {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  
+
+  
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
   }
-  .main-nav a {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    padding: 6px 10px;
-    border: 1px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
   }
-  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
-  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: 1px solid var(--border);
-    padding: 8px 10px;
-    cursor: pointer;
-    z-index: 200;
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
   }
-  .burger span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: var(--text);
-    transition: all 0.3s;
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
-  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .burger.open span:nth-child(2) { opacity: 0; }
-  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  @media (max-width: 1200px) {
-    .main-nav {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
-      align-items: stretch;
-      padding: 70px 20px 20px;
-      gap: 4px;
-      z-index: 100;
-    }
-    .main-nav.open { display: flex; }
-    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
   }
 </style>
 </head>
@@ -175,34 +181,45 @@
 
 <header>
   <a href="/es/" class="logo">PDF<span>reeto</span></a>
-  <nav class="main-nav" id="main-nav">
-    <a href="/es/">JPG ↔ PDF</a>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
-    <a href="/es/compress-pdf.html">Comprimir PDF</a>
-    <a href="/es/compress-jpg.html">Comprimir JPG</a>
-    <a href="/es/merge-jpg.html">Unir JPG</a>
-    <a href="/es/merge-pdf.html">Unir PDF</a>
-    <a href="/es/tts.html">Texto a Voz</a>
-    <a href="/es/pdf-ai.html">PDF AI</a>
-    <a href="/es/social-media.html">Redes Sociales</a>
-    <a href="/es/seo.html">SEO</a>
-  </nav>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/es/">JPG &#8596; PDF</a>
+      <a href="/es/pdf-to-word.html">Word a PDF</a>
+      <a href="/es/compress-pdf.html">Comprimir PDF</a>
+      <a href="/es/compress-jpg.html">Comprimir JPG</a>
+      <a href="/es/merge-jpg.html">Unir JPG</a>
+      <a href="/es/merge-pdf.html"  class=active>Unir PDF</a>
+      <a href="/es/tts.html">Texto a Voz</a>
+      <a href="/es/pdf-ai.html">PDF AI</a>
+      <a href="/es/social-media.html">Redes Sociales</a>
+      <a href="/es/seo.html">SEO</a>
+    </div>
+  </div>
   <div class="lang-switcher">
-    <a href="/merge-pdf.html" class="lang-btn">EN</a>
+    <a href="/es/merge-pdf.html" class="lang-btn">EN</a>
     <a href="/pt/merge-pdf.html" class="lang-btn">PT</a>
     <a href="/br/merge-pdf.html" class="lang-btn">BR</a>
     <a href="/es/merge-pdf.html" class="lang-btn active">ES</a>
     <a href="/fr/merge-pdf.html" class="lang-btn">FR</a>
     <a href="/de/merge-pdf.html" class="lang-btn">DE</a>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </header>
 
-<div class="hero">
-  <h1><span class="hl">Merge</span><br>PDF</h1>
-  <p>Combina múltiples PDFs en uno · Gratis · Arrastra para reordenar</p>
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
+  <h1><span class="hl">Unir</span><br>PDF</h1>
+  <p>Combina múltiples PDFs en uno · Gratis · Arrastra para reordenar · Sin subida</p>
 </div>
 
 <div class="content">
@@ -210,17 +227,17 @@
   <div class="drop-zone" id="dz" onclick="document.getElementById('input-pdf').click()">
     <input type="file" id="input-pdf" accept="application/pdf" multiple>
     <span class="dz-icon">📄</span>
-    <div class="dz-title">Drop PDF files here</div>
-    <div class="dz-sub">Add as many PDFs as you need</div>
+    <div class="dz-title">Arrastra los archivos PDF aquí</div>
+    <div class="dz-sub">Añade tantos PDFs como necesites</div>
   </div>
 
   <div class="pdf-list-wrap" id="list-wrap">
     <div class="list-header">
-      <span class="list-label">Drag to reorder · <span id="file-count">0</span> files</span>
+      <span class="list-label">Arrastra para reordenar · <span id="file-count">0</span> files</span>
       <span class="total-pages" id="total-pages-label"></span>
     </div>
     <div class="pdf-list" id="pdf-list"></div>
-    <div class="sort-hint">↕ Drag rows to change the merge order</div>
+    <div class="sort-hint">↕ Arrastra las filas para cambiar el orden</div>
   </div>
 
   <div class="progress-wrap" id="prog">
@@ -231,29 +248,29 @@
   <button class="convert-btn" id="btn-merge" onclick="mergePdfs()" disabled>MERGE PDFs</button>
 
   <div class="result-section" id="result">
-    <div class="result-title">✓ Merge complete</div>
+    <div class="result-title">✓ Unión completada</div>
     <div id="result-list"></div>
   </div>
 
   <div class="seo-block">
-    <h2>How to Merge PDF Files for Free</h2>
-    <p>PDFreeto combines multiple PDF files into a single document entirely in your browser. Upload your PDFs, drag to arrange them in the exact order you want, then click Merge. The resulting PDF is ready to download immediately — no data is ever sent to a server.</p>
-    <h2>Common Uses for Merging PDFs</h2>
-    <p>Merging PDFs is useful for combining contracts with appendices, assembling multi-chapter reports, joining scanned documents, or bundling invoices and receipts. PDFreeto preserves the original page layout and quality of each document in the merged output.</p>
-  </div>
-</div>
+      <h2>Cómo Unir Archivos PDF Gratis</h2>
+      <p>PDFreeto combina múltiples archivos PDF en un único documento en tu navegador. Sube los PDFs, arrástralos para ordenarlos y haz clic en Unir. El PDF resultante está listo para descargar al instante.</p>
+      <h2>Usos Comunes para Unir PDFs</h2>
+      <p>Unir PDFs es útil para combinar contratos con anexos, montar informes de varios capítulos, juntar documentos escaneados o agrupar facturas y recibos. PDFreeto preserva el diseño y la calidad original de cada documento.</p>
+    </div>
+    </div>
 
 <footer>
   <div class="footer-links">
-    <a href="/es/">JPG ↔ PDF</a>
+    <a href="index.html">JPG ↔ PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
+    <a href="pdf-to-word.html">Word a PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/compress-pdf.html">Comprimir PDF</a>
+    <a href="compress-pdf.html">Comprimir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/compress-jpg.html">Comprimir JPG</a>
+    <a href="compress-jpg.html">Comprimir JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/es/merge-jpg.html">Unir JPG</a>
+    <a href="merge-jpg.html">Unir JPG</a>
   </div>
   <div class="footer-note">Procesamiento 100% local — tus archivos nunca salen de tu dispositivo</div>
 </footer>
@@ -302,7 +319,7 @@
 
     const totalPages = pdfFiles.reduce((s, p) => s + p.pageCount, 0);
     document.getElementById('file-count').textContent = pdfFiles.length;
-    document.getElementById('total-pages-label').textContent = pdfFiles.length ? `${totalPages} pages total` : '';
+    document.getElementById('total-pages-label').textContent = pdfFiles.length ? `${totalPages} páginas en total` : '';
 
     pdfFiles.forEach((entry, i) => {
       const card = document.createElement('div');
@@ -419,10 +436,7 @@
 </script>
 
 <script>
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   // Mark active link
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';

@@ -11,15 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Analizador SEO Gratis — Mejora tu SEO | PDFreeto</title>
-<meta name="description" content="Enter any URL and get a full SEO analysis with actionable improvements. Check title, meta tags, headings, content, speed and more. Free and instant.">
-<link rel="alternate" hreflang="en" href="https://pdfreeto.com/seo.html">
-<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/seo.html">
-<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/seo.html">
-<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/seo.html">
-<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/seo.html">
-<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/seo.html">
-<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/seo.html">
+<title>Analizador SEO Gratis — Mejora tu SEO — PDFreeto</title>
+<meta name="description" content="Introduce cualquier URL y obtén un análisis SEO completo con mejoras accionables. Gratis e instantáneo.">
 <link rel="canonical" href="https://pdfreeto.com/es/seo.html">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
@@ -36,20 +29,20 @@
   header { position: relative; z-index: 10; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
   .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
   .logo span { color: var(--accent); }
-  .main-nav { display: none; align-items: center; gap: 4px; }
+  
   .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
   .main-nav a:hover { color: var(--accent); border-color: var(--border); }
   .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger { display: flex; flex-direction: column; gap: 5px; background: none; border: 1px solid var(--border); padding: 8px 10px; cursor: pointer; z-index: 200; }
+  
   .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
   .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .burger.open span:nth-child(2) { opacity: 0; }
   .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   @media (max-width: 1200px) {
-    .main-nav { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+    
     .main-nav.open { display: flex; }
     .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
+    
   }
   .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
   .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
@@ -127,45 +120,125 @@
     .url-row { flex-direction: column; } .url-input { border-right: 2px solid var(--border); border-bottom: none; }
     .score-header { flex-direction: column; text-align: center; }
   }
+
+  
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
+  }
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
+  }
 </style>
 </head>
 <body>
 <header>
   <a href="/es/" class="logo">PDF<span>reeto</span></a>
-  <nav class="main-nav" id="main-nav">
-    <a href="/es/">JPG ↔ PDF</a>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
-    <a href="/es/compress-pdf.html">Comprimir PDF</a>
-    <a href="/es/compress-jpg.html">Comprimir JPG</a>
-    <a href="/es/merge-jpg.html">Unir JPG</a>
-    <a href="/es/merge-pdf.html">Unir PDF</a>
-    <a href="/es/tts.html">Texto a Voz</a>
-    <a href="/es/pdf-ai.html">PDF AI</a>
-    <a href="/es/social-media.html">Redes Sociales</a>
-    <a href="/es/seo.html">SEO</a>
-  </nav>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/es/">JPG &#8596; PDF</a>
+      <a href="/es/pdf-to-word.html">Word a PDF</a>
+      <a href="/es/compress-pdf.html">Comprimir PDF</a>
+      <a href="/es/compress-jpg.html">Comprimir JPG</a>
+      <a href="/es/merge-jpg.html">Unir JPG</a>
+      <a href="/es/merge-pdf.html">Unir PDF</a>
+      <a href="/es/tts.html">Texto a Voz</a>
+      <a href="/es/pdf-ai.html">PDF AI</a>
+      <a href="/es/social-media.html">Redes Sociales</a>
+      <a href="/es/seo.html"  class=active>SEO</a>
+    </div>
+  </div>
   <div class="lang-switcher">
-    <a href="/seo.html" class="lang-btn">EN</a>
+    <a href="/es/seo.html" class="lang-btn">EN</a>
     <a href="/pt/seo.html" class="lang-btn">PT</a>
     <a href="/br/seo.html" class="lang-btn">BR</a>
     <a href="/es/seo.html" class="lang-btn active">ES</a>
     <a href="/fr/seo.html" class="lang-btn">FR</a>
     <a href="/de/seo.html" class="lang-btn">DE</a>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </header>
 
-<div class="hero">
-  <h1>SEO<br><span class="hl">Analyser</span></h1>
-  <p>Pega una URL · Auditoría SEO completa · Gratis</p>
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
+  <h1>SEO<br><span class="hl">Analizador</span></h1>
+  <p>Pega una URL · Auditoría SEO completa · Corrige rápido · Gratis</p>
 </div>
 
 <div class="content">
   <div class="url-row">
-    <input class="url-input" id="url-input" type="url" placeholder="https://yourwebsite.com/page" onkeydown="if(event.key==='Enter')analyse()">
-    <button class="url-btn" onclick="analyse()">ANALYSE</button>
+    <input class="url-input" id="url-input" type="url" placeholder="https://tuweb.com/pagina" onkeydown="if(event.key==='Enter')analyse()">
+    <button class="url-btn" onclick="analyse()">ANALIZAR</button>
   </div>
 
   <div class="loading-state" id="loading">
@@ -198,41 +271,38 @@
   </div>
 
   <div class="seo-block">
-    <h2>Free SEO Audit Tool</h2>
-    <p>PDFreeto's SEO Analyser fetches your page and checks all key on-page SEO factors: title tag length and keywords, meta description quality, heading structure, image alt tags, canonical tags, Open Graph tags, and more. Each issue comes with a specific fix you can copy and apply immediately.</p>
-    <h2>What Does the SEO Score Mean?</h2>
-    <p>The score (0-100) reflects how well your page follows on-page SEO best practices. A score above 80 is strong. Between 60-79 there are clear improvements to make. Below 60 means the page has significant issues affecting its ability to rank. The AI analysis provides prioritised recommendations tailored to your specific page.</p>
+    <h2>Herramienta de Auditoría SEO Gratuita</h2>
+    <p>El Analizador SEO de PDFreeto obtiene tu página y verifica todos los factores SEO on-page clave: longitud y palabras clave del title tag, calidad de la meta description, estructura de encabezados, alt tags de imágenes, canonical tags, Open Graph tags y más. Cada problema incluye una corrección específica que puedes copiar y aplicar inmediatamente.</p>
+    <h2>¿Qué Significa la Puntuación SEO?</h2>
+    <p>La puntuación (0-100) refleja qué tan bien sigue tu página las mejores prácticas de SEO on-page. Una puntuación superior a 80 es sólida. Entre 60-79 hay mejoras claras que hacer. Por debajo de 60, la página tiene problemas significativos que afectan su capacidad de posicionamiento. El análisis con IA ofrece recomendaciones priorizadas adaptadas a tu página específica.</p>
   </div>
 </div>
 
 <footer>
   <div class="footer-links">
-    <a href="/es/">JPG ↔ PDF</a>
+    <a href="index.html">JPG ↔ PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
+    <a href="pdf-to-word.html">Word a PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/compress-pdf.html">Comprimir PDF</a>
+    <a href="compress-pdf.html">Comprimir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/compress-jpg.html">Comprimir JPG</a>
+    <a href="compress-jpg.html">Comprimir JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/es/merge-jpg.html">Unir JPG</a>
+    <a href="merge-jpg.html">Unir JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/es/merge-pdf.html">Unir PDF</a>
+    <a href="merge-pdf.html">Unir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/tts.html">Texto a Voz</a>
+    <a href="tts.html">Texto a Voz</a>
     <span class="footer-sep">·</span>
-    <a href="/es/pdf-ai.html">PDF AI</a>
+    <a href="pdf-ai.html">PDF AI</a>
     <span class="footer-sep">·</span>
-    <a href="/es/social-media.html">Redes Sociales</a>
+    <a href="social-media.html">Redes Sociales</a>
   </div>
-  <div class="footer-note">Powered by Claude AI · Page content sent only for analysis</div>
+  <div class="footer-note">Powered by Claude AI · Contenido de la página enviado solo para análisis</div>
 </footer>
 
 <script>
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.main-nav a').forEach(a => {
@@ -299,7 +369,7 @@
     checks.push({ group: 'On-Page Basics', title: 'H1 Heading', value: meta.h1s.length ? meta.h1s[0] : 'Missing',
       status: meta.h1s.length === 0 ? 'bad' : meta.h1s.length > 1 ? 'warn' : 'good',
       problem: meta.h1s.length === 0 ? 'No H1 heading found. Every page should have exactly one.' : meta.h1s.length > 1 ? `${meta.h1s.length} H1 headings found. Use only one.` : 'One H1 found — correct.',
-      fix: meta.h1s.length === 0 ? `Add an H1 near the top of your page:\n<h1>Analizador SEO</h1>` : meta.h1s.length > 1 ? `Remove extra H1 tags. Keep only:\n<h1>${meta.h1s[0]}</h1>\nChange the others to H2 or H3.` : null
+      fix: meta.h1s.length === 0 ? `Add an H1 near the top of your page:\n<h1>Your Primary Keyword — Page Topic</h1>` : meta.h1s.length > 1 ? `Remove extra H1 tags. Keep only:\n<h1>${meta.h1s[0]}</h1>\nChange the others to H2 or H3.` : null
     });
 
     // Word count
@@ -385,8 +455,8 @@
   function copyFix(btn) {
     const fix = btn.previousElementSibling.textContent;
     navigator.clipboard.writeText(fix).then(() => {
-      btn.textContent = 'Copied!';
-      setTimeout(() => btn.textContent = 'Copy fix', 1500);
+      btn.textContent = '¡Copiado!';
+      setTimeout(() => btn.textContent = 'Copiar corrección', 1500);
     });
   }
 
@@ -408,8 +478,8 @@
     circle.style.stroke = color;
     num.style.color = color;
     num.textContent = score;
-    label.textContent = score >= 80 ? 'Strong SEO' : score >= 60 ? 'Needs Improvement' : 'Critical Issues';
-    desc.textContent = score >= 80 ? 'Your page is well-optimised.' : score >= 60 ? 'Several improvements available.' : 'Multiple critical issues found.';
+    label.textContent = score >= 80 ? 'SEO Sólido' : score >= 60 ? 'Necesita Mejoras' : 'Problemas Críticos';
+    desc.textContent = score >= 80 ? 'Tu página está bien optimizada.' : score >= 60 ? 'Hay mejoras disponibles.' : 'Se encontraron múltiples problemas críticos.';
   }
 
   async function streamAI(text, url, checks) {
@@ -441,11 +511,11 @@
 
     document.getElementById('score-section').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
-    document.getElementById('loading-text').textContent = 'Fetching page...';
+    document.getElementById('loading-text').textContent = 'Obteniendo página...';
 
     try {
       const html = await fetchPage(url);
-      document.getElementById('loading-text').textContent = 'Running SEO checks...';
+      document.getElementById('loading-text').textContent = 'Ejecutando análisis SEO...';
       const meta = extractMeta(html, url);
       const checks = runChecks(meta, url);
       const score = calcScore(checks);

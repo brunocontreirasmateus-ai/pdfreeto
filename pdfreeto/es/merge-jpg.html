@@ -11,15 +11,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unir JPG Gratis | PDFreeto</title>
-<meta name="description" content="Merge multiple JPG, PNG or WEBP images into a single image for free. Arrange, reorder and combine images vertically or horizontally. No upload required.">
-<link rel="alternate" hreflang="en" href="https://pdfreeto.com/merge-jpg.html">
-<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/merge-jpg.html">
-<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/merge-jpg.html">
-<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/merge-jpg.html">
-<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/merge-jpg.html">
-<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/merge-jpg.html">
-<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/merge-jpg.html">
+<title>Unir JPG Gratis Online — Combinar Imágenes — PDFreeto</title>
+<meta name="description" content="Une múltiples imágenes JPG, PNG o WEBP en una sola imagen gratis. Arrastra para reordenar. Sin subida — 100% local.">
 <link rel="canonical" href="https://pdfreeto.com/es/merge-jpg.html">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
@@ -115,62 +108,75 @@
     .sort-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
   }
 
-  /* ── NAV ── */
-  .main-nav {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  
+
+  
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
   }
-  .main-nav a {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    padding: 6px 10px;
-    border: 1px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
   }
-  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
-  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: 1px solid var(--border);
-    padding: 8px 10px;
-    cursor: pointer;
-    z-index: 200;
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
   }
-  .burger span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: var(--text);
-    transition: all 0.3s;
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
-  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .burger.open span:nth-child(2) { opacity: 0; }
-  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  @media (max-width: 1200px) {
-    .main-nav {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
-      align-items: stretch;
-      padding: 70px 20px 20px;
-      gap: 4px;
-      z-index: 100;
-    }
-    .main-nav.open { display: flex; }
-    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
   }
 </style>
 </head>
@@ -178,34 +184,45 @@
 
 <header>
   <a href="/es/" class="logo">PDF<span>reeto</span></a>
-  <nav class="main-nav" id="main-nav">
-    <a href="/es/">JPG ↔ PDF</a>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
-    <a href="/es/compress-pdf.html">Comprimir PDF</a>
-    <a href="/es/compress-jpg.html">Comprimir JPG</a>
-    <a href="/es/merge-jpg.html">Unir JPG</a>
-    <a href="/es/merge-pdf.html">Unir PDF</a>
-    <a href="/es/tts.html">Texto a Voz</a>
-    <a href="/es/pdf-ai.html">PDF AI</a>
-    <a href="/es/social-media.html">Redes Sociales</a>
-    <a href="/es/seo.html">SEO</a>
-  </nav>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/es/">JPG &#8596; PDF</a>
+      <a href="/es/pdf-to-word.html">Word a PDF</a>
+      <a href="/es/compress-pdf.html">Comprimir PDF</a>
+      <a href="/es/compress-jpg.html">Comprimir JPG</a>
+      <a href="/es/merge-jpg.html"  class=active>Unir JPG</a>
+      <a href="/es/merge-pdf.html">Unir PDF</a>
+      <a href="/es/tts.html">Texto a Voz</a>
+      <a href="/es/pdf-ai.html">PDF AI</a>
+      <a href="/es/social-media.html">Redes Sociales</a>
+      <a href="/es/seo.html">SEO</a>
+    </div>
+  </div>
   <div class="lang-switcher">
-    <a href="/merge-jpg.html" class="lang-btn">EN</a>
+    <a href="/es/merge-jpg.html" class="lang-btn">EN</a>
     <a href="/pt/merge-jpg.html" class="lang-btn">PT</a>
     <a href="/br/merge-jpg.html" class="lang-btn">BR</a>
     <a href="/es/merge-jpg.html" class="lang-btn active">ES</a>
     <a href="/fr/merge-jpg.html" class="lang-btn">FR</a>
     <a href="/de/merge-jpg.html" class="lang-btn">DE</a>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </header>
 
-<div class="hero">
-  <h1><span class="hl">Merge</span><br>JPG</h1>
-  <p>Combina múltiples imágenes en una · Gratis · Arrastra para reordenar</p>
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
+  <h1><span class="hl">Unir</span><br>JPG</h1>
+  <p>Combina múltiples imágenes en una sola · Gratis · Arrastra para reordenar · Sin subida</p>
 </div>
 
 <div class="content">
@@ -213,39 +230,39 @@
   <div class="drop-zone" id="dz" onclick="document.getElementById('input-img').click()">
     <input type="file" id="input-img" accept="image/jpeg,image/jpg,image/png,image/webp" multiple>
     <span class="dz-icon">🖼</span>
-    <div class="dz-title">Drop images here</div>
-    <div class="dz-sub">JPG · PNG · WEBP — add as many as you need</div>
+    <div class="dz-title">Arrastra las imágenes aquí</div>
+    <div class="dz-sub">JPG · PNG · WEBP — añade tantas como necesites</div>
   </div>
 
   <div id="sort-wrap" style="display:none">
-    <div class="sort-label">Drag to reorder · <span id="img-count">0</span> images</div>
+    <div class="sort-label">Arrastra para reordenar · <span id="img-count">0</span> images</div>
     <div class="sort-grid" id="sort-grid"></div>
-    <div class="sort-hint">↕ Drag cards to change the merge order</div>
+    <div class="sort-hint">↕ Arrastra las tarjetas para cambiar el orden</div>
   </div>
 
   <div class="options" id="opts">
-    <div class="options-title">⚙ Merge Direction</div>
+    <div class="options-title">⚙ Dirección de Unión</div>
     <div class="opt-row">
       <div class="direction-btn active" onclick="setDir(this,'vertical')">
         <span class="dir-icon">↕</span>
-        VERTICAL<br><span style="font-size:0.6rem;color:var(--muted)">Stack top to bottom</span>
+        VERTICAL<br><span style="font-size:0.6rem;color:var(--muted)">Apilar de arriba a abajo</span>
       </div>
       <div class="direction-btn" onclick="setDir(this,'horizontal')">
         <span class="dir-icon">↔</span>
-        HORIZONTAL<br><span style="font-size:0.6rem;color:var(--muted)">Place side by side</span>
+        HORIZONTAL<br><span style="font-size:0.6rem;color:var(--muted)">Colocar lado a lado</span>
       </div>
     </div>
     <div class="opt-group">
-      <span class="opt-label">Output Format</span>
+      <span class="opt-label">Formato de salida</span>
       <select id="out-format" style="width:200px">
         <option value="jpeg">JPEG</option>
         <option value="png">PNG (lossless)</option>
       </select>
     </div>
     <div class="opt-group">
-      <span class="opt-label">Gap between images</span>
+      <span class="opt-label">Espacio entre imágenes</span>
       <select id="gap-size" style="width:200px">
-        <option value="0">None</option>
+        <option value="0">Ninguno</option>
         <option value="10" selected>Small (10px)</option>
         <option value="30">Medium (30px)</option>
         <option value="60">Large (60px)</option>
@@ -258,40 +275,40 @@
     <div class="progress-text" id="prog-text">Merging images...</div>
   </div>
 
-  <button class="convert-btn" id="btn-merge" onclick="mergeImages()" disabled>MERGE IMAGES</button>
+  <button class="convert-btn" id="btn-merge" onclick="mergeImages()" disabled>UNIR IMÁGENES</button>
 
   <div class="result-section" id="result">
-    <div class="result-title">✓ Merge complete</div>
+    <div class="result-title">✓ Unión completada</div>
     <div id="result-list"></div>
   </div>
 
   <div class="seo-block">
-    <h2>How to Merge JPG Images for Free</h2>
-    <p>PDFreeto lets you combine multiple JPG, PNG, or WEBP images into a single image — entirely in your browser. Upload your images, drag to arrange them in any order, choose vertical or horizontal layout, and download the result instantly. No account, no limits, no uploads to servers.</p>
-    <h2>When to Merge Images?</h2>
-    <p>Merging images is useful for creating before/after comparisons, combining screenshots into a single file, building photo collages, or preparing product images for e-commerce. The drag-to-reorder feature makes it easy to get the exact sequence you want.</p>
-  </div>
-</div>
+      <h2>Cómo Unir Imágenes JPG Gratis</h2>
+      <p>PDFreeto te permite combinar múltiples imágenes JPG, PNG o WEBP en una sola imagen en tu navegador. Sube las imágenes, arrástralas para ordenarlas, elige disposición vertical u horizontal y descarga el resultado.</p>
+      <h2>¿Cuándo Unir Imágenes?</h2>
+      <p>Unir imágenes es útil para crear comparaciones antes/después, combinar capturas de pantalla en un único archivo, crear collages de fotos o preparar imágenes de productos para e-commerce.</p>
+    </div>
+    </div>
 
 <footer>
   <div class="footer-links">
-    <a href="/es/">JPG ↔ PDF</a>
+    <a href="index.html">JPG ↔ PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/pdf-to-word.html">Word a PDF</a>
+    <a href="pdf-to-word.html">Word a PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/compress-pdf.html">Comprimir PDF</a>
+    <a href="compress-pdf.html">Comprimir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/compress-jpg.html">Comprimir JPG</a>
+    <a href="compress-jpg.html">Comprimir JPG</a>
     <span class="footer-sep">·</span>
-    <a href="/es/merge-pdf.html">Unir PDF</a>
+    <a href="merge-pdf.html">Unir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="/es/tts.html">Texto a Voz</a>
+    <a href="tts.html">Texto a Voz</a>
     <span class="footer-sep">·</span>
-    <a href="/es/pdf-ai.html">PDF AI</a>
+    <a href="pdf-ai.html">PDF AI</a>
     <span class="footer-sep">·</span>
-    <a href="/es/social-media.html">Redes Sociales</a>
+    <a href="social-media.html">Redes Sociales</a>
     <span class="footer-sep">·</span>
-    <a href="/es/seo.html">SEO</a>
+    <a href="seo.html">SEO</a>
   </div>
   <div class="footer-note">Procesamiento 100% local — tus archivos nunca salen de tu dispositivo</div>
 </footer>
@@ -460,10 +477,7 @@
 </script>
 
 <script>
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   // Mark active link
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';
