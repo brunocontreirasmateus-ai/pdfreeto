@@ -218,7 +218,7 @@
   })();
 
   async function fetchPage(url) {
-    const res = await fetch(`https://corsproxy.io/?url=${encodeURIComponent(url)}`);
+    const res = await fetch(`/.netlify/functions/fetch-page?url=${encodeURIComponent(url)}`);
     const data = await res.text();
     return data || '';
   }
