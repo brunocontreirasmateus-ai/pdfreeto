@@ -1,0 +1,47 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  
+  <!-- Grid lines -->
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#e8ff3c" stroke-width="0.3" opacity="0.15"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Accent bar left -->
+  <rect x="0" y="0" width="6" height="630" fill="#e8ff3c"/>
+
+  <!-- Logo -->
+  <text x="80" y="120" font-family="Arial Black, sans-serif" font-size="90" font-weight="900" letter-spacing="4" fill="#f0ede6">PDF<tspan fill="#e8ff3c">reeto</tspan></text>
+
+  <!-- Tagline -->
+  <text x="80" y="180" font-family="monospace" font-size="22" fill="#666" letter-spacing="3">FREE · FAST · PRIVATE · NO SIGNUP</text>
+
+  <!-- Divider -->
+  <rect x="80" y="210" width="1040" height="1" fill="#2a2a2a"/>
+
+  <!-- Tools grid -->
+  <g font-family="monospace" font-size="18" fill="#f0ede6" letter-spacing="1">
+    <text x="80" y="280">📄  JPG → PDF</text>
+    <text x="80" y="320">🖼  PDF → JPG</text>
+    <text x="80" y="360">📦  Compress PDF</text>
+    <text x="80" y="400">🗜  Compress JPG</text>
+
+    <text x="420" y="280">🔗  Merge PDF</text>
+    <text x="420" y="320">🖼  Merge JPG</text>
+    <text x="420" y="360">📝  Word to PDF</text>
+    <text x="420" y="400">🔊  Text to Speech</text>
+
+    <text x="760" y="280">🤖  PDF AI</text>
+    <text x="760" y="320">📱  Social Media Copy</text>
+    <text x="760" y="360">🔍  SEO Analyser</text>
+  </g>
+
+  <!-- Bottom bar -->
+  <rect x="0" y="560" width="1200" height="70" fill="#111111"/>
+  <rect x="0" y="560" width="1200" height="1" fill="#2a2a2a"/>
+  <text x="80" y="603" font-family="monospace" font-size="18" fill="#666" letter-spacing="2">pdfreeto.com</text>
+  <text x="1120" y="603" font-family="monospace" font-size="18" fill="#e8ff3c" letter-spacing="1" text-anchor="end">100% FREE</text>
+</svg>

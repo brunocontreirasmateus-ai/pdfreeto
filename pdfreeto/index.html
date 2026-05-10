@@ -4,15 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free JPG to PDF Converter Online | PDFreeto - Fast & Secure</title>
-<meta name="description" content="Convert JPG to PDF and PDF to JPG for free. 100% browser-based converter - your files never leave your device. Also supports PNG, WEBP, compression, and merging.">
+<meta name="description" content="Convert JPG to PDF free online. Fast, secure, 100% local processing - files never leave your device. No signup required.">
 <link rel="canonical" href="https://pdfreeto.com/">
 <meta property="og:title" content="Free JPG to PDF Converter Online | PDFreeto">
-<meta property="og:description" content="Convert JPG to PDF and PDF to JPG for free. 100% browser-based - your files never leave your device.">
+<meta property="og:description" content="Convert JPG to PDF free online. Fast, secure, 100% local processing - files never leave your device.">
 <meta property="og:url" content="https://pdfreeto.com/">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://pdfreeto.com/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Free JPG to PDF Converter Online | PDFreeto">
-<meta name="twitter:description" content="Convert JPG to PDF and PDF to JPG for free. 100% browser-based - your files never leave your device.">
+<meta name="twitter:description" content="Convert JPG to PDF free online. Fast, secure, 100% local processing - files never leave your device.">
+<meta name="twitter:image" content="https://pdfreeto.com/og-image.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PDFreeto JPG to PDF Converter",
+  "url": "https://pdfreeto.com",
+  "description": "Free online JPG to PDF converter. Convert images to PDF and PDF to images instantly in your browser.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "JPG to PDF conversion",
+    "PDF to JPG conversion",
+    "Compress PDF",
+    "Compress JPG",
+    "Merge PDF",
+    "Merge JPG",
+    "Text to Speech",
+    "PDF AI Analysis"
+  ]
+}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -601,40 +629,40 @@
     <div class="drop-zone" id="dz-jpg" onclick="document.getElementById('input-jpg').click()">
       <input type="file" id="input-jpg" accept="image/jpeg,image/jpg,image/png,image/webp" multiple>
       <span class="dz-icon">🖼</span>
-      <div class="dz-title">Arrasta ou clica aqui</div>
-      <div class="dz-sub">JPG · PNG · WEBP — múltiplos ficheiros suportados</div>
+      <div class="dz-title">Drag or click here</div>
+      <div class="dz-sub">JPG · PNG · WEBP — multiple files supported</div>
     </div>
 
     <div class="preview-grid" id="preview-jpg"></div>
     <div class="file-list" id="filelist-jpg"></div>
 
     <div class="options" id="opts-jpg" style="display:none">
-      <div class="options-title">⚙ Opções de Conversão</div>
+      <div class="options-title">⚙ Conversion Options</div>
       <div class="options-row">
         <div class="opt-group">
-          <span class="opt-label">Tamanho de página</span>
+          <span class="opt-label">Page size</span>
           <select id="page-size">
             <option value="a4">A4</option>
             <option value="a3">A3</option>
             <option value="letter">Letter</option>
             <option value="legal">Legal</option>
-            <option value="fit">Ajustar à imagem</option>
+            <option value="fit">Fit to image</option>
           </select>
         </div>
         <div class="opt-group">
-          <span class="opt-label">Orientação</span>
+          <span class="opt-label">Orientation</span>
           <select id="orientation">
-            <option value="auto">Automático</option>
-            <option value="portrait">Vertical</option>
-            <option value="landscape">Horizontal</option>
+            <option value="auto">Automatic</option>
+            <option value="portrait">Portrait</option>
+            <option value="landscape">Landscape</option>
           </select>
         </div>
         <div class="opt-group">
-          <span class="opt-label">Margem (mm)</span>
+          <span class="opt-label">Margin (mm)</span>
           <input type="number" id="margin" value="10" min="0" max="50">
         </div>
         <div class="opt-group">
-          <span class="opt-label">Nome do ficheiro</span>
+          <span class="opt-label">File name</span>
           <input type="text" id="pdf-name" value="documento" style="width:140px; background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--mono); font-size:0.8rem; padding:8px 12px; border-radius:2px; outline:none;">
         </div>
       </div>
@@ -642,15 +670,15 @@
 
     <div class="progress-wrap" id="prog-jpg">
       <div class="progress-bar"><div class="progress-fill" id="fill-jpg"></div></div>
-      <div class="progress-text" id="prog-text-jpg">A processar...</div>
+      <div class="progress-text" id="prog-text-jpg">Processing...</div>
     </div>
 
     <button class="convert-btn" id="btn-jpg2pdf" onclick="convertJpgToPdf()" disabled>
-      CONVERTER PARA PDF
+      CONVERT TO PDF
     </button>
 
     <div class="result-section" id="result-jpg">
-      <div class="result-title">✓ Conversão concluída</div>
+      <div class="result-title">✓ Conversion complete</div>
       <div class="result-list" id="result-list-jpg"></div>
     </div>
   </div>
@@ -661,22 +689,22 @@
     <div class="drop-zone" id="dz-pdf" onclick="document.getElementById('input-pdf').click()">
       <input type="file" id="input-pdf" accept="application/pdf" multiple>
       <span class="dz-icon">📄</span>
-      <div class="dz-title">Arrasta ou clica aqui</div>
-      <div class="dz-sub">Ficheiros PDF — múltiplos ficheiros suportados</div>
+      <div class="dz-title">Drag or click here</div>
+      <div class="dz-sub">PDF files — multiple files supported</div>
     </div>
 
     <div class="file-list" id="filelist-pdf"></div>
 
     <div class="options" id="opts-pdf" style="display:none">
-      <div class="options-title">⚙ Opções de Conversão</div>
+      <div class="options-title">⚙ Conversion Options</div>
       <div class="options-row">
         <div class="opt-group">
-          <span class="opt-label">Qualidade de imagem</span>
+          <span class="opt-label">Image quality</span>
           <select id="img-quality">
-            <option value="1.5">Baixa (rápida)</option>
+            <option value="1.5">Low (fast)</option>
             <option value="2" selected>Média</option>
-            <option value="3">Alta</option>
-            <option value="4">Máxima</option>
+            <option value="3">High</option>
+            <option value="4">Maximum</option>
           </select>
         </div>
         <div class="opt-group">
@@ -687,15 +715,15 @@
           </select>
         </div>
         <div class="opt-group">
-          <span class="opt-label">Páginas</span>
+          <span class="opt-label">Pages</span>
           <select id="pages-mode">
-            <option value="all">Todas</option>
-            <option value="first">Só a primeira</option>
-            <option value="range">Intervalo</option>
+            <option value="all">All pages</option>
+            <option value="first">First page only</option>
+            <option value="range">Range</option>
           </select>
         </div>
         <div class="opt-group" id="range-group" style="display:none">
-          <span class="opt-label">De — Até</span>
+          <span class="opt-label">From — To</span>
           <div style="display:flex;gap:6px">
             <input type="number" id="page-from" value="1" min="1" style="width:60px">
             <input type="number" id="page-to" value="5" min="1" style="width:60px">
@@ -706,15 +734,15 @@
 
     <div class="progress-wrap" id="prog-pdf">
       <div class="progress-bar"><div class="progress-fill" id="fill-pdf"></div></div>
-      <div class="progress-text" id="prog-text-pdf">A processar...</div>
+      <div class="progress-text" id="prog-text-pdf">Processing...</div>
     </div>
 
     <button class="convert-btn" id="btn-pdf2jpg" onclick="convertPdfToJpg()" disabled>
-      CONVERTER PARA JPG
+      CONVERT TO JPG
     </button>
 
     <div class="result-section" id="result-pdf">
-      <div class="result-title">✓ Conversão concluída</div>
+      <div class="result-title">✓ Conversion complete</div>
       <div class="result-list" id="result-list-pdf"></div>
     </div>
   </div>
@@ -741,7 +769,7 @@
     <span class="footer-sep">·</span>
     <a href="seo.html">SEO</a>
   </div>
-  <div class="footer-note">Processamento 100% local — os teus ficheiros nunca saem do teu dispositivo</div>
+  <div class="footer-note">100% local processing — your files never leave your device</div>
 </footer>
 
 <!-- mammoth for Word→PDF -->
@@ -765,7 +793,7 @@
   <div class="drop-zone" id="dz-word" onclick="document.getElementById('input-word').click()">
     <input type="file" id="input-word" accept=".docx">
     <span class="dz-icon">📝</span>
-    <div class="dz-title">Arrasta ou clica aqui</div>
+    <div class="dz-title">Drag or click here</div>
     <div class="dz-sub">Ficheiros .DOCX</div>
   </div>
   <div class="file-list" id="filelist-word"></div>
@@ -773,9 +801,9 @@
     <div class="progress-bar"><div class="progress-fill" id="fill-word"></div></div>
     <div class="progress-text" id="prog-text-word">A converter...</div>
   </div>
-  <button class="convert-btn" id="btn-word2pdf" onclick="convertWordToPdf()" disabled>CONVERTER PARA PDF</button>
+  <button class="convert-btn" id="btn-word2pdf" onclick="convertWordToPdf()" disabled>CONVERT TO PDF</button>
   <div class="result-section" id="result-word">
-    <div class="result-title">✓ Conversão concluída</div>
+    <div class="result-title">✓ Conversion complete</div>
     <div class="result-list" id="result-list-word"></div>
   </div>
 </template>
@@ -789,8 +817,8 @@
   <div class="drop-zone" id="dz-cpdf" onclick="document.getElementById('input-cpdf').click()">
     <input type="file" id="input-cpdf" accept="application/pdf">
     <span class="dz-icon">📦</span>
-    <div class="dz-title">Arrasta ou clica aqui</div>
-    <div class="dz-sub">Ficheiros PDF</div>
+    <div class="dz-title">Drag or click here</div>
+    <div class="dz-sub">PDF files</div>
   </div>
   <div class="file-list" id="filelist-cpdf"></div>
   <div class="options" id="opts-cpdf" style="display:none">
@@ -799,9 +827,9 @@
       <div class="opt-group">
         <span class="opt-label">Qualidade</span>
         <select id="cpdf-quality">
-          <option value="0.5">Máxima compressão (menor qualidade)</option>
+          <option value="0.5">Maximum compressão (menor qualidade)</option>
           <option value="0.8" selected>Equilibrado</option>
-          <option value="1.2">Alta qualidade (menos compressão)</option>
+          <option value="1.2">High qualidade (menos compressão)</option>
         </select>
       </div>
     </div>
@@ -826,7 +854,7 @@
   <div class="drop-zone" id="dz-cjpg" onclick="document.getElementById('input-cjpg').click()">
     <input type="file" id="input-cjpg" accept="image/jpeg,image/jpg,image/png,image/webp" multiple>
     <span class="dz-icon">🖼</span>
-    <div class="dz-title">Arrasta ou clica aqui</div>
+    <div class="dz-title">Drag or click here</div>
     <div class="dz-sub">JPG · PNG · WEBP — múltiplos ficheiros</div>
   </div>
   <div class="file-list" id="filelist-cjpg"></div>
@@ -836,8 +864,8 @@
       <div class="opt-group">
         <span class="opt-label">Qualidade JPEG</span>
         <select id="cjpg-quality">
-          <option value="0.4">Máxima compressão (40%)</option>
-          <option value="0.6">Alta compressão (60%)</option>
+          <option value="0.4">Maximum compressão (40%)</option>
+          <option value="0.6">High compressão (60%)</option>
           <option value="0.75" selected>Equilibrado (75%)</option>
           <option value="0.9">Baixa compressão (90%)</option>
         </select>
@@ -972,7 +1000,7 @@
     let doc = null;
 
     for (let i = 0; i < jpgFiles.length; i++) {
-      progText.textContent = `A processar imagem ${i + 1} de ${jpgFiles.length}...`;
+      progText.textContent = `Processing image ${i + 1} de ${jpgFiles.length}...`;
       fill.style.width = ((i / jpgFiles.length) * 100) + '%';
 
       const imgData = await fileToDataURL(jpgFiles[i]);
@@ -1010,7 +1038,7 @@
     }
 
     fill.style.width = '100%';
-    progText.textContent = 'A gerar PDF...';
+    progText.textContent = 'Generating PDF...';
     await sleep(100);
 
     const blob = doc.output('blob');
@@ -1028,10 +1056,10 @@
 
     const item = document.createElement('div');
     item.className = 'result-item';
-    item.innerHTML = `<span class="result-name">📄 ${name} — ${jpgFiles.length} página(s)</span>`;
+    item.innerHTML = `<span class="result-name">📄 ${name} — ${jpgFiles.length} page(s)</span>`;
     const a = document.createElement('a');
     a.href = url; a.download = name;
-    a.className = 'download-btn'; a.textContent = 'Descarregar';
+    a.className = 'download-btn'; a.textContent = 'Download';
     item.appendChild(a);
     resultList.appendChild(item);
   }
@@ -1147,7 +1175,7 @@
         item.innerHTML = `<span class="result-name">🖼 ${imgName}</span>`;
         const a = document.createElement('a');
         a.href = dataUrl; a.download = imgName;
-        a.className = 'download-btn'; a.textContent = 'Descarregar';
+        a.className = 'download-btn'; a.textContent = 'Download';
         item.appendChild(a);
         resultList.appendChild(item);
 
@@ -1259,7 +1287,7 @@
     const result = await mammoth.convertToHtml({ arrayBuffer: ab });
 
     fill.style.width = '50%';
-    progText.textContent = 'A gerar PDF...';
+    progText.textContent = 'Generating PDF...';
 
     // Render HTML to canvas via iframe, then capture
     const html = `<!DOCTYPE html><html><head><style>
@@ -1384,7 +1412,7 @@
     let doc = null;
 
     for (let i = 1; i <= numPages; i++) {
-      progText.textContent = `A processar página ${i} de ${numPages}...`;
+      progText.textContent = `Processing page ${i} de ${numPages}...`;
       fill.style.width = ((i - 1) / numPages * 90) + '%';
 
       const page = await pdfDoc.getPage(i);
@@ -1478,7 +1506,7 @@
       item.innerHTML = `<span class="result-name">🖼 ${name} <span style="color:var(--accent);font-size:0.7em">${saved > 0 ? '-' + saved + '%' : 'processado'}</span></span>`;
       const a = document.createElement('a');
       a.href = compressed; a.download = name;
-      a.className = 'download-btn'; a.textContent = 'Descarregar';
+      a.className = 'download-btn'; a.textContent = 'Download';
       item.appendChild(a);
       resultList.appendChild(item);
     }
@@ -1499,7 +1527,7 @@
     item.innerHTML = `<span class="result-name">${label}</span>`;
     const a = document.createElement('a');
     a.href = url; a.download = filename;
-    a.className = 'download-btn'; a.textContent = 'Descarregar';
+    a.className = 'download-btn'; a.textContent = 'Download';
     item.appendChild(a);
     list.appendChild(item);
   }
