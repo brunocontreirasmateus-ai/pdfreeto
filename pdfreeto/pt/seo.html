@@ -142,35 +142,7 @@
   .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
   .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
 
-  /* ── 2-ROW HEADER ── */
-  header {
-    position: relative; z-index: 10;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-top {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 40px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-bottom {
-    display: flex; align-items: center; justify-content: center;
-    padding: 0 40px;
-    overflow-x: auto;
-    gap: 0;
-  }
-  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
-  .logo span { color: var(--accent); }
-  .lang-switcher { display: flex; align-items: center; gap: 4px; }
-  .lang-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 5px 10px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
-  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .lang-btn.active { color: var(--accent); border-color: var(--accent); }
-  .nav-link {
-    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none; padding: 12px 14px;
-    border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
-  }
-  .nav-link:hover { color: var(--text); }
-  .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+  
   /* Hide old nav/burger */
   .main-nav, .burger { display: none !important; }
   @media (max-width: 600px) {
@@ -179,36 +151,107 @@
     .nav-link { padding: 10px 8px; font-size: 0.58rem; }
     .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
   }
+
+  
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  /* Hide old nav */
+  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
+  }
 </style>
 </head>
 <body>
 <header>
-  <div class="header-top">
-    <a href="/pt/" class="logo">PDF<span>reeto</span></a>
-    <div class="lang-switcher">
-      <a href="/seo.html" class="lang-btn">EN</a>
-      <a href="/pt/seo.html" class="lang-btn  active">PT</a>
-      <a href="/br/seo.html" class="lang-btn">BR</a>
-      <a href="/es/seo.html" class="lang-btn">ES</a>
-      <a href="/fr/seo.html" class="lang-btn">FR</a>
-      <a href="/de/seo.html" class="lang-btn">DE</a>
+  <a href="/pt/" class="logo">PDF<span>reeto</span></a>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/pt/">JPG &#8596; PDF</a>
+      <a href="/pt/pdf-to-word.html">Word para PDF</a>
+      <a href="/pt/compress-pdf.html">Comprimir PDF</a>
+      <a href="/pt/compress-jpg.html">Comprimir JPG</a>
+      <a href="/pt/merge-jpg.html">Juntar JPG</a>
+      <a href="/pt/merge-pdf.html">Juntar PDF</a>
+      <a href="/pt/tts.html">Texto para Voz</a>
+      <a href="/pt/pdf-ai.html">PDF AI</a>
+      <a href="/pt/social-media.html">Redes Sociais</a>
+      <a href="/pt/seo.html" class="active">SEO</a>
     </div>
   </div>
-  <div class="header-bottom">
-    <a href="/pt/" class="nav-link">JPG ↔ PDF</a>
-    <a href="/pt/pdf-to-word.html" class="nav-link">Word para PDF</a>
-    <a href="/pt/compress-pdf.html" class="nav-link">Comprimir PDF</a>
-    <a href="/pt/compress-jpg.html" class="nav-link">Comprimir JPG</a>
-    <a href="/pt/merge-jpg.html" class="nav-link">Juntar JPG</a>
-    <a href="/pt/merge-pdf.html" class="nav-link">Juntar PDF</a>
-    <a href="/pt/tts.html" class="nav-link">Texto para Voz</a>
-    <a href="/pt/pdf-ai.html" class="nav-link">PDF AI</a>
-    <a href="/pt/social-media.html" class="nav-link">Redes Sociais</a>
-    <a href="/pt/seo.html" class="nav-link active">SEO</a>
+  <div class="lang-switcher">
+    <a href="/seo.html" class="lang-btn">EN</a>
+    <a href="/pt/seo.html" class="lang-btn active">PT</a>
+    <a href="/br/seo.html" class="lang-btn">BR</a>
+    <a href="/es/seo.html" class="lang-btn">ES</a>
+    <a href="/fr/seo.html" class="lang-btn">FR</a>
+    <a href="/de/seo.html" class="lang-btn">DE</a>
   </div>
 </header>
 
-<div class="hero">
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+</script><div class="hero">
   <h1>SEO<br><span class="hl">Analyser</span></h1>
   <p>Cole um URL · Auditoria SEO completa · Corrija rapidamente · Grátis</p>
 </div>
@@ -249,10 +292,10 @@
   </div>
 
   <div class="seo-block">
-    <h2>Free SEO Audit Tool</h2>
-    <p>PDFreeto's SEO Analyser fetches your page and checks all key on-page SEO factors: title tag length and keywords, meta description quality, heading structure, image alt tags, canonical tags, Open Graph tags, and more. Each issue comes with a specific fix you can copy and apply immediately.</p>
-    <h2>What Does the SEO Score Mean?</h2>
-    <p>The score (0-100) reflects how well your page follows on-page SEO best practices. A score above 80 is strong. Between 60-79 there are clear improvements to make. Below 60 means the page has significant issues affecting its ability to rank. The AI analysis provides prioritised recommendations tailored to your specific page.</p>
+    <h2>Ferramenta de Auditoria SEO Gratuita</h2>
+    <p>O Analisador SEO do PDFreeto obtém a sua página e verifica todos os fatores SEO on-page principais: comprimento e keywords do title tag, qualidade da meta description, estrutura de headings, alt tags de imagens, canonical tags, Open Graph tags e mais. Cada problema inclui uma correção específica que pode copiar e aplicar imediatamente.</p>
+    <h2>O que Significa a Pontuação SEO?</h2>
+    <p>A pontuação (0-100) reflete quão bem a sua página segue as melhores práticas de SEO on-page. Uma pontuação acima de 80 é forte. Entre 60-79 existem melhorias claras a fazer. Abaixo de 60 a página tem problemas significativos que afetam a sua capacidade de posicionamento. A análise com IA fornece recomendações prioritizadas adaptadas à sua página específica.</p>
   </div>
 </div>
 
@@ -435,7 +478,7 @@
   function copyFix(btn) {
     const fix = btn.previousElementSibling.textContent;
     navigator.clipboard.writeText(fix).then(() => {
-      btn.textContent = 'Copied!';
+      btn.textContent = 'Copiado!';
       setTimeout(() => btn.textContent = 'Copiar correção', 1500);
     });
   }
@@ -459,7 +502,7 @@
     num.style.color = color;
     num.textContent = score;
     label.textContent = score >= 80 ? 'SEO Forte' : score >= 60 ? 'Precisa de Melhorias' : 'Problemas Críticos';
-    desc.textContent = score >= 80 ? 'Your page is well-optimised.' : score >= 60 ? 'Several improvements available.' : 'Multiple critical issues found.';
+    desc.textContent = score >= 80 ? 'A sua página está bem otimizada.' : score >= 60 ? 'Existem melhorias disponíveis.' : 'Foram encontrados problemas críticos.';
   }
 
   async function streamAI(text, url, checks) {
