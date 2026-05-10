@@ -547,114 +547,73 @@
   }
 
 
-  /* Language switcher */
-  .lang-switcher {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    flex-wrap: wrap;
+  
+
+  /* ── 2-ROW HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    border-bottom: 1px solid var(--border);
   }
-  .lang-btn {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    padding: 4px 7px;
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s;
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--border);
   }
+  .header-bottom {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 40px;
+    overflow-x: auto;
+    gap: 0;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 5px 10px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
   .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
   .lang-btn.active { color: var(--accent); border-color: var(--accent); }
-
-  /* ── NAV ── */
-  .main-nav {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  .nav-link {
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; padding: 12px 14px;
+    border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
   }
-  .main-nav a {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-ofcoration: none;
-    padding: 6px 10px;
-    border: 1px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
-  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  .burger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: 1px solid var(--border);
-    padding: 8px 10px;
-    cursor: pointer;
-    z-index: 200;
-  }
-  .burger span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: var(--text);
-    transition: all 0.3s;
-  }
-  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .burger.open span:nth-child(2) { opacity: 0; }
-  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  @media (max-width: 860px) {
-    .main-nav {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
-      align-items: stretch;
-      padding: 70px 20px 20px;
-      gap: 4px;
-      z-index: 100;
-    }
-    .main-nav.open { display: flex; }
-    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    .burger { display: flex; }
+  .nav-link:hover { color: var(--text); }
+  .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
+  /* Hide old nav/burger */
+  .main-nav, .burger { display: none !important; }
+  @media (max-width: 600px) {
+    .header-top { padding: 12px 16px; }
+    .header-bottom { padding: 0 8px; }
+    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
+    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">PDF<span>reeto</span></div>
-  <nav class="main-nav" id="main-nav">
-    <a href="index.html">JPG ↔ PDF</a>
-    <a href="pdf-to-word.html">Word to PDF</a>
-    <a href="compress-pdf.html">Compress PDF</a>
-    <a href="compress-jpg.html">Compress JPG</a>
-    <a href="merge-jpg.html">Merge JPG</a>
-    <a href="merge-pdf.html">Merge PDF</a>
-    <a href="tts.html">Text to Speech</a>
-    <a href="pdf-ai.html">PDF AI</a>
-    <a href="social-media.html">Social Media</a>
-    <a href="seo.html">SEO</a>
-  </nav>
-  <div class="lang-switcher">
-    <a href="/" class="lang-btn active">EN</a>
-    <a href="/pt/" class="lang-btn">PT</a>
-    <a href="/br/" class="lang-btn">BR</a>
-    <a href="/es/" class="lang-btn">ES</a>
-    <a href="/fr/" class="lang-btn">FR</a>
-    <a href="/de/" class="lang-btn">DE</a>
+  <div class="header-top">
+    <a href="/" class="logo">PDF<span>reeto</span></a>
+    <div class="lang-switcher">
+      <a href="/index.html" class="lang-btn  active">EN</a>
+      <a href="/pt/index.html" class="lang-btn">PT</a>
+      <a href="/br/index.html" class="lang-btn">BR</a>
+      <a href="/es/index.html" class="lang-btn">ES</a>
+      <a href="/fr/index.html" class="lang-btn">FR</a>
+      <a href="/de/index.html" class="lang-btn">DE</a>
+    </div>
   </div>
-  <button class="burger" id="burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="header-bottom">
+    <a href="/" class="nav-link active">JPG ↔ PDF</a>
+    <a href="/pdf-to-word.html" class="nav-link">Word to PDF</a>
+    <a href="/compress-pdf.html" class="nav-link">Compress PDF</a>
+    <a href="/compress-jpg.html" class="nav-link">Compress JPG</a>
+    <a href="/merge-jpg.html" class="nav-link">Merge JPG</a>
+    <a href="/merge-pdf.html" class="nav-link">Merge PDF</a>
+    <a href="/tts.html" class="nav-link">Text to Speech</a>
+    <a href="/pdf-ai.html" class="nav-link">PDF AI</a>
+    <a href="/social-media.html" class="nav-link">Social Media</a>
+    <a href="/seo.html" class="nav-link">SEO</a>
+  </div>
 </header>
 
 <div class="hero">
@@ -1242,10 +1201,7 @@
 </script>
 
 <script>
-  function toggleNav() {
-    document.getElementById('main-nav').classList.toggle('open');
-    document.getElementById('burger').classList.toggle('open');
-  }
+  
   // Mark active link
   (function() {
     const path = location.pathname.split('/').pop() || 'index.html';
