@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Allow: /pt/
+Allow: /br/
+Allow: /es/
+Allow: /fr/
+Allow: /de/
+
+Disallow: /.netlify/
+Disallow: /netlify/
+
+Sitemap: https://pdfreeto.com/sitemap.xml
