@@ -192,6 +192,10 @@
     .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
     .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
   }
+
+  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .blog-btn.active { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
@@ -212,6 +216,7 @@
       <a href="/es/seo.html">SEO</a>
     </div>
   </div>
+  <a href="/es/blog/" class="blog-btn">Blog</a>
   <div class="lang-switcher">
     <a href="/es/social-media.html" class="lang-btn">EN</a>
     <a href="/pt/social-media.html" class="lang-btn">PT</a>
@@ -377,15 +382,19 @@ document.addEventListener('click', function(e) {
     return { text, title, desc, url };
   }
 
-  async function callClaude(prompt) {
+  const LANG_SYSTEM = 'You are a social media copywriter. Write ALL output exclusively in Spanish (Castilian). Never write in English or any other language.';
+
+  async function callClaude(prompt, systemMsg) {
+    const body = {
+      model: 'claude-sonnet-4-5',
+      max_tokens: 1000,
+      messages: [{ role: 'user', content: prompt }]
+    };
+    if (systemMsg) body.system = systemMsg;
     const res = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
+      body: JSON.stringify(body)
     });
     const data = await res.json();
     return data.content?.[0]?.text || '';
@@ -406,7 +415,7 @@ document.addEventListener('click', function(e) {
 
       const context = `Page Title: ${page.title}\nMeta Description: ${page.desc}\nURL: ${page.url}\n\nPage Content:\n${page.text}`;
 
-      const prompt = `You are a social media expert. Based on the following web page content, write optimised posts for all 4 platforms. Return ONLY valid JSON, nothing else, in this exact format:
+      const prompt = `You are a social media expert. Based on the following web page content, write optimised posts for all 4 platforms. Return ONLY valid JSON, nothing else, no markdown code blocks. IMPORTANT: inside JSON string values, escape any double quotes as \" and never use unescaped double quotes. Use this exact format:
 {
   "instagram": {
     "caption": "Instagram caption here (emotional, engaging, max 2200 chars, no hashtags in caption)",
@@ -427,8 +436,26 @@ document.addEventListener('click', function(e) {
 PAGE CONTENT:
 ${context}`;
 
-      const raw = await callClaude(prompt);
-      const json = JSON.parse(raw.match(/\{[\s\S]*\}/)?.[0] || '{}');
+      const raw = await callClaude(prompt, LANG_SYSTEM);
+      const json = function() {
+        try {
+          let s = raw.match(/\{[\s\S]*\}/)?.[0] || '{}';
+          // Replace curly/smart quotes with straight quotes
+          s = s.replace(/[\u201c\u201d]/g, '"').replace(/[\u2018\u2019]/g, "'");
+          return JSON.parse(s);
+        } catch(e) {
+          // Fallback: strip the response to only ASCII-safe chars and retry
+          try {
+            let s = raw.replace(/```json|```/g, '').trim();
+            const start = s.indexOf('{');
+            const end = s.lastIndexOf('}');
+            if (start !== -1 && end !== -1) s = s.slice(start, end + 1);
+            return JSON.parse(s);
+          } catch(e2) {
+            throw new Error('AI returned invalid JSON. Please try again.');
+          }
+        }
+      }()
 
       // Instagram
       document.getElementById('text-instagram').value = json.instagram?.caption || '';
