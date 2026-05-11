@@ -210,6 +210,10 @@
     .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
     .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
   }
+
+  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .blog-btn.active { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
@@ -230,6 +234,7 @@
       <a href="/pt/seo.html" class="active">SEO</a>
     </div>
   </div>
+  <a href="/pt/blog/" class="blog-btn">Blog</a>
   <div class="lang-switcher">
     <a href="/seo.html" class="lang-btn">EN</a>
     <a href="/pt/seo.html" class="lang-btn active">PT</a>
@@ -340,30 +345,55 @@ document.addEventListener('click', function(e) {
   }
 
   function extractMeta(html) {
-    const get = (re) => (html.match(re) || [])[1] || '';
-    const getAll = (re) => [...html.matchAll(re)].map(m => m[1]);
-    const tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    tmp.querySelectorAll('script,style').forEach(e => e.remove());
-    const bodyText = tmp.textContent.replace(/\s+/g,' ').trim();
+    // Use a full DOM parser for reliable extraction
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    const getMeta = (attr, val) => {
+      const el = doc.querySelector(`meta[${attr}="${val}"], meta[${attr}='${val}']`);
+      return el ? (el.getAttribute('content') || '') : '';
+    };
+    const getMetaAlt = (attr, val) => {
+      for (const el of doc.querySelectorAll('meta')) {
+        const a = el.getAttribute(attr);
+        if (a && a.toLowerCase() === val.toLowerCase()) return el.getAttribute('content') || '';
+      }
+      return '';
+    };
+    const getLink = (rel) => {
+      const el = doc.querySelector(`link[rel="${rel}"]`);
+      return el ? (el.getAttribute('href') || '') : '';
+    };
+
+    const titleEl = doc.querySelector('title');
+    const title = titleEl ? titleEl.textContent.trim() : '';
+    const metaDesc = getMeta('name','description') || getMetaAlt('name','description');
+    const canonical = getLink('canonical');
+    const ogTitle = getMeta('property','og:title') || getMetaAlt('property','og:title');
+    const ogDesc  = getMeta('property','og:description') || getMetaAlt('property','og:description');
+    const ogImage = getMeta('property','og:image') || getMetaAlt('property','og:image');
+    const hasViewport = !!(getMeta('name','viewport') || getMetaAlt('name','viewport'));
+
+    const h1s = [...doc.querySelectorAll('h1')].map(el => el.textContent.replace(/\s+/g,' ').trim()).filter(Boolean);
+    const h2s = [...doc.querySelectorAll('h2')].map(el => el.textContent.replace(/\s+/g,' ').trim()).filter(Boolean);
+    const h3s = [...doc.querySelectorAll('h3')].map(el => el.textContent.replace(/\s+/g,' ').trim()).filter(Boolean);
+
+    const bodyClone = doc.body ? doc.body.cloneNode(true) : doc.createElement('div');
+    bodyClone.querySelectorAll('script,style,nav,header,footer').forEach(e => e.remove());
+    const bodyText = bodyClone.textContent.replace(/\s+/g,' ').trim();
     const wordCount = bodyText.split(/\s+/).filter(Boolean).length;
-    const images = [...html.matchAll(/<img[^>]*>/gi)].map(m => m[0]);
-    const imgsNoAlt = images.filter(i => !i.match(/alt=["'][^"']+["']/i));
+
+    const images = [...doc.querySelectorAll('img')];
+    const imgsNoAlt = images.filter(img => !img.getAttribute('alt') || img.getAttribute('alt').trim() === '').length;
 
     return {
-      title: get(/<title[^>]*>([^<]+)<\/title>/i),
-      metaDesc: get(/name=["']description["'][^>]*content=["']([^"']{1,500})/i) || get(/content=["']([^"']{1,500})["'][^>]*name=["']description["']/i),
-      canonical: get(/rel=["']canonical["'][^>]*href=["']([^"']+)/i) || get(/href=["']([^"']+)["'][^>]*rel=["']canonical["']/i),
-      ogTitle: get(/property=["']og:title["'][^>]*content=["']([^"']+)/i) || get(/content=["']([^"']+)["'][^>]*property=["']og:title["']/i),
-      ogDesc: get(/property=["']og:description["'][^>]*content=["']([^"']+)/i) || get(/content=["']([^"']+)["'][^>]*property=["']og:description["']/i),
-      ogImage: get(/property=["']og:image["'][^>]*content=["']([^"']+)/i) || get(/content=["']([^"']+)["'][^>]*property=["']og:image["']/i),
-      h1s: getAll(/<h1[^>]*>([^<]+)<\/h1>/gi),
-      h2s: getAll(/<h2[^>]*>([^<]+)<\/h2>/gi),
-      h3s: getAll(/<h3[^>]*>([^<]+)<\/h3>/gi),
+      title, metaDesc, canonical,
+      ogTitle, ogDesc, ogImage,
+      h1s, h2s, h3s,
       totalImages: images.length,
-      imgsNoAlt: imgsNoAlt.length,
+      imgsNoAlt,
       wordCount,
-      hasViewport: /name=["']viewport["']/i.test(html),
+      hasViewport,
       hasHttps: true,
       bodyText: bodyText.slice(0, 5000)
     };
