@@ -534,7 +534,15 @@ function autoDetectFromEl(el) {
   var txt = el.value.substring(0, 400);
   if (txt.length < 20) return;
   var lang = detectLang(txt);
-  if (lang !== lastLang) initVoices(lang);
+  if (lang !== lastLang) {
+    initVoices(lang);
+  }
+}
+
+function forceDetectFromEl(el) {
+  var txt = el.value.substring(0, 400);
+  if (txt.length < 20) return;
+  initVoices(detectLang(txt));
 }
 
 ['email-in','newsletter-in','article-in'].forEach(function(id) {
@@ -548,7 +556,7 @@ function autoDetectFromEl(el) {
   });
 });
 
-// Also detect language when GO button is clicked, before processing
+// Detect on GO button click
 ['email','newsletter','pdf','article'].forEach(function(tab) {
   var btn = document.getElementById(tab + '-go');
   if (!btn) return;
@@ -557,6 +565,21 @@ function autoDetectFromEl(el) {
     var el = document.getElementById(inId);
     if (el && el.value.length > 20) autoDetectFromEl(el);
   }, true);
+});
+
+// When tone/length selects change, re-detect language from current text
+['article-tone', 'pdf-length'].forEach(function(id) {
+  var sel = document.getElementById(id);
+  if (!sel) return;
+  sel.addEventListener('change', function() {
+    var tab = id.split('-')[0];
+    var inId = tab + '-in';
+    var el = document.getElementById(inId);
+    if (el && el.value.length > 20) {
+      var lang = detectLang(el.value.substring(0, 400));
+      initVoices(lang); // Force rebuild even if same lang
+    }
+  });
 });
 
 // ── PDF DROP ──
