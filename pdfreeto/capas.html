@@ -214,8 +214,9 @@ async function loadCapas(force) {
     var res = await fetch('/.netlify/functions/fetch-capas');
     var data = await res.json();
 
-    if (data.error || !data.sections || data.sections.length === 0) {
-      throw new Error(data.error || 'Sem dados');
+    if (data.error) throw new Error(data.error);
+    if (!data.sections || data.sections.length === 0) {
+      throw new Error('Sem capas encontradas (count: ' + (data.count || 0) + '). Tenta atualizar.');
     }
 
     // Cache
