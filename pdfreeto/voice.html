@@ -305,10 +305,10 @@
 </div>
 
 <div class="tabs-wrap">
-  <button class="tab active" onclick="switchTab(this,'email')">&#9993; Email &rarr; Voice Note</button>
-  <button class="tab" onclick="switchTab(this,'newsletter')">&#127897; Newsletter &rarr; Podcast</button>
-  <button class="tab" onclick="switchTab(this,'pdf')">&#128196; PDF &rarr; Briefing</button>
-  <button class="tab" onclick="switchTab(this,'article')">&#128242; Article &rarr; WhatsApp</button>
+  <button class="tab active" data-tab="email">&#9993; Email &rarr; Voice Note</button>
+  <button class="tab" data-tab="newsletter">&#127897; Newsletter &rarr; Podcast</button>
+  <button class="tab" data-tab="pdf">&#128196; PDF &rarr; Briefing</button>
+  <button class="tab" data-tab="article">&#128242; Article &rarr; WhatsApp</button>
 </div>
 
 <div class="vc">
@@ -444,7 +444,45 @@ document.addEventListener('click',function(e){
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-function switchTab(btn,id){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById('panel-'+id).classList.add('active');}
+// Tab switching via data attributes
+document.querySelectorAll('.tab[data-tab]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const id = this.dataset.tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('panel-' + id).classList.add('active');
+  });
+});
+
+// Process buttons
+document.querySelectorAll('[data-go]').forEach(btn => {
+  btn.addEventListener('click', function() { go(this.dataset.go); });
+});
+
+// Play buttons
+document.querySelectorAll('[data-play]').forEach(btn => {
+  btn.addEventListener('click', function() { togglePlay(this.dataset.play); });
+});
+
+// Download buttons
+document.querySelectorAll('[data-dl]').forEach(btn => {
+  btn.addEventListener('click', function() { dlAudio(this.dataset.dl); });
+});
+
+// Script toggle buttons
+document.querySelectorAll('[data-togscript]').forEach(btn => {
+  btn.addEventListener('click', function() { togScript(this.dataset.togscript); });
+});
+
+// PDF drop zone click
+const pdzBtn = document.getElementById('pdf-dz-btn');
+if (pdzBtn) pdzBtn.addEventListener('click', () => document.getElementById('pdf-fi').click());
+
+// Copy script buttons
+document.querySelectorAll('[data-cpscript]').forEach(btn => {
+  btn.addEventListener('click', function() { cpScript(this.dataset.cpscript); });
+});
 
 function loadVoices(){const vs=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));if(!vs.length)return;['email','newsletter','pdf','article'].forEach(tab=>{const sel=document.getElementById(tab+'-voice');if(!sel||sel.options.length>1)return;sel.innerHTML='';vs.forEach((v,i)=>{const o=document.createElement('option');o.value=i;o.textContent=v.name.replace(/\s*\(.*?\)/g,'').trim();sel.appendChild(o)});});}
 speechSynthesis.onvoiceschanged=loadVoices;loadVoices();
