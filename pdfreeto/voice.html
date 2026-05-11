@@ -3,608 +3,538 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Voice &#8212; AI Audio That Sounds More Human Than Text | PDFreeto</title>
+<title>Voice &mdash; AI Audio That Sounds More Human Than Text | PDFreeto</title>
 <meta name="description" content="Transform emails, newsletters, PDFs and articles into natural-sounding audio. AI rewrites your content for the ear, not the eye.">
 <link rel="canonical" href="https://pdfreeto.com/voice">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
-  :root {
-    --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a;
-    --border: #2a2a2a; --accent: #e8ff3c; --accent2: #ff5533; --accent3: #3cffd0;
-    --text: #f0ede6; --muted: #666;
-    --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif;
-    --good: #3cffd0; --warn: #ffaa00; --bad: #ff5533;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
-  body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px); background-size: 60px 60px; }
-  header { position: relative; z-index: 10; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
-  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
-  .logo span { color: var(--accent); }
-  
-  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
-  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
-  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
-  
-  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
-  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .burger.open span:nth-child(2) { opacity: 0; }
-  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  @media (max-width: 1200px) {
-    
-    .main-nav.open { display: flex; }
-    .main-nav a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
-    
-  }
-  .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
-  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
-  .hero h1 .hl { color: var(--accent); }
-  .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-  .content { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 36px 40px 80px; }
+  :root{--bg:#0a0a0a;--surface:#111;--border:#2a2a2a;--accent:#e8ff3c;--accent2:#ff5533;--text:#f0ede6;--muted:#666;--mono:"DM Mono",monospace;--sans:"DM Sans",sans-serif;--display:"Bebas Neue",sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(232,255,60,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(232,255,60,.03) 1px,transparent 1px);background-size:60px 60px}
 
-  /* URL input */
-  .url-row { display: flex; gap: 0; }
-  .url-input { flex: 1; padding: 16px 20px; background: var(--surface); border: 2px solid var(--border); border-right: none; color: var(--text); font-family: var(--mono); font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
-  .url-input:focus { border-color: var(--accent); }
-  .url-input::placeholder { color: var(--muted); }
-  .url-btn { padding: 16px 28px; background: var(--accent); color: #0a0a0a; font-family: var(--display); font-size: 1.1rem; letter-spacing: 0.1em; border: none; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-  .url-btn:hover { opacity: 0.9; }
-  .url-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+  /* HEADER */
+  header{position:relative;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);gap:16px}
+  .logo{font-family:var(--display);font-size:2rem;letter-spacing:.08em;color:var(--text);text-decoration:none;flex-shrink:0}
+  .logo span{color:var(--accent)}
+  .nav-dropdown{position:relative;flex-shrink:0}
+  .nav-toggle{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text);background:none;border:1px solid var(--border);padding:7px 14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
+  .nav-toggle:hover{border-color:var(--accent);color:var(--accent)}
+  .nav-toggle .arr{font-size:.6rem;transition:transform .2s}
+  .nav-toggle.open .arr{transform:rotate(180deg)}
+  .nav-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;background:var(--surface);border:1px solid var(--border);min-width:220px;z-index:200;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+  .nav-menu.open{display:block}
+  .nav-menu a{display:block;padding:10px 16px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--border);transition:all .15s}
+  .nav-menu a:last-child{border-bottom:none}
+  .nav-menu a:hover,.nav-menu a.active{color:var(--accent);padding-left:22px}
+  .blog-btn{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text);background:none;border:1px solid var(--border);padding:7px 14px;text-decoration:none;transition:all .2s;white-space:nowrap;flex-shrink:0}
+  .blog-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .lang-sw{display:flex;align-items:center;gap:4px}
+  .lb{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;padding:5px 9px;background:none;border:1px solid var(--border);color:var(--muted);text-decoration:none;transition:all .2s}
+  .lb:hover,.lb.active{color:var(--accent);border-color:var(--accent);background:rgba(232,255,60,.06)}
 
-  /* Loading */
-  .loading-state { display: none; padding: 40px; text-align: center; }
-  .loading-state .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 16px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-state p { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-
-  /* Score ring */
-  .score-section { display: none; margin-top: 32px; }
-  .score-header { display: flex; align-items: center; gap: 32px; padding: 28px; background: var(--surface); border: 1px solid var(--border); margin-bottom: 20px; }
-  .score-ring { position: relative; width: 100px; height: 100px; flex-shrink: 0; }
-  .score-ring svg { transform: rotate(-90deg); }
-  .score-ring circle.track { fill: none; stroke: var(--border); stroke-width: 8; }
-  .score-ring circle.fill { fill: none; stroke-width: 8; stroke-linecap: round; stroke-dasharray: 283; transition: stroke-dashoffset 1s ease, stroke 0.5s; }
-  .score-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 1.8rem; letter-spacing: 0.05em; }
-  .score-info h2 { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 6px; }
-  .score-info p { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; }
-  .score-info .url-display { font-family: var(--mono); font-size: 0.68rem; color: var(--accent); margin-top: 8px; word-break: break-all; }
-
-  /* Check items */
-  .checks-section { display: flex; flex-direction: column; gap: 8px; }
-  .check-group-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 20px 0 8px; }
-  .check-item { background: var(--surface); border: 1px solid var(--border); overflow: hidden; }
-  .check-header { display: flex; align-items: center; gap: 14px; padding: 14px 16px; cursor: pointer; transition: background 0.15s; }
-  .check-header:hover { background: var(--surface2); }
-  .check-status { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; font-weight: bold; }
-  .status-good { background: rgba(60,255,208,0.15); color: var(--good); border: 1px solid var(--good); }
-  .status-warn { background: rgba(255,170,0,0.15); color: var(--warn); border: 1px solid var(--warn); }
-  .status-bad { background: rgba(255,85,51,0.15); color: var(--bad); border: 1px solid var(--bad); }
-  .check-title { flex: 1; font-family: var(--sans); font-size: 0.9rem; color: var(--text); }
-  .check-value { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .check-arrow { color: var(--muted); font-size: 0.7rem; transition: transform 0.2s; }
-  .check-item.open .check-arrow { transform: rotate(180deg); }
-  .check-body { display: none; padding: 0 16px 16px 50px; }
-  .check-item.open .check-body { display: block; }
-  .check-body p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; margin-bottom: 10px; }
-  .check-body .fix { background: rgba(232,255,60,0.06); border: 1px solid rgba(232,255,60,0.2); padding: 12px 14px; font-family: var(--mono); font-size: 0.78rem; color: var(--text); line-height: 1.6; margin-top: 8px; white-space: pre-wrap; }
-  .fix-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
-  .copy-fix-btn { margin-top: 8px; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; background: none; border: 1px solid var(--border); color: var(--muted); cursor: pointer; transition: all 0.2s; }
-  .copy-fix-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* AI analysis streaming */
-  .ai-analysis { margin-top: 20px; padding: 20px; background: var(--surface); border: 1px solid var(--border); }
-  .ai-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
-  .ai-body { font-size: 0.92rem; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
-  .ai-body.streaming::after { content: '▋'; animation: blink 0.8s infinite; color: var(--accent); }
-  @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
-
-  .seo-block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); }
-  .seo-block h2 { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px; }
-  .seo-block p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
-  footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
-  .footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
-  .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--accent); }
-  .footer-sep { color: var(--border); font-family: var(--mono); font-size: 0.65rem; }
-  .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-  @media (max-width: 600px) {
-    header { padding: 16px 20px; } .hero { padding: 40px 20px 20px; } .content { padding: 24px 20px 60px; }
-    .url-row { flex-direction: column; } .url-input { border-right: 2px solid var(--border); border-bottom: none; }
-    .score-header { flex-direction: column; text-align: center; }
-  }
-
-  
-  /* Hide old nav/burger */
-  .main-nav, .burger { display: none !important; }
-  @media (max-width: 600px) {
-    .header-top { padding: 12px 16px; }
-    .header-bottom { padding: 0 8px; }
-    .nav-link { padding: 10px 8px; font-size: 0.58rem; }
-    .lang-btn { font-size: 0.58rem; padding: 4px 7px; }
-  }
-
-  
-
-  /* ── HEADER ── */
-  header {
-    position: relative; z-index: 100;
-    padding: 16px 40px;
-    display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-    gap: 16px;
-  }
-  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
-  .logo span { color: var(--accent); }
-
-  /* Dropdown */
-  .nav-dropdown { position: relative; flex-shrink: 0; }
-  .nav-toggle {
-    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--text); background: none; border: 1px solid var(--border);
-    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
-  }
-  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
-  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
-  .nav-toggle.open .arrow { transform: rotate(180deg); }
-  .nav-menu {
-    display: none; position: absolute; top: calc(100% + 8px); left: 0;
-    background: var(--surface); border: 1px solid var(--border);
-    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-  }
-  .nav-menu.open { display: block; }
-  .nav-menu a {
-    display: block; padding: 10px 16px;
-    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
-    transition: all 0.15s;
-  }
-  .nav-menu a:last-child { border-bottom: none; }
-  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
-  .nav-menu a.active { color: var(--accent); }
-
-  /* Lang switcher */
-  .lang-switcher { display: flex; align-items: center; gap: 4px; }
-  .lang-btn {
-    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
-    padding: 5px 9px; background: none; border: 1px solid var(--border);
-    color: var(--muted); text-decoration: none; transition: all 0.2s;
-  }
-  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
-
-  /* Hide old nav */
-  .main-nav, .burger, .back-link, .badge, .header-top, .header-lang-bar, .header-nav-bar { display: none !important; }
-
-  @media (max-width: 480px) {
-    header { padding: 12px 16px; }
-    .logo { font-size: 1.5rem; }
-    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
-    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
-  }
-
-  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
-  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .blog-btn.active { border-color: var(--accent); color: var(--accent); }
-
-  /* VOICE-SPECIFIC */
+  /* HERO */
   .hero{position:relative;z-index:10;padding:64px 40px 48px;border-bottom:1px solid var(--border)}
-  .hero-eyebrow{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:10px}
-  .hero-eyebrow::before{content:'';display:inline-block;width:24px;height:2px;background:var(--accent)}
-  .hero h1{font-family:var(--display);font-size:clamp(3.5rem,9vw,8rem);line-height:0.92;letter-spacing:0.02em;color:var(--text);margin-bottom:24px}
-  .hl{color:var(--accent)} .hl2{color:#ff5533}
-  .hero-sub{font-size:1rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:32px}
-  .hero-pills{display:flex;gap:8px;flex-wrap:wrap}
-  .pill{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--border);color:var(--muted)}
-  .tabs-wrap{position:relative;z-index:10;display:flex;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none}
-  .tabs-wrap::-webkit-scrollbar{display:none}
-  .tab{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;padding:16px 24px;cursor:pointer;color:var(--muted);background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all 0.2s;white-space:nowrap}
-  .tab:hover{color:var(--text)} .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-  .vc{position:relative;z-index:10;max-width:860px;margin:0 auto;padding:40px 40px 80px}
-  .panel{display:none} .panel.active{display:block}
-  .ptitle{font-family:var(--display);font-size:2.2rem;letter-spacing:0.05em;color:var(--text);margin-bottom:8px}
-  .pdesc{font-family:var(--mono);font-size:0.72rem;color:var(--muted);letter-spacing:0.08em;line-height:1.6;margin-bottom:24px}
-  .ilabel{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:block}
-  textarea.vi{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--sans);font-size:0.9rem;line-height:1.7;padding:20px;resize:vertical;min-height:160px;outline:none;transition:border-color 0.2s}
-  textarea.vi:focus{border-color:var(--accent)} textarea.vi::placeholder{color:var(--muted)}
-  input.ui{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.82rem;padding:14px 18px;outline:none;transition:border-color 0.2s}
-  input.ui:focus{border-color:var(--accent)} input.ui::placeholder{color:var(--muted)}
-  .drop-zone{border:2px dashed var(--border);padding:48px 40px;text-align:center;cursor:pointer;transition:all 0.25s;background:var(--surface);position:relative;overflow:hidden}
-  .drop-zone::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,rgba(232,255,60,0.03));pointer-events:none}
-  .drop-zone:hover,.drop-zone.dragging{border-color:var(--accent);background:rgba(232,255,60,0.03)}
-  .drop-zone:hover .dz-icon{color:var(--accent);transform:scale(1.1) translateY(-3px)}
-  .dz-icon{font-size:2.4rem;display:block;margin-bottom:12px;color:var(--muted);transition:all 0.3s}
-  .dz-title{font-family:var(--display);font-size:1.5rem;letter-spacing:0.05em;color:var(--text);margin-bottom:6px}
-  .dz-sub{font-family:var(--mono);font-size:0.68rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
+  .eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";display:inline-block;width:24px;height:2px;background:var(--accent)}
+  .hero h1{font-family:var(--display);font-size:clamp(3.5rem,9vw,8rem);line-height:.92;letter-spacing:.02em;color:var(--text);margin-bottom:24px}
+  .hero h1 .hl{color:var(--accent)}
+  .hero h1 .hl2{color:#ff5533}
+  .hero p{font-size:1rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:0}
+
+  /* TABS */
+  .tabs{position:relative;z-index:10;display:flex;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;padding:16px 24px;cursor:pointer;color:var(--muted);background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;flex-shrink:0}
+  .tab:hover{color:var(--text)}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+  /* PANELS */
+  .wrap{position:relative;z-index:10;max-width:860px;margin:0 auto;padding:40px 40px 80px}
+  .panel{display:none}
+  .panel.active{display:block}
+  .ptit{font-family:var(--display);font-size:2.2rem;letter-spacing:.05em;color:var(--text);margin-bottom:8px}
+  .pdsc{font-family:var(--mono);font-size:.72rem;color:var(--muted);letter-spacing:.08em;line-height:1.6;margin-bottom:24px}
+  .lbl{font-family:var(--mono);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:block}
+  .isec{margin-bottom:16px}
+  textarea.vi{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--sans);font-size:.9rem;line-height:1.7;padding:20px;resize:vertical;min-height:160px;outline:none;transition:border-color .2s}
+  textarea.vi:focus{border-color:var(--accent)}
+  textarea.vi::placeholder{color:var(--muted)}
+  input.ui{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:.82rem;padding:14px 18px;outline:none;transition:border-color .2s}
+  input.ui:focus{border-color:var(--accent)}
+  input.ui::placeholder{color:var(--muted)}
+  .dz{border:2px dashed var(--border);padding:48px 40px;text-align:center;cursor:pointer;transition:all .25s;background:var(--surface);position:relative;overflow:hidden}
+  .dz::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,rgba(232,255,60,.03));pointer-events:none}
+  .dz:hover,.dz.drag{border-color:var(--accent);background:rgba(232,255,60,.03)}
+  .dz:hover .dico,.dz.drag .dico{color:var(--accent);transform:scale(1.1) translateY(-3px)}
+  .dico{font-size:2.4rem;display:block;margin-bottom:12px;color:var(--muted);transition:all .3s}
+  .dtit{font-family:var(--display);font-size:1.5rem;letter-spacing:.05em;color:var(--text);margin-bottom:6px}
+  .dsub{font-family:var(--mono);font-size:.68rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
   input[type="file"]{display:none}
-  .finfo{margin-top:12px;display:none;align-items:center;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);font-family:var(--mono);font-size:0.76rem}
+  .finfo{margin-top:12px;display:none;align-items:center;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);font-family:var(--mono);font-size:.76rem}
   .fdot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
-  .fnm{flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .fsz{color:var(--muted)}
+  .fnm{flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .fsz{color:var(--muted)}
   .vset{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 20px}
   .vg{display:flex;flex-direction:column;gap:6px}
-  .sl{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
-  select.ss{background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.78rem;padding:10px 14px;outline:none;cursor:pointer;transition:border-color 0.2s}
+  .sl{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  select.ss{background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:.78rem;padding:10px 14px;outline:none;cursor:pointer;transition:border-color .2s}
   select.ss:focus{border-color:var(--accent)}
   .sw{display:flex;align-items:center;gap:10px}
-  input[type="range"]{flex:1;-webkit-appearance:none;height:3px;background:var(--border);outline:none}
-  input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--accent);cursor:pointer}
-  .pbtn{width:100%;padding:18px;background:var(--accent);color:#0a0a0a;font-family:var(--display);font-size:1.5rem;letter-spacing:0.12em;border:none;cursor:pointer;transition:all 0.2s;margin-top:4px}
-  .pbtn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
-  .pbtn:not(:disabled):hover{opacity:0.9}
+  input[type=range]{flex:1;-webkit-appearance:none;height:3px;background:var(--border);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--accent);cursor:pointer}
+  .goBtn{width:100%;padding:18px;background:var(--accent);color:#0a0a0a;font-family:var(--display);font-size:1.5rem;letter-spacing:.12em;border:none;cursor:pointer;transition:all .2s;margin-top:4px}
+  .goBtn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
+  .goBtn:not(:disabled):hover{opacity:.9}
   .pgw{margin-top:16px;display:none}
   .pgb{height:3px;background:var(--border);overflow:hidden;margin-bottom:8px}
-  .pgf{height:100%;background:var(--accent);width:0%;transition:width 0.4s}
-  .pgt{font-family:var(--mono);font-size:0.68rem;color:var(--muted);text-align:center;letter-spacing:0.1em;text-transform:uppercase}
-  .errbox{margin-top:12px;display:none;padding:14px 18px;background:rgba(255,85,51,0.08);border:1px solid rgba(255,85,51,0.3);font-family:var(--mono);font-size:0.72rem;color:#ff8066;letter-spacing:0.06em;line-height:1.7}
-  .rs{margin-top:28px;display:none;background:var(--surface);border:1px solid rgba(232,255,60,0.25)}
+  .pgf{height:100%;background:var(--accent);width:0%;transition:width .4s}
+  .pgt{font-family:var(--mono);font-size:.68rem;color:var(--muted);text-align:center;letter-spacing:.1em;text-transform:uppercase}
+  .ebox{margin-top:12px;display:none;padding:14px 18px;background:rgba(255,85,51,.08);border:1px solid rgba(255,85,51,.3);font-family:var(--mono);font-size:.72rem;color:#ff8066;line-height:1.7}
+  .rs{margin-top:28px;display:none;background:var(--surface);border:1px solid rgba(232,255,60,.25)}
   .rh{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-  .rl{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent)}
-  .rd{font-family:var(--mono);font-size:0.68rem;color:var(--muted)}
+  .rl{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+  .rd{font-family:var(--mono);font-size:.68rem;color:var(--muted)}
   .wf{padding:20px 20px 12px;display:flex;align-items:center;gap:3px;height:60px}
-  .wb{flex:1;background:var(--border);border-radius:1px;transition:all 0.15s}
+  .wb{flex:1;background:var(--border);border-radius:1px;transition:all .15s}
   .pcon{padding:12px 20px 20px;display:flex;align-items:center;gap:12px}
-  .plb{width:48px;height:48px;background:var(--accent);border:none;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity 0.2s}
-  .plb:hover{opacity:0.85}
-  .ptrk{flex:1;height:3px;background:var(--border);position:relative}
-  .ppl{height:100%;background:var(--accent);width:0%;pointer-events:none}
-  .ptd{font-family:var(--mono);font-size:0.68rem;color:var(--muted);min-width:70px;text-align:right}
-  .dwn{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:10px 16px;background:none;border:1px solid var(--accent);color:var(--accent);cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .plb{width:48px;height:48px;background:var(--accent);border:none;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .plb:hover{opacity:.85}
+  .ptrk{flex:1;height:3px;background:var(--border)}
+  .ppl{height:100%;background:var(--accent);width:0%}
+  .ptd{font-family:var(--mono);font-size:.68rem;color:var(--muted);min-width:70px;text-align:right}
+  .dwn{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:10px 16px;background:none;border:1px solid var(--accent);color:var(--accent);cursor:pointer;transition:all .2s;text-decoration:none}
   .dwn:hover{background:var(--accent);color:#0a0a0a}
   .scr{border-top:1px solid var(--border)}
-  .stg{width:100%;padding:12px 20px;background:none;border:none;color:var(--muted);font-family:var(--mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;transition:color 0.2s}
-  .stg:hover{color:var(--text)} .ch{transition:transform 0.2s} .stg.open .ch{transform:rotate(180deg)}
-  .sbdy{display:none;padding:0 20px 20px} .sbdy.open{display:block}
-  .stxt{font-size:0.88rem;color:var(--muted);line-height:1.8;white-space:pre-wrap}
-  .cps{margin-top:12px;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all 0.2s}
+  .stg{width:100%;padding:12px 20px;background:none;border:none;color:var(--muted);font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;transition:color .2s}
+  .stg:hover{color:var(--text)}
+  .ch{transition:transform .2s}
+  .stg.open .ch{transform:rotate(180deg)}
+  .sbdy{display:none;padding:0 20px 20px}
+  .sbdy.open{display:block}
+  .stxt{font-size:.88rem;color:var(--muted);line-height:1.8;white-space:pre-wrap}
+  .cps{margin-top:12px;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .2s}
   .cps:hover{border-color:var(--accent);color:var(--accent)}
-  .seoblock{margin-top:56px;padding-top:40px;border-top:1px solid var(--border)}
-  .seoblock h2{font-family:var(--display);font-size:1.8rem;letter-spacing:0.05em;color:var(--text);margin-bottom:12px}
-  .seoblock p{font-size:0.9rem;color:var(--muted);line-height:1.7}
-  @media(max-width:600px){.hero{padding:40px 20px 32px}.vc{padding:24px 20px 60px}.vset{grid-template-columns:1fr}.tab{padding:14px 16px;font-size:0.63rem}}
+  .sblk{margin-top:56px;padding-top:40px;border-top:1px solid var(--border)}
+  .sblk h2{font-family:var(--display);font-size:1.8rem;letter-spacing:.05em;color:var(--text);margin-bottom:12px}
+  .sblk p{font-size:.9rem;color:var(--muted);line-height:1.7}
+  footer{position:relative;z-index:10;text-align:center;padding:24px;border-top:1px solid var(--border)}
+  .fl{display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+  .fl a{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text);text-decoration:none}
+  .fl a:hover{color:var(--accent)}
+  .fs{color:var(--border)}
+  .fn{font-family:var(--mono);font-size:.65rem;color:var(--muted)}
+  @media(max-width:600px){header{padding:12px 16px}.logo{font-size:1.5rem}.hero{padding:40px 20px 32px}.wrap{padding:24px 20px 60px}.vset{grid-template-columns:1fr}.tab{padding:14px 14px;font-size:.63rem}}
 </style>
 </head>
 <body>
 
 <header>
   <a href="/" class="logo">PDF<span>reeto</span></a>
-
   <div class="nav-dropdown">
-    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">All <span class="arrow">▾</span></button>
+    <button class="nav-toggle" id="nav-toggle">All <span class="arr">&#9662;</span></button>
     <div class="nav-menu" id="nav-menu">
-    <a href="/">JPG ↔ PDF</a>
-    <a href="/pdf-to-word.html">Word to PDF</a>
-    <a href="/compress-pdf.html">Compress PDF</a>
-    <a href="/compress-jpg.html">Compress JPG</a>
-    <a href="/merge-jpg.html">Merge JPG</a>
-    <a href="/merge-pdf.html">Merge PDF</a>
-    <a href="/tts.html">Text to Speech</a>
-    <a href="/pdf-ai.html">PDF AI</a>
-    <a href="/social-media.html">Social Media</a>
-    <a href="/seo.html"  class=active>SEO</a>
+      <a href="/">JPG &#8596; PDF</a>
+      <a href="/pdf-to-word.html">Word to PDF</a>
+      <a href="/compress-pdf.html">Compress PDF</a>
+      <a href="/compress-jpg.html">Compress JPG</a>
+      <a href="/merge-jpg.html">Merge JPG</a>
+      <a href="/merge-pdf.html">Merge PDF</a>
+      <a href="/tts.html">Text to Speech</a>
+      <a href="/pdf-ai.html">PDF AI</a>
+      <a href="/social-media.html">Social Media</a>
+      <a href="/seo.html">SEO</a>
+      <a href="/voice.html" class="active">Voice &#9733;</a>
     </div>
   </div>
-
   <a href="/blog/" class="blog-btn">Blog</a>
-  <a href="/blog/" class="blog-btn">Blog</a>
-  <div class="lang-switcher">
-    
-<a href="/voice.html" class="lang-btn active">EN</a>    <a href="/pt/voice.html" class="lang-btn">PT</a>
+  <div class="lang-sw">
+    <a href="/voice.html" class="lb active">EN</a>
+    <a href="/pt/voice.html" class="lb">PT</a>
   </div>
 </header>
 
 <div class="hero">
-  <div class="hero-eyebrow">AI Voice &middot; PDFreeto</div>
+  <div class="eyebrow">AI Voice &middot; PDFreeto</div>
   <h1>Audio that sounds<br>more <span class="hl">human</span><br>than <span class="hl2">text.</span></h1>
-  <p class="hero-sub">Your emails, newsletters, PDFs and articles &mdash; rewritten by AI for the ear, not the eye. Then read aloud in a natural voice.</p>
-  <div class="hero-pills">
-    <span class="pill">&#9654; Email &rarr; Voice Note</span>
-    <span class="pill">&#9654; Newsletter &rarr; Podcast</span>
-    <span class="pill">&#9654; PDF &rarr; Briefing</span>
-    <span class="pill">&#9654; Article &rarr; WhatsApp</span>
-  </div>
+  <p>Your emails, newsletters, PDFs and articles &mdash; rewritten by AI for the ear, not the eye. Then read aloud in a natural voice.</p>
 </div>
 
-<div class="tabs-wrap">
-  <button class="tab active" data-tab="email">&#9993; Email &rarr; Voice Note</button>
-  <button class="tab" data-tab="newsletter">&#127897; Newsletter &rarr; Podcast</button>
-  <button class="tab" data-tab="pdf">&#128196; PDF &rarr; Briefing</button>
-  <button class="tab" data-tab="article">&#128242; Article &rarr; WhatsApp</button>
+<div class="tabs" id="tab-bar">
+  <button class="tab active" data-panel="email">&#9993; Email &rarr; Voice Note</button>
+  <button class="tab" data-panel="newsletter">&#127897; Newsletter &rarr; Podcast</button>
+  <button class="tab" data-panel="pdf">&#128196; PDF &rarr; Briefing</button>
+  <button class="tab" data-panel="article">&#128242; Article &rarr; WhatsApp</button>
 </div>
 
-<div class="vc">
+<div class="wrap">
 
   <!-- EMAIL -->
   <div class="panel active" id="panel-email">
-    <div class="ptitle">Email &rarr; Voice Note</div>
-    <div class="pdesc">Paste your email. AI strips the corporate language and rewrites it as a natural 45-second voice message.</div>
-    <label class="ilabel">Paste your email</label>
-    <textarea class="vi" id="email-input" placeholder="Paste your email here &mdash; full thread, subject, signature and all. The AI will extract what matters and rewrite it for audio."></textarea>
+    <div class="ptit">Email &rarr; Voice Note</div>
+    <div class="pdsc">Paste your email. AI strips the corporate language and rewrites it as a natural 45-second voice message.</div>
+    <div class="isec">
+      <label class="lbl">Paste your email</label>
+      <textarea class="vi" id="email-in" placeholder="Paste your email here &mdash; full thread, subject, signature and all. The AI will extract what matters and rewrite it for audio."></textarea>
+    </div>
     <div class="vset">
       <div class="vg"><span class="sl">Voice</span><select class="ss" id="email-voice"></select></div>
-      <div class="vg"><span class="sl">Speed &mdash; <span id="email-rv">1&times;</span></span><div class="sw"><input type="range" min="0.6" max="1.8" step="0.1" value="1" id="email-rate" oninput="document.getElementById('email-rv').textContent=this.value+'x'"></div></div>
+      <div class="vg"><span class="sl">Speed &mdash; <span id="email-rv">1x</span></span><div class="sw"><input type="range" min="0.6" max="1.8" step="0.1" value="1" id="email-rate"></div></div>
     </div>
-    <button class="pbtn" id="email-btn" onclick="go('email')">CONVERT TO VOICE NOTE</button>
-    <div class="pgw" id="email-pgw"><div class="pgb"><div class="pgf" id="email-pgf"></div></div><div class="pgt" id="email-pgt">Rewriting...</div></div>
-    <div class="errbox" id="email-err"></div>
+    <button class="goBtn" id="email-go">CONVERT TO VOICE NOTE</button>
+    <div class="pgw" id="email-pgw"><div class="pgb"><div class="pgf" id="email-pgf"></div></div><div class="pgt" id="email-pgt">Rewriting for audio...</div></div>
+    <div class="ebox" id="email-err"></div>
     <div class="rs" id="email-rs">
       <div class="rh"><span class="rl">&#10003; Voice Note Ready</span><span class="rd" id="email-dur"></span></div>
       <div class="wf" id="email-wf"></div>
-      <div class="pcon"><button class="plb" id="email-plb" onclick="togglePlay('email')">&#9654;</button><div class="ptrk"><div class="ppl" id="email-ppl"></div></div><span class="ptd" id="email-ptd">0:00</span><button class="dwn" onclick="dlAudio('email')">&#8595; WAV</button></div>
-      <div class="scr"><button class="stg" id="email-stg" onclick="togScript('email')">View AI script <span class="ch">&#9660;</span></button><div class="sbdy" id="email-sbdy"><div class="stxt" id="email-stxt"></div><button class="cps" onclick="cpScript('email')">Copy script</button></div></div>
+      <div class="pcon"><button class="plb" id="email-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="email-ppl"></div></div><span class="ptd" id="email-ptd">0:00</span><button class="dwn" id="email-dl">&#8595; WAV</button></div>
+      <div class="scr"><button class="stg" id="email-stg">View AI script <span class="ch">&#9660;</span></button><div class="sbdy" id="email-sbdy"><div class="stxt" id="email-stxt"></div><button class="cps" id="email-cps">Copy script</button></div></div>
     </div>
-    <div class="seoblock"><h2>Why Listen to Emails?</h2><p>The average professional receives 120 emails a day. AI Voice converts your most important messages into natural voice notes &mdash; perfect for commutes, gym sessions or any time reading isn't convenient. The AI rewrites for the ear, removing signatures, legal footers and corporate filler.</p></div>
+    <div class="sblk"><h2>Why Listen to Emails?</h2><p>The average professional receives 120 emails a day. AI Voice converts your most important messages into natural voice notes &mdash; perfect for commutes, gym sessions or any time reading isn't convenient. The AI rewrites for the ear, removing signatures, legal footers and corporate filler.</p></div>
   </div>
 
   <!-- NEWSLETTER -->
   <div class="panel" id="panel-newsletter">
-    <div class="ptitle">Newsletter &rarr; Mini Podcast</div>
-    <div class="pdesc">Paste the newsletter text. AI formats it as a 2-3 minute podcast script and reads it aloud.</div>
-    <label class="ilabel">Newsletter URL (optional &mdash; paste text below if it doesn't work)</label>
-    <input type="url" class="ui" id="newsletter-url" placeholder="https://newsletter.example.com/issue-42" style="margin-bottom:12px">
-    <label class="ilabel">Or paste newsletter text directly (recommended)</label>
-    <textarea class="vi" id="newsletter-input" placeholder="Paste the full newsletter text here..." style="min-height:120px"></textarea>
+    <div class="ptit">Newsletter &rarr; Mini Podcast</div>
+    <div class="pdsc">Paste the newsletter text. AI formats it as a 2-3 minute podcast script and reads it aloud.</div>
+    <div class="isec">
+      <label class="lbl">Newsletter URL (optional)</label>
+      <input type="url" class="ui" id="newsletter-url" placeholder="https://newsletter.example.com/issue &mdash; or paste text below" style="margin-bottom:12px">
+      <label class="lbl">Or paste newsletter text directly (recommended)</label>
+      <textarea class="vi" id="newsletter-in" placeholder="Paste the full newsletter text here..." style="min-height:120px"></textarea>
+    </div>
     <div class="vset">
       <div class="vg"><span class="sl">Voice</span><select class="ss" id="newsletter-voice"></select></div>
-      <div class="vg"><span class="sl">Speed &mdash; <span id="newsletter-rv">1&times;</span></span><div class="sw"><input type="range" min="0.6" max="1.8" step="0.1" value="1" id="newsletter-rate" oninput="document.getElementById('newsletter-rv').textContent=this.value+'x'"></div></div>
+      <div class="vg"><span class="sl">Speed &mdash; <span id="newsletter-rv">1x</span></span><div class="sw"><input type="range" min="0.6" max="1.8" step="0.1" value="1" id="newsletter-rate"></div></div>
     </div>
-    <button class="pbtn" id="newsletter-btn" onclick="go('newsletter')">CREATE MINI PODCAST</button>
+    <button class="goBtn" id="newsletter-go">CREATE MINI PODCAST</button>
     <div class="pgw" id="newsletter-pgw"><div class="pgb"><div class="pgf" id="newsletter-pgf"></div></div><div class="pgt" id="newsletter-pgt">Fetching newsletter...</div></div>
-    <div class="errbox" id="newsletter-err"></div>
+    <div class="ebox" id="newsletter-err"></div>
     <div class="rs" id="newsletter-rs">
       <div class="rh"><span class="rl">&#10003; Mini Podcast Ready</span><span class="rd" id="newsletter-dur"></span></div>
       <div class="wf" id="newsletter-wf"></div>
-      <div class="pcon"><button class="plb" id="newsletter-plb" onclick="togglePlay('newsletter')">&#9654;</button><div class="ptrk"><div class="ppl" id="newsletter-ppl"></div></div><span class="ptd" id="newsletter-ptd">0:00</span><button class="dwn" onclick="dlAudio('newsletter')">&#8595; WAV</button></div>
-      <div class="scr"><button class="stg" id="newsletter-stg" onclick="togScript('newsletter')">View podcast script <span class="ch">&#9660;</span></button><div class="sbdy" id="newsletter-sbdy"><div class="stxt" id="newsletter-stxt"></div><button class="cps" onclick="cpScript('newsletter')">Copy script</button></div></div>
+      <div class="pcon"><button class="plb" id="newsletter-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="newsletter-ppl"></div></div><span class="ptd" id="newsletter-ptd">0:00</span><button class="dwn" id="newsletter-dl">&#8595; WAV</button></div>
+      <div class="scr"><button class="stg" id="newsletter-stg">View podcast script <span class="ch">&#9660;</span></button><div class="sbdy" id="newsletter-sbdy"><div class="stxt" id="newsletter-stxt"></div><button class="cps" id="newsletter-cps">Copy script</button></div></div>
     </div>
-    <div class="seoblock"><h2>Turn Any Newsletter into a Podcast</h2><p>You subscribe to a dozen newsletters but only read two. AI Voice converts your unread newsletters into short podcast episodes &mdash; with a proper intro, structured segments and a clean conclusion. Paste the text, click Create, and listen on your commute.</p></div>
+    <div class="sblk"><h2>Turn Any Newsletter into a Podcast</h2><p>You subscribe to a dozen newsletters but only read two. AI Voice converts your unread newsletters into short podcast episodes &mdash; with a proper intro, structured segments and a clean conclusion. Paste the text, click Create, and listen on your commute.</p></div>
   </div>
 
   <!-- PDF -->
   <div class="panel" id="panel-pdf">
-    <div class="ptitle">PDF &rarr; Audio Briefing</div>
-    <div class="pdesc">Upload a report, contract or document. AI condenses it into a 2-3 minute executive briefing and reads it aloud.</div>
-    <div class="drop-zone" id="pdf-dz" onclick="document.getElementById('pdf-fi').click()">
+    <div class="ptit">PDF &rarr; Audio Briefing</div>
+    <div class="pdsc">Upload a report, contract or document. AI condenses it into a 2-3 minute executive briefing and reads it aloud.</div>
+    <div class="dz" id="pdf-dz">
       <input type="file" id="pdf-fi" accept="application/pdf">
-      <span class="dz-icon">&#128196;</span>
-      <div class="dz-title">Drop your PDF here</div>
-      <div class="dz-sub">Reports &middot; Contracts &middot; Research &middot; Any document</div>
+      <span class="dico">&#128196;</span>
+      <div class="dtit">Drop your PDF here</div>
+      <div class="dsub">Reports &middot; Contracts &middot; Research &middot; Any document</div>
     </div>
     <div class="finfo" id="pdf-finfo"><div class="fdot"></div><span class="fnm" id="pdf-fnm"></span><span class="fsz" id="pdf-fsz"></span></div>
     <div class="vset">
       <div class="vg"><span class="sl">Voice</span><select class="ss" id="pdf-voice"></select></div>
       <div class="vg"><span class="sl">Briefing length</span><select class="ss" id="pdf-length"><option value="short">Short (~1 min)</option><option value="medium" selected>Medium (~2 min)</option><option value="long">Full (~4 min)</option></select></div>
     </div>
-    <button class="pbtn" id="pdf-btn" onclick="go('pdf')" disabled>CREATE AUDIO BRIEFING</button>
+    <button class="goBtn" id="pdf-go" disabled>CREATE AUDIO BRIEFING</button>
     <div class="pgw" id="pdf-pgw"><div class="pgb"><div class="pgf" id="pdf-pgf"></div></div><div class="pgt" id="pdf-pgt">Extracting text...</div></div>
-    <div class="errbox" id="pdf-err"></div>
+    <div class="ebox" id="pdf-err"></div>
     <div class="rs" id="pdf-rs">
       <div class="rh"><span class="rl">&#10003; Audio Briefing Ready</span><span class="rd" id="pdf-dur"></span></div>
       <div class="wf" id="pdf-wf"></div>
-      <div class="pcon"><button class="plb" id="pdf-plb" onclick="togglePlay('pdf')">&#9654;</button><div class="ptrk"><div class="ppl" id="pdf-ppl"></div></div><span class="ptd" id="pdf-ptd">0:00</span><button class="dwn" onclick="dlAudio('pdf')">&#8595; WAV</button></div>
-      <div class="scr"><button class="stg" id="pdf-stg" onclick="togScript('pdf')">View briefing script <span class="ch">&#9660;</span></button><div class="sbdy" id="pdf-sbdy"><div class="stxt" id="pdf-stxt"></div><button class="cps" onclick="cpScript('pdf')">Copy script</button></div></div>
+      <div class="pcon"><button class="plb" id="pdf-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="pdf-ppl"></div></div><span class="ptd" id="pdf-ptd">0:00</span><button class="dwn" id="pdf-dl">&#8595; WAV</button></div>
+      <div class="scr"><button class="stg" id="pdf-stg">View briefing script <span class="ch">&#9660;</span></button><div class="sbdy" id="pdf-sbdy"><div class="stxt" id="pdf-stxt"></div><button class="cps" id="pdf-cps">Copy script</button></div></div>
     </div>
-    <div class="seoblock"><h2>Skip the Reading. Hear the Briefing.</h2><p>A 40-page report takes 90 minutes to read. The AI Audio Briefing extracts what matters in under 3 minutes &mdash; structured like an executive briefing: context, key findings, implications. Ideal for research papers, legal documents, financial reports and long-form PDFs.</p></div>
+    <div class="sblk"><h2>Skip the Reading. Hear the Briefing.</h2><p>A 40-page report takes 90 minutes to read. The AI Audio Briefing extracts what matters in under 3 minutes &mdash; structured like an executive briefing: context, key findings, implications. Ideal for research papers, legal documents, financial reports and long-form PDFs.</p></div>
   </div>
 
   <!-- ARTICLE -->
   <div class="panel" id="panel-article">
-    <div class="ptitle">Article &rarr; WhatsApp Audio</div>
-    <div class="pdesc">Paste an article URL or text. AI rewrites it as a casual 30-60 second voice message &mdash; like you're telling a friend.</div>
-    <label class="ilabel">Article URL (optional &mdash; paste text below if it doesn't work)</label>
-    <input type="url" class="ui" id="article-url" placeholder="https://example.com/article" style="margin-bottom:12px">
-    <label class="ilabel">Or paste article text directly (recommended)</label>
-    <textarea class="vi" id="article-input" placeholder="Paste the full article text here..." style="min-height:120px"></textarea>
+    <div class="ptit">Article &rarr; WhatsApp Audio</div>
+    <div class="pdsc">Paste an article URL or text. AI rewrites it as a casual 30-60 second voice message &mdash; like you're telling a friend.</div>
+    <div class="isec">
+      <label class="lbl">Article URL (optional)</label>
+      <input type="url" class="ui" id="article-url" placeholder="https://example.com/article &mdash; or paste text below" style="margin-bottom:12px">
+      <label class="lbl">Or paste article text directly (recommended)</label>
+      <textarea class="vi" id="article-in" placeholder="Paste the full article text here..." style="min-height:120px"></textarea>
+    </div>
     <div class="vset">
       <div class="vg"><span class="sl">Voice</span><select class="ss" id="article-voice"></select></div>
       <div class="vg"><span class="sl">Tone</span><select class="ss" id="article-tone"><option value="casual">Casual (WhatsApp friend)</option><option value="professional">Professional (work colleague)</option><option value="excited">Excited (this is wild!)</option></select></div>
     </div>
-    <button class="pbtn" id="article-btn" onclick="go('article')">CREATE WHATSAPP AUDIO</button>
+    <button class="goBtn" id="article-go">CREATE WHATSAPP AUDIO</button>
     <div class="pgw" id="article-pgw"><div class="pgb"><div class="pgf" id="article-pgf"></div></div><div class="pgt" id="article-pgt">Fetching article...</div></div>
-    <div class="errbox" id="article-err"></div>
+    <div class="ebox" id="article-err"></div>
     <div class="rs" id="article-rs">
       <div class="rh"><span class="rl">&#10003; WhatsApp Audio Ready</span><span class="rd" id="article-dur"></span></div>
       <div class="wf" id="article-wf"></div>
-      <div class="pcon"><button class="plb" id="article-plb" onclick="togglePlay('article')">&#9654;</button><div class="ptrk"><div class="ppl" id="article-ppl"></div></div><span class="ptd" id="article-ptd">0:00</span><button class="dwn" onclick="dlAudio('article')">&#8595; WAV</button></div>
-      <div class="scr"><button class="stg" id="article-stg" onclick="togScript('article')">View message script <span class="ch">&#9660;</span></button><div class="sbdy" id="article-sbdy"><div class="stxt" id="article-stxt"></div><button class="cps" onclick="cpScript('article')">Copy &amp; send as text</button></div></div>
+      <div class="pcon"><button class="plb" id="article-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="article-ppl"></div></div><span class="ptd" id="article-ptd">0:00</span><button class="dwn" id="article-dl">&#8595; WAV</button></div>
+      <div class="scr"><button class="stg" id="article-stg">View message script <span class="ch">&#9660;</span></button><div class="sbdy" id="article-sbdy"><div class="stxt" id="article-stxt"></div><button class="cps" id="article-cps">Copy &amp; send as text</button></div></div>
     </div>
-    <div class="seoblock"><h2>Share News Like You Mean It</h2><p>You read something great and want to share it &mdash; but forwarding a link feels impersonal. AI Voice rewrites the article as a natural WhatsApp voice message: casual, direct, conversational. It starts with the most interesting part. Download and send directly.</p></div>
+    <div class="sblk"><h2>Share News Like You Mean It</h2><p>You read something great and want to share it &mdash; but forwarding a link feels impersonal. AI Voice rewrites the article as a natural WhatsApp voice message: casual, direct, conversational. Download and send directly.</p></div>
   </div>
 
 </div>
 
 <footer>
-  <div class="footer-links">
-    <a href="/">JPG &#8596; PDF</a>
-    <span class="footer-sep">&#183;</span>
-    <a href="/tts.html">Text to Speech</a>
-    <span class="footer-sep">&#183;</span>
-    <a href="/pdf-ai.html">PDF AI</a>
-    <span class="footer-sep">&#183;</span>
-    <a href="/social-media.html">Social Media</a>
-    <span class="footer-sep">&#183;</span>
-    <a href="/voice.html">Voice</a>
-    <span class="footer-sep">&#183;</span>
+  <div class="fl">
+    <a href="/">JPG &#8596; PDF</a><span class="fs">&#183;</span>
+    <a href="/tts.html">TTS</a><span class="fs">&#183;</span>
+    <a href="/pdf-ai.html">PDF AI</a><span class="fs">&#183;</span>
+    <a href="/voice.html">Voice</a><span class="fs">&#183;</span>
     <a href="/blog/">Blog</a>
   </div>
-  <div class="footer-note">AI content sent only to generate your audio &middot; Never stored</div>
+  <div class="fn">AI content sent only to generate your audio &middot; Never stored</div>
 </footer>
+
 <script>
-function toggleMenu(){
-  document.getElementById('nav-toggle').classList.toggle('open');
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// ── NAV ──
+document.getElementById('nav-toggle').addEventListener('click', function() {
+  this.classList.toggle('open');
   document.getElementById('nav-menu').classList.toggle('open');
-}
-document.addEventListener('click',function(e){
-  if(!e.target.closest('.nav-dropdown')){
+});
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
     document.getElementById('nav-toggle').classList.remove('open');
     document.getElementById('nav-menu').classList.remove('open');
   }
 });
-</script>
 
-<script>
-pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-// Tab switching via data attributes
-document.querySelectorAll('.tab[data-tab]').forEach(btn => {
+// ── TABS ──
+document.querySelectorAll('.tab').forEach(function(btn) {
   btn.addEventListener('click', function() {
-    const id = this.dataset.tab;
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    this.classList.add('active');
-    document.getElementById('panel-' + id).classList.add('active');
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
   });
 });
 
-// Process buttons
-document.querySelectorAll('[data-go]').forEach(btn => {
-  btn.addEventListener('click', function() { go(this.dataset.go); });
+// ── SPEED SLIDERS ──
+['email','newsletter'].forEach(function(t) {
+  var sl = document.getElementById(t + '-rate');
+  var rv = document.getElementById(t + '-rv');
+  if (sl) sl.addEventListener('input', function() { rv.textContent = this.value + 'x'; });
 });
 
-// Play buttons
-document.querySelectorAll('[data-play]').forEach(btn => {
-  btn.addEventListener('click', function() { togglePlay(this.dataset.play); });
-});
-
-// Download buttons
-document.querySelectorAll('[data-dl]').forEach(btn => {
-  btn.addEventListener('click', function() { dlAudio(this.dataset.dl); });
-});
-
-// Script toggle buttons
-document.querySelectorAll('[data-togscript]').forEach(btn => {
-  btn.addEventListener('click', function() { togScript(this.dataset.togscript); });
-});
-
-// PDF drop zone click
-const pdzBtn = document.getElementById('pdf-dz-btn');
-if (pdzBtn) pdzBtn.addEventListener('click', () => document.getElementById('pdf-fi').click());
-
-// Copy script buttons
-document.querySelectorAll('[data-cpscript]').forEach(btn => {
-  btn.addEventListener('click', function() { cpScript(this.dataset.cpscript); });
-});
-
-function loadVoices(){const vs=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));if(!vs.length)return;['email','newsletter','pdf','article'].forEach(tab=>{const sel=document.getElementById(tab+'-voice');if(!sel||sel.options.length>1)return;sel.innerHTML='';vs.forEach((v,i)=>{const o=document.createElement('option');o.value=i;o.textContent=v.name.replace(/\s*\(.*?\)/g,'').trim();sel.appendChild(o)});});}
-speechSynthesis.onvoiceschanged=loadVoices;loadVoices();
-
-let pdfText='';
-const dz=document.getElementById('pdf-dz'),pfi=document.getElementById('pdf-fi');
-dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragging')});
-dz.addEventListener('dragleave',()=>dz.classList.remove('dragging'));
-dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragging');loadPDF(e.dataTransfer.files[0])});
-pfi.addEventListener('change',()=>loadPDF(pfi.files[0]));
-
-async function loadPDF(f){
-  if(!f||f.type!=='application/pdf')return;
-  document.getElementById('pdf-finfo').style.display='flex';
-  document.getElementById('pdf-fnm').textContent=f.name;
-  document.getElementById('pdf-fsz').textContent=fmtSz(f.size);
-  document.getElementById('pdf-btn').disabled=true;
-  pg('pdf',10,'Extracting text...');
-  const ab=await f.arrayBuffer();
-  const pdf=await pdfjsLib.getDocument({data:ab}).promise;
-  let txt='';
-  for(let i=1;i<=Math.min(pdf.numPages,30);i++){const page=await pdf.getPage(i);const ct=await page.getTextContent();txt+=ct.items.map(x=>x.str).join(' ')+'
-';document.getElementById('pdf-pgf').style.width=(10+(i/Math.min(pdf.numPages,30))*60)+'%';}
-  pdfText=txt.substring(0,8000);
-  npg('pdf');document.getElementById('pdf-btn').disabled=false;
+// ── VOICES ──
+function loadVoices() {
+  var vs = speechSynthesis.getVoices().filter(function(v) { return v.lang.startsWith('en'); });
+  if (!vs.length) return;
+  ['email','newsletter','pdf','article'].forEach(function(tab) {
+    var sel = document.getElementById(tab + '-voice');
+    if (!sel || sel.options.length > 1) return;
+    sel.innerHTML = '';
+    vs.forEach(function(v, i) {
+      var o = document.createElement('option');
+      o.value = i;
+      o.textContent = v.name.replace(/\s*\(.*?\)/g, '').trim();
+      sel.appendChild(o);
+    });
+  });
 }
-
-// CORRECT: GET with query param, plain text response (same as seo.html)
-async function fetchURL(url){
-  const res=await fetch(`/.netlify/functions/fetch-page?url=${encodeURIComponent(url)}`);
-  return await res.text()||'';
+if (speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = loadVoices;
 }
+loadVoices();
+setTimeout(loadVoices, 500);
 
-function getPrompt(tab,text,extra){
-  if(tab==='email')return{system:'You are an expert at rewriting corporate emails as natural human voice notes. Transform the email into a spoken message of 60-90 words maximum. No greetings, no sign-offs, no corporate jargon. Direct, warm, conversational. Preserve all key information. Start with the most important point. Return ONLY the spoken script.',user:'Rewrite this email as a natural voice note:
+// ── PDF DROP ──
+var pdfText = '';
+var pdfDz = document.getElementById('pdf-dz');
+var pdfFi = document.getElementById('pdf-fi');
+pdfDz.addEventListener('click', function() { pdfFi.click(); });
+pdfDz.addEventListener('dragover', function(e) { e.preventDefault(); pdfDz.classList.add('drag'); });
+pdfDz.addEventListener('dragleave', function() { pdfDz.classList.remove('drag'); });
+pdfDz.addEventListener('drop', function(e) { e.preventDefault(); pdfDz.classList.remove('drag'); loadPDF(e.dataTransfer.files[0]); });
+pdfFi.addEventListener('change', function() { loadPDF(pdfFi.files[0]); });
 
-'+text.substring(0,3000)};
-  if(tab==='newsletter')return{system:'You are a podcast script writer. Transform the newsletter into a 2-3 minute podcast script (250-350 words). Brief engaging intro, 3-4 key points with natural transitions, strong closing line. Spoken-word rhythm. No bullet points, no headers. Return ONLY the spoken script.',user:'Transform this newsletter into a podcast script:
-
-'+text.substring(0,4000)};
-  if(tab==='pdf'){const w={short:'100-150',medium:'220-280',long:'450-500'}[extra]||'220-280';return{system:`Condense the document into a spoken audio briefing of ${w} words. Structure: 1-sentence context, key findings most important first, practical implications. No jargon. Return ONLY the briefing script.`,user:'Create an audio briefing:
-
-'+text.substring(0,6000)};}
-  if(tab==='article'){const td={casual:'casual WhatsApp message to a friend',professional:'professional voice message to a work colleague',excited:'excited message to a friend who must hear this'}[extra]||'casual';return{system:`Write a spoken voice message script. Rewrite as a ${td}. Maximum 80 words. Start with the most interesting element. No "so I read this article" opener. Return ONLY the spoken script.`,user:'Rewrite as a voice message:
-
-'+text.substring(0,3000)};}
-}
-
-const ST={};let spkTab=null,spkStart=0;
-
-async function go(tab){
-  let txt='';noerr(tab);
-  if(tab==='email'){txt=document.getElementById('email-input').value.trim();if(!txt){err(tab,'Please paste your email first.');return;}}
-  if(tab==='newsletter'||tab==='article'){
-    const url=document.getElementById(tab+'-url').value.trim();
-    const pasted=document.getElementById(tab+'-input').value.trim();
-    if(!url&&!pasted){err(tab,'Please enter a URL or paste the text.');return;}
-    if(url&&!pasted){
-      pg(tab,15,'Fetching content...');
-      try{txt=await fetchURL(url);}catch(e){txt='';}
-      if(!txt){npg(tab);err(tab,'Could not fetch that URL — some sites block external requests. Please paste the text directly into the field below and try again.');document.getElementById(tab+'-input').focus();return;}
-    }else{txt=pasted;}
+async function loadPDF(f) {
+  if (!f || f.type !== 'application/pdf') return;
+  document.getElementById('pdf-finfo').style.display = 'flex';
+  document.getElementById('pdf-fnm').textContent = f.name;
+  document.getElementById('pdf-fsz').textContent = fmtSz(f.size);
+  document.getElementById('pdf-go').disabled = true;
+  showPg('pdf', 10, 'Extracting text...');
+  var ab = await f.arrayBuffer();
+  var pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+  var txt = '';
+  for (var i = 1; i <= Math.min(pdf.numPages, 30); i++) {
+    var page = await pdf.getPage(i);
+    var ct = await page.getTextContent();
+    txt += ct.items.map(function(x) { return x.str; }).join(' ') + '\n';
+    document.getElementById('pdf-pgf').style.width = (10 + (i / Math.min(pdf.numPages, 30)) * 60) + '%';
   }
-  if(tab==='pdf'){if(!pdfText){err(tab,'Please upload a PDF first.');return;}txt=pdfText;}
-
-  document.getElementById(tab+'-btn').disabled=true;
-  pg(tab,35,'AI is rewriting for audio...');
-  const extra=tab==='pdf'?document.getElementById('pdf-length').value:tab==='article'?document.getElementById('article-tone').value:null;
-  const prompt=getPrompt(tab,txt,extra);
-
-  let script='';
-  try{
-    pg(tab,55,'Writing your script...');
-    const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:800,system:prompt.system,messages:[{role:'user',content:prompt.user}]})});
-    const data=await res.json();
-    script=data.content?.[0]?.text?.trim()||'';
-  }catch(e){document.getElementById(tab+'-btn').disabled=false;npg(tab);err(tab,'AI error: '+e.message);return;}
-
-  if(!script){document.getElementById(tab+'-btn').disabled=false;npg(tab);err(tab,'Could not generate script. Please try again.');return;}
-
-  npg(tab);document.getElementById(tab+'-btn').disabled=false;
-  const words=script.split(/\s+/).length;
-  const rate=parseFloat(document.getElementById(tab+'-rate')?.value||1);
-  const secs=Math.round((words/2.5)/rate);
-  ST[tab]={script,audioBlob:null};
-  document.getElementById(tab+'-stxt').textContent=script;
-  document.getElementById(tab+'-dur').textContent='~'+Math.floor(secs/60)+':'+String(secs%60).padStart(2,'0');
-  bldWave(tab);
-  document.getElementById(tab+'-rs').style.display='block';
-  document.getElementById(tab+'-ppl').style.width='0%';
-  document.getElementById(tab+'-ptd').textContent='0:00';
+  pdfText = txt.substring(0, 8000);
+  hidePg('pdf');
+  document.getElementById('pdf-go').disabled = false;
 }
 
-function pg(tab,pct,txt){const w=document.getElementById(tab+'-pgw');w.style.display='block';document.getElementById(tab+'-pgf').style.width=pct+'%';document.getElementById(tab+'-pgt').textContent=txt;}
-function npg(tab){document.getElementById(tab+'-pgw').style.display='none';document.getElementById(tab+'-pgf').style.width='0%';}
-function err(tab,msg){const el=document.getElementById(tab+'-err');el.textContent=msg;el.style.display='block';}
-function noerr(tab){document.getElementById(tab+'-err').style.display='none';}
-function bldWave(tab){const c=document.getElementById(tab+'-wf');c.innerHTML='';for(let i=0;i<40;i++){const b=document.createElement('div');b.className='wb';b.style.height=(20+Math.random()*60)+'%';b.style.alignSelf='center';c.appendChild(b);}}
-function fmtSz(b){if(b<1048576)return(b/1024).toFixed(1)+' KB';return(b/1048576).toFixed(1)+' MB';}
-function fmtT(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+// ── FETCH URL (GET + plain text, same as seo.html) ──
+async function fetchURL(url) {
+  var res = await fetch('/.netlify/functions/fetch-page?url=' + encodeURIComponent(url));
+  return await res.text() || '';
+}
 
-function togglePlay(tab){if(spkTab===tab&&speechSynthesis.speaking){speechSynthesis.cancel();setPB(tab,false);spkTab=null;return;}if(speechSynthesis.speaking)speechSynthesis.cancel();spkTab2(tab);}
-function spkTab2(tab){
-  const s=ST[tab];if(!s)return;
-  const vs=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));
-  const sel=document.getElementById(tab+'-voice');
-  const voice=sel?vs[parseInt(sel.value)||0]:null;
-  const rate=parseFloat(document.getElementById(tab+'-rate')?.value||1);
-  const utt=new SpeechSynthesisUtterance(s.script);
-  if(voice)utt.voice=voice;utt.rate=rate;
-  spkStart=Date.now();spkTab=tab;setPB(tab,true);
-  try{const ctx=new AudioContext();const dest=ctx.createMediaStreamDestination();const rec=new MediaRecorder(dest.stream);const cks=[];rec.ondataavailable=e=>cks.push(e.data);rec.onstop=()=>{s.audioBlob=new Blob(cks,{type:'audio/wav'})};rec.start();s.recorder=rec;}catch(e){}
-  const totalMs=(s.script.split(/\s+/).length/2.5/rate)*1000;
-  const iv=setInterval(()=>{if(!speechSynthesis.speaking){clearInterval(iv);return;}const el=Date.now()-spkStart;document.getElementById(tab+'-ppl').style.width=Math.min(100,(el/totalMs)*100)+'%';document.getElementById(tab+'-ptd').textContent=fmtT(Math.floor(el/1000));document.querySelectorAll('#'+tab+'-wf .wb').forEach(b=>{b.style.height=(20+Math.random()*60)+'%';b.style.background=Math.random()>0.35?'var(--accent)':'var(--border)';});},200);
-  utt.onend=()=>{setPB(tab,false);document.querySelectorAll('#'+tab+'-wf .wb').forEach(b=>b.style.background='var(--border)');spkTab=null;if(s.recorder&&s.recorder.state!=='inactive')s.recorder.stop();clearInterval(iv);document.getElementById(tab+'-ppl').style.width='100%';};
-  utt.onerror=()=>{setPB(tab,false);spkTab=null;clearInterval(iv);};
+// ── PROMPTS ──
+function getPrompt(tab, text, extra) {
+  if (tab === 'email') return {
+    system: 'You are an expert at rewriting corporate emails as natural human voice notes. Transform the email into a spoken message of 60-90 words maximum. No greetings, no sign-offs, no corporate jargon. Direct, warm, conversational. Preserve all key information. Start with the most important point. Return ONLY the spoken script.',
+    user: 'Rewrite this email as a natural voice note:\n\n' + text.substring(0, 3000)
+  };
+  if (tab === 'newsletter') return {
+    system: 'You are a podcast script writer. Transform the newsletter into a 2-3 minute podcast script (250-350 words). Brief engaging intro, 3-4 key points with natural transitions, strong closing line. Spoken-word rhythm. No bullet points, no headers. Return ONLY the spoken script.',
+    user: 'Transform this newsletter into a podcast script:\n\n' + text.substring(0, 4000)
+  };
+  if (tab === 'pdf') {
+    var w = { short: '100-150', medium: '220-280', long: '450-500' }[extra] || '220-280';
+    return {
+      system: 'Condense the document into a spoken audio briefing of ' + w + ' words. Structure: 1-sentence context, key findings most important first, practical implications. No jargon. Return ONLY the briefing script.',
+      user: 'Create an audio briefing:\n\n' + text.substring(0, 6000)
+    };
+  }
+  if (tab === 'article') {
+    var td = { casual: 'casual WhatsApp message to a friend', professional: 'professional voice message to a work colleague', excited: 'excited message to a friend who must hear this' }[extra] || 'casual';
+    return {
+      system: 'Write a spoken voice message script. Rewrite the article as a ' + td + '. Maximum 80 words. Start with the most interesting element. No "so I read this article" opener. Return ONLY the spoken script.',
+      user: 'Rewrite as a voice message:\n\n' + text.substring(0, 3000)
+    };
+  }
+}
+
+// ── STATE ──
+var ST = {};
+var spkTab = null;
+var spkStart = 0;
+
+// ── GO BUTTONS ──
+['email','newsletter','pdf','article'].forEach(function(tab) {
+  document.getElementById(tab + '-go').addEventListener('click', function() { doGo(tab); });
+  document.getElementById(tab + '-plb').addEventListener('click', function() { togglePlay(tab); });
+  document.getElementById(tab + '-dl').addEventListener('click', function() { dlAudio(tab); });
+  document.getElementById(tab + '-stg').addEventListener('click', function() { togScript(tab); });
+  document.getElementById(tab + '-cps').addEventListener('click', function() { cpScript(tab); });
+});
+
+async function doGo(tab) {
+  var txt = '';
+  noErr(tab);
+  if (tab === 'email') {
+    txt = document.getElementById('email-in').value.trim();
+    if (!txt) { showErr(tab, 'Please paste your email first.'); return; }
+  }
+  if (tab === 'newsletter' || tab === 'article') {
+    var urlEl = document.getElementById(tab + '-url');
+    var txtEl = document.getElementById(tab + '-in');
+    var url = urlEl ? urlEl.value.trim() : '';
+    var pasted = txtEl ? txtEl.value.trim() : '';
+    if (!url && !pasted) { showErr(tab, 'Please enter a URL or paste the text.'); return; }
+    if (url && !pasted) {
+      showPg(tab, 15, 'Fetching content...');
+      try { txt = await fetchURL(url); } catch(e) { txt = ''; }
+      if (!txt) {
+        hidePg(tab);
+        showErr(tab, 'Could not fetch that URL. Some sites block external requests. Please paste the text directly into the field below and try again.');
+        if (txtEl) txtEl.focus();
+        return;
+      }
+    } else { txt = pasted; }
+  }
+  if (tab === 'pdf') {
+    if (!pdfText) { showErr(tab, 'Please upload a PDF first.'); return; }
+    txt = pdfText;
+  }
+
+  var btn = document.getElementById(tab + '-go');
+  btn.disabled = true;
+  showPg(tab, 35, 'AI is rewriting for audio...');
+
+  var extra = tab === 'pdf' ? document.getElementById('pdf-length').value
+            : tab === 'article' ? document.getElementById('article-tone').value : null;
+  var prompt = getPrompt(tab, txt, extra);
+
+  var script = '';
+  try {
+    showPg(tab, 55, 'Writing your script...');
+    var res = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 800, system: prompt.system, messages: [{ role: 'user', content: prompt.user }] })
+    });
+    var data = await res.json();
+    script = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text.trim() : '';
+  } catch(e) {
+    btn.disabled = false; hidePg(tab); showErr(tab, 'AI error: ' + e.message); return;
+  }
+
+  if (!script) { btn.disabled = false; hidePg(tab); showErr(tab, 'Could not generate script. Please try again.'); return; }
+
+  hidePg(tab);
+  btn.disabled = false;
+  var words = script.split(/\s+/).length;
+  var rate = parseFloat((document.getElementById(tab + '-rate') || {}).value || 1);
+  var secs = Math.round((words / 2.5) / rate);
+  ST[tab] = { script: script, audioBlob: null };
+  document.getElementById(tab + '-stxt').textContent = script;
+  document.getElementById(tab + '-dur').textContent = '~' + Math.floor(secs / 60) + ':' + String(secs % 60).padStart(2, '0');
+  bldWave(tab);
+  document.getElementById(tab + '-rs').style.display = 'block';
+  document.getElementById(tab + '-ppl').style.width = '0%';
+  document.getElementById(tab + '-ptd').textContent = '0:00';
+}
+
+function showPg(tab, pct, txt) { document.getElementById(tab+'-pgw').style.display='block'; document.getElementById(tab+'-pgf').style.width=pct+'%'; document.getElementById(tab+'-pgt').textContent=txt; }
+function hidePg(tab) { document.getElementById(tab+'-pgw').style.display='none'; document.getElementById(tab+'-pgf').style.width='0%'; }
+function showErr(tab, msg) { var el=document.getElementById(tab+'-err'); el.textContent=msg; el.style.display='block'; }
+function noErr(tab) { document.getElementById(tab+'-err').style.display='none'; }
+function bldWave(tab) { var c=document.getElementById(tab+'-wf'); c.innerHTML=''; for(var i=0;i<40;i++){var b=document.createElement('div');b.className='wb';b.style.height=(20+Math.random()*60)+'%';b.style.alignSelf='center';c.appendChild(b);} }
+function fmtSz(b) { return b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'; }
+function fmtT(s) { return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+
+// ── PLAYBACK ──
+function togglePlay(tab) {
+  if (spkTab === tab && speechSynthesis.speaking) { speechSynthesis.cancel(); setPB(tab, false); spkTab = null; return; }
+  if (speechSynthesis.speaking) speechSynthesis.cancel();
+  spkNow(tab);
+}
+
+function spkNow(tab) {
+  var s = ST[tab]; if (!s) return;
+  var vs = speechSynthesis.getVoices().filter(function(v) { return v.lang.startsWith('en'); });
+  var sel = document.getElementById(tab + '-voice');
+  var voice = sel ? vs[parseInt(sel.value) || 0] : null;
+  var rate = parseFloat((document.getElementById(tab + '-rate') || {}).value || 1);
+  var utt = new SpeechSynthesisUtterance(s.script);
+  if (voice) utt.voice = voice;
+  utt.rate = rate;
+  spkStart = Date.now(); spkTab = tab; setPB(tab, true);
+  try {
+    var ctx = new AudioContext();
+    var dest = ctx.createMediaStreamDestination();
+    var rec = new MediaRecorder(dest.stream);
+    var cks = [];
+    rec.ondataavailable = function(e) { cks.push(e.data); };
+    rec.onstop = function() { s.audioBlob = new Blob(cks, { type: 'audio/wav' }); };
+    rec.start(); s.recorder = rec;
+  } catch(e) {}
+  var totalMs = (s.script.split(/\s+/).length / 2.5 / rate) * 1000;
+  var iv = setInterval(function() {
+    if (!speechSynthesis.speaking) { clearInterval(iv); return; }
+    var el = Date.now() - spkStart;
+    document.getElementById(tab+'-ppl').style.width = Math.min(100, (el/totalMs)*100) + '%';
+    document.getElementById(tab+'-ptd').textContent = fmtT(Math.floor(el/1000));
+    document.querySelectorAll('#'+tab+'-wf .wb').forEach(function(b) { b.style.height=(20+Math.random()*60)+'%'; b.style.background=Math.random()>0.35?'var(--accent)':'var(--border)'; });
+  }, 200);
+  utt.onend = function() { setPB(tab,false); document.querySelectorAll('#'+tab+'-wf .wb').forEach(function(b){b.style.background='var(--border)';}); spkTab=null; if(s.recorder&&s.recorder.state!=='inactive')s.recorder.stop(); clearInterval(iv); document.getElementById(tab+'-ppl').style.width='100%'; };
+  utt.onerror = function() { setPB(tab,false); spkTab=null; clearInterval(iv); };
   speechSynthesis.speak(utt);
 }
-function setPB(tab,on){const b=document.getElementById(tab+'-plb');if(b)b.innerHTML=on?'&#9646;&#9646;':'&#9654;';}
-function dlAudio(tab){const s=ST[tab];if(s?.audioBlob){const a=document.createElement('a');a.href=URL.createObjectURL(s.audioBlob);a.download='pdfreeto-'+tab+'.wav';a.click();}else{alert('Play the audio first to enable download (Chrome/Edge only).');}}
-function togScript(tab){document.getElementById(tab+'-sbdy').classList.toggle('open');document.getElementById(tab+'-stg').classList.toggle('open');}
-function cpScript(tab){navigator.clipboard.writeText(document.getElementById(tab+'-stxt').textContent).then(()=>{const cs=document.querySelectorAll('#'+tab+'-sbdy .cps');cs.forEach(b=>{const o=b.textContent;b.textContent='Copied!';setTimeout(()=>b.textContent=o,2000);});});}
+
+function setPB(tab, on) { var b=document.getElementById(tab+'-plb'); if(b) b.innerHTML=on?'&#9646;&#9646;':'&#9654;'; }
+function dlAudio(tab) { var s=ST[tab]; if(s&&s.audioBlob){var a=document.createElement('a');a.href=URL.createObjectURL(s.audioBlob);a.download='pdfreeto-'+tab+'.wav';a.click();}else{alert('Play the audio first to enable download (Chrome/Edge only).');} }
+function togScript(tab) { document.getElementById(tab+'-sbdy').classList.toggle('open'); document.getElementById(tab+'-stg').classList.toggle('open'); }
+function cpScript(tab) { navigator.clipboard.writeText(document.getElementById(tab+'-stxt').textContent).then(function(){var cs=document.getElementById(tab+'-cps');var o=cs.textContent;cs.textContent='Copied!';setTimeout(function(){cs.textContent=o;},2000);}); }
 </script>
 </body>
 </html>
