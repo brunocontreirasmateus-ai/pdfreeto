@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice — AI Audio That Sounds More Human Than Text | PDFreeto</title>
+<meta name="description" content="Transform emails, newsletters, PDFs and articles into natural-sounding audio. AI rewrites your content for the ear, not the eye.">
+<link rel="canonical" href="https://pdfreeto.com/voice">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #111; --surface2: #1a1a1a;
+    --border: #2a2a2a; --accent: #e8ff3c; --accent2: #ff5533;
+    --text: #f0ede6; --muted: #666;
+    --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px);
+    background-size: 60px 60px; }
+
+  /* ── HEADER ── */
+  header { position: relative; z-index: 100; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 16px; }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu { display: none; position: absolute; top: calc(100% + 8px); left: 0; background: var(--surface); border: 1px solid var(--border); min-width: 220px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  .nav-menu.open { display: block; }
+  .nav-menu a { display: block; padding: 10px 16px; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); transition: all 0.15s; }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; padding: 5px 9px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+  @media (max-width: 480px) { header { padding: 12px 16px; } .logo { font-size: 1.5rem; } }
+
+  /* ── HERO ── */
+  .hero { position: relative; z-index: 10; padding: 64px 40px 48px; border-bottom: 1px solid var(--border); }
+  .hero-eyebrow { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .hero-eyebrow::before { content: ''; display: inline-block; width: 24px; height: 2px; background: var(--accent); }
+  .hero h1 { font-family: var(--display); font-size: clamp(3.5rem, 9vw, 8rem); line-height: 0.92; letter-spacing: 0.02em; color: var(--text); margin-bottom: 24px; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero h1 .hl2 { color: var(--accent2); }
+  .hero-sub { font-size: 1rem; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 32px; }
+  .hero-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border: 1px solid var(--border); color: var(--muted); }
+
+  /* ── TABS ── */
+  .tabs-wrap { position: relative; z-index: 10; display: flex; overflow-x: auto; border-bottom: 1px solid var(--border); scrollbar-width: none; }
+  .tabs-wrap::-webkit-scrollbar { display: none; }
+  .tab { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 16px 28px; cursor: pointer; color: var(--muted); background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -1px; transition: all 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+  .tab .tab-icon { font-size: 1rem; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── PANELS ── */
+  .content { position: relative; z-index: 10; max-width: 860px; margin: 0 auto; padding: 40px 40px 80px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .panel-header { margin-bottom: 28px; }
+  .panel-title { font-family: var(--display); font-size: 2.2rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 8px; }
+  .panel-desc { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; line-height: 1.6; }
+
+  /* Input areas */
+  .input-section { margin-bottom: 20px; }
+  .input-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; }
+  textarea.voice-input { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--sans); font-size: 0.9rem; line-height: 1.7; padding: 20px; resize: vertical; min-height: 160px; outline: none; transition: border-color 0.2s; }
+  textarea.voice-input:focus { border-color: var(--accent); }
+  textarea.voice-input::placeholder { color: var(--muted); }
+  input.url-input { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.82rem; padding: 14px 18px; outline: none; transition: border-color 0.2s; }
+  input.url-input:focus { border-color: var(--accent); }
+  input.url-input::placeholder { color: var(--muted); }
+
+  /* Drop zone */
+  .drop-zone { border: 2px dashed var(--border); padding: 48px 40px; text-align: center; cursor: pointer; transition: all 0.25s; background: var(--surface); position: relative; overflow: hidden; }
+  .drop-zone::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 60%, rgba(232,255,60,0.03)); pointer-events: none; }
+  .drop-zone:hover, .drop-zone.dragging { border-color: var(--accent); background: rgba(232,255,60,0.03); }
+  .dz-icon { font-size: 2.4rem; display: block; margin-bottom: 12px; color: var(--muted); transition: all 0.3s; }
+  .drop-zone:hover .dz-icon { color: var(--accent); transform: scale(1.1) translateY(-3px); }
+  .dz-title { font-family: var(--display); font-size: 1.5rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 6px; }
+  .dz-sub { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  input[type="file"] { display: none; }
+
+  .file-info { margin-top: 12px; display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.76rem; }
+  .file-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .file-name { flex: 1; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-size { color: var(--muted); }
+
+  /* Voice settings */
+  .voice-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .voice-setting { display: flex; flex-direction: column; gap: 6px; }
+  .setting-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  select.voice-select { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.78rem; padding: 10px 14px; outline: none; cursor: pointer; transition: border-color 0.2s; }
+  select.voice-select:focus { border-color: var(--accent); }
+  .slider-wrap { display: flex; align-items: center; gap: 10px; }
+  input[type="range"] { flex: 1; -webkit-appearance: none; height: 3px; background: var(--border); border-radius: 0; outline: none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--accent); cursor: pointer; border-radius: 0; }
+  .slider-val { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); min-width: 30px; text-align: right; }
+
+  /* Process button */
+  .process-btn { width: 100%; padding: 18px; background: var(--accent); color: #0a0a0a; font-family: var(--display); font-size: 1.5rem; letter-spacing: 0.12em; border: none; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; margin-top: 4px; }
+  .process-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+  .process-btn:not(:disabled):hover { opacity: 0.9; }
+
+  /* Progress */
+  .progress-wrap { margin-top: 16px; display: none; }
+  .progress-bar { height: 3px; background: var(--border); overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.4s; }
+  .progress-text { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); text-align: center; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* Result / Player */
+  .result-section { margin-top: 28px; display: none; background: var(--surface); border: 1px solid rgba(232,255,60,0.25); }
+  .result-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .result-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .result-duration { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+
+  /* Waveform visual */
+  .waveform { padding: 20px 20px 12px; display: flex; align-items: center; gap: 3px; height: 56px; }
+  .wave-bar { flex: 1; background: var(--border); border-radius: 1px; transition: background 0.3s; }
+  .wave-bar.active { background: var(--accent); }
+
+  /* Player controls */
+  .player-controls { padding: 12px 20px 20px; display: flex; align-items: center; gap: 12px; }
+  .play-btn { width: 48px; height: 48px; background: var(--accent); border: none; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity 0.2s; }
+  .play-btn:hover { opacity: 0.85; }
+  .progress-track { flex: 1; height: 3px; background: var(--border); cursor: pointer; position: relative; }
+  .progress-played { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; pointer-events: none; }
+  .time-display { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); min-width: 70px; text-align: right; }
+  .download-btn { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 16px; background: none; border: 1px solid var(--accent); color: var(--accent); cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+  .download-btn:hover { background: var(--accent); color: #0a0a0a; }
+
+  /* Script preview */
+  .script-section { border-top: 1px solid var(--border); }
+  .script-toggle { width: 100%; padding: 12px 20px; background: none; border: none; color: var(--muted); font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; text-align: left; display: flex; align-items: center; justify-content: space-between; transition: color 0.2s; }
+  .script-toggle:hover { color: var(--text); }
+  .script-toggle .chevron { transition: transform 0.2s; }
+  .script-toggle.open .chevron { transform: rotate(180deg); }
+  .script-body { display: none; padding: 0 20px 20px; }
+  .script-body.open { display: block; }
+  .script-text { font-size: 0.88rem; color: var(--muted); line-height: 1.8; white-space: pre-wrap; }
+  .copy-script { margin-top: 12px; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 14px; background: none; border: 1px solid var(--border); color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .copy-script:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SEO block */
+  .seo-block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .seo-block h2 { font-family: var(--display); font-size: 1.8rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px; }
+  .seo-block p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+
+  /* Footer */
+  footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
+  .footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-sep { color: var(--border); }
+  .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 40px 20px 32px; }
+    .content { padding: 24px 20px 60px; }
+    .voice-settings { grid-template-columns: 1fr; }
+    .tab { padding: 14px 18px; font-size: 0.65rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">PDF<span>reeto</span></a>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">All <span class="arrow">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/">JPG &#8596; PDF</a>
+      <a href="/pdf-to-word.html">Word to PDF</a>
+      <a href="/compress-pdf.html">Compress PDF</a>
+      <a href="/compress-jpg.html">Compress JPG</a>
+      <a href="/merge-jpg.html">Merge JPG</a>
+      <a href="/merge-pdf.html">Merge PDF</a>
+      <a href="/tts.html">Text to Speech</a>
+      <a href="/pdf-ai.html">PDF AI</a>
+      <a href="/social-media.html">Social Media</a>
+      <a href="/seo.html">SEO</a>
+      <a href="/voice.html" class="active">Voice &#9733;</a>
+    </div>
+  </div>
+  <a href="/blog/" class="blog-btn">Blog</a>
+  <div class="lang-switcher">
+    <a href="/voice.html" class="lang-btn active">EN</a>
+    <a href="/pt/voice.html" class="lang-btn">PT</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">AI Voice · PDFreeto</div>
+  <h1>Audio that sounds<br>more <span class="hl">human</span><br>than <span class="hl2">text.</span></h1>
+  <p class="hero-sub">Your emails, newsletters, PDFs and articles — rewritten by AI for the ear, not the eye. Then read aloud in a natural voice.</p>
+  <div class="hero-pills">
+    <span class="pill">&#9654; Email → Voice Note</span>
+    <span class="pill">&#9654; Newsletter → Podcast</span>
+    <span class="pill">&#9654; PDF → Briefing</span>
+    <span class="pill">&#9654; Article → WhatsApp</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <button class="tab active" onclick="switchTab('email')"><span class="tab-icon">&#9993;</span> Email → Voice Note</button>
+  <button class="tab" onclick="switchTab('newsletter')"><span class="tab-icon">&#127897;</span> Newsletter → Podcast</button>
+  <button class="tab" onclick="switchTab('pdf')"><span class="tab-icon">&#128196;</span> PDF → Briefing</button>
+  <button class="tab" onclick="switchTab('article')"><span class="tab-icon">&#128242;</span> Article → WhatsApp</button>
+</div>
+
+<div class="content">
+
+  <!-- ── EMAIL → VOICE NOTE ── -->
+  <div class="panel active" id="panel-email">
+    <div class="panel-header">
+      <div class="panel-title">Email → Voice Note</div>
+      <div class="panel-desc">Paste your email. AI strips the corporate language and rewrites it as a natural 45-second voice message.</div>
+    </div>
+    <div class="input-section">
+      <label class="input-label">Paste your email</label>
+      <textarea class="voice-input" id="email-input" placeholder="Paste your email here — full thread, subject, signature and all. The AI will extract what matters and rewrite it for audio."></textarea>
+    </div>
+    <div class="voice-settings">
+      <div class="voice-setting">
+        <span class="setting-label">Voice</span>
+        <select class="voice-select" id="email-voice"></select>
+      </div>
+      <div class="voice-setting">
+        <span class="setting-label">Speed — <span id="email-rate-val">1×</span></span>
+        <div class="slider-wrap">
+          <input type="range" min="0.6" max="1.8" step="0.1" value="1" id="email-rate" oninput="document.getElementById('email-rate-val').textContent=this.value+'×'">
+        </div>
+      </div>
+    </div>
+    <button class="process-btn" id="email-btn" onclick="processVoice('email')">CONVERT TO VOICE NOTE</button>
+    <div class="progress-wrap" id="email-prog">
+      <div class="progress-bar"><div class="progress-fill" id="email-fill"></div></div>
+      <div class="progress-text" id="email-prog-text">Rewriting for audio...</div>
+    </div>
+    <div class="result-section" id="email-result">
+      <div class="result-header">
+        <span class="result-label">&#10003; Voice Note Ready</span>
+        <span class="result-duration" id="email-duration"></span>
+      </div>
+      <div class="waveform" id="email-wave"></div>
+      <div class="player-controls">
+        <button class="play-btn" id="email-play-btn" onclick="togglePlay('email')">&#9654;</button>
+        <div class="progress-track" onclick="seekAudio('email', event)">
+          <div class="progress-played" id="email-played"></div>
+        </div>
+        <span class="time-display" id="email-time">0:00</span>
+        <button class="download-btn" id="email-download" onclick="downloadAudio('email')">&#8595; WAV</button>
+      </div>
+      <div class="script-section">
+        <button class="script-toggle" id="email-script-toggle" onclick="toggleScript('email')">View AI script <span class="chevron">&#9660;</span></button>
+        <div class="script-body" id="email-script-body">
+          <div class="script-text" id="email-script-text"></div>
+          <button class="copy-script" onclick="copyScript('email')">Copy script</button>
+        </div>
+      </div>
+    </div>
+    <div class="seo-block">
+      <h2>Why Listen to Emails?</h2>
+      <p>The average professional receives 120 emails a day. AI Voice converts your most important messages into natural voice notes — perfect for commutes, gym sessions or any time reading isn't convenient. The AI doesn't just read the email: it rewrites it for the ear, removing signatures, legal footers and corporate filler so you only hear what matters.</p>
+    </div>
+  </div>
+
+  <!-- ── NEWSLETTER → PODCAST ── -->
+  <div class="panel" id="panel-newsletter">
+    <div class="panel-header">
+      <div class="panel-title">Newsletter → Mini Podcast</div>
+      <div class="panel-desc">Paste a newsletter URL or its text. AI formats it as a 2-3 minute podcast script and reads it aloud.</div>
+    </div>
+    <div class="input-section">
+      <label class="input-label">Newsletter URL or text</label>
+      <input type="url" class="url-input" id="newsletter-url" placeholder="https://newsletter.example.com/issue-42" />
+    </div>
+    <div class="input-section" style="margin-top:12px">
+      <label class="input-label">Or paste the newsletter text</label>
+      <textarea class="voice-input" id="newsletter-input" placeholder="Paste the full newsletter text here if the URL fetch doesn't work..." style="min-height:120px"></textarea>
+    </div>
+    <div class="voice-settings">
+      <div class="voice-setting">
+        <span class="setting-label">Voice</span>
+        <select class="voice-select" id="newsletter-voice"></select>
+      </div>
+      <div class="voice-setting">
+        <span class="setting-label">Speed — <span id="newsletter-rate-val">1×</span></span>
+        <div class="slider-wrap">
+          <input type="range" min="0.6" max="1.8" step="0.1" value="1" id="newsletter-rate" oninput="document.getElementById('newsletter-rate-val').textContent=this.value+'×'">
+        </div>
+      </div>
+    </div>
+    <button class="process-btn" id="newsletter-btn" onclick="processVoice('newsletter')">CREATE MINI PODCAST</button>
+    <div class="progress-wrap" id="newsletter-prog">
+      <div class="progress-bar"><div class="progress-fill" id="newsletter-fill"></div></div>
+      <div class="progress-text" id="newsletter-prog-text">Fetching newsletter...</div>
+    </div>
+    <div class="result-section" id="newsletter-result">
+      <div class="result-header">
+        <span class="result-label">&#10003; Mini Podcast Ready</span>
+        <span class="result-duration" id="newsletter-duration"></span>
+      </div>
+      <div class="waveform" id="newsletter-wave"></div>
+      <div class="player-controls">
+        <button class="play-btn" id="newsletter-play-btn" onclick="togglePlay('newsletter')">&#9654;</button>
+        <div class="progress-track" onclick="seekAudio('newsletter', event)">
+          <div class="progress-played" id="newsletter-played"></div>
+        </div>
+        <span class="time-display" id="newsletter-time">0:00</span>
+        <button class="download-btn" onclick="downloadAudio('newsletter')">&#8595; WAV</button>
+      </div>
+      <div class="script-section">
+        <button class="script-toggle" id="newsletter-script-toggle" onclick="toggleScript('newsletter')">View podcast script <span class="chevron">&#9660;</span></button>
+        <div class="script-body" id="newsletter-script-body">
+          <div class="script-text" id="newsletter-script-text"></div>
+          <button class="copy-script" onclick="copyScript('newsletter')">Copy script</button>
+        </div>
+      </div>
+    </div>
+    <div class="seo-block">
+      <h2>Turn Any Newsletter into a Podcast</h2>
+      <p>You subscribe to a dozen newsletters but only read two. AI Voice solves this by converting your unread newsletters into short podcast episodes — with a proper intro, structured segments and a clean conclusion. The AI doesn't just read the text: it produces a proper podcast script with natural transitions and spoken-word rhythm.</p>
+    </div>
+  </div>
+
+  <!-- ── PDF → BRIEFING ── -->
+  <div class="panel" id="panel-pdf">
+    <div class="panel-header">
+      <div class="panel-title">PDF → Audio Briefing</div>
+      <div class="panel-desc">Upload a report, contract or document. AI condenses it into a 2-3 minute executive briefing and reads it aloud.</div>
+    </div>
+    <div class="drop-zone" id="pdf-dz" onclick="document.getElementById('pdf-file').click()">
+      <input type="file" id="pdf-file" accept="application/pdf">
+      <span class="dz-icon">&#128196;</span>
+      <div class="dz-title">Drop your PDF here</div>
+      <div class="dz-sub">Reports · Contracts · Research · Any document</div>
+    </div>
+    <div class="file-info" id="pdf-file-info" style="display:none">
+      <div class="file-dot"></div>
+      <span class="file-name" id="pdf-file-name"></span>
+      <span class="file-size" id="pdf-file-size"></span>
+    </div>
+    <div class="voice-settings" style="margin-top:16px">
+      <div class="voice-setting">
+        <span class="setting-label">Voice</span>
+        <select class="voice-select" id="pdf-voice"></select>
+      </div>
+      <div class="voice-setting">
+        <span class="setting-label">Briefing length</span>
+        <select class="voice-select" id="pdf-length">
+          <option value="short">Short (~1 min)</option>
+          <option value="medium" selected>Medium (~2 min)</option>
+          <option value="long">Full (~4 min)</option>
+        </select>
+      </div>
+    </div>
+    <button class="process-btn" id="pdf-btn" onclick="processVoice('pdf')" disabled>CREATE AUDIO BRIEFING</button>
+    <div class="progress-wrap" id="pdf-prog">
+      <div class="progress-bar"><div class="progress-fill" id="pdf-fill"></div></div>
+      <div class="progress-text" id="pdf-prog-text">Extracting text...</div>
+    </div>
+    <div class="result-section" id="pdf-result">
+      <div class="result-header">
+        <span class="result-label">&#10003; Audio Briefing Ready</span>
+        <span class="result-duration" id="pdf-duration"></span>
+      </div>
+      <div class="waveform" id="pdf-wave"></div>
+      <div class="player-controls">
+        <button class="play-btn" id="pdf-play-btn" onclick="togglePlay('pdf')">&#9654;</button>
+        <div class="progress-track" onclick="seekAudio('pdf', event)">
+          <div class="progress-played" id="pdf-played"></div>
+        </div>
+        <span class="time-display" id="pdf-time">0:00</span>
+        <button class="download-btn" onclick="downloadAudio('pdf')">&#8595; WAV</button>
+      </div>
+      <div class="script-section">
+        <button class="script-toggle" id="pdf-script-toggle" onclick="toggleScript('pdf')">View briefing script <span class="chevron">&#9660;</span></button>
+        <div class="script-body" id="pdf-script-body">
+          <div class="script-text" id="pdf-script-text"></div>
+          <button class="copy-script" onclick="copyScript('pdf')">Copy script</button>
+        </div>
+      </div>
+    </div>
+    <div class="seo-block">
+      <h2>Skip the Reading. Hear the Briefing.</h2>
+      <p>A 40-page report takes 90 minutes to read. The AI Audio Briefing extracts what matters and delivers it in under 3 minutes. It structures the content like an executive briefing — context, key findings, implications — not like a text-to-speech reader that just reads every word. Ideal for research papers, legal documents, financial reports and long-form PDFs.</p>
+    </div>
+  </div>
+
+  <!-- ── ARTICLE → WHATSAPP ── -->
+  <div class="panel" id="panel-article">
+    <div class="panel-header">
+      <div class="panel-title">Article → WhatsApp Audio</div>
+      <div class="panel-desc">Paste an article URL or text. AI rewrites it as a casual 30-60 second voice message — like you're telling a friend.</div>
+    </div>
+    <div class="input-section">
+      <label class="input-label">Article URL</label>
+      <input type="url" class="url-input" id="article-url" placeholder="https://example.com/article-you-want-to-share" />
+    </div>
+    <div class="input-section" style="margin-top:12px">
+      <label class="input-label">Or paste the article text</label>
+      <textarea class="voice-input" id="article-input" placeholder="Paste the full article text here..." style="min-height:120px"></textarea>
+    </div>
+    <div class="voice-settings">
+      <div class="voice-setting">
+        <span class="setting-label">Voice</span>
+        <select class="voice-select" id="article-voice"></select>
+      </div>
+      <div class="voice-setting">
+        <span class="setting-label">Tone</span>
+        <select class="voice-select" id="article-tone">
+          <option value="casual">Casual (WhatsApp friend)</option>
+          <option value="professional">Professional (work colleague)</option>
+          <option value="excited">Excited (this is wild!)</option>
+        </select>
+      </div>
+    </div>
+    <button class="process-btn" id="article-btn" onclick="processVoice('article')">CREATE WHATSAPP AUDIO</button>
+    <div class="progress-wrap" id="article-prog">
+      <div class="progress-bar"><div class="progress-fill" id="article-fill"></div></div>
+      <div class="progress-text" id="article-prog-text">Fetching article...</div>
+    </div>
+    <div class="result-section" id="article-result">
+      <div class="result-header">
+        <span class="result-label">&#10003; WhatsApp Audio Ready</span>
+        <span class="result-duration" id="article-duration"></span>
+      </div>
+      <div class="waveform" id="article-wave"></div>
+      <div class="player-controls">
+        <button class="play-btn" id="article-play-btn" onclick="togglePlay('article')">&#9654;</button>
+        <div class="progress-track" onclick="seekAudio('article', event)">
+          <div class="progress-played" id="article-played"></div>
+        </div>
+        <span class="time-display" id="article-time">0:00</span>
+        <button class="download-btn" onclick="downloadAudio('article')">&#8595; WAV</button>
+      </div>
+      <div class="script-section">
+        <button class="script-toggle" id="article-script-toggle" onclick="toggleScript('article')">View message script <span class="chevron">&#9660;</span></button>
+        <div class="script-body" id="article-script-body">
+          <div class="script-text" id="article-script-text"></div>
+          <button class="copy-script" onclick="copyScript('article')">Copy &amp; send as text</button>
+        </div>
+      </div>
+    </div>
+    <div class="seo-block">
+      <h2>Share News Like You Mean It</h2>
+      <p>You read something great and want to share it — but forwarding a link feels impersonal. AI Voice rewrites the article as a natural WhatsApp voice message: casual, direct, conversational. It starts with the most interesting part, gives just enough context, and ends with why you thought of them. Record it, send it, spark a real conversation.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="/">JPG &#8596; PDF</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/tts.html">Text to Speech</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/pdf-ai.html">PDF AI</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/social-media.html">Social Media</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/voice.html">Voice</a>
+    <span class="footer-sep">&#183;</span>
+    <a href="/blog/">Blog</a>
+  </div>
+  <div class="footer-note">AI content sent only to generate your audio &#183; Never stored</div>
+</footer>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// ── NAV ──
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+
+// ── TABS ──
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.tab[onclick="switchTab('${id}')"]`).classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+}
+
+// ── VOICES ──
+let voicesLoaded = false;
+function loadVoices() {
+  const voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'));
+  if (!voices.length) return;
+  ['email','newsletter','pdf','article'].forEach(tab => {
+    const sel = document.getElementById(tab + '-voice');
+    if (!sel || sel.options.length > 1) return;
+    sel.innerHTML = '';
+    voices.forEach((v, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = v.name.replace(/\s*\(.*?\)/g,'').trim();
+      sel.appendChild(opt);
+    });
+  });
+}
+speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+// ── PDF DROP ──
+const pdfDz = document.getElementById('pdf-dz');
+const pdfFile = document.getElementById('pdf-file');
+let pdfText = '';
+
+pdfDz.addEventListener('dragover', e => { e.preventDefault(); pdfDz.classList.add('dragging'); });
+pdfDz.addEventListener('dragleave', () => pdfDz.classList.remove('dragging'));
+pdfDz.addEventListener('drop', e => { e.preventDefault(); pdfDz.classList.remove('dragging'); loadPDF(e.dataTransfer.files[0]); });
+pdfFile.addEventListener('change', () => loadPDF(pdfFile.files[0]));
+
+async function loadPDF(f) {
+  if (!f || f.type !== 'application/pdf') return;
+  document.getElementById('pdf-file-info').style.display = 'flex';
+  document.getElementById('pdf-file-name').textContent = f.name;
+  document.getElementById('pdf-file-size').textContent = fmt(f.size);
+  document.getElementById('pdf-btn').disabled = true;
+  document.getElementById('pdf-prog').style.display = 'block';
+  document.getElementById('pdf-fill').style.width = '10%';
+  document.getElementById('pdf-prog-text').textContent = 'Extracting text...';
+
+  const ab = await f.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+  let text = '';
+  for (let i = 1; i <= Math.min(pdf.numPages, 30); i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    text += content.items.map(x => x.str).join(' ') + '\n';
+    document.getElementById('pdf-fill').style.width = (10 + (i/Math.min(pdf.numPages,30))*50) + '%';
+  }
+  pdfText = text.substring(0, 8000);
+  document.getElementById('pdf-fill').style.width = '0%';
+  document.getElementById('pdf-prog').style.display = 'none';
+  document.getElementById('pdf-btn').disabled = false;
+}
+
+// ── AI PROMPTS ──
+const PROMPTS = {
+  email: (text) => ({
+    system: `You are an expert at rewriting corporate emails as natural, human voice notes. Transform the email into a spoken message of 60-90 words maximum. Rules: no greetings, no sign-offs, no "as per my last email", no corporate jargon. Direct, warm, conversational. Preserve all key information and action items. Start with the most important point. Return ONLY the spoken script, nothing else.`,
+    user: `Rewrite this email as a natural voice note:\n\n${text.substring(0,3000)}`
+  }),
+  newsletter: (text) => ({
+    system: `You are a podcast script writer. Transform the newsletter content into a 2-3 minute podcast script (250-350 words). Structure: brief engaging intro (1-2 sentences), 3-4 key points with natural transitions, strong closing line. Use spoken-word rhythm — short sentences, natural pauses implied by punctuation. No bullet points, no headers in the output. Return ONLY the spoken script.`,
+    user: `Transform this newsletter into a podcast script:\n\n${text.substring(0,4000)}`
+  }),
+  pdf: (text, length) => {
+    const words = { short: '100-150', medium: '220-280', long: '450-500' }[length] || '220-280';
+    return {
+      system: `You are an executive briefing specialist. Condense the document into a spoken audio briefing of ${words} words. Structure: 1-sentence context, key findings (most important first), practical implications. No jargon, no filler, no "in conclusion". Every sentence must earn its place. Return ONLY the briefing script.`,
+      user: `Create an audio briefing from this document:\n\n${text.substring(0,6000)}`
+    };
+  },
+  article: (text, tone) => {
+    const toneDesc = {
+      casual: 'casual WhatsApp message to a friend — like you just read something and are telling them about it verbally',
+      professional: 'professional voice message to a work colleague — informative, concise, respectful',
+      excited: 'excited message to a friend — you can\'t believe what you just read, energetic and engaging'
+    }[tone] || 'casual';
+    return {
+      system: `You are writing a spoken voice message script. Rewrite the article as a ${toneDesc}. Maximum 80 words. Start with the most interesting or surprising element. Give just enough context. End with one reason why this matters or why you thought of them. No "so I read this article" openers. Dive straight in. Return ONLY the spoken script.`,
+      user: `Rewrite this article as a voice message:\n\n${text.substring(0,3000)}`
+    };
+  }
+};
+
+// ── STATE ──
+const state = {};
+const utterances = {};
+
+// ── MAIN PROCESS ──
+async function processVoice(tab) {
+  let inputText = '';
+
+  if (tab === 'email') {
+    inputText = document.getElementById('email-input').value.trim();
+    if (!inputText) return alert('Please paste your email first.');
+  } else if (tab === 'newsletter') {
+    const url = document.getElementById('newsletter-url').value.trim();
+    const text = document.getElementById('newsletter-input').value.trim();
+    if (!url && !text) return alert('Please enter a URL or paste the newsletter text.');
+    if (url && !text) {
+      setProgress(tab, 10, 'Fetching newsletter...');
+      try {
+        const r = await fetch('/.netlify/functions/fetch-page', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ url }) });
+        const d = await r.json();
+        inputText = d.content || d.text || '';
+      } catch(e) { inputText = ''; }
+      if (!inputText) {
+        setProgress(tab, 0, '');
+        return alert('Could not fetch the URL. Please paste the newsletter text directly.');
+      }
+    } else {
+      inputText = text;
+    }
+  } else if (tab === 'pdf') {
+    if (!pdfText) return alert('Please upload a PDF first.');
+    inputText = pdfText;
+  } else if (tab === 'article') {
+    const url = document.getElementById('article-url').value.trim();
+    const text = document.getElementById('article-input').value.trim();
+    if (!url && !text) return alert('Please enter a URL or paste the article text.');
+    if (url && !text) {
+      setProgress(tab, 10, 'Fetching article...');
+      try {
+        const r = await fetch('/.netlify/functions/fetch-page', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ url }) });
+        const d = await r.json();
+        inputText = d.content || d.text || '';
+      } catch(e) { inputText = ''; }
+      if (!inputText) {
+        setProgress(tab, 0, '');
+        return alert('Could not fetch the URL. Please paste the article text directly.');
+      }
+    } else {
+      inputText = text;
+    }
+  }
+
+  // Disable button
+  const btn = document.getElementById(tab + '-btn');
+  btn.disabled = true;
+  setProgress(tab, 30, 'AI is rewriting for audio...');
+
+  // Build prompt
+  let promptData;
+  if (tab === 'pdf') {
+    promptData = PROMPTS.pdf(inputText, document.getElementById('pdf-length').value);
+  } else if (tab === 'article') {
+    promptData = PROMPTS.article(inputText, document.getElementById('article-tone').value);
+  } else {
+    promptData = PROMPTS[tab](inputText);
+  }
+
+  // Call Claude
+  let script = '';
+  try {
+    setProgress(tab, 50, 'Writing your script...');
+    const res = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 800,
+        system: promptData.system,
+        messages: [{ role: 'user', content: promptData.user }]
+      })
+    });
+    const data = await res.json();
+    script = data.content?.[0]?.text || '';
+  } catch(e) {
+    btn.disabled = false;
+    setProgress(tab, 0, '');
+    return alert('AI error: ' + e.message);
+  }
+
+  if (!script) {
+    btn.disabled = false;
+    setProgress(tab, 0, '');
+    return alert('Could not generate script. Please try again.');
+  }
+
+  setProgress(tab, 80, 'Preparing voice...');
+
+  // Store script
+  state[tab] = { script, playing: false, recorder: null, audioBlob: null, startTime: 0, elapsed: 0 };
+  document.getElementById(tab + '-script-text').textContent = script;
+
+  // Estimate duration
+  const words = script.split(/\s+/).length;
+  const rate = parseFloat(document.getElementById(tab + '-rate')?.value || 1);
+  const secs = Math.round((words / 2.5) / rate);
+  const mins = Math.floor(secs / 60);
+  const s = secs % 60;
+  document.getElementById(tab + '-duration').textContent = `~${mins}:${s.toString().padStart(2,'0')}`;
+
+  // Build waveform
+  buildWaveform(tab);
+
+  // Show result
+  setProgress(tab, 0, '');
+  document.getElementById(tab + '-prog').style.display = 'none';
+  document.getElementById(tab + '-result').style.display = 'block';
+  btn.disabled = false;
+}
+
+function setProgress(tab, pct, text) {
+  const wrap = document.getElementById(tab + '-prog');
+  const fill = document.getElementById(tab + '-fill');
+  const txt = document.getElementById(tab + '-prog-text');
+  if (pct > 0) { wrap.style.display = 'block'; fill.style.width = pct + '%'; txt.textContent = text; }
+  else { wrap.style.display = 'none'; fill.style.width = '0%'; }
+}
+
+function buildWaveform(tab) {
+  const container = document.getElementById(tab + '-wave');
+  container.innerHTML = '';
+  const count = 40;
+  for (let i = 0; i < count; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'wave-bar';
+    const h = 20 + Math.random() * 60;
+    bar.style.height = h + '%';
+    bar.style.alignSelf = 'center';
+    container.appendChild(bar);
+  }
+}
+
+// ── SPEECH ──
+let currentUtterance = null;
+let speakingTab = null;
+let speakStart = 0;
+
+function togglePlay(tab) {
+  if (speakingTab === tab && speechSynthesis.speaking) {
+    speechSynthesis.cancel();
+    setPlayBtn(tab, false);
+    speakingTab = null;
+    return;
+  }
+  if (speechSynthesis.speaking) speechSynthesis.cancel();
+  speakTab(tab);
+}
+
+function speakTab(tab) {
+  const s = state[tab];
+  if (!s) return;
+
+  const voices = speechSynthesis.getVoices();
+  const selEl = document.getElementById(tab + '-voice');
+  const voice = selEl ? voices.filter(v=>v.lang.startsWith('en'))[parseInt(selEl.value)] : null;
+  const rate = parseFloat(document.getElementById(tab + '-rate')?.value || 1);
+
+  const utt = new SpeechSynthesisUtterance(s.script);
+  if (voice) utt.voice = voice;
+  utt.rate = rate;
+  utt.pitch = 1;
+
+  speakStart = Date.now();
+  speakingTab = tab;
+  setPlayBtn(tab, true);
+  animateWave(tab, true);
+
+  // Audio recording
+  try {
+    const ctx = new AudioContext();
+    const dest = ctx.createMediaStreamDestination();
+    const rec = new MediaRecorder(dest.stream);
+    const chunks = [];
+    rec.ondataavailable = e => chunks.push(e.data);
+    rec.onstop = () => { s.audioBlob = new Blob(chunks, { type: 'audio/wav' }); };
+    rec.start();
+    s.recorder = rec;
+  } catch(e) {}
+
+  // Progress update
+  const words = s.script.split(/\s+/).length;
+  const totalMs = (words / 2.5 / rate) * 1000;
+  const interval = setInterval(() => {
+    if (!speechSynthesis.speaking) { clearInterval(interval); return; }
+    const elapsed = Date.now() - speakStart;
+    const pct = Math.min(100, (elapsed / totalMs) * 100);
+    document.getElementById(tab + '-played').style.width = pct + '%';
+    const secs = Math.floor(elapsed / 1000);
+    document.getElementById(tab + '-time').textContent = fmt_time(secs);
+    animateWaveRandom(tab);
+  }, 200);
+
+  utt.onend = () => {
+    setPlayBtn(tab, false);
+    animateWave(tab, false);
+    speakingTab = null;
+    if (s.recorder && s.recorder.state !== 'inactive') s.recorder.stop();
+    clearInterval(interval);
+    document.getElementById(tab + '-played').style.width = '100%';
+  };
+  utt.onerror = () => { setPlayBtn(tab, false); animateWave(tab, false); speakingTab = null; clearInterval(interval); };
+
+  speechSynthesis.speak(utt);
+  currentUtterance = utt;
+}
+
+function setPlayBtn(tab, playing) {
+  const btn = document.getElementById(tab + '-play-btn');
+  if (btn) btn.innerHTML = playing ? '&#9646;&#9646;' : '&#9654;';
+}
+
+function animateWave(tab, on) {
+  const bars = document.querySelectorAll(`#${tab}-wave .wave-bar`);
+  bars.forEach(b => b.classList.toggle('active', on));
+}
+
+function animateWaveRandom(tab) {
+  const bars = document.querySelectorAll(`#${tab}-wave .wave-bar`);
+  bars.forEach(b => {
+    const h = 20 + Math.random() * 60;
+    b.style.height = h + '%';
+    b.style.background = Math.random() > 0.4 ? 'var(--accent)' : 'var(--border)';
+  });
+}
+
+function seekAudio(tab, e) {
+  // Basic: restart from beginning
+  if (speakingTab === tab) { speechSynthesis.cancel(); speakTab(tab); }
+}
+
+function downloadAudio(tab) {
+  const s = state[tab];
+  if (s && s.audioBlob) {
+    const url = URL.createObjectURL(s.audioBlob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `pdfreeto-${tab}-audio.wav`; a.click();
+  } else {
+    // Fallback: speak and record
+    alert('Play the audio first to enable download (Chrome/Edge only).');
+  }
+}
+
+function toggleScript(tab) {
+  const body = document.getElementById(tab + '-script-body');
+  const btn = document.getElementById(tab + '-script-toggle');
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+
+function copyScript(tab) {
+  const text = document.getElementById(tab + '-script-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btns = document.querySelectorAll('.copy-script');
+    btns.forEach(b => { if (b.onclick?.toString().includes(tab)) { b.textContent = 'Copied!'; setTimeout(() => b.textContent = b.dataset.orig || 'Copy script', 2000); } });
+  });
+}
+
+function fmt(b) { if(b<1024)return b+' B'; if(b<1048576)return (b/1024).toFixed(1)+' KB'; return (b/1048576).toFixed(1)+' MB'; }
+function fmt_time(s) { const m=Math.floor(s/60); return m+':'+String(s%60).padStart(2,'0'); }
+</script>
+</body>
+</html>
