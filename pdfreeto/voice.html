@@ -324,7 +324,7 @@ document.querySelectorAll('.tab').forEach(function(btn) {
 var LANG_GROUPS = [
   { flag: '🇬🇧', label: 'English UK',     codes: ['en-GB'],          langs: ['en'] },
   { flag: '🇺🇸', label: 'English US',     codes: ['en-US'],          langs: ['en'] },
-  { flag: '🇵🇹', label: 'Português PT',   codes: ['pt-PT','pt'],     langs: ['pt'] },
+  { flag: '🇵🇹', label: 'Português PT',   codes: ['pt-PT'],          langs: ['pt'] },
   { flag: '🇧🇷', label: 'Português BR',   codes: ['pt-BR'],          langs: ['pt'] },
   { flag: '🇪🇸', label: 'Español',        codes: ['es-ES','es'],     langs: ['es'] },
   { flag: '🇫🇷', label: 'Français',       codes: ['fr-FR','fr'],     langs: ['fr'] },
@@ -348,11 +348,26 @@ var VOICE_GENDER = {
   'microsoft david': 'm', 'microsoft zira': 'f', 'microsoft mark': 'm',
   'microsoft aria': 'f', 'microsoft guy': 'm', 'microsoft jenny': 'f',
   'microsoft ana': 'f', 'microsoft brian': 'm', 'microsoft steffan': 'm',
-  // pt-PT
-  'joana': 'f', 'joaquim': 'm', 'google português do portugal': 'f',
-  // pt-BR
-  'luciana': 'f', 'felipe': 'm', 'google português do brasil': 'f',
+  // pt-PT — European Portuguese (high quality voices by browser)
+  // macOS/Safari: Joana, Catarina
+  'joana': 'f', 'catarina': 'f',
+  // Windows/Edge Neural: Inês, Duarte, Helia, Raul, Leonor, Duarte
+  'microsoft inês': 'f', 'microsoft ines': 'f',
+  'microsoft duarte': 'm',
+  'microsoft helia': 'f',
+  'microsoft raul': 'm',
+  'microsoft leonor': 'f',
+  'microsoft fernando': 'm',
+  // Chrome: Google Português do Portugal
+  'google português do portugal': 'f',
+  'google portuguese portugal': 'f',
+  // pt-BR — Brazilian Portuguese
+  'luciana': 'f', 'felipe': 'm',
+  'google português do brasil': 'f',
   'microsoft francisca': 'f', 'microsoft antonio': 'm',
+  'microsoft thalita': 'f', 'microsoft nicolau': 'm',
+  'microsoft brenda': 'f', 'microsoft humberto': 'm',
+  'microsoft leila': 'f', 'microsoft vitor': 'm',
   // es
   'google español': 'f', 'mónica': 'f', 'jorge': 'm', 'paulina': 'f',
   'microsoft sabina': 'f', 'microsoft raul': 'm', 'microsoft elena': 'f',
@@ -415,14 +430,17 @@ function buildVoiceMap() {
 function getGroupVoices(group) {
   var result = [];
   group.codes.forEach(function(code) {
-    // Exact match
+    // Exact match only — avoids pt-PT matching pt-BR etc.
     if (voiceMap[code]) result = result.concat(voiceMap[code]);
-    // Prefix match (e.g. 'en' matches 'en-AU')
-    Object.keys(voiceMap).forEach(function(k) {
-      if (k !== code && k.startsWith(code + '-') && !group.codes.includes(k)) {
-        result = result.concat(voiceMap[k]);
-      }
-    });
+    // Prefix match ONLY for single-segment codes like 'en', 'zh', 'ja'
+    // Never for 'pt-PT', 'en-GB' etc. (already specific)
+    if (!code.includes('-')) {
+      Object.keys(voiceMap).forEach(function(k) {
+        if (k !== code && k.startsWith(code + '-') && !group.codes.includes(k)) {
+          result = result.concat(voiceMap[k]);
+        }
+      });
+    }
   });
   // Deduplicate
   var seen = {};
