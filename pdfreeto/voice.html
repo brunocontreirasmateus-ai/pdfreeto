@@ -486,21 +486,25 @@ function buildVoiceSelect(selEl, preferredLang) {
   return true;
 }
 
-var voicesReady = false;
+var lastLang = 'en-GB';
+var initDone = false;
+
 function initVoices(preferredLang) {
-  if (voicesReady) return;
+  var lang = preferredLang || lastLang;
+  if (!buildVoiceMap()) return;
+  lastLang = lang;
   ['email','newsletter','pdf','article'].forEach(function(tab) {
     var sel = document.getElementById(tab + '-voice');
-    if (sel) buildVoiceSelect(sel, preferredLang || 'en-GB');
+    if (sel) buildVoiceSelect(sel, lang);
   });
-  voicesReady = true;
+  initDone = true;
 }
 
 if (speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = function() { voicesReady = false; initVoices(); };
+  speechSynthesis.onvoiceschanged = function() { initVoices(lastLang); };
 }
 setTimeout(function() { initVoices(); }, 300);
-setTimeout(function() { if (!voicesReady) initVoices(); }, 1000);
+setTimeout(function() { if (!initDone) initVoices(); }, 1000);
 
 // ── LANGUAGE DETECTION ──
 function detectLang(text) {
@@ -525,27 +529,34 @@ function detectLang(text) {
   return 'en-GB';
 }
 
-// Auto-detect language when user pastes text
+// Auto-detect language from text — runs on input, paste, and focus
+function autoDetectFromEl(el) {
+  var txt = el.value.substring(0, 400);
+  if (txt.length < 20) return;
+  var lang = detectLang(txt);
+  if (lang !== lastLang) initVoices(lang);
+}
+
 ['email-in','newsletter-in','article-in'].forEach(function(id) {
   var el = document.getElementById(id);
   if (!el) return;
-  el.addEventListener('input', function() {
-    var txt = this.value.substring(0, 300);
-    if (txt.length < 20) return;
-    var lang = detectLang(txt);
-    // Update all voice selects
-    voicesReady = false;
-    initVoices(lang);
-  });
+  el.addEventListener('focus', function() { autoDetectFromEl(this); });
+  el.addEventListener('input', function() { autoDetectFromEl(this); });
   el.addEventListener('paste', function() {
-    setTimeout(function() {
-      var txt = el.value.substring(0, 300);
-      if (txt.length < 20) return;
-      var lang = detectLang(txt);
-      voicesReady = false;
-      initVoices(lang);
-    }, 100);
+    var self = this;
+    setTimeout(function() { autoDetectFromEl(self); }, 80);
   });
+});
+
+// Also detect language when GO button is clicked, before processing
+['email','newsletter','pdf','article'].forEach(function(tab) {
+  var btn = document.getElementById(tab + '-go');
+  if (!btn) return;
+  btn.addEventListener('mousedown', function() {
+    var inId = tab === 'email' ? 'email-in' : tab + '-in';
+    var el = document.getElementById(inId);
+    if (el && el.value.length > 20) autoDetectFromEl(el);
+  }, true);
 });
 
 // ── PDF DROP ──
