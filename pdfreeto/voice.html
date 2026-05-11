@@ -621,25 +621,32 @@ async function fetchURL(url) {
 
 // ── PROMPTS ──
 function getPrompt(tab, text, extra) {
+  var langRule = 'CRITICAL: Detect the language of the input text and respond in THAT SAME language. Never translate. If input is Portuguese, respond in Portuguese. If Spanish, respond in Spanish. If German, respond in German. Match the input language exactly.';
+
   if (tab === 'email') return {
-    system: 'You are an expert at rewriting corporate emails as natural human voice notes. Transform the email into a spoken message of 60-90 words maximum. No greetings, no sign-offs, no corporate jargon. Direct, warm, conversational. Preserve all key information. Start with the most important point. Return ONLY the spoken script.',
+    system: langRule + ' You are an expert at rewriting corporate emails as natural human voice notes. Transform the email into a spoken message of 60-90 words maximum. No greetings, no sign-offs, no corporate jargon. Direct, warm, conversational. Preserve all key information. Start with the most important point. Return ONLY the spoken script.',
     user: 'Rewrite this email as a natural voice note:\n\n' + text.substring(0, 3000)
   };
   if (tab === 'newsletter') return {
-    system: 'You are a podcast script writer. Transform the newsletter into a 2-3 minute podcast script (250-350 words). Brief engaging intro, 3-4 key points with natural transitions, strong closing line. Spoken-word rhythm. No bullet points, no headers. Return ONLY the spoken script.',
+    system: langRule + ' You are a podcast script writer. Transform the newsletter into a 2-3 minute podcast script (250-350 words). Brief engaging intro, 3-4 key points with natural transitions, strong closing line. Spoken-word rhythm. No bullet points, no headers. Return ONLY the spoken script.',
     user: 'Transform this newsletter into a podcast script:\n\n' + text.substring(0, 4000)
   };
   if (tab === 'pdf') {
     var w = { short: '100-150', medium: '220-280', long: '450-500' }[extra] || '220-280';
     return {
-      system: 'Condense the document into a spoken audio briefing of ' + w + ' words. Structure: 1-sentence context, key findings most important first, practical implications. No jargon. Return ONLY the briefing script.',
+      system: langRule + ' Condense the document into a spoken audio briefing of ' + w + ' words. Structure: 1-sentence context, key findings most important first, practical implications. No jargon. Return ONLY the briefing script.',
       user: 'Create an audio briefing:\n\n' + text.substring(0, 6000)
     };
   }
   if (tab === 'article') {
-    var td = { casual: 'casual WhatsApp message to a friend', professional: 'professional voice message to a work colleague', excited: 'excited message to a friend who must hear this' }[extra] || 'casual';
+    var toneMap = {
+      casual: 'casual WhatsApp message to a close friend — warm, direct, conversational',
+      professional: 'professional voice message to a work colleague — clear, respectful, informative',
+      excited: 'excited message to a friend — energetic, enthusiastic, you cannot believe what you just read'
+    };
+    var td = toneMap[extra] || toneMap.casual;
     return {
-      system: 'Write a spoken voice message script. Rewrite the article as a ' + td + '. Maximum 80 words. Start with the most interesting element. No "so I read this article" opener. Return ONLY the spoken script.',
+      system: langRule + ' Write a spoken voice message script. Rewrite the article as a ' + td + '. Maximum 80 words. Start with the most interesting element. No "so I read this article" opener. Return ONLY the spoken script.',
       user: 'Rewrite as a voice message:\n\n' + text.substring(0, 3000)
     };
   }
