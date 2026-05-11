@@ -318,27 +318,235 @@ document.querySelectorAll('.tab').forEach(function(btn) {
   if (sl) sl.addEventListener('input', function() { rv.textContent = this.value + 'x'; });
 });
 
-// ── VOICES ──
-function loadVoices() {
-  var vs = speechSynthesis.getVoices().filter(function(v) { return v.lang.startsWith('en'); });
-  if (!vs.length) return;
-  ['email','newsletter','pdf','article'].forEach(function(tab) {
-    var sel = document.getElementById(tab + '-voice');
-    if (!sel || sel.options.length > 1) return;
-    sel.innerHTML = '';
-    vs.forEach(function(v, i) {
-      var o = document.createElement('option');
-      o.value = i;
-      o.textContent = v.name.replace(/\s*\(.*?\)/g, '').trim();
-      sel.appendChild(o);
+// ── VOICE SYSTEM ──
+
+// Language groups: [flag, label, langCodes[], preferred gender order]
+var LANG_GROUPS = [
+  { flag: '🇬🇧', label: 'English UK',     codes: ['en-GB'],          langs: ['en'] },
+  { flag: '🇺🇸', label: 'English US',     codes: ['en-US'],          langs: ['en'] },
+  { flag: '🇵🇹', label: 'Português PT',   codes: ['pt-PT','pt'],     langs: ['pt'] },
+  { flag: '🇧🇷', label: 'Português BR',   codes: ['pt-BR'],          langs: ['pt'] },
+  { flag: '🇪🇸', label: 'Español',        codes: ['es-ES','es'],     langs: ['es'] },
+  { flag: '🇫🇷', label: 'Français',       codes: ['fr-FR','fr'],     langs: ['fr'] },
+  { flag: '🇩🇪', label: 'Deutsch',        codes: ['de-DE','de'],     langs: ['de'] },
+  { flag: '🇮🇹', label: 'Italiano',       codes: ['it-IT','it'],     langs: ['it'] },
+  { flag: '🇬🇷', label: 'Ελληνικά',       codes: ['el-GR','el'],     langs: ['el'] },
+  { flag: '🇨🇳', label: '中文',           codes: ['zh-CN','zh-TW','zh-HK','zh'], langs: ['zh'] },
+  { flag: '🇯🇵', label: '日本語',         codes: ['ja-JP','ja'],     langs: ['ja'] },
+  { flag: '🇰🇷', label: '한국어',         codes: ['ko-KR','ko'],     langs: ['ko'] },
+];
+
+// Known high-quality voice names and their gender
+var VOICE_GENDER = {
+  // en-GB
+  'google uk english male': 'm', 'google uk english female': 'f',
+  'daniel': 'm', 'kate': 'f', 'serena': 'f', 'oliver': 'm',
+  'arthur': 'm', 'martha': 'f', 'rishi': 'm', 'emily': 'f',
+  // en-US
+  'google us english': 'f', 'samantha': 'f', 'alex': 'm', 'fred': 'm',
+  'victoria': 'f', 'tom': 'm', 'zoe': 'f', 'junior': 'm',
+  'microsoft david': 'm', 'microsoft zira': 'f', 'microsoft mark': 'm',
+  'microsoft aria': 'f', 'microsoft guy': 'm', 'microsoft jenny': 'f',
+  'microsoft ana': 'f', 'microsoft brian': 'm', 'microsoft steffan': 'm',
+  // pt-PT
+  'joana': 'f', 'joaquim': 'm', 'google português do portugal': 'f',
+  // pt-BR
+  'luciana': 'f', 'felipe': 'm', 'google português do brasil': 'f',
+  'microsoft francisca': 'f', 'microsoft antonio': 'm',
+  // es
+  'google español': 'f', 'mónica': 'f', 'jorge': 'm', 'paulina': 'f',
+  'microsoft sabina': 'f', 'microsoft raul': 'm', 'microsoft elena': 'f',
+  'microsoft pablo': 'm', 'diego': 'm', 'mónica': 'f',
+  // fr
+  'google français': 'f', 'thomas': 'm', 'amélie': 'f', 'nicolas': 'm',
+  'microsoft julie': 'f', 'microsoft paul': 'm', 'microsoft hortense': 'f',
+  // de
+  'google deutsch': 'f', 'anna': 'f', 'markus': 'm', 'yannick': 'm',
+  'microsoft hedda': 'f', 'microsoft stefan': 'm', 'microsoft katja': 'f',
+  'microsoft conradin': 'm',
+  // it
+  'google italiano': 'f', 'alice': 'f', 'luca': 'm', 'federica': 'f',
+  'microsoft elsa': 'f', 'microsoft cosimo': 'm',
+  // el
+  'melina': 'f', 'nikos': 'm',
+  // zh
+  'google 普通话': 'f', 'google 粤語': 'f', 'tingting': 'f', 'microsoft yaoyao': 'f',
+  'microsoft kangkang': 'm', 'microsoft huihuizhouzhou': 'f',
+  // ja
+  'google 日本語': 'f', 'kyoko': 'f', 'otoya': 'm', 'microsoft haruka': 'f',
+  'microsoft ichiro': 'm',
+  // ko
+  'google 한국의': 'f', 'yuna': 'f', 'microsoft heami': 'f'
+};
+
+function guessGender(voice) {
+  var n = voice.name.toLowerCase();
+  var g = VOICE_GENDER[n];
+  if (g) return g;
+  // Heuristics by name fragments
+  var femaleHints = ['female','woman','girl','femme','femenina','weiblich','she','joana','luciana','alice','anna','amélie','sofia','maria','elena','sara','laura','emma','lisa','julia','katja','elsa','paulina','mónica','yuna','kyoko','heami','haruka','tingting','yaoyao','zira','jenny','aria','ana','zoe','emily','martha','kate','serena','victoria'];
+  var maleHints = ['male','man','boy','homme','masculino','männlich','he','jorge','luca','markus','thomas','nicolas','stefan','cosimo','nikos','otoya','ichiro','kangkang','david','mark','guy','brian','fred','alex','tom','daniel','arthur','rishi','oliver','joaquim','felipe','diego','antonio','raul','pablo','junior'];
+  for (var f of femaleHints) { if (n.includes(f)) return 'f'; }
+  for (var m of maleHints) { if (n.includes(m)) return 'm'; }
+  return 'u';
+}
+
+function isHighQuality(voice) {
+  var n = voice.name.toLowerCase();
+  // Prefer Google, Microsoft, Apple named voices over generic ones
+  return n.includes('google') || n.includes('microsoft') || n.includes('apple') ||
+    !n.includes('espeak') && !n.includes('mbrola') && !n.includes('cmu') && !n.includes('festival');
+}
+
+var voiceMap = {}; // langCode -> [{voice, gender, quality}]
+
+function buildVoiceMap() {
+  var all = speechSynthesis.getVoices();
+  if (!all.length) return false;
+  voiceMap = {};
+  all.forEach(function(v) {
+    var lang = v.lang;
+    if (!voiceMap[lang]) voiceMap[lang] = [];
+    voiceMap[lang].push({ voice: v, gender: guessGender(v), quality: isHighQuality(v) });
+  });
+  return true;
+}
+
+function getGroupVoices(group) {
+  var result = [];
+  group.codes.forEach(function(code) {
+    // Exact match
+    if (voiceMap[code]) result = result.concat(voiceMap[code]);
+    // Prefix match (e.g. 'en' matches 'en-AU')
+    Object.keys(voiceMap).forEach(function(k) {
+      if (k !== code && k.startsWith(code + '-') && !group.codes.includes(k)) {
+        result = result.concat(voiceMap[k]);
+      }
     });
   });
+  // Deduplicate
+  var seen = {};
+  result = result.filter(function(item) {
+    var key = item.voice.name;
+    if (seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
+  // Sort: quality first, then by gender (m first, f second, u last)
+  result.sort(function(a, b) {
+    if (a.quality !== b.quality) return b.quality - a.quality;
+    var go = { m: 0, f: 1, u: 2 };
+    return (go[a.gender] || 2) - (go[b.gender] || 2);
+  });
+  return result;
 }
+
+function buildVoiceSelect(selEl, preferredLang) {
+  if (!buildVoiceMap()) return false;
+  selEl.innerHTML = '';
+
+  var firstOption = null;
+  var preferredOption = null;
+
+  LANG_GROUPS.forEach(function(group) {
+    var voices = getGroupVoices(group);
+    if (!voices.length) return;
+
+    // Take up to 2M + 2F per group
+    var males = voices.filter(function(v) { return v.gender === 'm'; }).slice(0, 2);
+    var females = voices.filter(function(v) { return v.gender === 'f'; }).slice(0, 2);
+    var unknowns = voices.filter(function(v) { return v.gender === 'u'; }).slice(0, 2);
+    var grouped = males.concat(females).concat(unknowns);
+    if (!grouped.length) return;
+
+    var og = document.createElement('optgroup');
+    og.label = group.flag + ' ' + group.label;
+    grouped.forEach(function(item) {
+      var o = document.createElement('option');
+      var cleanName = item.voice.name.replace(/\s*\(.*?\)/g, '').trim();
+      var gLabel = item.gender === 'm' ? ' ♂' : item.gender === 'f' ? ' ♀' : '';
+      o.textContent = cleanName + gLabel;
+      o.dataset.voiceName = item.voice.name;
+      o.dataset.lang = item.voice.lang;
+      og.appendChild(o);
+      if (!firstOption) firstOption = o;
+      // Check if this matches preferred language
+      if (preferredLang && !preferredOption) {
+        var vl = item.voice.lang.toLowerCase();
+        var pl = preferredLang.toLowerCase();
+        if (vl.startsWith(pl.split('-')[0])) preferredOption = o;
+      }
+    });
+    selEl.appendChild(og);
+  });
+
+  // Select preferred or first
+  if (preferredOption) preferredOption.selected = true;
+  else if (firstOption) firstOption.selected = true;
+  return true;
+}
+
+var voicesReady = false;
+function initVoices(preferredLang) {
+  if (voicesReady) return;
+  ['email','newsletter','pdf','article'].forEach(function(tab) {
+    var sel = document.getElementById(tab + '-voice');
+    if (sel) buildVoiceSelect(sel, preferredLang || 'en-GB');
+  });
+  voicesReady = true;
+}
+
 if (speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = loadVoices;
+  speechSynthesis.onvoiceschanged = function() { voicesReady = false; initVoices(); };
 }
-loadVoices();
-setTimeout(loadVoices, 500);
+setTimeout(function() { initVoices(); }, 300);
+setTimeout(function() { if (!voicesReady) initVoices(); }, 1000);
+
+// ── LANGUAGE DETECTION ──
+function detectLang(text) {
+  if (!text || text.length < 15) return 'en-GB';
+  var t = text;
+  // Script-based detection
+  if (/[\u3040-\u309f\u30a0-\u30ff]/.test(t)) return 'ja-JP';
+  if (/[\u4e00-\u9fff]/.test(t)) return 'zh-CN';
+  if (/[\uac00-\ud7af]/.test(t)) return 'ko-KR';
+  if (/[\u0370-\u03ff]/.test(t)) return 'el-GR';
+  // Latin heuristics
+  var low = text.toLowerCase();
+  if (/\b(der|die|das|und|ich|bin|ist|nicht|sie|mit|auf|für|von|werden|haben)\b/.test(low)) return 'de-DE';
+  if (/\b(les|des|une|est|dans|qui|que|pour|sur|avec|par|au|aux|leur|nous|vous)\b/.test(low)) return 'fr-FR';
+  if (/\b(el|la|los|las|en|con|por|para|que|del|una|también|están|tiene)\b/.test(low)) return 'es-ES';
+  if (/\b(você|então|porque|quando|onde|como|isso|baixar|arquivo|cadastro)\b/.test(low)) return 'pt-BR';
+  if (/\b(você|então|porque|quando|onde|como|ficheiro|descarregar|utilizador)\b/.test(low)) return 'pt-PT';
+  if (/[ãõç]/.test(low)) return 'pt-PT';
+  if (/[àâêîôùûœæ]/.test(low)) return 'fr-FR';
+  if (/[ñ¡¿]/.test(low)) return 'es-ES';
+  if (/[äöüß]/.test(low)) return 'de-DE';
+  return 'en-GB';
+}
+
+// Auto-detect language when user pastes text
+['email-in','newsletter-in','article-in'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', function() {
+    var txt = this.value.substring(0, 300);
+    if (txt.length < 20) return;
+    var lang = detectLang(txt);
+    // Update all voice selects
+    voicesReady = false;
+    initVoices(lang);
+  });
+  el.addEventListener('paste', function() {
+    setTimeout(function() {
+      var txt = el.value.substring(0, 300);
+      if (txt.length < 20) return;
+      var lang = detectLang(txt);
+      voicesReady = false;
+      initVoices(lang);
+    }, 100);
+  });
+});
 
 // ── PDF DROP ──
 var pdfText = '';
@@ -501,9 +709,13 @@ function togglePlay(tab) {
 
 function spkNow(tab) {
   var s = ST[tab]; if (!s) return;
-  var vs = speechSynthesis.getVoices().filter(function(v) { return v.lang.startsWith('en'); });
+  var vs = speechSynthesis.getVoices();
   var sel = document.getElementById(tab + '-voice');
-  var voice = sel ? vs[parseInt(sel.value) || 0] : null;
+  var voice = null;
+  if (sel && sel.selectedOptions && sel.selectedOptions[0]) {
+    var voiceName = sel.selectedOptions[0].dataset.voiceName;
+    voice = vs.find(function(v) { return v.name === voiceName; }) || null;
+  }
   var rate = parseFloat((document.getElementById(tab + '-rate') || {}).value || 1);
   var utt = new SpeechSynthesisUtterance(s.script);
   if (voice) utt.voice = voice;
