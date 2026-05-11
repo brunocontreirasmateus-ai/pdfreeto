@@ -368,8 +368,16 @@ function showLB() {
   if (!pub) return;
   var lb = document.getElementById('lb-img');
   lb.style.opacity = '0';
-  lb.src = proxyUrl(fullUrl(pub.thumb));
+  lb.style.transition = '';
+  var full = fullUrl(pub.thumb);
+  lb.src = proxyUrl(full);
   lb.onload = function() { lb.style.opacity = '1'; lb.style.transition = 'opacity .3s'; };
+  lb.onerror = function() {
+    // Full-size failed — fall back to thumbnail
+    if (lb.src !== proxyUrl(pub.thumb)) {
+      lb.src = proxyUrl(pub.thumb);
+    }
+  };
   lb.alt = pub.title;
   document.getElementById('lb-name').textContent = pub.title;
   document.getElementById('lb-date').textContent = pub.date
