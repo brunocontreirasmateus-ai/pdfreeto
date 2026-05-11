@@ -213,6 +213,10 @@
     .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
     .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
   }
+
+  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .blog-btn.active { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
@@ -233,6 +237,7 @@
       <a href="/br/seo.html">SEO</a>
     </div>
   </div>
+  <a href="/br/blog/" class="blog-btn">Blog</a>
   <div class="lang-switcher">
     <a href="/social-media.html" class="lang-btn">EN</a>
     <a href="/br/social-media.html" class="lang-btn">PT</a>
@@ -400,15 +405,19 @@ document.addEventListener('click', function(e) {
     return { text, title, desc, url };
   }
 
-  async function callClaude(prompt) {
+  const LANG_SYSTEM = 'You are a social media copywriter. Write ALL output exclusively in Brazilian Portuguese (pt-BR). Use informal, engaging Brazilian vocabulary and expressions. Never write in English or any other language.';
+
+  async function callClaude(prompt, systemMsg) {
+    const body = {
+      model: 'claude-sonnet-4-5',
+      max_tokens: 2000,
+      messages: [{ role: 'user', content: prompt }]
+    };
+    if (systemMsg) body.system = systemMsg;
     const res = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
+      body: JSON.stringify(body)
     });
     const data = await res.json();
     return data.content?.[0]?.text || '';
@@ -429,30 +438,47 @@ document.addEventListener('click', function(e) {
 
       const context = `Page Title: ${page.title}\nMeta Description: ${page.desc}\nURL: ${page.url}\n\nPage Content:\n${page.text}`;
 
-      const prompt = `You are a social media expert. Based on the following web page content, write optimised posts for all 4 platforms. Return ONLY valid JSON, nothing else, in this exact format:
-{
-  "instagram": {
-    "caption": "Instagram caption here (emotional, engaging, max 2200 chars, no hashtags in caption)",
-    "hashtags": ["hashtag1","hashtag2","hashtag3","hashtag4","hashtag5","hashtag6","hashtag7","hashtag8"]
-  },
-  "facebook": {
-    "post": "Facebook post here (conversational, shareable, under 80 words, with the URL at the end)"
-  },
-  "linkedin": {
-    "post": "LinkedIn post here (professional, insightful, 150-300 words, with a hook first line, line breaks for readability)"
-  },
-  "tiktok": {
-    "caption": "TikTok caption here (punchy, fun, max 150 chars)",
-    "hashtags": ["hashtag1","hashtag2","hashtag3","hashtag4","hashtag5"]
-  }
-}
+      const prompt = `You are a social media expert. Based on the following web page content, write optimised posts for all 4 platforms. Use EXACTLY this format with the markers — do not use JSON, do not add extra text outside the markers:
+
+[IG_CAPTION]
+Instagram caption here (emotional, engaging, max 2200 chars, no hashtags in caption)
+[/IG_CAPTION]
+[IG_HASHTAGS]hashtag1,hashtag2,hashtag3,hashtag4,hashtag5,hashtag6,hashtag7,hashtag8[/IG_HASHTAGS]
+[FB_POST]
+Facebook post here (conversational, shareable, under 80 words)
+[/FB_POST]
+[LI_POST]
+LinkedIn post here (professional, insightful, 150-300 words, hook first line)
+[/LI_POST]
+[TT_CAPTION]TikTok caption here (punchy, max 150 chars)[/TT_CAPTION]
+[TT_HASHTAGS]hashtag1,hashtag2,hashtag3,hashtag4,hashtag5[/TT_HASHTAGS]
 
 PAGE CONTENT:
 ${context}`;
 
-      const raw = await callClaude(prompt);
-      const json = JSON.parse(raw.match(/\{[\s\S]*\}/)?.[0] || '{}');
-
+      const raw = await callClaude(prompt, LANG_SYSTEM);
+      // Parse using markers — no JSON fragility
+      const getMarker = (tag) => {
+        const m = raw.match(new RegExp('\\[' + tag + '\\]([\\s\\S]*?)\\[\/' + tag + '\\]'));
+        return m ? m[1].trim() : '';
+      };
+      const json = {
+        instagram: {
+          caption: getMarker('IG_CAPTION'),
+          hashtags: (getMarker('IG_HASHTAGS') || '').split(',').map(h => h.trim()).filter(Boolean)
+        },
+        facebook: { post: getMarker('FB_POST') },
+        linkedin:  { post: getMarker('LI_POST') },
+        tiktok: {
+          caption: getMarker('TT_CAPTION'),
+          hashtags: (getMarker('TT_HASHTAGS') || '').split(',').map(h => h.trim()).filter(Boolean)
+        }
+      };
+      if (!json.instagram.caption && !json.facebook.post) {
+        alert('Could not generate copy. Please try again.');
+        document.getElementById('loading').style.display = 'none';
+        return;
+      }
       // Instagram
       document.getElementById('text-instagram').value = json.instagram?.caption || '';
       updateCount('instagram', 2200);
