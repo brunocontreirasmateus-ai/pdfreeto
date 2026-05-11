@@ -46,7 +46,24 @@ exports.handler = async function(event) {
   try {
     var img = await fetchImage(url);
     if (img.status !== 200 || img.data.length < 100) {
-      return { statusCode: 404, body: 'Image not found' };
+      // Try thumbnail fallback if full-size failed
+      if (!url.includes('/th/')) {
+        var thumbUrl = url.replace(/\/covers\/([^/]+)\/(\d+)\//, '/covers/$1/$2/th/');
+        try {
+          img = await fetchImage(thumbUrl);
+        } catch(e2) {}
+      }
+      if (!img || img.data.length < 100) {
+        return { statusCode: 404, body: 'Image not found' };
+      }
+    }
+    // Netlify base64 limit ~4.5MB — if larger, try thumbnail instead
+    if (img.data.length > 4000000 && !url.includes('/th/')) {
+      var thumbUrl2 = url.replace(/\/covers\/([^/]+)\/(\d+)\//, '/covers/$1/$2/th/');
+      try {
+        var thumbImg = await fetchImage(thumbUrl2);
+        if (thumbImg.data.length > 100) img = thumbImg;
+      } catch(e3) {}
     }
     return {
       statusCode: 200,
