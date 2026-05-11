@@ -213,6 +213,10 @@
     .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
     .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
   }
+
+  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .blog-btn.active { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
@@ -233,6 +237,7 @@
       <a href="/pt/seo.html">SEO</a>
     </div>
   </div>
+  <a href="/pt/blog/" class="blog-btn">Blog</a>
   <div class="lang-switcher">
     <a href="/social-media.html" class="lang-btn">EN</a>
     <a href="/pt/social-media.html" class="lang-btn active">PT</a>
@@ -429,7 +434,7 @@ document.addEventListener('click', function(e) {
 
       const context = `Page Title: ${page.title}\nMeta Description: ${page.desc}\nURL: ${page.url}\n\nPage Content:\n${page.text}`;
 
-      const prompt = `You are a social media expert. Based on the following web page content, write optimised posts for all 4 platforms. Return ONLY valid JSON, nothing else, in this exact format:
+      const prompt = `You are a social media expert writing in European Portuguese (Portugal). Use formal "você" register and European Portuguese vocabulary — not Brazilian Portuguese.. CRITICAL: Write ALL copy — every word of every post — in European Portuguese (Portugal). Use formal "você" register and European Portuguese vocabulary — not Brazilian Portuguese.. Never use English unless the source content is in English and the target language is English. Based on the following web page content, write optimised posts for all 4 platforms. Return ONLY valid JSON, nothing else, in this exact format:
 {
   "instagram": {
     "caption": "Instagram caption here (emotional, engaging, max 2200 chars, no hashtags in caption)",
