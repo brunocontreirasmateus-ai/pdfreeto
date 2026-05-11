@@ -405,15 +405,19 @@ document.addEventListener('click', function(e) {
     return { text, title, desc, url };
   }
 
-  async function callClaude(prompt) {
+  const LANG_SYSTEM = 'You are a social media copywriter. Write ALL output exclusively in European Portuguese (Portugal) — pt-PT. Use vocabulary, spelling and expressions from Portugal, not Brazil. Never write in English or any other language.';
+
+  async function callClaude(prompt, systemMsg) {
+    const body = {
+      model: 'claude-sonnet-4-5',
+      max_tokens: 1000,
+      messages: [{ role: 'user', content: prompt }]
+    };
+    if (systemMsg) body.system = systemMsg;
     const res = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
+      body: JSON.stringify(body)
     });
     const data = await res.json();
     return data.content?.[0]?.text || '';
@@ -434,7 +438,7 @@ document.addEventListener('click', function(e) {
 
       const context = `Page Title: ${page.title}\nMeta Description: ${page.desc}\nURL: ${page.url}\n\nPage Content:\n${page.text}`;
 
-      const prompt = `You are a social media expert writing in European Portuguese (Portugal). Use formal "você" register and European Portuguese vocabulary — not Brazilian Portuguese.. CRITICAL: Write ALL copy — every word of every post — in European Portuguese (Portugal). Use formal "você" register and European Portuguese vocabulary — not Brazilian Portuguese.. Never use English unless the source content is in English and the target language is English. Based on the following web page content, write optimised posts for all 4 platforms. Return ONLY valid JSON, nothing else, in this exact format:
+      const prompt = `You are a social media expert. Based on the following web page content, write optimised posts for all 4 platforms. Return ONLY valid JSON, nothing else, in this exact format:
 {
   "instagram": {
     "caption": "Instagram caption here (emotional, engaging, max 2200 chars, no hashtags in caption)",
@@ -455,7 +459,7 @@ document.addEventListener('click', function(e) {
 PAGE CONTENT:
 ${context}`;
 
-      const raw = await callClaude(prompt);
+      const raw = await callClaude(prompt, LANG_SYSTEM);
       const json = JSON.parse(raw.match(/\{[\s\S]*\}/)?.[0] || '{}');
 
       // Instagram
