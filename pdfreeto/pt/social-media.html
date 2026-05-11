@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-PT">
 <head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXHT3PYZF8"></script>
@@ -11,9 +11,16 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Social Media Copy Generator — PDFreeto</title>
-<meta name="description" content="Enter any URL and get AI-generated social media copy for Instagram, Facebook, LinkedIn and TikTok. Free and instant.">
-<link rel="canonical" href="https://pdfreeto.com/social-media">
+<title>Gerador de Copy para Redes Sociais Grátis — PDFreeto</title>
+<meta name="description" content="Cole um URL e obtenha copy gerado por IA para Instagram, Facebook, LinkedIn e TikTok. Grátis e instantâneo.">
+<link rel="alternate" hreflang="en" href="https://pdfreeto.com/social-media.html">
+<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/social-media.html">
+<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/social-media.html">
+<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/social-media.html">
+<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/social-media.html">
+<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/social-media.html">
+<link rel="alternate" hreflang="x-default" href="https://pdfreeto.com/social-media.html">
+<link rel="canonical" href="https://pdfreeto.com/pt/social-media.html">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -125,6 +132,20 @@
   }
 
   
+  /* Nav */
+  
+  .main-nav a { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 10px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .main-nav a:hover { color: var(--accent); border-color: var(--border); }
+  .main-nav a.active { color: var(--accent); border-color: var(--accent); }
+  
+  .burger span { display: block; width: 20px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .main-nav.open { display: flex; position: fixed; top: 0; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; padding: 70px 20px 20px; gap: 4px; z-index: 100; }
+  .main-nav.open a { padding: 12px 16px; border-color: var(--border) !important; font-size: 0.8rem; }
+
+  
   /* Hide old nav/burger */
   .main-nav, .burger { display: none !important; }
   @media (max-width: 600px) {
@@ -200,28 +221,30 @@
 </head>
 <body>
 <header>
-  <a href="/" class="logo">PDF<span>reeto</span></a>
-
+  <a href="/pt/" class="logo">PDF<span>reeto</span></a>
   <div class="nav-dropdown">
-    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">All <span class="arrow">▾</span></button>
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">&#9662;</span></button>
     <div class="nav-menu" id="nav-menu">
-    <a href="/">JPG ↔ PDF</a>
-    <a href="/pdf-to-word.html">Word to PDF</a>
-    <a href="/compress-pdf.html">Compress PDF</a>
-    <a href="/compress-jpg.html">Compress JPG</a>
-    <a href="/merge-jpg.html">Merge JPG</a>
-    <a href="/merge-pdf.html">Merge PDF</a>
-    <a href="/tts.html">Text to Speech</a>
-    <a href="/pdf-ai.html">PDF AI</a>
-    <a href="/social-media.html"  class=active>Social Media</a>
-    <a href="/seo.html">SEO</a>
+      <a href="/pt/">JPG &#8596; PDF</a>
+      <a href="/pt/pdf-to-word.html">Word para PDF</a>
+      <a href="/pt/compress-pdf.html">Comprimir PDF</a>
+      <a href="/pt/compress-jpg.html">Comprimir JPG</a>
+      <a href="/pt/merge-jpg.html">Juntar JPG</a>
+      <a href="/pt/merge-pdf.html">Juntar PDF</a>
+      <a href="/pt/tts.html">Texto para Voz</a>
+      <a href="/pt/pdf-ai.html">PDF AI</a>
+      <a href="/pt/social-media.html" class="active">Redes Sociais</a>
+      <a href="/pt/seo.html">SEO</a>
     </div>
   </div>
-
-  <a href="/blog/" class="blog-btn">Blog</a>
+  <a href="/pt/blog/" class="blog-btn">Blog</a>
   <div class="lang-switcher">
-    
-<a href="/social-media.html" class="lang-btn  active">EN</a>    <a href="/pt/social-media.html" class="lang-btn">PT</a>    <a href="/br/social-media.html" class="lang-btn">BR</a>    <a href="/es/social-media.html" class="lang-btn">ES</a>    <a href="/fr/social-media.html" class="lang-btn">FR</a>    <a href="/de/social-media.html" class="lang-btn">DE</a>
+    <a href="/social-media.html" class="lang-btn">EN</a>
+    <a href="/pt/social-media.html" class="lang-btn active">PT</a>
+    <a href="/br/social-media.html" class="lang-btn">BR</a>
+    <a href="/es/social-media.html" class="lang-btn">ES</a>
+    <a href="/fr/social-media.html" class="lang-btn">FR</a>
+    <a href="/de/social-media.html" class="lang-btn">DE</a>
   </div>
 </header>
 
@@ -237,19 +260,19 @@ document.addEventListener('click', function(e) {
   }
 });
 </script><div class="hero">
-  <h1>Social<br><span class="hl">Media</span></h1>
-  <p>Paste a URL · Get AI copy for every platform · Free</p>
+  <h1><span class="hl">Redes</span><br>Sociais</h1>
+  <p>Cole um URL · Obtenha copy IA para cada plataforma · Grátis</p>
 </div>
 
 <div class="content">
   <div class="url-row">
     <input class="url-input" id="url-input" type="url" placeholder="https://yourwebsite.com/article" onkeydown="if(event.key==='Enter')generate()">
-    <button class="url-btn" onclick="generate()">GENERATE</button>
+    <button class="url-btn" onclick="generate()">GERAR</button>
   </div>
 
   <div class="loading-state" id="loading">
     <div class="spinner"></div>
-    <p id="loading-text">Reading page content...</p>
+    <p id="loading-text">A ler conteúdo da página...</p>
   </div>
 
   <div id="results" style="display:none">
@@ -263,8 +286,8 @@ document.addEventListener('click', function(e) {
     <div class="copy-panels">
       <div class="copy-panel active" id="panel-instagram">
         <div class="panel-header">
-          <span class="panel-label">📸 Instagram Caption</span>
-          <button class="copy-btn" onclick="copyPanel('instagram')">Copy</button>
+          <span class="panel-label">📸 Legenda Instagram</span>
+          <button class="copy-btn" onclick="copyPanel('instagram')">Copiar</button>
         </div>
         <textarea class="copy-text" id="text-instagram" oninput="updateCount('instagram',2200)"></textarea>
         <div class="copy-meta"><span id="count-instagram">0 / 2200 chars</span><span>Max 2,200 characters</span></div>
@@ -272,24 +295,24 @@ document.addEventListener('click', function(e) {
       </div>
       <div class="copy-panel" id="panel-facebook">
         <div class="panel-header">
-          <span class="panel-label">👍 Facebook Post</span>
-          <button class="copy-btn" onclick="copyPanel('facebook')">Copy</button>
+          <span class="panel-label">👍 Publicação Facebook</span>
+          <button class="copy-btn" onclick="copyPanel('facebook')">Copiar</button>
         </div>
         <textarea class="copy-text" id="text-facebook" oninput="updateCount('facebook',63206)"></textarea>
         <div class="copy-meta"><span id="count-facebook">0 chars</span><span>Recommended: under 80 words</span></div>
       </div>
       <div class="copy-panel" id="panel-linkedin">
         <div class="panel-header">
-          <span class="panel-label">💼 LinkedIn Post</span>
-          <button class="copy-btn" onclick="copyPanel('linkedin')">Copy</button>
+          <span class="panel-label">💼 Publicação LinkedIn</span>
+          <button class="copy-btn" onclick="copyPanel('linkedin')">Copiar</button>
         </div>
         <textarea class="copy-text" id="text-linkedin" oninput="updateCount('linkedin',3000)" style="min-height:200px"></textarea>
         <div class="copy-meta"><span id="count-linkedin">0 / 3000 chars</span><span>Max 3,000 characters</span></div>
       </div>
       <div class="copy-panel" id="panel-tiktok">
         <div class="panel-header">
-          <span class="panel-label">🎵 TikTok Caption</span>
-          <button class="copy-btn" onclick="copyPanel('tiktok')">Copy</button>
+          <span class="panel-label">🎵 Legenda TikTok</span>
+          <button class="copy-btn" onclick="copyPanel('tiktok')">Copiar</button>
         </div>
         <textarea class="copy-text" id="text-tiktok" oninput="updateCount('tiktok',2200)"></textarea>
         <div class="copy-meta"><span id="count-tiktok">0 / 2200 chars</span><span>Max 2,200 characters</span></div>
@@ -299,34 +322,36 @@ document.addEventListener('click', function(e) {
   </div>
 
   <div class="seo-block">
-    <h2>AI Social Media Copy Generator</h2>
-    <p>Paste any URL — a blog post, product page, news article or landing page — and PDFreeto's AI instantly writes platform-optimised copy for Instagram, Facebook, LinkedIn and TikTok. Each post is tailored to the tone, length and style that performs best on that platform.</p>
-    <h2>Why Tailor Copy Per Platform?</h2>
-    <p>Instagram thrives on emotion and hashtags. LinkedIn rewards professional insight and longer-form storytelling. Facebook favors conversational, shareable posts. TikTok needs punchy hooks and trending tags. One URL, four platform-ready posts — ready to copy and paste.</p>
+    <h2>Gerador de Copy para Redes Sociais com IA</h2>
+    <p>Cole qualquer URL — um artigo de blog, página de produto, notícia ou landing page — e a IA do PDFreeto escreve instantaneamente copy otimizado para Instagram, Facebook, LinkedIn e TikTok. Cada publicação é adaptada ao tom, comprimento e estilo que melhor funciona em cada plataforma.</p>
+    <h2>Por que Adaptar o Copy por Plataforma?</h2>
+    <p>O Instagram valoriza emoção e hashtags. O LinkedIn recompensa insight profissional e narrativas mais longas. O Facebook favorece publicações conversacionais e partilháveis. O TikTok precisa de ganchos curtos e tags em tendência. Um URL, quatro publicações prontas — prontas a copiar e colar.</p>
   </div>
 </div>
 
 <footer>
   <div class="footer-links">
-    <a href="index.html">JPG ↔ PDF</a>
+    <a href="/pt/">JPG ↔ PDF</a>
     <span class="footer-sep">·</span>
-    <a href="pdf-to-word.html">Word to PDF</a>
+    <a href="/pt/pdf-to-word.html">Word para PDF</a>
     <span class="footer-sep">·</span>
-    <a href="compress-pdf.html">Compress PDF</a>
+    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
     <span class="footer-sep">·</span>
-    <a href="compress-jpg.html">Compress JPG</a>
+    <a href="/pt/compress-jpg.html">Comprimir JPG</a>
     <span class="footer-sep">·</span>
-    <a href="merge-jpg.html">Merge JPG</a>
+    <a href="/pt/merge-jpg.html">Juntar JPG</a>
     <span class="footer-sep">·</span>
-    <a href="merge-pdf.html">Merge PDF</a>
+    <a href="/pt/merge-pdf.html">Juntar PDF</a>
     <span class="footer-sep">·</span>
-    <a href="tts.html">Text to Speech</a>
+    <a href="/pt/tts.html">Texto para Voz</a>
     <span class="footer-sep">·</span>
-    <a href="pdf-ai.html">PDF AI</a>
+    <a href="/pt/pdf-ai.html">PDF AI</a>
     <span class="footer-sep">·</span>
-    <a href="seo.html">SEO</a>
+    <a href="/pt/social-media.html">Redes Sociais</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/seo.html">SEO</a>
   </div>
-  <div class="footer-note">Powered by Claude AI · Content sent only to generate your post</div>
+  <div class="footer-note">Desenvolvido pelo Claude AI · Conteúdo enviado apenas para gerar a sua publicação</div>
 </footer>
 
 <script>
@@ -380,6 +405,8 @@ document.addEventListener('click', function(e) {
     return { text, title, desc, url };
   }
 
+  const LANG_SYSTEM = 'You are a social media copywriter. Write ALL output exclusively in European Portuguese (Portugal) — pt-PT. Use vocabulary, spelling and expressions from Portugal, not Brazil. Never write in English or any other language.';
+
   async function callClaude(prompt, systemMsg) {
     const body = {
       model: 'claude-sonnet-4-5',
@@ -402,12 +429,12 @@ document.addEventListener('click', function(e) {
 
     document.getElementById('results').style.display = 'none';
     document.getElementById('loading').style.display = 'block';
-    document.getElementById('loading-text').textContent = 'Reading page content...';
+    document.getElementById('loading-text').textContent = 'A ler conteúdo da página...';
 
     try {
       const page = await fetchPageContent(url);
 
-      document.getElementById('loading-text').textContent = 'Writing social media copy...';
+      document.getElementById('loading-text').textContent = 'A criar copy para redes sociais...';
 
       const context = `Page Title: ${page.title}\nMeta Description: ${page.desc}\nURL: ${page.url}\n\nPage Content:\n${page.text}`;
 
@@ -432,7 +459,7 @@ document.addEventListener('click', function(e) {
 PAGE CONTENT:
 ${context}`;
 
-      const raw = await callClaude(prompt);
+      const raw = await callClaude(prompt, LANG_SYSTEM);
       const json = function() {
         try {
           let s = raw.match(/\{[\s\S]*\}/)?.[0] || '{}';
@@ -483,7 +510,7 @@ ${context}`;
   function renderHashtags(p, tags) {
     const wrap = document.getElementById('hashtags-' + p);
     if (!wrap || !tags.length) return;
-    wrap.innerHTML = `<div class="hashtags-label">Hashtags (click to copy)</div><div class="hashtags">${tags.map(t => `<span class="htag" onclick="copyTag(this)">#${t.replace(/^#/,'')}</span>`).join('')}</div>`;
+    wrap.innerHTML = `<div class="hashtags-label">Hashtags (clique para copiar)</div><div class="hashtags">${tags.map(t => `<span class="htag" onclick="copyTag(this)">#${t.replace(/^#/,'')}</span>`).join('')}</div>`;
   }
 
   function copyTag(el) {
