@@ -31,51 +31,78 @@ function fetchImage(url, redirects) {
           data: Buffer.concat(chunks)
         });
       });
-    }).on('error', reject).setTimeout(10000, function() { this.destroy(new Error('Timeout')); });
+    }).on('error', reject).setTimeout(15000, function() { this.destroy(new Error('Timeout')); });
   });
+}
+
+async function compress(buffer, maxBytes) {
+  try {
+    var sharp = require('sharp');
+    maxBytes = maxBytes || 800000; // 800KB
+
+    // Start with quality 85, reduce until under maxBytes
+    var qualities = [85, 70, 55, 40];
+    for (var i = 0; i < qualities.length; i++) {
+      var result = await sharp(buffer)
+        .jpeg({ quality: qualities[i], progressive: true })
+        .toBuffer();
+      if (result.length <= maxBytes || i === qualities.length - 1) {
+        return result;
+      }
+    }
+  } catch(e) {
+    // sharp not available — return original
+    return buffer;
+  }
+  return buffer;
 }
 
 exports.handler = async function(event) {
   var url = (event.queryStringParameters || {}).url || '';
 
-  // Only allow imgs.vercapas.com URLs for security
+  // Only allow imgs.vercapas.com
   if (!url || !url.startsWith('https://imgs.vercapas.com/')) {
     return { statusCode: 400, body: 'Invalid URL' };
   }
 
   try {
-    var img = await fetchImage(url);
-    if (img.status !== 200 || img.data.length < 100) {
-      // Try thumbnail fallback if full-size failed
-      if (!url.includes('/th/')) {
-        var thumbUrl = url.replace(/\/covers\/([^/]+)\/(\d+)\//, '/covers/$1/$2/th/');
-        try {
-          img = await fetchImage(thumbUrl);
-        } catch(e2) {}
-      }
-      if (!img || img.data.length < 100) {
-        return { statusCode: 404, body: 'Image not found' };
+    // Try full-size first, fall back to thumbnail
+    var img;
+    var isFull = !url.includes('/th/');
+
+    try {
+      img = await fetchImage(url);
+      if (img.status !== 200 || img.data.length < 500) throw new Error('Bad response');
+    } catch(e) {
+      if (isFull) {
+        // Try thumbnail instead
+        var thumb = url.replace(/\/covers\/([^/]+)\/(\d+)\//, '/covers/$1/$2/th/');
+        img = await fetchImage(thumb);
+      } else {
+        throw e;
       }
     }
-    // Netlify base64 limit ~4.5MB — if larger, try thumbnail instead
-    if (img.data.length > 4000000 && !url.includes('/th/')) {
-      var thumbUrl2 = url.replace(/\/covers\/([^/]+)\/(\d+)\//, '/covers/$1/$2/th/');
-      try {
-        var thumbImg = await fetchImage(thumbUrl2);
-        if (thumbImg.data.length > 100) img = thumbImg;
-      } catch(e3) {}
+
+    if (!img || img.data.length < 500) {
+      return { statusCode: 404, body: 'Image not found' };
     }
+
+    // Compress to max 800KB
+    var compressed = await compress(img.data, 800000);
+
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': img.contentType,
+        'Content-Type': 'image/jpeg',
         'Cache-Control': 'public, max-age=86400, stale-while-revalidate=3600',
         'Access-Control-Allow-Origin': '*',
-        'X-Content-Type-Options': 'nosniff'
+        'X-Original-Size': img.data.length.toString(),
+        'X-Compressed-Size': compressed.length.toString()
       },
-      body: img.data.toString('base64'),
+      body: compressed.toString('base64'),
       isBase64Encoded: true
     };
+
   } catch(e) {
     return { statusCode: 500, body: e.message };
   }
