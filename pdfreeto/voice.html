@@ -116,6 +116,16 @@
   .stxt{font-size:.88rem;color:var(--muted);line-height:1.8;white-space:pre-wrap}
   .cps{margin-top:12px;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .2s}
   .cps:hover{border-color:var(--accent);color:var(--accent)}
+  .share-bar{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .share-btn{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:9px 14px;border:none;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px;text-decoration:none;flex:1;justify-content:center;min-width:80px}
+  .share-wa{background:#25D366;color:#fff}
+  .share-wa:hover{background:#1ebe5c;color:#fff}
+  .share-email{background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+  .share-email:hover{border-color:var(--accent);color:var(--accent)}
+  .share-native{background:var(--accent);color:#0a0a0a}
+  .share-native:hover{opacity:.85}
+  .share-copy{background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+  .share-copy:hover{border-color:var(--accent);color:var(--accent)}
   .sblk{margin-top:56px;padding-top:40px;border-top:1px solid var(--border)}
   .sblk h2{font-family:var(--display);font-size:1.8rem;letter-spacing:.05em;color:var(--text);margin-bottom:12px}
   .sblk p{font-size:.9rem;color:var(--muted);line-height:1.7}
@@ -341,7 +351,14 @@
       <div class="rh"><span class="rl">&#10003; WhatsApp Audio Ready</span><span class="rd" id="article-dur"></span></div>
       <div class="wf" id="article-wf"></div>
       <div class="pcon"><button class="plb" id="article-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="article-ppl"></div></div><span class="ptd" id="article-ptd">0:00</span><button class="dwn" id="article-dl">&#8595; WAV</button></div>
-      <div class="scr"><button class="stg" id="article-stg">View message script <span class="ch">&#9660;</span></button><div class="sbdy" id="article-sbdy"><div class="stxt" id="article-stxt"></div><button class="cps" id="article-cps">Copy &amp; send as text</button></div></div>
+      <div class="scr"><button class="stg" id="article-stg">View message script <span class="ch">&#9660;</span></button><div class="sbdy" id="article-sbdy"><div class="stxt" id="article-stxt"></div>
+        <div class="share-bar" id="article-share-bar">
+          <button class="share-btn share-wa" id="article-share-wa">&#128242; WhatsApp</button>
+          <button class="share-btn share-email" id="article-share-email">&#9993; Email</button>
+          <button class="share-btn share-copy" id="article-cps">&#10063; Copiar</button>
+        </div>
+        <button class="share-btn share-native" id="article-share-native" style="display:none;width:100%;margin-top:4px">&#8679; Partilhar</button>
+      </div></div>
     </div>
     <div class="sblk"><h2>Share News Like You Mean It</h2><p>You read something great and want to share it &mdash; but forwarding a link feels impersonal. AI Voice rewrites the article as a natural WhatsApp voice message: casual, direct, conversational. Download and send directly.</p></div>
   </div>
@@ -896,6 +913,43 @@ function setPB(tab, on) { var b=document.getElementById(tab+'-plb'); if(b) b.inn
 function dlAudio(tab) { var s=ST[tab]; if(s&&s.audioBlob){var a=document.createElement('a');a.href=URL.createObjectURL(s.audioBlob);a.download='pdfreeto-'+tab+'.wav';a.click();}else{alert('Play the audio first to enable download (Chrome/Edge only).');} }
 function togScript(tab) { document.getElementById(tab+'-sbdy').classList.toggle('open'); document.getElementById(tab+'-stg').classList.toggle('open'); }
 function cpScript(tab) { navigator.clipboard.writeText(document.getElementById(tab+'-stxt').textContent).then(function(){var cs=document.getElementById(tab+'-cps');var o=cs.textContent;cs.textContent='Copied!';setTimeout(function(){cs.textContent=o;},2000);}); }
+
+
+// ── ARTICLE SHARE BUTTONS ──
+(function() {
+  function getText() { return (document.getElementById('article-stxt') || {}).textContent || ''; }
+
+  var waBtn = document.getElementById('article-share-wa');
+  if (waBtn) waBtn.addEventListener('click', function() {
+    var t = getText(); if (!t) return;
+    window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank');
+  });
+
+  var emailBtn = document.getElementById('article-share-email');
+  if (emailBtn) emailBtn.addEventListener('click', function() {
+    var t = getText(); if (!t) return;
+    window.location.href = 'mailto:?subject=' + encodeURIComponent('Artigo partilhado') + '&body=' + encodeURIComponent(t);
+  });
+
+  var copyBtn = document.getElementById('article-cps');
+  if (copyBtn) copyBtn.addEventListener('click', function() {
+    var t = getText();
+    navigator.clipboard.writeText(t).then(function() {
+      var o = copyBtn.textContent;
+      copyBtn.textContent = '✓ Copiado!';
+      setTimeout(function() { copyBtn.textContent = o; }, 2000);
+    });
+  });
+
+  // Native Web Share API — show on mobile if available
+  var nativeBtn = document.getElementById('article-share-native');
+  if (nativeBtn && navigator.share) {
+    nativeBtn.style.display = 'flex';
+    nativeBtn.addEventListener('click', function() {
+      navigator.share({ text: getText() }).catch(function() {});
+    });
+  }
+})();
 </script>
 </body>
 </html>
