@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capas de Jornais de Hoje — Jornais e Revistas Portugal | PDFreeto</title>
+<title>Capas de Jornais Portugal | PDFreeto</title>
 <meta name="description" content="Veja as capas de jornais e revistas portugueses de hoje. Correio da Manhã, Público, DN, JN, A Bola, Record e mais. Atualizado todos os dias.">
 <link rel="canonical" href="https://pdfreeto.com/capas.html">
 <meta property="og:title" content="Capas de Jornais de Hoje — Portugal | PDFreeto">
 <meta property="og:description" content="Todas as capas de jornais e revistas portugueses de hoje, num só lugar. Atualizado diariamente.">
 <meta property="og:url" content="https://pdfreeto.com/capas.html">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://pdfreeto.com/og-image.jpg">
 <meta name="keywords" content="capas de jornais, jornais portugueses, correio da manhã capa, público capa, diário de notícias capa, a bola capa, record capa">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
@@ -118,7 +119,7 @@
 <body>
 
 <header>
-  <a href="/" class="logo">PDF<span>reeto</span></a>
+  <a href="/" class="logo" aria-label="PDFreeto">PDF<span>reeto</span></a>
   <div class="nav-dropdown">
     <button class="nav-toggle" id="nav-toggle">All <span class="arr">&#9662;</span></button>
     <div class="nav-menu" id="nav-menu">
@@ -178,6 +179,31 @@
       <button onclick="lbNav(1)">Seguinte &#9654;</button>
     </div>
   </div>
+</div>
+
+
+<div style="position:relative;z-index:10;max-width:860px;margin:0 auto;padding:40px 40px 0">
+
+  <h2 style="font-family:var(--display);font-size:1.6rem;letter-spacing:.06em;color:var(--text);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)">Jornais Portugueses em Destaque</h2>
+  <p style="font-size:.9rem;color:var(--muted);line-height:1.8;margin-bottom:24px">
+    A página de capas de jornais do PDFreeto reúne diariamente as primeiras páginas dos principais jornais e revistas portugueses. Desde os diários generalistas como o <strong style="color:var(--text)">Correio da Manhã</strong>, <strong style="color:var(--text)">Público</strong>, <strong style="color:var(--text)">Diário de Notícias</strong> e <strong style="color:var(--text)">Jornal de Notícias</strong>, até à imprensa desportiva com <strong style="color:var(--text)">A Bola</strong>, <strong style="color:var(--text)">Record</strong> e <strong style="color:var(--text)">O Jogo</strong>, passando por semanários como o <strong style="color:var(--text)">Expresso</strong> e o <strong style="color:var(--text)">Sol</strong>. Todas as capas numa só página, actualizadas todos os dias.
+  </p>
+
+  <h2 style="font-family:var(--display);font-size:1.6rem;letter-spacing:.06em;color:var(--text);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)">Capas Actualizadas Diariamente</h2>
+  <p style="font-size:.9rem;color:var(--muted);line-height:1.8;margin-bottom:24px">
+    As capas são actualizadas automaticamente todos os dias, reflectindo as edições mais recentes de cada publicação. Basta abrir a página para ver as capas do dia, sem necessidade de visitar cada jornal individualmente. Clica em qualquer capa para a ver em tamanho maior. Podes navegar entre capas com as setas do teclado ou com os botões de navegação.
+  </p>
+
+  <h2 style="font-family:var(--display);font-size:1.6rem;letter-spacing:.06em;color:var(--text);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)">Imprensa Nacional em Destaque</h2>
+  <p style="font-size:.9rem;color:var(--muted);line-height:1.8;margin-bottom:24px">
+    Portugal tem uma imprensa diversificada e com tradição. O <strong style="color:var(--text)">Correio da Manhã</strong> é o jornal mais vendido do país, com uma linha editorial popular e directa. O <strong style="color:var(--text)">Público</strong> e o <strong style="color:var(--text)">Diário de Notícias</strong> representam o jornalismo de referência, com análise aprofundada. O <strong style="color:var(--text)">Jornal de Notícias</strong> foca-se nas notícias do norte do país e na actualidade nacional. Na imprensa desportiva, <strong style="color:var(--text)">A Bola</strong> e o <strong style="color:var(--text)">Record</strong> cobrem o futebol português e internacional com detalhe.
+  </p>
+
+  <h2 style="font-family:var(--display);font-size:1.6rem;letter-spacing:.06em;color:var(--text);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)">Como Consultar as Capas de Jornais</h2>
+  <p style="font-size:.9rem;color:var(--muted);line-height:1.8;margin-bottom:40px">
+    A página carrega automaticamente as capas do dia actual. Podes filtrar por categoria — jornais nacionais, desporto, economia, revistas — usando as abas no topo. Para ver uma capa em detalhe, clica sobre ela e abre um visualizador a ecrã inteiro. Usa as teclas ← → do teclado para navegar entre capas sem fechar o visualizador. A página actualiza-se sozinha, mas podes forçar uma actualização manual com o botão "Actualizar" no canto superior direito.
+  </p>
+
 </div>
 
 <footer>
@@ -338,7 +364,7 @@ function render(data) {
       // Image (lazy via IntersectionObserver)
       if (pub.thumb) {
         var img = document.createElement('img');
-        img.alt = pub.title;
+        img.alt = 'Capa ' + pub.title + (pub.date ? ' de ' + pub.date.split('-').reverse().join('/') : ' de hoje');
         var observer = new IntersectionObserver(function(entries, obs) {
           if (!entries[0].isIntersecting) return;
           img.src = proxyUrl(pub.thumb);
