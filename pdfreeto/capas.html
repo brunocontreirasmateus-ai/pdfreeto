@@ -90,8 +90,8 @@
   /* LIGHTBOX */
   .lb-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:20px}
   .lb-overlay.open{opacity:1;pointer-events:all}
-  .lb-box{position:relative;max-width:min(480px,90vw);max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:16px}
-  .lb-img{max-width:100%;max-height:80vh;object-fit:contain;border:1px solid var(--border);box-shadow:0 24px 80px rgba(0,0,0,.8)}
+  .lb-box{position:relative;max-width:min(560px,92vw);max-height:92vh;display:flex;flex-direction:column;align-items:center;gap:16px}
+  .lb-img{max-width:90vw;max-height:82vh;width:auto;height:auto;object-fit:contain;border:1px solid var(--border);box-shadow:0 24px 80px rgba(0,0,0,.8);image-rendering:auto}
   .lb-name{font-family:var(--display);font-size:1.4rem;letter-spacing:.08em;color:var(--text)}
   .lb-date{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.12em}
   .lb-close{position:fixed;top:20px;right:24px;font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--border);padding:7px 14px;cursor:pointer;transition:all .2s}
@@ -161,6 +161,9 @@
 <div class="lb-overlay" id="lb" onclick="closeLB(event)">
   <button class="lb-close" onclick="closeLB()">&#10005; Fechar</button>
   <div class="lb-box">
+    <div id="lb-spin" style="display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">
+      <div class="dots"><span></span><span></span><span></span></div>
+    </div>
     <img class="lb-img" id="lb-img" src="" alt="">
     <div class="lb-name" id="lb-name"></div>
     <div class="lb-date" id="lb-date"></div>
@@ -363,51 +366,37 @@ function openLB(idx) {
   document.addEventListener('keydown', lbKey);
 }
 
-var lbTimer = null;
-
 function showLB() {
   var pub = allPubs[lbIdx];
   if (!pub) return;
-  var lb = document.getElementById('lb-img');
-
-  // Clear any pending timeout
-  if (lbTimer) { clearTimeout(lbTimer); lbTimer = null; }
+  var lb  = document.getElementById('lb-img');
+  var spin = document.getElementById('lb-spin');
 
   lb.style.opacity = '0';
   lb.style.transition = '';
-  lb.src = '';
   lb.alt = pub.title;
+  if (spin) spin.style.display = 'block';
 
   var thumbSrc = proxyUrl(pub.thumb);
   var fullSrc  = proxyUrl(fullUrl(pub.thumb));
-  var usedFull = fullSrc !== thumbSrc;
-
-  function tryThumb() {
-    if (lb.dataset.current === fullSrc) {
-      lb.dataset.current = thumbSrc;
-      lb.src = thumbSrc;
-    }
-  }
+  var tried    = false;
 
   lb.onload = function() {
+    if (spin) spin.style.display = 'none';
     lb.style.opacity = '1';
     lb.style.transition = 'opacity .3s';
-    if (lbTimer) { clearTimeout(lbTimer); lbTimer = null; }
   };
   lb.onerror = function() {
-    if (lbTimer) { clearTimeout(lbTimer); lbTimer = null; }
-    if (usedFull && lb.dataset.current === fullSrc) tryThumb();
+    // Full-size returned 404/500 — try thumbnail
+    if (!tried && lb.src !== thumbSrc) {
+      tried = true;
+      lb.src = thumbSrc;
+    } else {
+      if (spin) spin.style.display = 'none';
+    }
   };
 
-  lb.dataset.current = usedFull ? fullSrc : thumbSrc;
-  lb.src = lb.dataset.current;
-
-  // Timeout fallback — if full-size hasn't loaded in 6s, use thumbnail
-  if (usedFull) {
-    lbTimer = setTimeout(function() {
-      if (lb.style.opacity === '0') tryThumb();
-    }, 6000);
-  }
+  lb.src = (fullSrc !== thumbSrc) ? fullSrc : thumbSrc;
   document.getElementById('lb-name').textContent = pub.title;
   document.getElementById('lb-date').textContent = pub.date
     ? pub.date.split('-').reverse().join('/') : '';
