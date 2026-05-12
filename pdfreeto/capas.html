@@ -369,34 +369,42 @@ function openLB(idx) {
 function showLB() {
   var pub = allPubs[lbIdx];
   if (!pub) return;
-  var lb  = document.getElementById('lb-img');
+  var lb   = document.getElementById('lb-img');
   var spin = document.getElementById('lb-spin');
 
-  lb.style.opacity = '0';
-  lb.style.transition = '';
   lb.alt = pub.title;
-  if (spin) spin.style.display = 'block';
+  lb.style.transition = '';
 
   var thumbSrc = proxyUrl(pub.thumb);
   var fullSrc  = proxyUrl(fullUrl(pub.thumb));
-  var tried    = false;
 
-  lb.onload = function() {
-    if (spin) spin.style.display = 'none';
-    lb.style.opacity = '1';
-    lb.style.transition = 'opacity .3s';
-  };
-  lb.onerror = function() {
-    // Full-size returned 404/500 — try thumbnail
-    if (!tried && lb.src !== thumbSrc) {
-      tried = true;
-      lb.src = thumbSrc;
-    } else {
-      if (spin) spin.style.display = 'none';
-    }
-  };
+  // Step 1: show thumbnail IMMEDIATELY — it's already cached from grid
+  lb.onload = null;
+  lb.onerror = null;
+  lb.src = thumbSrc;
+  lb.style.opacity = '1';
+  if (spin) spin.style.display = 'none';
 
-  lb.src = (fullSrc !== thumbSrc) ? fullSrc : thumbSrc;
+  // Step 2: try to upgrade to full-size in background
+  if (fullSrc !== thumbSrc) {
+    var testImg = new Image();
+    testImg.onload = function() {
+      // Full-size loaded successfully — swap in
+      if (allPubs[lbIdx] === pub) {
+        lb.style.opacity = '0';
+        lb.onload = function() {
+          lb.style.opacity = '1';
+          lb.style.transition = 'opacity .3s';
+          lb.onload = null;
+        };
+        lb.src = fullSrc;
+      }
+    };
+    testImg.onerror = function() {
+      // Full-size not available — thumbnail stays, nothing to do
+    };
+    testImg.src = fullSrc;
+  }
   document.getElementById('lb-name').textContent = pub.title;
   document.getElementById('lb-date').textContent = pub.date
     ? pub.date.split('-').reverse().join('/') : '';
