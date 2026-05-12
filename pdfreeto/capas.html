@@ -363,22 +363,51 @@ function openLB(idx) {
   document.addEventListener('keydown', lbKey);
 }
 
+var lbTimer = null;
+
 function showLB() {
   var pub = allPubs[lbIdx];
   if (!pub) return;
   var lb = document.getElementById('lb-img');
+
+  // Clear any pending timeout
+  if (lbTimer) { clearTimeout(lbTimer); lbTimer = null; }
+
   lb.style.opacity = '0';
   lb.style.transition = '';
-  var full = fullUrl(pub.thumb);
-  lb.src = proxyUrl(full);
-  lb.onload = function() { lb.style.opacity = '1'; lb.style.transition = 'opacity .3s'; };
-  lb.onerror = function() {
-    // Full-size failed — fall back to thumbnail
-    if (lb.src !== proxyUrl(pub.thumb)) {
-      lb.src = proxyUrl(pub.thumb);
-    }
-  };
+  lb.src = '';
   lb.alt = pub.title;
+
+  var thumbSrc = proxyUrl(pub.thumb);
+  var fullSrc  = proxyUrl(fullUrl(pub.thumb));
+  var usedFull = fullSrc !== thumbSrc;
+
+  function tryThumb() {
+    if (lb.dataset.current === fullSrc) {
+      lb.dataset.current = thumbSrc;
+      lb.src = thumbSrc;
+    }
+  }
+
+  lb.onload = function() {
+    lb.style.opacity = '1';
+    lb.style.transition = 'opacity .3s';
+    if (lbTimer) { clearTimeout(lbTimer); lbTimer = null; }
+  };
+  lb.onerror = function() {
+    if (lbTimer) { clearTimeout(lbTimer); lbTimer = null; }
+    if (usedFull && lb.dataset.current === fullSrc) tryThumb();
+  };
+
+  lb.dataset.current = usedFull ? fullSrc : thumbSrc;
+  lb.src = lb.dataset.current;
+
+  // Timeout fallback — if full-size hasn't loaded in 6s, use thumbnail
+  if (usedFull) {
+    lbTimer = setTimeout(function() {
+      if (lb.style.opacity === '0') tryThumb();
+    }, 6000);
+  }
   document.getElementById('lb-name').textContent = pub.title;
   document.getElementById('lb-date').textContent = pub.date
     ? pub.date.split('-').reverse().join('/') : '';
