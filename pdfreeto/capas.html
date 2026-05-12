@@ -338,7 +338,7 @@ function render(data) {
           img.src = proxyUrl(pub.thumb);
           img.onload = function() {
             img.classList.add('ready');
-            card.dataset.loaded = img.src; // store actual loaded src
+            pub.loadedSrc = img.src; // store on pub object directly
           };
           img.onerror = function() { img.style.display = 'none'; };
           obs.disconnect();
@@ -374,39 +374,17 @@ function showLB() {
   var pub = allPubs[lbIdx];
   if (!pub) return;
   var lb = document.getElementById('lb-img');
-
   lb.alt = pub.title;
 
-  // Find card and get its loaded image src
-  var card = document.querySelector('.card[data-idx="' + lbIdx + '"]');
-  var cardImg = card ? card.querySelector('img.ready') : null;
+  // Use src already loaded in grid (stored on pub object), or proxy URL
+  var src = pub.loadedSrc || (pub.thumb ? proxyUrl(pub.thumb) : '');
 
-  if (cardImg && cardImg.src && cardImg.naturalWidth > 0) {
-    // Image already loaded in grid — use it directly (no proxy call needed)
-    lb.src = cardImg.src;
-    lb.style.opacity = '1';
+  if (!src) return;
 
-    // Try full-size upgrade silently in background
-    var fullSrc = pub.thumb ? proxyUrl(fullUrl(pub.thumb)) : '';
-    if (fullSrc && fullSrc !== cardImg.src) {
-      var hi = new Image();
-      hi.onload = function() {
-        if (allPubs[lbIdx] === pub) lb.src = fullSrc;
-      };
-      hi.src = fullSrc;
-    }
-  } else {
-    // Image not loaded yet — load thumbnail via proxy now
-    lb.style.opacity = '0';
-    var src = pub.thumb ? proxyUrl(pub.thumb) : '';
-    if (!src) {
-      lb.style.opacity = '1';
-      return;
-    }
-    lb.onload = function() { lb.style.opacity = '1'; lb.onload = null; lb.onerror = null; };
-    lb.onerror = function() { lb.style.opacity = '1'; lb.onerror = null; };
-    lb.src = src;
-  }
+  lb.onload  = function() { lb.style.opacity = '1'; lb.onload = null; lb.onerror = null; };
+  lb.onerror = function() { lb.style.opacity = '1'; lb.onload = null; lb.onerror = null; };
+  lb.style.opacity = '0';
+  lb.src = src;
   document.getElementById('lb-name').textContent = pub.title;
   document.getElementById('lb-date').textContent = pub.date
     ? pub.date.split('-').reverse().join('/') : '';
