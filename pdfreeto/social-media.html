@@ -192,6 +192,83 @@
     .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
     .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
   }
+
+  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .blog-btn.active { border-color: var(--accent); color: var(--accent); }
+
+
+  /* ══ COMPREHENSIVE MOBILE RESPONSIVE ══ */
+  @media (max-width: 768px) {
+    /* Header */
+    header { padding: 10px 14px; gap: 8px; flex-wrap: nowrap; }
+    .logo { font-size: 1.35rem; flex-shrink: 0; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.62rem; letter-spacing: 0.08em; }
+    .blog-btn { padding: 5px 10px; font-size: 0.6rem; letter-spacing: 0.08em; white-space: nowrap; }
+    .lang-btn, .lb { padding: 4px 7px; font-size: 0.55rem; }
+    .lang-switcher, .lang-sw { gap: 2px; }
+    .nav-menu { min-width: 180px; }
+    .nav-menu a { padding: 9px 14px; font-size: 0.68rem; }
+
+    /* Hero */
+    .hero { padding: 28px 16px 20px; }
+    h1 { font-size: clamp(2.2rem, 10vw, 4rem) !important; line-height: 0.95; }
+    .hero-sub, .hero p { font-size: 0.88rem; }
+
+    /* Content areas */
+    .content, .wrap, .vc { padding: 20px 16px 60px; }
+    .tool-section, .section-wrap { padding: 0 16px; }
+
+    /* Tabs */
+    .tabs-wrap, .tabs { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .tab { padding: 12px 14px; font-size: 0.65rem; white-space: nowrap; flex-shrink: 0; }
+
+    /* Grids */
+    .tools-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+    .voice-settings, .vset, .vs { grid-template-columns: 1fr !important; }
+    .options-row { flex-direction: column; gap: 12px; }
+
+    /* Drop zones */
+    .drop-zone, .dz { padding: 32px 20px; }
+    .drop-zone .dz-title, .dtit { font-size: 1.2rem; }
+
+    /* Buttons */
+    .process-btn, .goBtn, .pbtn { font-size: 1.2rem; padding: 15px; }
+
+    /* Results */
+    .result-section, .rs { margin-top: 20px; }
+    .rh { flex-wrap: wrap; gap: 8px; }
+
+    /* Voice page */
+    .panel-title, .ptit { font-size: 1.6rem; }
+
+    /* SEO / Social pages */
+    .url-bar, .url-input-wrap { flex-direction: column; }
+    .url-btn { width: 100%; margin-top: 8px; }
+
+    /* Footer */
+    footer { padding: 20px 16px; }
+    .footer-links, .fl { gap: 8px; }
+    .footer-links a, .fl a { font-size: 0.6rem; }
+  }
+
+  @media (max-width: 480px) {
+    header { padding: 8px 12px; }
+    .logo { font-size: 1.2rem; }
+    /* Hide non-essential lang buttons */
+    .lang-switcher .lang-btn:not(.active):nth-child(n+4),
+    .lang-sw .lb:not(.active):nth-child(n+4) { display: none; }
+    /* Smaller tabs */
+    .tab { padding: 10px 11px; font-size: 0.6rem; }
+  }
+
+  /* Touch devices */
+  @media (hover: none) {
+    .card:hover { transform: none; }
+    .card:active { transform: scale(0.97); transition: transform 0.1s; }
+    .process-btn:hover, .goBtn:hover, .pbtn:hover { opacity: 1; }
+    .process-btn:active, .goBtn:active, .pbtn:active { opacity: 0.85; }
+  }
 </style>
 </head>
 <body>
@@ -214,6 +291,7 @@
     </div>
   </div>
 
+  <a href="/blog/" class="blog-btn">Blog</a>
   <div class="lang-switcher">
     
 <a href="/social-media.html" class="lang-btn  active">EN</a>    <a href="/pt/social-media.html" class="lang-btn">PT</a>    <a href="/br/social-media.html" class="lang-btn">BR</a>    <a href="/es/social-media.html" class="lang-btn">ES</a>    <a href="/fr/social-media.html" class="lang-btn">FR</a>    <a href="/de/social-media.html" class="lang-btn">DE</a>
@@ -375,15 +453,17 @@ document.addEventListener('click', function(e) {
     return { text, title, desc, url };
   }
 
-  async function callClaude(prompt) {
+  async function callClaude(prompt, systemMsg) {
+    const body = {
+      model: 'claude-sonnet-4-5',
+      max_tokens: 2000,
+      messages: [{ role: 'user', content: prompt }]
+    };
+    if (systemMsg) body.system = systemMsg;
     const res = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
+      body: JSON.stringify(body)
     });
     const data = await res.json();
     return data.content?.[0]?.text || '';
@@ -404,30 +484,47 @@ document.addEventListener('click', function(e) {
 
       const context = `Page Title: ${page.title}\nMeta Description: ${page.desc}\nURL: ${page.url}\n\nPage Content:\n${page.text}`;
 
-      const prompt = `You are a social media expert. Based on the following web page content, write optimised posts for all 4 platforms. Return ONLY valid JSON, nothing else, in this exact format:
-{
-  "instagram": {
-    "caption": "Instagram caption here (emotional, engaging, max 2200 chars, no hashtags in caption)",
-    "hashtags": ["hashtag1","hashtag2","hashtag3","hashtag4","hashtag5","hashtag6","hashtag7","hashtag8"]
-  },
-  "facebook": {
-    "post": "Facebook post here (conversational, shareable, under 80 words, with the URL at the end)"
-  },
-  "linkedin": {
-    "post": "LinkedIn post here (professional, insightful, 150-300 words, with a hook first line, line breaks for readability)"
-  },
-  "tiktok": {
-    "caption": "TikTok caption here (punchy, fun, max 150 chars)",
-    "hashtags": ["hashtag1","hashtag2","hashtag3","hashtag4","hashtag5"]
-  }
-}
+      const prompt = `You are a social media expert. Based on the following web page content, write optimised posts for all 4 platforms. Use EXACTLY this format with the markers — do not use JSON, do not add extra text outside the markers:
+
+[IG_CAPTION]
+Instagram caption here (emotional, engaging, max 2200 chars, no hashtags in caption)
+[/IG_CAPTION]
+[IG_HASHTAGS]hashtag1,hashtag2,hashtag3,hashtag4,hashtag5,hashtag6,hashtag7,hashtag8[/IG_HASHTAGS]
+[FB_POST]
+Facebook post here (conversational, shareable, under 80 words)
+[/FB_POST]
+[LI_POST]
+LinkedIn post here (professional, insightful, 150-300 words, hook first line)
+[/LI_POST]
+[TT_CAPTION]TikTok caption here (punchy, max 150 chars)[/TT_CAPTION]
+[TT_HASHTAGS]hashtag1,hashtag2,hashtag3,hashtag4,hashtag5[/TT_HASHTAGS]
 
 PAGE CONTENT:
 ${context}`;
 
       const raw = await callClaude(prompt);
-      const json = JSON.parse(raw.match(/\{[\s\S]*\}/)?.[0] || '{}');
-
+      // Parse using markers — no JSON fragility
+      const getMarker = (tag) => {
+        const m = raw.match(new RegExp('\\[' + tag + '\\]([\\s\\S]*?)\\[\/' + tag + '\\]'));
+        return m ? m[1].trim() : '';
+      };
+      const json = {
+        instagram: {
+          caption: getMarker('IG_CAPTION'),
+          hashtags: (getMarker('IG_HASHTAGS') || '').split(',').map(h => h.trim()).filter(Boolean)
+        },
+        facebook: { post: getMarker('FB_POST') },
+        linkedin:  { post: getMarker('LI_POST') },
+        tiktok: {
+          caption: getMarker('TT_CAPTION'),
+          hashtags: (getMarker('TT_HASHTAGS') || '').split(',').map(h => h.trim()).filter(Boolean)
+        }
+      };
+      if (!json.instagram.caption && !json.facebook.post) {
+        alert('Could not generate copy. Please try again.');
+        document.getElementById('loading').style.display = 'none';
+        return;
+      }
       // Instagram
       document.getElementById('text-instagram').value = json.instagram?.caption || '';
       updateCount('instagram', 2200);

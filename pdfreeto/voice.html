@@ -126,6 +126,79 @@
   .fs{color:var(--border)}
   .fn{font-family:var(--mono);font-size:.65rem;color:var(--muted)}
   @media(max-width:600px){header{padding:12px 16px}.logo{font-size:1.5rem}.hero{padding:40px 20px 32px}.wrap{padding:24px 20px 60px}.vset{grid-template-columns:1fr}.tab{padding:14px 14px;font-size:.63rem}}
+
+
+  /* ══ COMPREHENSIVE MOBILE RESPONSIVE ══ */
+  @media (max-width: 768px) {
+    /* Header */
+    header { padding: 10px 14px; gap: 8px; flex-wrap: nowrap; }
+    .logo { font-size: 1.35rem; flex-shrink: 0; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.62rem; letter-spacing: 0.08em; }
+    .blog-btn { padding: 5px 10px; font-size: 0.6rem; letter-spacing: 0.08em; white-space: nowrap; }
+    .lang-btn, .lb { padding: 4px 7px; font-size: 0.55rem; }
+    .lang-switcher, .lang-sw { gap: 2px; }
+    .nav-menu { min-width: 180px; }
+    .nav-menu a { padding: 9px 14px; font-size: 0.68rem; }
+
+    /* Hero */
+    .hero { padding: 28px 16px 20px; }
+    h1 { font-size: clamp(2.2rem, 10vw, 4rem) !important; line-height: 0.95; }
+    .hero-sub, .hero p { font-size: 0.88rem; }
+
+    /* Content areas */
+    .content, .wrap, .vc { padding: 20px 16px 60px; }
+    .tool-section, .section-wrap { padding: 0 16px; }
+
+    /* Tabs */
+    .tabs-wrap, .tabs { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .tab { padding: 12px 14px; font-size: 0.65rem; white-space: nowrap; flex-shrink: 0; }
+
+    /* Grids */
+    .tools-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+    .voice-settings, .vset, .vs { grid-template-columns: 1fr !important; }
+    .options-row { flex-direction: column; gap: 12px; }
+
+    /* Drop zones */
+    .drop-zone, .dz { padding: 32px 20px; }
+    .drop-zone .dz-title, .dtit { font-size: 1.2rem; }
+
+    /* Buttons */
+    .process-btn, .goBtn, .pbtn { font-size: 1.2rem; padding: 15px; }
+
+    /* Results */
+    .result-section, .rs { margin-top: 20px; }
+    .rh { flex-wrap: wrap; gap: 8px; }
+
+    /* Voice page */
+    .panel-title, .ptit { font-size: 1.6rem; }
+
+    /* SEO / Social pages */
+    .url-bar, .url-input-wrap { flex-direction: column; }
+    .url-btn { width: 100%; margin-top: 8px; }
+
+    /* Footer */
+    footer { padding: 20px 16px; }
+    .footer-links, .fl { gap: 8px; }
+    .footer-links a, .fl a { font-size: 0.6rem; }
+  }
+
+  @media (max-width: 480px) {
+    header { padding: 8px 12px; }
+    .logo { font-size: 1.2rem; }
+    /* Hide non-essential lang buttons */
+    .lang-switcher .lang-btn:not(.active):nth-child(n+4),
+    .lang-sw .lb:not(.active):nth-child(n+4) { display: none; }
+    /* Smaller tabs */
+    .tab { padding: 10px 11px; font-size: 0.6rem; }
+  }
+
+  /* Touch devices */
+  @media (hover: none) {
+    .card:hover { transform: none; }
+    .card:active { transform: scale(0.97); transition: transform 0.1s; }
+    .process-btn:hover, .goBtn:hover, .pbtn:hover { opacity: 1; }
+    .process-btn:active, .goBtn:active, .pbtn:active { opacity: 0.85; }
+  }
 </style>
 </head>
 <body>
@@ -468,13 +541,30 @@ function buildVoiceSelect(selEl, preferredLang) {
 
   LANG_GROUPS.forEach(function(group) {
     var voices = getGroupVoices(group);
+
+    // For PT-PT: if fewer than 2 male voices, supplement from pt-BR
+    if (group.codes.includes('pt-PT')) {
+      var ptMales = voices.filter(function(v) { return v.gender === 'm'; });
+      if (ptMales.length < 2 && voiceMap['pt-BR']) {
+        var brVoices = voiceMap['pt-BR'].map(function(item) {
+          return { voice: item.voice, gender: item.gender, quality: item.quality, isBR: true };
+        });
+        var brMales = brVoices.filter(function(v) { return v.gender === 'm'; });
+        // Add BR males as supplement, labeled
+        ptMales = ptMales.concat(brMales.slice(0, 2 - ptMales.length));
+        // Rebuild voices array with supplements
+        var ptFemales = voices.filter(function(v) { return v.gender === 'f'; });
+        voices = ptFemales.concat(ptMales);
+      }
+    }
+
     if (!voices.length) return;
 
     // Take up to 2M + 2F per group
     var males = voices.filter(function(v) { return v.gender === 'm'; }).slice(0, 2);
     var females = voices.filter(function(v) { return v.gender === 'f'; }).slice(0, 2);
     var unknowns = voices.filter(function(v) { return v.gender === 'u'; }).slice(0, 2);
-    var grouped = males.concat(females).concat(unknowns);
+    var grouped = females.concat(males).concat(unknowns);
     if (!grouped.length) return;
 
     var og = document.createElement('optgroup');
@@ -483,12 +573,12 @@ function buildVoiceSelect(selEl, preferredLang) {
       var o = document.createElement('option');
       var cleanName = item.voice.name.replace(/\s*\(.*?\)/g, '').trim();
       var gLabel = item.gender === 'm' ? ' ♂' : item.gender === 'f' ? ' ♀' : '';
-      o.textContent = cleanName + gLabel;
+      var brNote = item.isBR ? ' (BR)' : '';
+      o.textContent = cleanName + gLabel + brNote;
       o.dataset.voiceName = item.voice.name;
       o.dataset.lang = item.voice.lang;
       og.appendChild(o);
       if (!firstOption) firstOption = o;
-      // Check if this matches preferred language
       if (preferredLang && !preferredOption) {
         var vl = item.voice.lang.toLowerCase();
         var pl = preferredLang.toLowerCase();
