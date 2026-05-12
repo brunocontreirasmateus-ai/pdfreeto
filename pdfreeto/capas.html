@@ -304,7 +304,8 @@ function render(data) {
       var card = document.createElement('div');
       card.className = 'card';
       card.title = pub.title + (pub.date ? ' · ' + pub.date : '');
-      card.addEventListener('click', function() { openLB(idx); });
+      card.dataset.idx = idx;
+      card.addEventListener('click', function() { openLB(parseInt(this.dataset.idx)); });
 
       var wrap = document.createElement('div');
       wrap.className = 'card-img-wrap';
@@ -335,7 +336,10 @@ function render(data) {
         var observer = new IntersectionObserver(function(entries, obs) {
           if (!entries[0].isIntersecting) return;
           img.src = proxyUrl(pub.thumb);
-          img.onload = function() { img.classList.add('ready'); };
+          img.onload = function() {
+            img.classList.add('ready');
+            card.dataset.loaded = img.src; // store actual loaded src
+          };
           img.onerror = function() { img.style.display = 'none'; };
           obs.disconnect();
         }, { rootMargin: '300px' });
@@ -369,41 +373,39 @@ function openLB(idx) {
 function showLB() {
   var pub = allPubs[lbIdx];
   if (!pub) return;
-  var lb   = document.getElementById('lb-img');
-  var spin = document.getElementById('lb-spin');
+  var lb = document.getElementById('lb-img');
 
   lb.alt = pub.title;
-  lb.style.transition = '';
 
-  var thumbSrc = proxyUrl(pub.thumb);
-  var fullSrc  = proxyUrl(fullUrl(pub.thumb));
+  // Find card and get its loaded image src
+  var card = document.querySelector('.card[data-idx="' + lbIdx + '"]');
+  var cardImg = card ? card.querySelector('img.ready') : null;
 
-  // Step 1: show thumbnail IMMEDIATELY — it's already cached from grid
-  lb.onload = null;
-  lb.onerror = null;
-  lb.src = thumbSrc;
-  lb.style.opacity = '1';
-  if (spin) spin.style.display = 'none';
+  if (cardImg && cardImg.src && cardImg.naturalWidth > 0) {
+    // Image already loaded in grid — use it directly (no proxy call needed)
+    lb.src = cardImg.src;
+    lb.style.opacity = '1';
 
-  // Step 2: try to upgrade to full-size in background
-  if (fullSrc !== thumbSrc) {
-    var testImg = new Image();
-    testImg.onload = function() {
-      // Full-size loaded successfully — swap in
-      if (allPubs[lbIdx] === pub) {
-        lb.style.opacity = '0';
-        lb.onload = function() {
-          lb.style.opacity = '1';
-          lb.style.transition = 'opacity .3s';
-          lb.onload = null;
-        };
-        lb.src = fullSrc;
-      }
-    };
-    testImg.onerror = function() {
-      // Full-size not available — thumbnail stays, nothing to do
-    };
-    testImg.src = fullSrc;
+    // Try full-size upgrade silently in background
+    var fullSrc = pub.thumb ? proxyUrl(fullUrl(pub.thumb)) : '';
+    if (fullSrc && fullSrc !== cardImg.src) {
+      var hi = new Image();
+      hi.onload = function() {
+        if (allPubs[lbIdx] === pub) lb.src = fullSrc;
+      };
+      hi.src = fullSrc;
+    }
+  } else {
+    // Image not loaded yet — load thumbnail via proxy now
+    lb.style.opacity = '0';
+    var src = pub.thumb ? proxyUrl(pub.thumb) : '';
+    if (!src) {
+      lb.style.opacity = '1';
+      return;
+    }
+    lb.onload = function() { lb.style.opacity = '1'; lb.onload = null; lb.onerror = null; };
+    lb.onerror = function() { lb.style.opacity = '1'; lb.onerror = null; };
+    lb.src = src;
   }
   document.getElementById('lb-name').textContent = pub.title;
   document.getElementById('lb-date').textContent = pub.date
