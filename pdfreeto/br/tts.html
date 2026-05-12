@@ -202,6 +202,50 @@
     .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
     .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
   }
+
+  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .blog-btn.active { border-color: var(--accent); color: var(--accent); }
+
+
+  /* ══ COMPREHENSIVE MOBILE RESPONSIVE ══ */
+  @media (max-width: 768px) {
+    header { padding: 10px 14px; gap: 8px; flex-wrap: nowrap; }
+    .logo { font-size: 1.35rem; flex-shrink: 0; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.62rem; letter-spacing: 0.08em; }
+    .blog-btn { padding: 5px 10px; font-size: 0.6rem; letter-spacing: 0.08em; white-space: nowrap; }
+    .lang-btn, .lb { padding: 4px 7px; font-size: 0.55rem; }
+    .lang-switcher, .lang-sw { gap: 2px; }
+    .nav-menu { min-width: 180px; }
+    .nav-menu a { padding: 9px 14px; font-size: 0.68rem; }
+    .hero { padding: 28px 16px 20px; }
+    h1 { font-size: clamp(2.2rem, 10vw, 4rem) !important; line-height: 0.95; }
+    .hero-sub, .hero p { font-size: 0.88rem; }
+    .content, .wrap, .vc { padding: 20px 16px 60px; }
+    .tabs-wrap, .tabs { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .tab { padding: 12px 14px; font-size: 0.65rem; white-space: nowrap; flex-shrink: 0; }
+    .tools-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+    .voice-settings, .vset, .vs { grid-template-columns: 1fr !important; }
+    .options-row { flex-direction: column; gap: 12px; }
+    .drop-zone, .dz { padding: 32px 20px; }
+    .process-btn, .goBtn, .pbtn { font-size: 1.2rem; padding: 15px; }
+    .url-bar, .url-input-wrap { flex-direction: column; }
+    .url-btn { width: 100%; margin-top: 8px; }
+    footer { padding: 20px 16px; }
+    .footer-links, .fl { gap: 8px; }
+  }
+  @media (max-width: 480px) {
+    header { padding: 8px 12px; }
+    .logo { font-size: 1.2rem; }
+    .lang-switcher .lang-btn:not(.active):nth-child(n+4),
+    .lang-sw .lb:not(.active):nth-child(n+4) { display: none; }
+    .tab { padding: 10px 11px; font-size: 0.6rem; }
+  }
+  @media (hover: none) {
+    .card:hover { transform: none; }
+    .card:active { transform: scale(0.97); transition: transform 0.1s; }
+    .process-btn:active, .goBtn:active { opacity: 0.85; }
+  }
 </style>
 </head>
 <body>
@@ -223,6 +267,7 @@
       <a href="/br/seo.html">SEO</a>
     </div>
   </div>
+  <a href="/br/blog/" class="blog-btn">Blog</a>
   <div class="lang-switcher">
     <a href="/tts.html" class="lang-btn">EN</a>
     <a href="/br/tts.html" class="lang-btn">PT</a>
@@ -246,7 +291,7 @@ document.addEventListener('click', function(e) {
 });
 </script><div class="hero">
   <h1>Texto para<br><span class="hl">Voz</span></h1>
-  <p>Escreva ou cole texto · Escolha a voz · Ouça ou descarregue · Gratuito</p>
+  <p>Escreva ou cole texto · Escolha a voz · Ouça ou descarregue · Grátis</p>
 </div>
 
 <div class="content">
@@ -257,7 +302,7 @@ document.addEventListener('click', function(e) {
   </div>
 
   <div class="no-support" id="no-support">
-    ⚠ Seu navegador não suporta a API Web Speech. Experimente Chrome, Edge ou Safari.
+    ⚠ O seu navegador não suporta a API Web Speech. Experimente Chrome, Edge ou Safari.
   </div>
 
   <div class="options" id="opts">
@@ -311,8 +356,8 @@ document.addEventListener('click', function(e) {
   </div>
 
   <div class="seo-block">
-    <h2>Texto para Voz Online Gratuito</h2>
-    <p>A ferramenta Texto para Voz do PDFreeto converte qualquer texto escrito em áudio falado diretamente em seu navegador, usando vozes incorporadas em seu dispositivo. Escolha entre dezenas de idiomas e vozes, ajuste a velocidade e o tom de leitura, e ouça instantaneamente — sem conta ou instalação necessária.</p>
+    <h2>Texto para Voz Online Grátis</h2>
+    <p>A ferramenta Texto para Voz do PDFreeto converte qualquer texto escrito em áudio falado diretamente nseu navegador, usando as vozes incorporadas nseu dispositivo. Escolha entre dezenas de idiomas e vozes, ajuste a velocidade e o tom de leitura, e ouça instantaneamente — sem conta ou instalação necessária.</p>
     <h2>Como Usar o Texto para Voz</h2>
     <p>Cole ou escreva seu texto, selecione uma voz e idioma, e clique em Falar. A palavra atual é destacada à medida que é lida em voz alta. Pode pausar e retomar em qualquer momento. A funcionalidade de baixar áudio grava a fala e guarda como arquivo WAV (disponível no Chrome e Edge).</p>
   </div>
@@ -333,7 +378,7 @@ document.addEventListener('click', function(e) {
     <span class="footer-sep">·</span>
     <a href="merge-pdf.html">Juntar PDF</a>
   </div>
-  <div class="footer-note">Processamento 100% local — seus arquivos nunca saem de seu dispositivo</div>
+  <div class="footer-note">Processamento 100% local — seus arquivos nunca saem dseu dispositivo</div>
 </footer>
 
 <script>
