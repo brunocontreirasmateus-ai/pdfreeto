@@ -349,23 +349,41 @@
     <div class="ebox" id="article-err"></div>
     <div class="rs" id="article-rs">
       <div class="rh"><span class="rl">&#10003; Mensagem pronta</span><span class="rd" id="article-dur"></span></div>
-      <div class="wf" id="article-wf"></div>
-      <div class="pcon">
-        <button class="plb" id="article-plb">&#9654;</button>
-        <div class="ptrk"><div class="ppl" id="article-ppl"></div></div>
-        <span class="ptd" id="article-ptd">0:00</span>
+
+      <!-- Audio player -->
+      <div style="padding:16px 20px;border-bottom:1px solid var(--border)">
+        <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">&#127911; Audio</div>
+        <div id="article-audio-wrap" style="display:none">
+          <audio id="article-audio" controls style="width:100%;height:40px;accent-color:var(--accent)"></audio>
+        </div>
+        <div id="article-audio-loading" style="display:none;font-family:var(--mono);font-size:.68rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase">
+          <span id="article-audio-dots">&#9679;&#9679;&#9679;</span> A gerar audio...
+        </div>
+        <div id="article-audio-err" style="display:none;font-family:var(--mono);font-size:.68rem;color:#ff5533">Servi&#231;o TTS indispon&#237;vel. Usa o player abaixo.</div>
+        <!-- Fallback Web Speech player -->
+        <div id="article-speech-wrap" style="margin-top:10px">
+          <div class="pcon" style="padding:0">
+            <button class="plb" id="article-plb">&#9654;</button>
+            <div class="ptrk"><div class="ppl" id="article-ppl"></div></div>
+            <span class="ptd" id="article-ptd">0:00</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:6px">Voz do browser (sem download)</div>
+        </div>
       </div>
-      <!-- Script always visible -->
-      <div style="padding:16px 20px 8px;border-top:1px solid var(--border)">
+
+      <!-- Script -->
+      <div style="padding:16px 20px 8px;border-bottom:1px solid var(--border)">
         <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Texto da mensagem</div>
         <div class="stxt" id="article-stxt" style="font-size:.9rem;line-height:1.8;color:var(--text);white-space:pre-wrap"></div>
       </div>
-      <!-- Share bar always visible -->
-      <div style="padding:12px 20px 20px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border)">
-        <button class="share-btn share-wa" id="article-share-wa">&#128242; WhatsApp</button>
-        <button class="share-btn share-email" id="article-share-email">&#9993; Email</button>
+
+      <!-- Action buttons -->
+      <div style="padding:12px 20px 20px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="share-btn share-wa" id="article-share-wa" style="display:none">&#128242; WhatsApp</button>
+        <button class="share-btn" id="article-dl" style="background:var(--accent);color:#0a0a0a;display:none">&#8595; Download MP3</button>
+        <button class="share-btn share-email" id="article-share-email">&#9993; Email texto</button>
         <button class="share-btn share-copy" id="article-cps">&#10063; Copiar texto</button>
-        <button class="share-btn share-native" id="article-share-native" style="display:none">&#8679; Partilhar</button>
+        <button class="share-btn share-native" id="article-share-native" style="display:none">&#8679; Partilhar audio</button>
       </div>
     </div>
     <div class="sblk"><h2>Share News Like You Mean It</h2><p>You read something great and want to share it &mdash; but forwarding a link feels impersonal. AI Voice rewrites the article as a natural WhatsApp voice message: casual, direct, conversational. Download and send directly.</p></div>
@@ -865,6 +883,11 @@ async function doGo(tab) {
   document.getElementById(tab + '-rs').style.display = 'block';
   document.getElementById(tab + '-ppl').style.width = '0%';
   document.getElementById(tab + '-ptd').textContent = '0:00';
+
+  // For article tab: generate real downloadable audio via TTS function
+  if (tab === 'article') {
+    generateArticleAudio(script);
+  }
 }
 
 function showPg(tab, pct, txt) { document.getElementById(tab+'-pgw').style.display='block'; document.getElementById(tab+'-pgf').style.width=pct+'%'; document.getElementById(tab+'-pgt').textContent=txt; }
@@ -923,6 +946,89 @@ function dlAudio(tab) { alert('O download de WAV não é suportado pelo Web Spee
 function togScript(tab) { document.getElementById(tab+'-sbdy').classList.toggle('open'); document.getElementById(tab+'-stg').classList.toggle('open'); }
 function cpScript(tab) { navigator.clipboard.writeText(document.getElementById(tab+'-stxt').textContent).then(function(){var cs=document.getElementById(tab+'-cps');var o=cs.textContent;cs.textContent='Copied!';setTimeout(function(){cs.textContent=o;},2000);}); }
 
+
+// ── ARTICLE TTS AUDIO ──
+var articleAudioBlob = null;
+
+async function generateArticleAudio(script) {
+  var loadEl = document.getElementById('article-audio-loading');
+  var wrapEl = document.getElementById('article-audio-wrap');
+  var errEl  = document.getElementById('article-audio-err');
+  var audioEl = document.getElementById('article-audio');
+  var dlBtn  = document.getElementById('article-dl');
+  var waBtn  = document.getElementById('article-share-wa');
+  var nativeBtn = document.getElementById('article-share-native');
+
+  loadEl.style.display = 'block';
+  wrapEl.style.display = 'none';
+  errEl.style.display  = 'none';
+  articleAudioBlob = null;
+
+  // Detect language from script text
+  var lang = detectLang(script);
+
+  try {
+    var res = await fetch('/.netlify/functions/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: script, lang: lang })
+    });
+
+    if (!res.ok) throw new Error('TTS failed: ' + res.status);
+
+    var ab = await res.arrayBuffer();
+    articleAudioBlob = new Blob([ab], { type: 'audio/mpeg' });
+    var blobUrl = URL.createObjectURL(articleAudioBlob);
+
+    audioEl.src = blobUrl;
+    loadEl.style.display = 'none';
+    wrapEl.style.display = 'block';
+
+    // Show download button
+    dlBtn.style.display = 'flex';
+    dlBtn.onclick = function() {
+      var a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = 'mensagem-whatsapp.mp3';
+      a.click();
+    };
+
+    // Show WhatsApp audio share via native API
+    if (navigator.share && navigator.canShare) {
+      var file = new File([articleAudioBlob], 'mensagem.mp3', { type: 'audio/mpeg' });
+      if (navigator.canShare({ files: [file] })) {
+        waBtn.style.display = 'flex';
+        waBtn.onclick = function() {
+          var f = new File([articleAudioBlob], 'mensagem-whatsapp.mp3', { type: 'audio/mpeg' });
+          navigator.share({ files: [f] }).catch(function() {});
+        };
+        nativeBtn.style.display = 'flex';
+        nativeBtn.onclick = function() {
+          var f = new File([articleAudioBlob], 'mensagem-whatsapp.mp3', { type: 'audio/mpeg' });
+          navigator.share({ files: [f] }).catch(function() {});
+        };
+        return;
+      }
+    }
+
+    // Fallback: WhatsApp shares text
+    waBtn.style.display = 'flex';
+    waBtn.onclick = function() {
+      var t = document.getElementById('article-stxt').textContent;
+      window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank');
+    };
+
+  } catch(e) {
+    loadEl.style.display = 'none';
+    errEl.style.display = 'block';
+    // WABtn falls back to text share
+    waBtn.style.display = 'flex';
+    waBtn.onclick = function() {
+      var t = document.getElementById('article-stxt').textContent;
+      window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank');
+    };
+  }
+}
 
 // ── ARTICLE SHARE BUTTONS ──
 (function() {
