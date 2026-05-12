@@ -31,7 +31,7 @@ function fetchImage(url, redirects) {
           data: Buffer.concat(chunks)
         });
       });
-    }).on('error', reject).setTimeout(15000, function() { this.destroy(new Error('Timeout')); });
+    }).on('error', reject).setTimeout(8000, function() { this.destroy(new Error('Timeout')); });
   });
 }
 
