@@ -792,11 +792,12 @@ var spkStart = 0;
 
 // ── GO BUTTONS ──
 ['email','newsletter','pdf','article'].forEach(function(tab) {
-  document.getElementById(tab + '-go').addEventListener('click', function() { doGo(tab); });
-  document.getElementById(tab + '-plb').addEventListener('click', function() { togglePlay(tab); });
-  document.getElementById(tab + '-dl').addEventListener('click', function() { dlAudio(tab); });
-  document.getElementById(tab + '-stg').addEventListener('click', function() { togScript(tab); });
-  document.getElementById(tab + '-cps').addEventListener('click', function() { cpScript(tab); });
+  function on(id, fn) { var el = document.getElementById(id); if (el) el.addEventListener('click', fn); }
+  on(tab + '-go',  function() { doGo(tab); });
+  on(tab + '-plb', function() { togglePlay(tab); });
+  on(tab + '-dl',  function() { dlAudio(tab); });
+  on(tab + '-stg', function() { togScript(tab); });
+  on(tab + '-cps', function() { cpScript(tab); });
 });
 
 async function doGo(tab) {
