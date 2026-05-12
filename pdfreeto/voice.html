@@ -951,21 +951,23 @@ function cpScript(tab) { navigator.clipboard.writeText(document.getElementById(t
 var articleAudioBlob = null;
 
 async function generateArticleAudio(script) {
-  var loadEl = document.getElementById('article-audio-loading');
-  var wrapEl = document.getElementById('article-audio-wrap');
-  var errEl  = document.getElementById('article-audio-err');
-  var audioEl = document.getElementById('article-audio');
-  var dlBtn  = document.getElementById('article-dl');
-  var waBtn  = document.getElementById('article-share-wa');
+  var loadEl   = document.getElementById('article-audio-loading');
+  var wrapEl   = document.getElementById('article-audio-wrap');
+  var errEl    = document.getElementById('article-audio-err');
+  var audioEl  = document.getElementById('article-audio');
+  var dlBtn    = document.getElementById('article-dl');
+  var waBtn    = document.getElementById('article-share-wa');
   var nativeBtn = document.getElementById('article-share-native');
 
-  loadEl.style.display = 'block';
-  wrapEl.style.display = 'none';
-  errEl.style.display  = 'none';
+  loadEl.style.display  = 'block';
+  wrapEl.style.display  = 'none';
+  errEl.style.display   = 'none';
+  dlBtn.style.display   = 'none';
+  waBtn.style.display   = 'none';
+  nativeBtn.style.display = 'none';
   articleAudioBlob = null;
 
-  // Detect language from script text
-  var lang = detectLang(script);
+  var lang = (typeof detectLang === 'function') ? detectLang(script) : 'en';
 
   try {
     var res = await fetch('/.netlify/functions/tts', {
@@ -974,18 +976,23 @@ async function generateArticleAudio(script) {
       body: JSON.stringify({ text: script, lang: lang })
     });
 
-    if (!res.ok) throw new Error('TTS failed: ' + res.status);
+    if (!res.ok) {
+      var errBody = '';
+      try { var ej = await res.json(); errBody = JSON.stringify(ej.details || ej.error || ''); } catch(e2) {}
+      throw new Error('HTTP ' + res.status + (errBody ? ': ' + errBody : ''));
+    }
 
     var ab = await res.arrayBuffer();
+    if (ab.byteLength < 1000) throw new Error('Empty audio response (' + ab.byteLength + ' bytes)');
+
     articleAudioBlob = new Blob([ab], { type: 'audio/mpeg' });
     var blobUrl = URL.createObjectURL(articleAudioBlob);
 
     audioEl.src = blobUrl;
     loadEl.style.display = 'none';
     wrapEl.style.display = 'block';
+    dlBtn.style.display  = 'flex';
 
-    // Show download button
-    dlBtn.style.display = 'flex';
     dlBtn.onclick = function() {
       var a = document.createElement('a');
       a.href = blobUrl;
@@ -993,25 +1000,23 @@ async function generateArticleAudio(script) {
       a.click();
     };
 
-    // Show WhatsApp audio share via native API
+    // Web Share API with file (mobile)
     if (navigator.share && navigator.canShare) {
-      var file = new File([articleAudioBlob], 'mensagem.mp3', { type: 'audio/mpeg' });
-      if (navigator.canShare({ files: [file] })) {
-        waBtn.style.display = 'flex';
-        waBtn.onclick = function() {
-          var f = new File([articleAudioBlob], 'mensagem-whatsapp.mp3', { type: 'audio/mpeg' });
-          navigator.share({ files: [f] }).catch(function() {});
-        };
+      var f = new File([articleAudioBlob], 'mensagem.mp3', { type: 'audio/mpeg' });
+      if (navigator.canShare({ files: [f] })) {
         nativeBtn.style.display = 'flex';
         nativeBtn.onclick = function() {
-          var f = new File([articleAudioBlob], 'mensagem-whatsapp.mp3', { type: 'audio/mpeg' });
-          navigator.share({ files: [f] }).catch(function() {});
+          var f2 = new File([articleAudioBlob], 'mensagem-whatsapp.mp3', { type: 'audio/mpeg' });
+          navigator.share({ files: [f2] }).catch(function() {});
         };
+        waBtn.style.display = 'flex';
+        waBtn.textContent = '📱 Partilhar no WhatsApp';
+        waBtn.onclick = nativeBtn.onclick;
         return;
       }
     }
 
-    // Fallback: WhatsApp shares text
+    // Desktop: WhatsApp with text
     waBtn.style.display = 'flex';
     waBtn.onclick = function() {
       var t = document.getElementById('article-stxt').textContent;
@@ -1020,13 +1025,15 @@ async function generateArticleAudio(script) {
 
   } catch(e) {
     loadEl.style.display = 'none';
-    errEl.style.display = 'block';
-    // WABtn falls back to text share
-    waBtn.style.display = 'flex';
+    errEl.textContent    = '⚠ Não foi possível gerar MP3 (' + e.message + '). Usa o player do browser em baixo.';
+    errEl.style.display  = 'block';
+    // Always show WhatsApp text share as fallback
+    waBtn.style.display  = 'flex';
     waBtn.onclick = function() {
       var t = document.getElementById('article-stxt').textContent;
       window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank');
     };
+    console.error('TTS error:', e.message);
   }
 }
 
