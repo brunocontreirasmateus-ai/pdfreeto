@@ -22,38 +22,34 @@ function fetchImage(url, redirects) {
         res.resume();
         return fetchImage(loc, redirects + 1).then(resolve).catch(reject);
       }
+      // Stream with size limit — stop at 5.5MB to stay under Netlify's 6MB base64 limit
       var chunks = [];
-      res.on('data', function(c) { chunks.push(Buffer.from(c)); });
-      res.on('end', function() {
-        resolve({ status: res.statusCode, contentType: res.headers['content-type'] || 'image/jpeg', data: Buffer.concat(chunks) });
+      var total = 0;
+      var limit = 5500000;
+      res.on('data', function(c) {
+        total += c.length;
+        if (total <= limit) chunks.push(Buffer.from(c));
       });
-    }).on('error', reject).setTimeout(8000, function() { this.destroy(new Error('Timeout')); });
+      res.on('end', function() {
+        resolve({
+          status: res.statusCode,
+          contentType: res.headers['content-type'] || 'image/jpeg',
+          data: Buffer.concat(chunks),
+          truncated: total > limit
+        });
+      });
+    }).on('error', reject).setTimeout(12000, function() { this.destroy(new Error('Timeout')); });
   });
 }
 
 function isValidImage(img) {
-  // Must be 200, content must be image type, and have reasonable size
-  if (!img || img.status !== 200 || img.data.length < 1000) return false;
-  var ct = img.contentType || '';
+  if (!img || img.status !== 200 || img.data.length < 500) return false;
+  var ct = (img.contentType || '').toLowerCase();
   if (ct.includes('text') || ct.includes('html') || ct.includes('json')) return false;
-  // Check JPEG/PNG magic bytes
   var b = img.data;
-  var isJpeg = b[0] === 0xFF && b[1] === 0xD8;
-  var isPng  = b[0] === 0x89 && b[1] === 0x50;
-  var isWebp = b[8] === 0x57 && b[9] === 0x45; // WEBP
-  return isJpeg || isPng || isWebp;
-}
-
-async function compress(buffer) {
-  try {
-    var sharp = require('sharp');
-    var qualities = [85, 70, 55, 40];
-    for (var i = 0; i < qualities.length; i++) {
-      var out = await sharp(buffer).jpeg({ quality: qualities[i], progressive: true }).toBuffer();
-      if (out.length <= 800000 || i === qualities.length - 1) return out;
-    }
-  } catch(e) {}
-  return buffer;
+  return (b[0] === 0xFF && b[1] === 0xD8) || // JPEG
+         (b[0] === 0x89 && b[1] === 0x50) || // PNG
+         (b[8] === 0x57 && b[9] === 0x45);   // WEBP
 }
 
 exports.handler = async function(event) {
@@ -65,32 +61,39 @@ exports.handler = async function(event) {
   try {
     var img = null;
 
-    // Try requested URL first
-    try {
-      img = await fetchImage(url);
-    } catch(e) { img = null; }
+    // Fetch requested URL (full-size or thumbnail)
+    try { img = await fetchImage(url); } catch(e) { img = null; }
 
-    // If not valid and was full-size, try thumbnail
-    if (!isValidImage(img) && !url.includes('/th/')) {
+    // If truncated (>5.5MB), convert full-size URL to thumbnail and retry
+    if (img && img.truncated && !url.includes('/th/')) {
       var thumbUrl = url.replace(/\/covers\/([^/]+)\/(\d+)\//, '/covers/$1/$2/th/');
-      try { img = await fetchImage(thumbUrl); } catch(e) { img = null; }
+      try {
+        var thumb = await fetchImage(thumbUrl);
+        if (isValidImage(thumb)) img = thumb;
+      } catch(e) {}
+    }
+
+    // If invalid and was full-size, try thumbnail as last resort
+    if (!isValidImage(img) && !url.includes('/th/')) {
+      var thumbUrl2 = url.replace(/\/covers\/([^/]+)\/(\d+)\//, '/covers/$1/$2/th/');
+      try {
+        var thumb2 = await fetchImage(thumbUrl2);
+        if (isValidImage(thumb2)) img = thumb2;
+      } catch(e) {}
     }
 
     if (!isValidImage(img)) {
-      // Return 302 redirect to a 1x1 transparent GIF so onerror fires
       return { statusCode: 404, body: 'Not found' };
     }
-
-    var data = await compress(img.data);
 
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'image/jpeg',
+        'Content-Type': img.contentType.includes('png') ? 'image/png' : 'image/jpeg',
         'Cache-Control': 'public, max-age=86400',
         'Access-Control-Allow-Origin': '*'
       },
-      body: data.toString('base64'),
+      body: img.data.toString('base64'),
       isBase64Encoded: true
     };
 
