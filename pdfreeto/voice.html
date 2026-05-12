@@ -271,7 +271,7 @@
     <div class="rs" id="email-rs">
       <div class="rh"><span class="rl">&#10003; Voice Note Ready</span><span class="rd" id="email-dur"></span></div>
       <div class="wf" id="email-wf"></div>
-      <div class="pcon"><button class="plb" id="email-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="email-ppl"></div></div><span class="ptd" id="email-ptd">0:00</span><button class="dwn" id="email-dl">&#8595; WAV</button></div>
+      <div class="pcon"><button class="plb" id="email-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="email-ppl"></div></div><span class="ptd" id="email-ptd">0:00</span></div>
       <div class="scr"><button class="stg" id="email-stg">View AI script <span class="ch">&#9660;</span></button><div class="sbdy" id="email-sbdy"><div class="stxt" id="email-stxt"></div><button class="cps" id="email-cps">Copy script</button></div></div>
     </div>
     <div class="sblk"><h2>Why Listen to Emails?</h2><p>The average professional receives 120 emails a day. AI Voice converts your most important messages into natural voice notes &mdash; perfect for commutes, gym sessions or any time reading isn't convenient. The AI rewrites for the ear, removing signatures, legal footers and corporate filler.</p></div>
@@ -297,7 +297,7 @@
     <div class="rs" id="newsletter-rs">
       <div class="rh"><span class="rl">&#10003; Mini Podcast Ready</span><span class="rd" id="newsletter-dur"></span></div>
       <div class="wf" id="newsletter-wf"></div>
-      <div class="pcon"><button class="plb" id="newsletter-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="newsletter-ppl"></div></div><span class="ptd" id="newsletter-ptd">0:00</span><button class="dwn" id="newsletter-dl">&#8595; WAV</button></div>
+      <div class="pcon"><button class="plb" id="newsletter-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="newsletter-ppl"></div></div><span class="ptd" id="newsletter-ptd">0:00</span></div>
       <div class="scr"><button class="stg" id="newsletter-stg">View podcast script <span class="ch">&#9660;</span></button><div class="sbdy" id="newsletter-sbdy"><div class="stxt" id="newsletter-stxt"></div><button class="cps" id="newsletter-cps">Copy script</button></div></div>
     </div>
     <div class="sblk"><h2>Turn Any Newsletter into a Podcast</h2><p>You subscribe to a dozen newsletters but only read two. AI Voice converts your unread newsletters into short podcast episodes &mdash; with a proper intro, structured segments and a clean conclusion. Paste the text, click Create, and listen on your commute.</p></div>
@@ -324,7 +324,7 @@
     <div class="rs" id="pdf-rs">
       <div class="rh"><span class="rl">&#10003; Audio Briefing Ready</span><span class="rd" id="pdf-dur"></span></div>
       <div class="wf" id="pdf-wf"></div>
-      <div class="pcon"><button class="plb" id="pdf-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="pdf-ppl"></div></div><span class="ptd" id="pdf-ptd">0:00</span><button class="dwn" id="pdf-dl">&#8595; WAV</button></div>
+      <div class="pcon"><button class="plb" id="pdf-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="pdf-ppl"></div></div><span class="ptd" id="pdf-ptd">0:00</span></div>
       <div class="scr"><button class="stg" id="pdf-stg">View briefing script <span class="ch">&#9660;</span></button><div class="sbdy" id="pdf-sbdy"><div class="stxt" id="pdf-stxt"></div><button class="cps" id="pdf-cps">Copy script</button></div></div>
     </div>
     <div class="sblk"><h2>Skip the Reading. Hear the Briefing.</h2><p>A 40-page report takes 90 minutes to read. The AI Audio Briefing extracts what matters in under 3 minutes &mdash; structured like an executive briefing: context, key findings, implications. Ideal for research papers, legal documents, financial reports and long-form PDFs.</p></div>
@@ -348,17 +348,25 @@
     <div class="pgw" id="article-pgw"><div class="pgb"><div class="pgf" id="article-pgf"></div></div><div class="pgt" id="article-pgt">Fetching article...</div></div>
     <div class="ebox" id="article-err"></div>
     <div class="rs" id="article-rs">
-      <div class="rh"><span class="rl">&#10003; WhatsApp Audio Ready</span><span class="rd" id="article-dur"></span></div>
+      <div class="rh"><span class="rl">&#10003; Mensagem pronta</span><span class="rd" id="article-dur"></span></div>
       <div class="wf" id="article-wf"></div>
-      <div class="pcon"><button class="plb" id="article-plb">&#9654;</button><div class="ptrk"><div class="ppl" id="article-ppl"></div></div><span class="ptd" id="article-ptd">0:00</span><button class="dwn" id="article-dl">&#8595; WAV</button></div>
-      <div class="scr"><button class="stg" id="article-stg">View message script <span class="ch">&#9660;</span></button><div class="sbdy" id="article-sbdy"><div class="stxt" id="article-stxt"></div>
-        <div class="share-bar" id="article-share-bar">
-          <button class="share-btn share-wa" id="article-share-wa">&#128242; WhatsApp</button>
-          <button class="share-btn share-email" id="article-share-email">&#9993; Email</button>
-          <button class="share-btn share-copy" id="article-cps">&#10063; Copiar</button>
-        </div>
-        <button class="share-btn share-native" id="article-share-native" style="display:none;width:100%;margin-top:4px">&#8679; Partilhar</button>
-      </div></div>
+      <div class="pcon">
+        <button class="plb" id="article-plb">&#9654;</button>
+        <div class="ptrk"><div class="ppl" id="article-ppl"></div></div>
+        <span class="ptd" id="article-ptd">0:00</span>
+      </div>
+      <!-- Script always visible -->
+      <div style="padding:16px 20px 8px;border-top:1px solid var(--border)">
+        <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Texto da mensagem</div>
+        <div class="stxt" id="article-stxt" style="font-size:.9rem;line-height:1.8;color:var(--text);white-space:pre-wrap"></div>
+      </div>
+      <!-- Share bar always visible -->
+      <div style="padding:12px 20px 20px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border)">
+        <button class="share-btn share-wa" id="article-share-wa">&#128242; WhatsApp</button>
+        <button class="share-btn share-email" id="article-share-email">&#9993; Email</button>
+        <button class="share-btn share-copy" id="article-cps">&#10063; Copiar texto</button>
+        <button class="share-btn share-native" id="article-share-native" style="display:none">&#8679; Partilhar</button>
+      </div>
     </div>
     <div class="sblk"><h2>Share News Like You Mean It</h2><p>You read something great and want to share it &mdash; but forwarding a link feels impersonal. AI Voice rewrites the article as a natural WhatsApp voice message: casual, direct, conversational. Download and send directly.</p></div>
   </div>
@@ -910,7 +918,7 @@ function spkNow(tab) {
 }
 
 function setPB(tab, on) { var b=document.getElementById(tab+'-plb'); if(b) b.innerHTML=on?'&#9646;&#9646;':'&#9654;'; }
-function dlAudio(tab) { var s=ST[tab]; if(s&&s.audioBlob){var a=document.createElement('a');a.href=URL.createObjectURL(s.audioBlob);a.download='pdfreeto-'+tab+'.wav';a.click();}else{alert('Play the audio first to enable download (Chrome/Edge only).');} }
+function dlAudio(tab) { alert('O download de WAV não é suportado pelo Web Speech API do browser. Partilha o texto usando os botões abaixo.'); }
 function togScript(tab) { document.getElementById(tab+'-sbdy').classList.toggle('open'); document.getElementById(tab+'-stg').classList.toggle('open'); }
 function cpScript(tab) { navigator.clipboard.writeText(document.getElementById(tab+'-stxt').textContent).then(function(){var cs=document.getElementById(tab+'-cps');var o=cs.textContent;cs.textContent='Copied!';setTimeout(function(){cs.textContent=o;},2000);}); }
 
