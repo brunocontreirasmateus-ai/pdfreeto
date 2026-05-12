@@ -1,14 +1,11 @@
 [build]
   functions = "netlify/functions"
-  command = "cd netlify/functions && npm install"
 
 [functions]
   node_bundler = "esbuild"
-  timeout = 30
-  included_files = ["netlify/functions/node_modules/**"]
 
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
+    X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
