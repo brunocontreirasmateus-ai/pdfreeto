@@ -127,20 +127,19 @@
   .checkbox-label label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
   
   footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
-  .footer-links { display: flex; justify-content: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
   .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color 0.2s; }
   .footer-links a:hover { color: var(--accent); }
+  .footer-sep { color: var(--border); font-family: var(--mono); font-size: 0.65rem; }
+  .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
   
   @media (max-width: 640px) {
     .aspect-grid { grid-template-columns: repeat(2, 1fr); }
     .crop-controls { grid-template-columns: repeat(2, 1fr); }
     header { padding: 12px 16px; }
+    footer { padding: 20px 16px; }
+    .footer-links, .footer-links a { gap: 8px; }
   }
-  
-  footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
-  .footer-links { display: flex; justify-content: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
-  .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -271,16 +270,15 @@
       <div class="result-section" id="results-crop"></div>
     </div>
   </div>
-</div>
 
-<footer>
-  <div class="footer-links">
-    <a href="/">JPG to PDF</a>
-    <a href="/compress-jpg.html">Compress</a>
-    <a href="/merge-jpg.html">Merge</a>
-    <a href="/compress-pdf.html">Compress PDF</a>
+  <div style="margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--border);">
+    <h2 style="font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 16px;">How to Compress & Crop Images</h2>
+    <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px;">PDFreeto compresses your JPG and PNG images directly in your browser using intelligent quality reduction — reducing file size while maintaining visual clarity. The crop tool lets you trim unwanted areas from multiple images at once, with a visual editor and support for aspect ratios. No file is ever uploaded to a server. Drop your images, adjust compression quality or define crop areas, and download instantly.</p>
+    
+    <h2 style="font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 16px; margin-top: 32px;">When to Compress & Crop?</h2>
+    <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px;">Compressing images is essential when emailing large photo collections (many mail servers limit attachments to 10–25MB), uploading to web forms with size restrictions, or storing thousands of photos without consuming excessive disk space. Cropping is useful for removing unwanted background, focusing on a subject, standardizing image dimensions for social media, or preparing product photos for e-commerce. PDFreeto handles batch operations — compress or crop multiple images in one go, with each image maintaining its own position settings when using "Apply to All Images" for consistent sizing.</p>
   </div>
-</footer>
+</div>
 
 <script>
 function toggleMenu() {
@@ -662,9 +660,25 @@ cropBtn.addEventListener('click', function() {
 </script>
 <footer>
   <div class="footer-links">
-    <a href="/">JPG to PDF</a>
-    <a href="/compress-jpg.html">Compress</a>
-    <a href="/merge-jpg.html">Merge</a>
+    <a href="/">JPG ↔ PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pdf-to-word.html">Word to PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/word-image-extractor.html">Extract Images</a>
+    <span class="footer-sep">·</span>
     <a href="/compress-pdf.html">Compress PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/compress-jpg.html">Compress & Crop</a>
+    <span class="footer-sep">·</span>
+    <a href="/merge-jpg.html">Merge JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="/merge-pdf.html">Merge PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/tts.html">Text to Speech</a>
+    <span class="footer-sep">·</span>
+    <a href="/pdf-ai.html">PDF AI</a>
+    <span class="footer-sep">·</span>
+    <a href="/seo.html">SEO</a>
   </div>
+  <div class="footer-note">100% browser-based processing — your files never leave your device</div>
 </footer>
