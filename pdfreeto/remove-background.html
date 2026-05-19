@@ -353,16 +353,19 @@ function render() {
   
   for (let i = 0; i < segmentation.data.length; i++) {
     const pixelIndex = i * 4;
-    if (segmentation.data[i] === 0) {
-      data[pixelIndex] = bgColorVal.r;
-      data[pixelIndex + 1] = bgColorVal.g;
-      data[pixelIndex + 2] = bgColorVal.b;
-      data[pixelIndex + 3] = 255 * transVal;
-    } else {
+    // segmentation.data[i] > 0 means PERSON/FOREGROUND, 0 means BACKGROUND
+    if (segmentation.data[i] > 0) {
+      // Keep original foreground
       data[pixelIndex] = basePixels[pixelIndex];
       data[pixelIndex + 1] = basePixels[pixelIndex + 1];
       data[pixelIndex + 2] = basePixels[pixelIndex + 2];
       data[pixelIndex + 3] = 255;
+    } else {
+      // Replace background
+      data[pixelIndex] = bgColorVal.r;
+      data[pixelIndex + 1] = bgColorVal.g;
+      data[pixelIndex + 2] = bgColorVal.b;
+      data[pixelIndex + 3] = 255 * transVal;
     }
   }
   ctx.putImageData(imageData, 0, 0);
