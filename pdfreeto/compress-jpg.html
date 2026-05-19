@@ -377,6 +377,7 @@ let cropImagesData = [];
 let currentIdx = 0;
 let currentAspect = 0;
 let isDragging = false;
+let dragMode = null;
 let dragStart = { x: 0, y: 0 };
 
 cropDz.addEventListener('click', () => cropInput.click());
@@ -469,37 +470,93 @@ function drawCrop() {
 
 // Drag on canvas
 cropCanvas.addEventListener('mousedown', (e) => {
-  isDragging = true;
+  if (!cropImagesData[currentIdx]) return;
+  
   const rect = cropCanvas.getBoundingClientRect();
   const img = cropImagesData[currentIdx].img;
-  const sx = cropCanvas.width / img.width, sy = cropCanvas.height / img.height;
-  dragStart = {
-    x: Math.round((e.clientX - rect.left) / sx),
-    y: Math.round((e.clientY - rect.top) / sy)
-  };
+  const data = cropImagesData[currentIdx].crops;
+  
+  const sx = cropCanvas.width / img.width;
+  const sy = cropCanvas.height / img.height;
+  
+  const mouseX = (e.clientX - rect.left) / sx;
+  const mouseY = (e.clientY - rect.top) / sy;
+  
+  // Check if clicking inside crop area
+  if (mouseX >= data.x && mouseX <= data.x + data.w &&
+      mouseY >= data.y && mouseY <= data.y + data.h) {
+    // Inside crop - move mode
+    isDragging = true;
+    dragMode = 'move';
+    dragStart = { x: mouseX - data.x, y: mouseY - data.y };
+  } else {
+    // Outside crop - new selection
+    isDragging = true;
+    dragMode = 'select';
+    dragStart = { x: mouseX, y: mouseY };
+  }
 });
 
 cropCanvas.addEventListener('mousemove', (e) => {
-  if (!isDragging) return;
+  if (!cropImagesData[currentIdx]) return;
+  
   const rect = cropCanvas.getBoundingClientRect();
   const img = cropImagesData[currentIdx].img;
-  const sx = cropCanvas.width / img.width, sy = cropCanvas.height / img.height;
-  const x = Math.round((e.clientX - rect.left) / sx);
-  const y = Math.round((e.clientY - rect.top) / sy);
+  const data = cropImagesData[currentIdx].crops;
   
-  cropImagesData[currentIdx].crops.x = Math.min(dragStart.x, x);
-  cropImagesData[currentIdx].crops.y = Math.min(dragStart.y, y);
-  cropImagesData[currentIdx].crops.w = Math.abs(x - dragStart.x);
-  cropImagesData[currentIdx].crops.h = Math.abs(y - dragStart.y);
+  const sx = cropCanvas.width / img.width;
+  const sy = cropCanvas.height / img.height;
   
-  if (currentAspect > 0) {
-    cropImagesData[currentIdx].crops.h = cropImagesData[currentIdx].crops.w / currentAspect;
+  const mouseX = (e.clientX - rect.left) / sx;
+  const mouseY = (e.clientY - rect.top) / sy;
+  
+  // Change cursor based on position
+  if (!isDragging) {
+    if (mouseX >= data.x && mouseX <= data.x + data.w &&
+        mouseY >= data.y && mouseY <= data.y + data.h) {
+      cropCanvas.style.cursor = 'move';
+    } else {
+      cropCanvas.style.cursor = 'crosshair';
+    }
+  }
+  
+  if (!isDragging) return;
+  
+  if (dragMode === 'move') {
+    // Move the crop box
+    const newX = mouseX - dragStart.x;
+    const newY = mouseY - dragStart.y;
+    
+    data.x = Math.max(0, Math.min(newX, img.width - data.w));
+    data.y = Math.max(0, Math.min(newY, img.height - data.h));
+  } else if (dragMode === 'select') {
+    // Create new crop selection
+    const w = mouseX - dragStart.x;
+    const h = mouseY - dragStart.y;
+    
+    data.x = Math.min(dragStart.x, mouseX);
+    data.y = Math.min(dragStart.y, mouseY);
+    data.w = Math.abs(w);
+    data.h = Math.abs(h);
+    
+    if (currentAspect > 0) {
+      data.h = Math.round(data.w / currentAspect);
+    }
   }
   
   drawCrop();
 });
 
-cropCanvas.addEventListener('mouseup', () => { isDragging = false; });
+cropCanvas.addEventListener('mouseup', () => { 
+  isDragging = false;
+  dragMode = null;
+});
+
+cropCanvas.addEventListener('mouseleave', () => {
+  isDragging = false;
+  dragMode = null;
+  cropCanvas.style.cursor = 'crosshair';
+});
 
 // Input listeners
 document.getElementById('crop-w').addEventListener('input', () => {
