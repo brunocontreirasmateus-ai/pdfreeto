@@ -233,16 +233,8 @@
       </div>
       
       <div class="options">
-        <div class="options-title">📐 Crop Position & Size</div>
+        <div class="options-title">📐 Crop Size</div>
         <div class="crop-grid">
-          <div class="crop-input">
-            <label>X (px)</label>
-            <input type="number" id="crop-x" min="0" value="0">
-          </div>
-          <div class="crop-input">
-            <label>Y (px)</label>
-            <input type="number" id="crop-y" min="0" value="0">
-          </div>
           <div class="crop-input">
             <label>Width (px)</label>
             <input type="number" id="crop-w" min="1" value="100">
@@ -268,20 +260,6 @@
         </div>
       </div>
       
-      <div class="options" style="margin-top: 20px;">
-        <div class="options-title">📏 Resize Output</div>
-        <div class="slider-row">
-          <label class="opt-label">Width</label>
-          <input type="number" id="resize-width" min="100" max="5000" value="1000">
-          <span class="slider-val">px</span>
-        </div>
-        <div class="slider-row">
-          <label class="opt-label">Height</label>
-          <input type="number" id="resize-height" value="auto" placeholder="auto (maintain ratio)">
-          <span class="slider-val">px</span>
-        </div>
-      </div>
-      
       <div class="crop-controls">
         <button class="crop-btn" onclick="rotateCrop()">↺ Rotate</button>
         <button class="crop-btn" onclick="flipH()">↔ Flip H</button>
@@ -289,7 +267,7 @@
         <button class="crop-btn" onclick="resetCrop()">Reset</button>
       </div>
       
-      <button class="convert-btn" id="crop-btn" disabled>CROP & RESIZE ALL IMAGES</button>
+      <button class="convert-btn" id="crop-btn" disabled>CROP ALL IMAGES</button>
       <div class="result-section" id="results-crop"></div>
     </div>
   </div>
@@ -478,8 +456,6 @@ function drawCrop() {
   ctx.strokeRect(cx, cy, cw, ch);
   
   // Update inputs
-  document.getElementById('crop-x').value = crops.x;
-  document.getElementById('crop-y').value = crops.y;
   document.getElementById('crop-w').value = crops.w;
   document.getElementById('crop-h').value = crops.h;
   
@@ -526,15 +502,28 @@ cropCanvas.addEventListener('mousemove', (e) => {
 cropCanvas.addEventListener('mouseup', () => { isDragging = false; });
 
 // Input listeners
-['crop-x', 'crop-y', 'crop-w', 'crop-h'].forEach(id => {
-  document.getElementById(id).addEventListener('input', () => {
-    const data = cropImagesData[currentIdx];
-    data.crops.x = parseInt(document.getElementById('crop-x').value) || 0;
-    data.crops.y = parseInt(document.getElementById('crop-y').value) || 0;
-    data.crops.w = parseInt(document.getElementById('crop-w').value) || 1;
-    data.crops.h = parseInt(document.getElementById('crop-h').value) || 1;
-    drawCrop();
-  });
+document.getElementById('crop-w').addEventListener('input', () => {
+  const w = parseInt(document.getElementById('crop-w').value) || 1;
+  const data = cropImagesData[currentIdx];
+  data.crops.w = w;
+  
+  if (currentAspect > 0) {
+    data.crops.h = Math.round(w / currentAspect);
+    document.getElementById('crop-h').value = data.crops.h;
+  }
+  drawCrop();
+});
+
+document.getElementById('crop-h').addEventListener('input', () => {
+  const h = parseInt(document.getElementById('crop-h').value) || 1;
+  const data = cropImagesData[currentIdx];
+  data.crops.h = h;
+  
+  if (currentAspect > 0) {
+    data.crops.w = Math.round(h * currentAspect);
+    document.getElementById('crop-w').value = data.crops.w;
+  }
+  drawCrop();
 });
 
 function prevImage() { currentIdx = Math.max(0, currentIdx - 1); drawCrop(); }
@@ -590,19 +579,16 @@ cropBtn.addEventListener('click', () => {
   results.innerHTML = '';
   results.classList.add('active');
   
-  const resizeW = parseInt(document.getElementById('resize-width').value) || 0;
-  const resizeH = document.getElementById('resize-height').value === 'auto' ? null : parseInt(document.getElementById('resize-height').value);
-  
   cropFiles.forEach((file, idx) => {
     const data = cropImagesData[idx];
     const { x, y, w, h } = data.crops;
     
     const canvas = document.createElement('canvas');
-    canvas.width = resizeW > 0 ? resizeW : w;
-    canvas.height = resizeH > 0 ? resizeH : (resizeW > 0 ? Math.round((h / w) * resizeW) : h);
+    canvas.width = w;
+    canvas.height = h;
     
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(data.img, x, y, w, h, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(data.img, x, y, w, h, 0, 0, w, h);
     
     canvas.toBlob(blob => {
       const item = document.createElement('div');
