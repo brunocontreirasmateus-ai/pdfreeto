@@ -237,11 +237,11 @@
         <div class="crop-grid">
           <div class="crop-input">
             <label>Width (px)</label>
-            <input type="number" id="crop-w" min="1" value="100">
+            <input type="number" id="crop-w" min="0" value="0">
           </div>
           <div class="crop-input">
             <label>Height (px)</label>
-            <input type="number" id="crop-h" min="1" value="100">
+            <input type="number" id="crop-h" min="0" value="0">
           </div>
         </div>
       </div>
@@ -403,7 +403,7 @@ function handleCropFiles(files) {
       img.onload = () => {
         cropImagesData[i] = {
           img: img,
-          crops: { x: 0, y: 0, w: img.width, h: img.height }
+          crops: { x: 0, y: 0, w: 0, h: 0 }
         };
         if (cropImagesData.filter(Boolean).length === cropFiles.length) {
           currentIdx = 0;
