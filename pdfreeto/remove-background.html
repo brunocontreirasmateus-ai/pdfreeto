@@ -323,10 +323,13 @@ async function processImage() {
     progressFill.style.width = '50%';
     canvas.width = originalImage.width;
     canvas.height = originalImage.height;
-    ctx.drawImage(originalImage, 0, 0);
     
     progressFill.style.width = '80%';
-    segmentation = await net.segmentPerson(originalImage);
+    segmentation = await net.segmentPerson(originalImage, {
+      flipHorizontal: false,
+      internalResolution: 'medium',
+      segmentationThreshold: 0.3
+    });
     
     progressFill.style.width = '100%';
     setTimeout(() => {
@@ -341,33 +344,35 @@ async function processImage() {
 
 function render() {
   if (!segmentation || !originalImage) return;
+  
   canvas.width = originalImage.width;
   canvas.height = originalImage.height;
-  const imageData = ctx.createImageData(canvas.width, canvas.height);
-  const data = imageData.data;
+  
+  // Draw original image
   ctx.drawImage(originalImage, 0, 0);
-  const baseData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  const basePixels = baseData.data;
+  
+  // Get image data
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const data = imageData.data;
+  
   const bgColorVal = hexToRgb(bgColor.value);
   const transVal = parseInt(transparency.value) / 100;
   
+  // Apply segmentation mask
   for (let i = 0; i < segmentation.data.length; i++) {
+    const alpha = segmentation.data[i]; // 0 to 1 where 1 is person
     const pixelIndex = i * 4;
-    // segmentation.data[i] > 0 means PERSON/FOREGROUND, 0 means BACKGROUND
-    if (segmentation.data[i] > 0) {
-      // Keep original foreground
-      data[pixelIndex] = basePixels[pixelIndex];
-      data[pixelIndex + 1] = basePixels[pixelIndex + 1];
-      data[pixelIndex + 2] = basePixels[pixelIndex + 2];
-      data[pixelIndex + 3] = 255;
-    } else {
-      // Replace background
+    
+    if (alpha === 0) {
+      // Background - replace completely
       data[pixelIndex] = bgColorVal.r;
       data[pixelIndex + 1] = bgColorVal.g;
       data[pixelIndex + 2] = bgColorVal.b;
-      data[pixelIndex + 3] = 255 * transVal;
+      data[pixelIndex + 3] = Math.round(255 * transVal);
     }
+    // else: alpha > 0 means person, keep original
   }
+  
   ctx.putImageData(imageData, 0, 0);
 }
 
