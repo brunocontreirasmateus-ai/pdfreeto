@@ -353,12 +353,24 @@ function handleCropFile(file) {
 function drawCropCanvas() {
   if (!cropImage) return;
   const rect = cropCanvas.parentElement.getBoundingClientRect();
-  cropCanvas.width = rect.width;
-  const ratio = cropImage.height / cropImage.width;
-  cropCanvas.height = Math.min(rect.width * ratio, 400);
+  const maxWidth = rect.width - 20;
+  const maxHeight = 400;
+  
+  // Manter proporção original da imagem
+  const imgRatio = cropImage.width / cropImage.height;
+  let displayWidth = maxWidth;
+  let displayHeight = maxWidth / imgRatio;
+  
+  if (displayHeight > maxHeight) {
+    displayHeight = maxHeight;
+    displayWidth = maxHeight * imgRatio;
+  }
+  
+  cropCanvas.width = displayWidth;
+  cropCanvas.height = displayHeight;
   
   const ctx = cropCanvas.getContext('2d');
-  ctx.drawImage(cropImage, 0, 0, cropCanvas.width, cropCanvas.height);
+  ctx.drawImage(cropImage, 0, 0, displayWidth, displayHeight);
 }
 
 function setCropAspect(ratio) {
@@ -368,40 +380,60 @@ function setCropAspect(ratio) {
 }
 
 function rotateCrop(deg) {
+  if (!cropImage) return;
   const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = cropCanvas.height;
-  canvas.height = cropCanvas.width;
-  ctx.translate(canvas.width / 2, canvas.height / 2);
-  ctx.rotate((deg * Math.PI) / 180);
-  ctx.drawImage(cropCanvas, -cropCanvas.width / 2, -cropCanvas.height / 2);
-  
-  const tempCanvas = document.createElement('canvas');
-  tempCanvas.width = canvas.width;
-  tempCanvas.height = canvas.height;
-  tempCanvas.getContext('2d').drawImage(canvas, 0, 0);
-  
-  cropCanvas.width = canvas.width;
-  cropCanvas.height = canvas.height;
-  cropCanvas.getContext('2d').drawImage(canvas, 0, 0);
+  const img = new Image();
+  img.onload = () => {
+    // Aplicar rotação à imagem original
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    
+    if (deg === -90 || deg === 270) {
+      tempCanvas.width = img.height;
+      tempCanvas.height = img.width;
+      tempCtx.translate(tempCanvas.width, 0);
+      tempCtx.rotate((90 * Math.PI) / 180);
+    } else if (deg === 90) {
+      tempCanvas.width = img.height;
+      tempCanvas.height = img.width;
+      tempCtx.translate(0, tempCanvas.height);
+      tempCtx.rotate((-90 * Math.PI) / 180);
+    }
+    tempCtx.drawImage(img, 0, 0);
+    cropImage = tempCanvas;
+    drawCropCanvas();
+  };
+  img.src = cropImage.src || cropCanvas.toDataURL();
 }
 
 function flipCropH() {
-  const ctx = cropCanvas.getContext('2d');
-  ctx.translate(cropCanvas.width, 0);
+  if (!cropImage) return;
+  const canvas = document.createElement('canvas');
+  canvas.width = cropImage.width;
+  canvas.height = cropImage.height;
+  const ctx = canvas.getContext('2d');
   ctx.scale(-1, 1);
-  ctx.drawImage(cropCanvas, 0, 0);
+  ctx.drawImage(cropImage, -canvas.width, 0);
+  cropImage = canvas;
+  drawCropCanvas();
 }
 
 function flipCropV() {
-  const ctx = cropCanvas.getContext('2d');
-  ctx.translate(0, cropCanvas.height);
+  if (!cropImage) return;
+  const canvas = document.createElement('canvas');
+  canvas.width = cropImage.width;
+  canvas.height = cropImage.height;
+  const ctx = canvas.getContext('2d');
   ctx.scale(1, -1);
-  ctx.drawImage(cropCanvas, 0, 0);
+  ctx.drawImage(cropImage, 0, -canvas.height);
+  cropImage = canvas;
+  drawCropCanvas();
 }
 
 function resetCrop() {
-  if (cropImage) drawCropCanvas();
+  if (cropInput.files[0]) {
+    handleCropFile(cropInput.files[0]);
+  }
 }
 
 cropBtn.addEventListener('click', () => {
