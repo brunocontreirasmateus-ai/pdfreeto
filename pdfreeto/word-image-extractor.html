@@ -27,20 +27,59 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
   body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px); background-size: 60px 60px; }
-  header { position: relative; z-index: 100; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 16px; }
+  
+  /* HEADER STYLES */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
   .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
   .logo span { color: var(--accent); }
+
+  /* Dropdown */
   .nav-dropdown { position: relative; flex-shrink: 0; }
-  .nav-toggle { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
   .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
   .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
   .nav-toggle.open .arrow { transform: rotate(180deg); }
-  .nav-menu { display: none; position: absolute; top: calc(100% + 8px); left: 0; background: var(--surface); border: 1px solid var(--border); min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
   .nav-menu.open { display: block; }
-  .nav-menu a { display: block; padding: 10px 16px; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); transition: all 0.15s; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
   .nav-menu a:last-child { border-bottom: none; }
   .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
   .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .blog-btn.active { border-color: var(--accent); color: var(--accent); }
+
+  /* MAIN CONTENT STYLES */
   .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
   .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
   .hero h1 .hl { color: var(--accent); }
@@ -70,7 +109,7 @@
   .result-section { margin-top: 24px; display: none; }
   .result-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
   .images-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; margin-bottom: 20px; }
-  .image-item { border: 1px solid var(--border); background: var(--surface2); padding: 8px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .image-item { border: 1px solid var(--border); background: var(--surface2); padding: 8px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
   .image-item img { max-width: 100%; max-height: 100%; object-fit: contain; }
   .result-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(232,255,60,0.05); border: 1px solid rgba(232,255,60,0.2); margin-bottom: 8px; }
   .result-name { font-family: var(--mono); font-size: 0.78rem; color: var(--text); }
@@ -85,23 +124,41 @@
   .footer-links a:hover { color: var(--accent); }
   .footer-sep { color: var(--border); font-family: var(--mono); font-size: 0.65rem; }
   .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-  @media (max-width: 640px) { header { padding: 12px 20px; } .hero { padding: 40px 20px 24px; } .content { padding: 24px 20px 60px; } .dz-icon { font-size: 2rem; } .dz-title { font-size: 1.4rem; } }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
+  }
 </style>
 </head>
 <body>
+
 <header>
-  <a href="/" class="logo">PDF<span>reet</span>o</a>
+  <a href="/" class="logo">PDF<span>reeto</span></a>
+
   <div class="nav-dropdown">
-    <button class="nav-toggle" id="nav-btn">Tools <span class="arrow">▼</span></button>
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">All <span class="arrow">▾</span></button>
     <div class="nav-menu" id="nav-menu">
-      <a href="/">JPG to PDF</a>
-      <a href="/compress-pdf.html">Compress PDF</a>
-      <a href="/compress-jpg.html">Compress JPG</a>
-      <a href="/merge-pdf.html">Merge PDF</a>
-      <a href="/merge-jpg.html">Merge JPG</a>
-      <a href="/pdf-to-word.html">PDF to Word</a>
-      <a href="/word-image-extractor.html" class="active">Extract Images</a>
+    <a href="/"  class=active>JPG ↔ PDF</a>
+    <a href="/pdf-to-word.html"  class=active>Word to PDF</a>
+    <a href="/word-image-extractor.html"  class=active>Extract Images</a>
+    <a href="/compress-pdf.html"  class=active>Compress PDF</a>
+    <a href="/compress-jpg.html"  class=active>Compress JPG</a>
+    <a href="/merge-jpg.html"  class=active>Merge JPG</a>
+    <a href="/merge-pdf.html"  class=active>Merge PDF</a>
+    <a href="/tts.html"  class=active>Text to Speech</a>
+    <a href="/pdf-ai.html"  class=active>PDF AI</a>
+    <a href="/social-media.html"  class=active>Social Media</a>
+    <a href="/seo.html"  class=active>SEO</a>
     </div>
+  </div>
+
+  <a href="/blog/" class="blog-btn">Blog</a>
+  <div class="lang-switcher">
+    
+<a href="/" class="lang-btn  active">EN</a>    <a href="/pt/" class="lang-btn">PT</a>    <a href="/br/" class="lang-btn">BR</a>    <a href="/es/" class="lang-btn">ES</a>    <a href="/fr/" class="lang-btn">FR</a>    <a href="/de/" class="lang-btn">DE</a>
   </div>
 </header>
 
@@ -149,16 +206,33 @@
 
 <footer>
   <div class="footer-links">
-    <a href="/">Home</a>
-    <span class="footer-sep">—</span>
-    <a href="/compress-pdf.html">Compress</a>
-    <span class="footer-sep">—</span>
-    <a href="/merge-pdf.html">Merge</a>
+    <a href="pdf-to-word.html">Convert Word to PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="word-image-extractor.html">Extract Images</a>
+    <span class="footer-sep">·</span>
+    <a href="compress-pdf.html">Compress PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="compress-jpg.html">Compress JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="merge-jpg.html">Merge JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="merge-pdf.html">Merge PDF</a>
   </div>
   <div class="footer-note">© 2026 PDFreeto — 100% Browser-Based • No Uploads • Completely Private</div>
 </footer>
 
 <script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+
   let allImages = [];
   let selectedFile = null;
 
@@ -172,13 +246,6 @@
   const imagesGrid = document.getElementById('images-grid');
   const resultList = document.getElementById('result-list');
   const fileList = document.getElementById('file-list');
-  const navBtn = document.getElementById('nav-btn');
-  const navMenu = document.getElementById('nav-menu');
-
-  navBtn.addEventListener('click', () => {
-    navBtn.classList.toggle('open');
-    navMenu.classList.toggle('open');
-  });
 
   dz.addEventListener('click', () => inp.click());
   dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragging'); });
