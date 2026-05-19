@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EXHT3PYZF8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EXHT3PYZF8');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remove Background with AI Free — PDFreeto</title>
+<meta name="description" content="Remove image backgrounds instantly with AI. Perfect for product photos, listings, and profiles. 100% browser-based and private.">
+<link rel="canonical" href="https://pdfreeto.com/remove-background.html">
+<link rel="alternate" hreflang="en" href="https://pdfreeto.com/remove-background.html">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<script async src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0"></script>
+<script async src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.2.0"></script>
+<style>
+  :root { --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a; --border: #2a2a2a; --accent: #e8ff3c; --accent2: #ff5533; --text: #f0ede6; --muted: #666; --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px); background-size: 60px 60px; }
+  
+  /* HEADER STYLES */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* MAIN CONTENT */
+  .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
+  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  
+  .content { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 36px 40px 80px; }
+  
+  .drop-zone { border: 2px dashed var(--border); padding: 60px 40px; text-align: center; cursor: pointer; transition: all 0.25s; background: var(--surface); overflow: hidden; position: relative; }
+  .drop-zone::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 60%, rgba(232,255,60,0.04)); pointer-events: none; }
+  .drop-zone:hover, .drop-zone.dragging { border-color: var(--accent); background: rgba(232,255,60,0.04); }
+  .drop-zone:hover .dz-icon, .drop-zone.dragging .dz-icon { transform: scale(1.1) translateY(-4px); color: var(--accent); }
+  .dz-icon { font-size: 3rem; margin-bottom: 16px; display: block; color: var(--muted); transition: all 0.3s; }
+  .dz-title { font-family: var(--display); font-size: 1.8rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 8px; }
+  .dz-sub { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  input[type="file"] { display: none; }
+  
+  .editor-wrap { margin-top: 36px; display: none; }
+  .editor-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  
+  .canvas-container { position: relative; background: var(--surface); border: 1px solid var(--border); margin-bottom: 20px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  canvas { max-width: 100%; max-height: 500px; display: block; }
+  
+  .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+  .control-group { display: flex; flex-direction: column; gap: 8px; }
+  .control-group label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .control-group input[type="color"], .control-group input[type="range"] { background: var(--surface); border: 1px solid var(--border); padding: 8px; color: var(--text); }
+  .control-group input[type="range"] { cursor: pointer; }
+  
+  .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { padding: 12px 20px; background: none; border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-primary { background: var(--accent); color: #0a0a0a; border-color: var(--accent); }
+  .btn-primary:hover { background: #d4e61a; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  
+  .progress-wrap { display: none; margin-bottom: 20px; }
+  .progress-bar { height: 3px; background: var(--border); overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .progress-text { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-align: center; letter-spacing: 0.1em; text-transform: uppercase; }
+  
+  .seo-block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .seo-block h2 { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px; }
+  .seo-block p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  
+  footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
+  .footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-sep { color: var(--border); font-family: var(--mono); font-size: 0.65rem; }
+  .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .controls { grid-template-columns: 1fr; }
+    .dz-icon { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">PDF<span>reeto</span></a>
+
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">All <span class="arrow">▾</span></button>
+    <div class="nav-menu" id="nav-menu">
+    <a href="/"  class=active>JPG ↔ PDF</a>
+    <a href="/pdf-to-word.html"  class=active>Word to PDF</a>
+    <a href="/word-image-extractor.html"  class=active>Extract Images</a>
+    <a href="/remove-background.html"  class=active>Remove Background</a>
+    <a href="/compress-pdf.html"  class=active>Compress PDF</a>
+    <a href="/compress-jpg.html"  class=active>Compress JPG</a>
+    <a href="/merge-jpg.html"  class=active>Merge JPG</a>
+    <a href="/merge-pdf.html"  class=active>Merge PDF</a>
+    <a href="/tts.html"  class=active>Text to Speech</a>
+    <a href="/pdf-ai.html"  class=active>PDF AI</a>
+    <a href="/social-media.html"  class=active>Social Media</a>
+    <a href="/seo.html"  class=active>SEO</a>
+    </div>
+  </div>
+
+  <a href="/blog/" class="blog-btn">Blog</a>
+  <div class="lang-switcher">
+    <a href="/" class="lang-btn  active">EN</a>
+    <a href="/pt/" class="lang-btn">PT</a>
+    <a href="/br/" class="lang-btn">BR</a>
+    <a href="/es/" class="lang-btn">ES</a>
+    <a href="/fr/" class="lang-btn">FR</a>
+    <a href="/de/" class="lang-btn">DE</a>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Remove <span class="hl">Backgrounds</span> Instantly</h1>
+  <p>Perfect for product photos, listings, and profiles. No photoshoot, no agency, no wait.</p>
+</div>
+
+<div class="content">
+  <div class="drop-zone" id="drop-zone">
+    <span class="dz-icon">🎨</span>
+    <div class="dz-title">Drop Image Here</div>
+    <div class="dz-sub">Or click to browse (JPG, PNG, WebP — max 20 MB)</div>
+  </div>
+  <input type="file" id="file-input" accept="image/jpeg,image/jpg,image/png,image/webp">
+  
+  <div class="editor-wrap" id="editor-wrap">
+    <div class="editor-title">EDITOR</div>
+    
+    <div class="progress-wrap" id="progress">
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="progress-text" id="progress-text">Processing image...</div>
+    </div>
+    
+    <div class="canvas-container" id="canvas-container">
+      <canvas id="output-canvas"></canvas>
+    </div>
+    
+    <div class="controls">
+      <div class="control-group">
+        <label>Background Color</label>
+        <input type="color" id="bg-color" value="#ffffff">
+      </div>
+      <div class="control-group">
+        <label>Blur Background</label>
+        <input type="range" id="blur-amount" min="0" max="50" value="0">
+      </div>
+      <div class="control-group">
+        <label>Transparency</label>
+        <input type="range" id="transparency" min="0" max="100" value="100">
+      </div>
+    </div>
+    
+    <div class="btn-group">
+      <button class="btn btn-primary" id="download-btn">DOWNLOAD PNG</button>
+      <button class="btn" id="reset-btn">RESET</button>
+      <button class="btn" id="remove-again-btn">REMOVE ANOTHER</button>
+    </div>
+  </div>
+
+  <div class="seo-block">
+    <h2>Why Use PDFreeto?</h2>
+    <p><strong>Instant Results:</strong> Remove backgrounds from product photos, e-commerce listings, and social media images in seconds. AI-powered, no manual editing needed.</p>
+    <p><strong>100% Private:</strong> All processing happens in your browser. Your images never touch our servers or leave your device.</p>
+    <p><strong>No Watermarks:</strong> Get clean, professional results without any branding or watermarks added to your images.</p>
+    <p><strong>Multiple Formats:</strong> Download as PNG with transparency, or composite on any color background. Perfect for any use case.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="pdf-to-word.html">Word to PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="word-image-extractor.html">Extract Images</a>
+    <span class="footer-sep">·</span>
+    <a href="remove-background.html">Remove Background</a>
+    <span class="footer-sep">·</span>
+    <a href="compress-pdf.html">Compress PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="compress-jpg.html">Compress JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="merge-jpg.html">Merge JPG</a>
+  </div>
+  <div class="footer-note">© 2026 PDFreeto — 100% Browser-Based • No Uploads • Completely Private</div>
+</footer>
+
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+
+let net = null;
+let originalImage = null;
+let segmentation = null;
+
+const dz = document.getElementById('drop-zone');
+const inp = document.getElementById('file-input');
+const editorWrap = document.getElementById('editor-wrap');
+const canvas = document.getElementById('output-canvas');
+const ctx = canvas.getContext('2d');
+const bgColor = document.getElementById('bg-color');
+const blurAmount = document.getElementById('blur-amount');
+const transparency = document.getElementById('transparency');
+const downloadBtn = document.getElementById('download-btn');
+const resetBtn = document.getElementById('reset-btn');
+const removeAgainBtn = document.getElementById('remove-again-btn');
+const progress = document.getElementById('progress');
+const progressFill = document.getElementById('progress-fill');
+const progressText = document.getElementById('progress-text');
+
+// Initialize BodyPix
+async function initModel() {
+  try {
+    net = await bodyPix.load({
+      architecture: 'MobileNetV1',
+      outputStride: 16,
+      multiplier: 0.5,
+      quantBytes: 2,
+    });
+  } catch (e) {
+    console.error('Failed to load model:', e);
+  }
+}
+
+initModel();
+
+dz.addEventListener('click', () => inp.click());
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragging'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('dragging'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragging'); setImage(e.dataTransfer.files[0]); });
+inp.addEventListener('change', () => setImage(inp.files[0]));
+
+function setImage(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      originalImage = img;
+      removeBackground();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function removeBackground() {
+  if (!originalImage || !net) {
+    alert('Model not loaded. Please wait...');
+    return;
+  }
+  
+  dz.style.display = 'none';
+  editorWrap.style.display = 'block';
+  progress.style.display = 'block';
+  progressFill.style.width = '0%';
+  progressText.textContent = 'Loading image...';
+  
+  try {
+    progressFill.style.width = '30%';
+    canvas.width = originalImage.width;
+    canvas.height = originalImage.height;
+    ctx.drawImage(originalImage, 0, 0);
+    
+    progressFill.style.width = '60%';
+    progressText.textContent = 'Analyzing image...';
+    
+    segmentation = await net.segmentPerson(originalImage, {
+      flipHorizontal: false,
+      internalResolution: 'medium',
+      segmentationThreshold: 0.5,
+    });
+    
+    progressFill.style.width = '100%';
+    progressText.textContent = 'Done!';
+    
+    setTimeout(() => {
+      progress.style.display = 'none';
+      render();
+    }, 500);
+  } catch (e) {
+    console.error('Error:', e);
+    progressText.textContent = 'Error processing image';
+  }
+}
+
+function render() {
+  if (!segmentation || !originalImage) return;
+  
+  canvas.width = originalImage.width;
+  canvas.height = originalImage.height;
+  
+  const imageData = ctx.createImageData(canvas.width, canvas.height);
+  const data = imageData.data;
+  
+  ctx.drawImage(originalImage, 0, 0);
+  const baseData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const basePixels = baseData.data;
+  
+  const bgColorVal = hexToRgb(bgColor.value);
+  const blurVal = parseInt(blurAmount.value);
+  const transVal = parseInt(transparency.value) / 100;
+  
+  for (let i = 0; i < segmentation.data.length; i++) {
+    const segValue = segmentation.data[i];
+    const pixelIndex = i * 4;
+    
+    if (segValue === 0) {
+      // Background
+      if (blurVal > 0) {
+        data[pixelIndex] = Math.round(basePixels[pixelIndex] * 0.7 + bgColorVal.r * 0.3);
+        data[pixelIndex + 1] = Math.round(basePixels[pixelIndex + 1] * 0.7 + bgColorVal.g * 0.3);
+        data[pixelIndex + 2] = Math.round(basePixels[pixelIndex + 2] * 0.7 + bgColorVal.b * 0.3);
+      } else {
+        data[pixelIndex] = bgColorVal.r;
+        data[pixelIndex + 1] = bgColorVal.g;
+        data[pixelIndex + 2] = bgColorVal.b;
+      }
+      data[pixelIndex + 3] = 255 * transVal;
+    } else {
+      // Foreground - keep original
+      data[pixelIndex] = basePixels[pixelIndex];
+      data[pixelIndex + 1] = basePixels[pixelIndex + 1];
+      data[pixelIndex + 2] = basePixels[pixelIndex + 2];
+      data[pixelIndex + 3] = 255;
+    }
+  }
+  
+  ctx.putImageData(imageData, 0, 0);
+}
+
+function hexToRgb(hex) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : { r: 255, g: 255, b: 255 };
+}
+
+bgColor.addEventListener('change', render);
+blurAmount.addEventListener('input', render);
+transparency.addEventListener('input', render);
+
+downloadBtn.addEventListener('click', () => {
+  const link = document.createElement('a');
+  link.href = canvas.toDataURL('image/png');
+  link.download = 'no-background-' + Date.now() + '.png';
+  link.click();
+});
+
+resetBtn.addEventListener('click', () => {
+  if (originalImage) removeBackground();
+});
+
+removeAgainBtn.addEventListener('click', () => {
+  dz.style.display = 'block';
+  editorWrap.style.display = 'none';
+  inp.value = '';
+  originalImage = null;
+  segmentation = null;
+});
+</script>
+</body>
+</html>
