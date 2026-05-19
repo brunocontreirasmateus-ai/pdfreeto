@@ -244,6 +244,10 @@
             <input type="number" id="crop-h" min="0" value="0">
           </div>
         </div>
+        <div style="margin-top: 12px; display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="apply-all-images" style="width: 16px; height: 16px; cursor: pointer;">
+          <label for="apply-all-images" style="font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;">Apply to All Images</label>
+        </div>
       </div>
       
       <div class="options" style="margin-top: 20px;">
@@ -560,32 +564,65 @@ cropCanvas.addEventListener('mouseleave', () => {
 
 // Input listeners
 document.getElementById('crop-w').addEventListener('input', () => {
-  const w = parseInt(document.getElementById('crop-w').value) || 1;
-  const data = cropImagesData[currentIdx];
-  data.crops.w = w;
+  const w = parseInt(document.getElementById('crop-w').value) || 0;
+  const applyAll = document.getElementById('apply-all-images').checked;
   
-  if (currentAspect > 0) {
-    data.crops.h = Math.round(w / currentAspect);
-    document.getElementById('crop-h').value = data.crops.h;
+  if (applyAll) {
+    // Apply to all images
+    cropImagesData.forEach(data => {
+      if (data) {
+        data.crops.w = w;
+        if (currentAspect > 0) {
+          data.crops.h = Math.round(w / currentAspect);
+        }
+      }
+    });
+  } else {
+    // Apply only to current image
+    const data = cropImagesData[currentIdx];
+    data.crops.w = w;
+    if (currentAspect > 0) {
+      data.crops.h = Math.round(w / currentAspect);
+      document.getElementById('crop-h').value = data.crops.h;
+    }
   }
+  
   drawCrop();
 });
 
 document.getElementById('crop-h').addEventListener('input', () => {
-  const h = parseInt(document.getElementById('crop-h').value) || 1;
-  const data = cropImagesData[currentIdx];
-  data.crops.h = h;
+  const h = parseInt(document.getElementById('crop-h').value) || 0;
+  const applyAll = document.getElementById('apply-all-images').checked;
   
-  if (currentAspect > 0) {
-    data.crops.w = Math.round(h * currentAspect);
-    document.getElementById('crop-w').value = data.crops.w;
+  if (applyAll) {
+    // Apply to all images
+    cropImagesData.forEach(data => {
+      if (data) {
+        data.crops.h = h;
+        if (currentAspect > 0) {
+          data.crops.w = Math.round(h * currentAspect);
+        }
+      }
+    });
+  } else {
+    // Apply only to current image
+    const data = cropImagesData[currentIdx];
+    data.crops.h = h;
+    if (currentAspect > 0) {
+      data.crops.w = Math.round(h * currentAspect);
+      document.getElementById('crop-w').value = data.crops.w;
+    }
   }
+  
   drawCrop();
 });
 
 function prevImage() { currentIdx = Math.max(0, currentIdx - 1); drawCrop(); }
 function nextImage() { currentIdx = Math.min(cropFiles.length - 1, currentIdx + 1); drawCrop(); }
-function setAspect(ratio) {
+document.getElementById('apply-all-images').addEventListener('change', () => {
+  // When checkbox state changes, update display
+  drawCrop();
+});
   currentAspect = ratio;
   document.querySelectorAll('.aspect-btn').forEach(b => b.classList.remove('active'));
   event.target.classList.add('active');
