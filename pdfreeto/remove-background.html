@@ -14,17 +14,13 @@
 <title>Remove Background with AI Free — PDFreeto</title>
 <meta name="description" content="Remove image backgrounds instantly with AI. Perfect for product photos, listings, and profiles. 100% browser-based and private.">
 <link rel="canonical" href="https://pdfreeto.com/remove-background.html">
-<link rel="alternate" hreflang="en" href="https://pdfreeto.com/remove-background.html">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-<script async src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0"></script>
-<script async src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.2.0"></script>
 <style>
   :root { --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a; --border: #2a2a2a; --accent: #e8ff3c; --accent2: #ff5533; --text: #f0ede6; --muted: #666; --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
   body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px); background-size: 60px 60px; }
   
-  /* HEADER STYLES */
   header {
     position: relative; z-index: 100;
     padding: 16px 40px;
@@ -34,7 +30,6 @@
   }
   .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
   .logo span { color: var(--accent); }
-
   .nav-dropdown { position: relative; flex-shrink: 0; }
   .nav-toggle {
     font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
@@ -59,7 +54,6 @@
   .nav-menu a:last-child { border-bottom: none; }
   .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
   .nav-menu a.active { color: var(--accent); }
-
   .lang-switcher { display: flex; align-items: center; gap: 4px; }
   .lang-btn {
     font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
@@ -68,11 +62,9 @@
   }
   .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
   .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
-
   .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
   .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* MAIN CONTENT */
   .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
   .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
   .hero h1 .hl { color: var(--accent); }
@@ -136,7 +128,6 @@
 
 <header>
   <a href="/" class="logo">PDF<span>reeto</span></a>
-
   <div class="nav-dropdown">
     <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">All <span class="arrow">▾</span></button>
     <div class="nav-menu" id="nav-menu">
@@ -154,7 +145,6 @@
     <a href="/seo.html"  class=active>SEO</a>
     </div>
   </div>
-
   <a href="/blog/" class="blog-btn">Blog</a>
   <div class="lang-switcher">
     <a href="/" class="lang-btn  active">EN</a>
@@ -181,31 +171,23 @@
   
   <div class="editor-wrap" id="editor-wrap">
     <div class="editor-title">EDITOR</div>
-    
     <div class="progress-wrap" id="progress">
       <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-      <div class="progress-text" id="progress-text">Processing image...</div>
+      <div class="progress-text" id="progress-text">Loading AI model...</div>
     </div>
-    
     <div class="canvas-container" id="canvas-container">
       <canvas id="output-canvas"></canvas>
     </div>
-    
     <div class="controls">
       <div class="control-group">
         <label>Background Color</label>
         <input type="color" id="bg-color" value="#ffffff">
       </div>
       <div class="control-group">
-        <label>Blur Background</label>
-        <input type="range" id="blur-amount" min="0" max="50" value="0">
-      </div>
-      <div class="control-group">
         <label>Transparency</label>
         <input type="range" id="transparency" min="0" max="100" value="100">
       </div>
     </div>
-    
     <div class="btn-group">
       <button class="btn btn-primary" id="download-btn">DOWNLOAD PNG</button>
       <button class="btn" id="reset-btn">RESET</button>
@@ -239,11 +221,15 @@
   <div class="footer-note">© 2026 PDFreeto — 100% Browser-Based • No Uploads • Completely Private</div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.2.0"></script>
+
 <script>
 function toggleMenu() {
   document.getElementById('nav-toggle').classList.toggle('open');
   document.getElementById('nav-menu').classList.toggle('open');
 }
+
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.nav-dropdown')) {
     document.getElementById('nav-toggle').classList.remove('open');
@@ -252,6 +238,7 @@ document.addEventListener('click', function(e) {
 });
 
 let net = null;
+let modelReady = false;
 let originalImage = null;
 let segmentation = null;
 
@@ -261,7 +248,6 @@ const editorWrap = document.getElementById('editor-wrap');
 const canvas = document.getElementById('output-canvas');
 const ctx = canvas.getContext('2d');
 const bgColor = document.getElementById('bg-color');
-const blurAmount = document.getElementById('blur-amount');
 const transparency = document.getElementById('transparency');
 const downloadBtn = document.getElementById('download-btn');
 const resetBtn = document.getElementById('reset-btn');
@@ -270,139 +256,124 @@ const progress = document.getElementById('progress');
 const progressFill = document.getElementById('progress-fill');
 const progressText = document.getElementById('progress-text');
 
-// Initialize BodyPix
-async function initModel() {
+// Load model
+async function loadModel() {
   try {
+    progress.style.display = 'block';
+    progressText.textContent = 'Initializing AI model...';
+    progressFill.style.width = '30%';
+    
     net = await bodyPix.load({
       architecture: 'MobileNetV1',
       outputStride: 16,
       multiplier: 0.5,
       quantBytes: 2,
     });
+    
+    progressFill.style.width = '100%';
+    progressText.textContent = 'Ready!';
+    modelReady = true;
+    
+    setTimeout(() => {
+      progress.style.display = 'none';
+      dz.style.opacity = '1';
+      dz.style.pointerEvents = 'auto';
+    }, 500);
   } catch (e) {
-    console.error('Failed to load model:', e);
+    console.error('Error loading model:', e);
+    progressText.textContent = 'Error. Please refresh page.';
   }
 }
 
-initModel();
+window.addEventListener('load', loadModel);
 
-dz.addEventListener('click', () => inp.click());
+dz.addEventListener('click', () => !modelReady ? alert('AI still loading...') : inp.click());
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragging'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('dragging'));
-dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragging'); setImage(e.dataTransfer.files[0]); });
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.classList.remove('dragging');
+  if (modelReady) setImage(e.dataTransfer.files[0]);
+  else alert('AI still loading...');
+});
 inp.addEventListener('change', () => setImage(inp.files[0]));
 
 function setImage(file) {
   if (!file || !file.type.startsWith('image/')) return;
-  
   const reader = new FileReader();
   reader.onload = (e) => {
     const img = new Image();
     img.onload = () => {
       originalImage = img;
-      removeBackground();
+      processImage();
     };
     img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
 
-async function removeBackground() {
-  if (!originalImage || !net) {
-    alert('Model not loaded. Please wait...');
-    return;
-  }
-  
+async function processImage() {
   dz.style.display = 'none';
   editorWrap.style.display = 'block';
   progress.style.display = 'block';
   progressFill.style.width = '0%';
-  progressText.textContent = 'Loading image...';
+  progressText.textContent = 'Processing...';
   
   try {
-    progressFill.style.width = '30%';
+    progressFill.style.width = '50%';
     canvas.width = originalImage.width;
     canvas.height = originalImage.height;
     ctx.drawImage(originalImage, 0, 0);
     
-    progressFill.style.width = '60%';
-    progressText.textContent = 'Analyzing image...';
-    
-    segmentation = await net.segmentPerson(originalImage, {
-      flipHorizontal: false,
-      internalResolution: 'medium',
-      segmentationThreshold: 0.5,
-    });
+    progressFill.style.width = '80%';
+    segmentation = await net.segmentPerson(originalImage);
     
     progressFill.style.width = '100%';
-    progressText.textContent = 'Done!';
-    
     setTimeout(() => {
       progress.style.display = 'none';
       render();
-    }, 500);
+    }, 300);
   } catch (e) {
-    console.error('Error:', e);
-    progressText.textContent = 'Error processing image';
+    console.error(e);
+    progressText.textContent = 'Error processing';
   }
 }
 
 function render() {
   if (!segmentation || !originalImage) return;
-  
   canvas.width = originalImage.width;
   canvas.height = originalImage.height;
-  
   const imageData = ctx.createImageData(canvas.width, canvas.height);
   const data = imageData.data;
-  
   ctx.drawImage(originalImage, 0, 0);
   const baseData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const basePixels = baseData.data;
-  
   const bgColorVal = hexToRgb(bgColor.value);
-  const blurVal = parseInt(blurAmount.value);
   const transVal = parseInt(transparency.value) / 100;
   
   for (let i = 0; i < segmentation.data.length; i++) {
-    const segValue = segmentation.data[i];
     const pixelIndex = i * 4;
-    
-    if (segValue === 0) {
-      // Background
-      if (blurVal > 0) {
-        data[pixelIndex] = Math.round(basePixels[pixelIndex] * 0.7 + bgColorVal.r * 0.3);
-        data[pixelIndex + 1] = Math.round(basePixels[pixelIndex + 1] * 0.7 + bgColorVal.g * 0.3);
-        data[pixelIndex + 2] = Math.round(basePixels[pixelIndex + 2] * 0.7 + bgColorVal.b * 0.3);
-      } else {
-        data[pixelIndex] = bgColorVal.r;
-        data[pixelIndex + 1] = bgColorVal.g;
-        data[pixelIndex + 2] = bgColorVal.b;
-      }
+    if (segmentation.data[i] === 0) {
+      data[pixelIndex] = bgColorVal.r;
+      data[pixelIndex + 1] = bgColorVal.g;
+      data[pixelIndex + 2] = bgColorVal.b;
       data[pixelIndex + 3] = 255 * transVal;
     } else {
-      // Foreground - keep original
       data[pixelIndex] = basePixels[pixelIndex];
       data[pixelIndex + 1] = basePixels[pixelIndex + 1];
       data[pixelIndex + 2] = basePixels[pixelIndex + 2];
       data[pixelIndex + 3] = 255;
     }
   }
-  
   ctx.putImageData(imageData, 0, 0);
 }
 
 function hexToRgb(hex) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : { r: 255, g: 255, b: 255 };
+  return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : { r: 255, g: 255, b: 255 };
 }
 
 bgColor.addEventListener('change', render);
-blurAmount.addEventListener('input', render);
 transparency.addEventListener('input', render);
 
 downloadBtn.addEventListener('click', () => {
@@ -412,9 +383,7 @@ downloadBtn.addEventListener('click', () => {
   link.click();
 });
 
-resetBtn.addEventListener('click', () => {
-  if (originalImage) removeBackground();
-});
+resetBtn.addEventListener('click', () => originalImage && processImage());
 
 removeAgainBtn.addEventListener('click', () => {
   dz.style.display = 'block';
