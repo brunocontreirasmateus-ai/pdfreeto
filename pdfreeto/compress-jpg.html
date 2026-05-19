@@ -181,22 +181,18 @@
   <!-- CROP TAB -->
   <div class="tab-panel" id="crop-panel">
     <div class="drop-zone" id="dz-crop">
-      <span class="dz-icon">🎨</span>
-      <div class="dz-title">Drop Image to Crop</div>
-      <div class="dz-sub">JPG, PNG, WebP</div>
+      <span class="dz-icon">✂️</span>
+      <div class="dz-title">Drop Images to Crop</div>
+      <div class="dz-sub">Multiple images supported — JPG, PNG, WebP</div>
     </div>
-    <input type="file" id="file-input-crop" accept="image/*">
+    <input type="file" id="file-input-crop" accept="image/*" multiple>
     <div class="file-list" id="file-list-crop"></div>
     
     <div class="crop-editor" id="crop-editor">
-      <div class="crop-canvas-wrap">
-        <canvas id="crop-canvas"></canvas>
-      </div>
-      
       <div class="options">
         <div class="options-title">📐 Aspect Ratio</div>
         <div class="aspect-grid">
-          <button class="aspect-btn" onclick="setCropAspect(0)">Free</button>
+          <button class="aspect-btn active" onclick="setCropAspect(0)">Free</button>
           <button class="aspect-btn" onclick="setCropAspect(1)">1:1</button>
           <button class="aspect-btn" onclick="setCropAspect(16/9)">16:9</button>
           <button class="aspect-btn" onclick="setCropAspect(4/3)">4:3</button>
@@ -207,6 +203,26 @@
         </div>
       </div>
       
+      <div style="margin-top: 20px;">
+        <div class="options-title">🖱️ DRAG TO SELECT CROP AREA</div>
+        <div class="crop-canvas-wrap">
+          <canvas id="crop-canvas"></canvas>
+        </div>
+      </div>
+      
+      <div class="options" style="margin-top: 20px;">
+        <div class="options-title">📏 Resize Image</div>
+        <div class="slider-row">
+          <label class="opt-label">Width</label>
+          <input type="number" id="resize-width" min="100" max="5000" value="1000" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);">
+          <span class="slider-val" style="min-width: auto;">px</span>
+        </div>
+        <div class="slider-row">
+          <label class="opt-label">Height</label>
+          <input type="number" id="resize-height" min="100" max="5000" value="auto" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);" placeholder="auto (maintain ratio)">
+        </div>
+      </div>
+      
       <div class="crop-controls">
         <button class="crop-btn" onclick="rotateCrop(-90)">↺ Rotate</button>
         <button class="crop-btn" onclick="flipCropH()">↔ Flip H</button>
@@ -214,9 +230,9 @@
         <button class="crop-btn" onclick="resetCrop()">Reset</button>
       </div>
       
-      <button class="convert-btn" id="crop-btn">DOWNLOAD CROPPED IMAGE</button>
+      <button class="convert-btn" id="crop-btn" disabled>CROP & RESIZE ALL IMAGES</button>
       <div class="progress-wrap" id="progress-crop"></div>
-      <div class="preview-section" id="preview-crop"></div>
+      <div class="result-section" id="results-crop"></div>
     </div>
   </div>
 </div>
@@ -318,13 +334,17 @@ compressBtn.addEventListener('click', () => {
   document.getElementById('results-compress').classList.add('active');
 });
 
-// CROP FUNCTIONALITY
+// CROP FUNCTIONALITY - BATCH + VISUAL EDITOR
 const cropInput = document.getElementById('file-input-crop');
 const cropDz = document.getElementById('dz-crop');
 const cropEditor = document.getElementById('crop-editor');
 const cropCanvas = document.getElementById('crop-canvas');
 const cropBtn = document.getElementById('crop-btn');
-let cropImage = null;
+let cropFiles = [];
+let cropImages = [];
+let currentCropIndex = 0;
+let cropSelection = { x: 0, y: 0, width: 0, height: 0, selecting: false };
+let cropAspect = 0;
 
 cropDz.addEventListener('click', () => cropInput.click());
 cropDz.addEventListener('dragover', e => { e.preventDefault(); cropDz.classList.add('dragging'); });
@@ -332,32 +352,53 @@ cropDz.addEventListener('dragleave', () => cropDz.classList.remove('dragging'));
 cropDz.addEventListener('drop', e => {
   e.preventDefault();
   cropDz.classList.remove('dragging');
-  handleCropFile(e.dataTransfer.files[0]);
+  handleCropFiles(e.dataTransfer.files);
 });
-cropInput.addEventListener('change', () => handleCropFile(cropInput.files[0]));
+cropInput.addEventListener('change', () => handleCropFiles(cropInput.files));
 
-function handleCropFile(file) {
-  if (!file || !file.type.startsWith('image/')) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    cropImage = new Image();
-    cropImage.onload = () => {
-      cropEditor.classList.add('active');
-      drawCropCanvas();
+function handleCropFiles(files) {
+  cropFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
+  cropImages = [];
+  const list = document.getElementById('file-list-crop');
+  list.innerHTML = '';
+  
+  cropFiles.forEach((file, idx) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        cropImages[idx] = img;
+        if (cropImages.filter(Boolean).length === cropFiles.length) {
+          currentCropIndex = 0;
+          cropEditor.classList.add('active');
+          drawCropCanvas();
+        }
+      };
+      img.src = e.target.result;
     };
-    cropImage.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
+    
+    const item = document.createElement('div');
+    item.className = 'file-item';
+    item.innerHTML = `
+      <div class="file-dot"></div>
+      <span class="file-name">${file.name}</span>
+      <span class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
+    `;
+    list.appendChild(item);
+  });
+  
+  cropBtn.disabled = false;
 }
 
 function drawCropCanvas() {
-  if (!cropImage) return;
+  if (!cropImages[currentCropIndex]) return;
+  const img = cropImages[currentCropIndex];
   const rect = cropCanvas.parentElement.getBoundingClientRect();
   const maxWidth = rect.width - 20;
   const maxHeight = 400;
   
-  // Manter proporção original da imagem
-  const imgRatio = cropImage.width / cropImage.height;
+  const imgRatio = img.width / img.height;
   let displayWidth = maxWidth;
   let displayHeight = maxWidth / imgRatio;
   
@@ -370,77 +411,190 @@ function drawCropCanvas() {
   cropCanvas.height = displayHeight;
   
   const ctx = cropCanvas.getContext('2d');
-  ctx.drawImage(cropImage, 0, 0, displayWidth, displayHeight);
+  ctx.drawImage(img, 0, 0, displayWidth, displayHeight);
+  
+  // Draw crop selection
+  if (cropSelection.width > 0 && cropSelection.height > 0) {
+    ctx.strokeStyle = var(--accent);
+    ctx.lineWidth = 2;
+    ctx.strokeRect(cropSelection.x, cropSelection.y, cropSelection.width, cropSelection.height);
+    
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.fillRect(0, 0, displayWidth, cropSelection.y);
+    ctx.fillRect(0, cropSelection.y, cropSelection.x, cropSelection.height);
+    ctx.fillRect(cropSelection.x + cropSelection.width, cropSelection.y, displayWidth - cropSelection.x - cropSelection.width, cropSelection.height);
+    ctx.fillRect(0, cropSelection.y + cropSelection.height, displayWidth, displayHeight - cropSelection.y - cropSelection.height);
+  }
 }
 
-function setCropAspect(ratio) {
-  event.target.classList.add('active');
-  event.target.parentElement.querySelectorAll('.aspect-btn').forEach(b => b !== event.target && b.classList.remove('active'));
+// Mouse events para crop selection
+cropCanvas.addEventListener('mousedown', (e) => {
+  const rect = cropCanvas.getBoundingClientRect();
+  cropSelection.x = e.clientX - rect.left;
+  cropSelection.y = e.clientY - rect.top;
+  cropSelection.selecting = true;
+});
+
+cropCanvas.addEventListener('mousemove', (e) => {
+  if (!cropSelection.selecting) return;
+  const rect = cropCanvas.getBoundingClientRect();
+  let endX = e.clientX - rect.left;
+  let endY = e.clientY - rect.top;
+  
+  if (cropAspect > 0) {
+    const width = endX - cropSelection.x;
+    const height = width / cropAspect;
+    cropSelection.width = width;
+    cropSelection.height = height;
+  } else {
+    cropSelection.width = endX - cropSelection.x;
+    cropSelection.height = endY - cropSelection.y;
+  }
+  
   drawCropCanvas();
+});
+
+cropCanvas.addEventListener('mouseup', () => {
+  cropSelection.selecting = false;
+});
+
+cropCanvas.addEventListener('mouseleave', () => {
+  cropSelection.selecting = false;
+});
+
+function setCropAspect(ratio) {
+  cropAspect = ratio;
+  document.querySelectorAll('.aspect-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
 }
 
 function rotateCrop(deg) {
-  if (!cropImage) return;
+  if (!cropImages[currentCropIndex]) return;
+  const img = cropImages[currentCropIndex];
   const canvas = document.createElement('canvas');
-  const img = new Image();
-  img.onload = () => {
-    // Aplicar rotação à imagem original
-    const tempCanvas = document.createElement('canvas');
-    const tempCtx = tempCanvas.getContext('2d');
-    
-    if (deg === -90 || deg === 270) {
-      tempCanvas.width = img.height;
-      tempCanvas.height = img.width;
-      tempCtx.translate(tempCanvas.width, 0);
-      tempCtx.rotate((90 * Math.PI) / 180);
-    } else if (deg === 90) {
-      tempCanvas.width = img.height;
-      tempCanvas.height = img.width;
-      tempCtx.translate(0, tempCanvas.height);
-      tempCtx.rotate((-90 * Math.PI) / 180);
-    }
-    tempCtx.drawImage(img, 0, 0);
-    cropImage = tempCanvas;
-    drawCropCanvas();
-  };
-  img.src = cropImage.src || cropCanvas.toDataURL();
+  const ctx = canvas.getContext('2d');
+  
+  if (deg === -90 || deg === 270) {
+    canvas.width = img.height;
+    canvas.height = img.width;
+    ctx.translate(canvas.width, 0);
+    ctx.rotate((90 * Math.PI) / 180);
+  } else if (deg === 90) {
+    canvas.width = img.height;
+    canvas.height = img.width;
+    ctx.translate(0, canvas.height);
+    ctx.rotate((-90 * Math.PI) / 180);
+  }
+  ctx.drawImage(img, 0, 0);
+  cropImages[currentCropIndex] = canvas;
+  cropSelection = { x: 0, y: 0, width: 0, height: 0, selecting: false };
+  drawCropCanvas();
 }
 
 function flipCropH() {
-  if (!cropImage) return;
+  if (!cropImages[currentCropIndex]) return;
+  const img = cropImages[currentCropIndex];
   const canvas = document.createElement('canvas');
-  canvas.width = cropImage.width;
-  canvas.height = cropImage.height;
+  canvas.width = img.width;
+  canvas.height = img.height;
   const ctx = canvas.getContext('2d');
   ctx.scale(-1, 1);
-  ctx.drawImage(cropImage, -canvas.width, 0);
-  cropImage = canvas;
+  ctx.drawImage(img, -canvas.width, 0);
+  cropImages[currentCropIndex] = canvas;
   drawCropCanvas();
 }
 
 function flipCropV() {
-  if (!cropImage) return;
+  if (!cropImages[currentCropIndex]) return;
+  const img = cropImages[currentCropIndex];
   const canvas = document.createElement('canvas');
-  canvas.width = cropImage.width;
-  canvas.height = cropImage.height;
+  canvas.width = img.width;
+  canvas.height = img.height;
   const ctx = canvas.getContext('2d');
   ctx.scale(1, -1);
-  ctx.drawImage(cropImage, 0, -canvas.height);
-  cropImage = canvas;
+  ctx.drawImage(img, 0, -canvas.height);
+  cropImages[currentCropIndex] = canvas;
   drawCropCanvas();
 }
 
 function resetCrop() {
-  if (cropInput.files[0]) {
-    handleCropFile(cropInput.files[0]);
-  }
+  cropSelection = { x: 0, y: 0, width: 0, height: 0, selecting: false };
+  drawCropCanvas();
 }
 
 cropBtn.addEventListener('click', () => {
-  const link = document.createElement('a');
-  link.href = cropCanvas.toDataURL('image/png');
-  link.download = 'cropped-' + Date.now() + '.png';
-  link.click();
+  if (cropFiles.length === 0 || cropSelection.width === 0) {
+    alert('Please select a crop area');
+    return;
+  }
+  
+  const results = document.getElementById('results-crop');
+  results.innerHTML = '';
+  results.classList.add('active');
+  
+  const resizeWidth = parseInt(document.getElementById('resize-width').value) || 0;
+  const resizeHeightInput = document.getElementById('resize-height').value;
+  let resizeHeight = resizeHeightInput === 'auto' ? null : (parseInt(resizeHeightInput) || 0);
+  
+  // Calcular coordenadas de crop em relação à imagem original
+  const img = cropImages[currentCropIndex];
+  const displayImg = new Image();
+  displayImg.onload = () => {
+    const scaleX = img.width / cropCanvas.width;
+    const scaleY = img.height / cropCanvas.height;
+    
+    const cropX = Math.round(cropSelection.x * scaleX);
+    const cropY = Math.round(cropSelection.y * scaleY);
+    const cropW = Math.round(cropSelection.width * scaleX);
+    const cropH = Math.round(cropSelection.height * scaleY);
+    
+    // Aplicar crop e resize a todas as imagens
+    cropFiles.forEach((file, idx) => {
+      const originalImg = cropImages[idx];
+      
+      // Passo 1: Fazer crop
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = cropW;
+      tempCanvas.height = cropH;
+      const tempCtx = tempCanvas.getContext('2d');
+      
+      const sx = originalImg.width / img.width;
+      const sy = originalImg.height / img.height;
+      
+      tempCtx.drawImage(originalImg, cropX * sx, cropY * sy, cropW * sx, cropH * sy, 0, 0, cropW, cropH);
+      
+      // Passo 2: Fazer resize
+      let finalCanvas = tempCanvas;
+      if (resizeWidth > 0) {
+        finalCanvas = document.createElement('canvas');
+        finalCanvas.width = resizeWidth;
+        
+        if (resizeHeight > 0) {
+          finalCanvas.height = resizeHeight;
+        } else {
+          // Manter proporção
+          finalCanvas.height = Math.round((cropH / cropW) * resizeWidth);
+        }
+        
+        const finalCtx = finalCanvas.getContext('2d');
+        finalCtx.drawImage(tempCanvas, 0, 0, resizeWidth, finalCanvas.height);
+      }
+      
+      finalCanvas.toBlob(blob => {
+        const item = document.createElement('div');
+        item.className = 'result-item';
+        item.innerHTML = `
+          <div>
+            <div class="result-name">${file.name}</div>
+            <small style="color: var(--muted); font-size: 0.65rem;">${finalCanvas.width}x${finalCanvas.height}px</small>
+          </div>
+          <a class="download-btn" href="${URL.createObjectURL(blob)}" download="crop-${file.name}">Download</a>
+        `;
+        results.appendChild(item);
+      }, file.type || 'image/png');
+    });
+  };
+  displayImg.src = cropCanvas.toDataURL();
 });
 </script>
 </body>
