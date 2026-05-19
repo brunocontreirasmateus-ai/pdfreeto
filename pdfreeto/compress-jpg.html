@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXHT3PYZF8"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -30,7 +29,7 @@
     background-size: 60px 60px;
   }
   
-  header { position: relative; z-index: 10; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 16px; }
+  header { position: relative; z-index: 100; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 16px; }
   .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
   .logo span { color: var(--accent); }
   .nav-dropdown { position: relative; flex-shrink: 0; }
@@ -56,9 +55,8 @@
   .hero h1 .hl { color: var(--accent); }
   .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
   
-  .content { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 36px 40px 80px; }
+  .content { position: relative; z-index: 10; max-width: 1000px; margin: 0 auto; padding: 36px 40px 80px; }
   
-  /* TABS */
   .tabs-wrap { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
   .tab { padding: 12px 20px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
   .tab:hover { color: var(--text); }
@@ -67,10 +65,9 @@
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
   
-  .drop-zone { border: 2px dashed var(--border); padding: 60px 40px; text-align: center; cursor: pointer; transition: all 0.25s; background: var(--surface); overflow: hidden; position: relative; }
-  .drop-zone::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 60%, rgba(232,255,60,0.04)); pointer-events: none; }
+  .drop-zone { border: 2px dashed var(--border); padding: 60px 40px; text-align: center; cursor: pointer; transition: all 0.25s; background: var(--surface); }
   .drop-zone:hover, .drop-zone.dragging { border-color: var(--accent); background: rgba(232,255,60,0.04); }
-  .drop-zone:hover .dz-icon, .drop-zone.dragging .dz-icon { transform: scale(1.1) translateY(-4px); color: var(--accent); }
+  .drop-zone:hover .dz-icon { transform: scale(1.1) translateY(-4px); color: var(--accent); }
   .dz-icon { font-size: 3rem; margin-bottom: 16px; display: block; color: var(--muted); transition: all 0.3s; }
   .dz-title { font-family: var(--display); font-size: 1.8rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 8px; }
   .dz-sub { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
@@ -78,14 +75,11 @@
   
   .file-list { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
   .file-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.78rem; }
-  .file-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .file-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
   .file-name { flex: 1; color: var(--text); }
-  .file-size { color: var(--muted); flex-shrink: 0; }
-  .remove-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; transition: color 0.15s; }
-  .remove-btn:hover { color: var(--accent2); }
+  .file-size { color: var(--muted); }
   
-  .options { margin-top: 24px; padding: 20px; background: var(--surface); border: 1px solid var(--border); display: none; }
-  .options.active { display: block; }
+  .options { margin-top: 24px; padding: 20px; background: var(--surface); border: 1px solid var(--border); }
   .options-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
   
   .slider-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
@@ -98,36 +92,32 @@
   /* CROP EDITOR */
   .crop-editor { display: none; }
   .crop-editor.active { display: block; }
-  .crop-canvas-wrap { position: relative; background: var(--surface); border: 1px solid var(--border); margin: 20px 0; overflow: hidden; }
-  #crop-canvas { max-width: 100%; max-height: 400px; display: block; margin: 0 auto; }
   
-  .crop-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 16px 0; }
-  .crop-btn { padding: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-family: var(--mono); font-size: 0.7rem; cursor: pointer; text-align: center; transition: all 0.2s; }
-  .crop-btn:hover { border-color: var(--accent); color: var(--text); }
-  .crop-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(232,255,60,0.06); }
+  .crop-canvas-wrap { position: relative; background: var(--surface); border: 1px solid var(--border); margin: 20px 0; padding: 20px; text-align: center; }
+  #crop-canvas { cursor: crosshair; max-width: 100%; max-height: 500px; display: inline-block; }
+  
+  .image-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 12px; }
+  .nav-btn { padding: 8px 14px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-family: var(--mono); font-size: 0.7rem; cursor: pointer; transition: all 0.2s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .image-info { flex: 1; text-align: center; font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+  
+  .crop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-bottom: 20px; }
+  .crop-input { display: flex; flex-direction: column; gap: 4px; }
+  .crop-input label { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
+  .crop-input input { padding: 6px 8px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.7rem; }
   
   .aspect-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .aspect-btn { padding: 10px 6px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-family: var(--mono); font-size: 0.65rem; cursor: pointer; text-align: center; transition: all 0.2s; }
   .aspect-btn:hover { border-color: var(--accent); color: var(--text); }
   .aspect-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(232,255,60,0.06); }
   
-  .preview-section { margin-top: 24px; display: none; }
-  .preview-section.active { display: block; }
-  .preview-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-  .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .preview-card { background: var(--surface); border: 1px solid var(--border); padding: 12px; }
-  .preview-card img { width: 100%; height: 180px; object-fit: contain; display: block; background: #1a1a1a; }
-  .preview-card-label { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 8px; }
-  .preview-card-size { font-family: var(--mono); font-size: 0.75rem; color: var(--text); }
+  .crop-controls { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 16px 0; }
+  .crop-btn { padding: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-family: var(--mono); font-size: 0.7rem; cursor: pointer; text-align: center; transition: all 0.2s; }
+  .crop-btn:hover { border-color: var(--accent); color: var(--text); }
   
   .convert-btn { margin-top: 28px; width: 100%; padding: 18px; background: var(--accent); color: #0a0a0a; font-family: var(--display); font-size: 1.4rem; letter-spacing: 0.12em; border: none; cursor: pointer; transition: all 0.2s; }
   .convert-btn:hover { background: #d4e61a; }
   .convert-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
-  
-  .progress-wrap { margin-top: 16px; display: none; }
-  .progress-bar { height: 3px; background: var(--border); overflow: hidden; margin-bottom: 8px; }
-  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
-  .progress-text { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-align: center; letter-spacing: 0.1em; text-transform: uppercase; }
   
   .result-section { margin-top: 24px; display: none; }
   .result-section.active { display: block; }
@@ -144,8 +134,9 @@
   .footer-links a:hover { color: var(--accent); }
   
   @media (max-width: 640px) {
-    .preview-grid { grid-template-columns: 1fr; }
     .aspect-grid { grid-template-columns: repeat(2, 1fr); }
+    .crop-controls { grid-template-columns: repeat(2, 1fr); }
+    header { padding: 12px 16px; }
   }
 </style>
 </head>
@@ -187,7 +178,6 @@
 </div>
 
 <div class="content">
-  <!-- TABS -->
   <div class="tabs-wrap">
     <button class="tab active" onclick="switchTab('compress')">📦 Compress</button>
     <button class="tab" onclick="switchTab('crop')">✂️ Crop</button>
@@ -203,7 +193,7 @@
     <input type="file" id="file-input-compress" accept="image/*" multiple>
     <div class="file-list" id="file-list-compress"></div>
     
-    <div class="options" id="compress-opts">
+    <div class="options">
       <div class="options-title">⚙ Compression Settings</div>
       <div class="slider-row">
         <label class="opt-label">Quality</label>
@@ -213,8 +203,6 @@
     </div>
     
     <button class="convert-btn" id="compress-btn" disabled>COMPRESS IMAGES</button>
-    <div class="progress-wrap" id="progress-compress"></div>
-    <div class="preview-section" id="preview-compress"></div>
     <div class="result-section" id="results-compress"></div>
   </div>
 
@@ -223,79 +211,80 @@
     <div class="drop-zone" id="dz-crop">
       <span class="dz-icon">✂️</span>
       <div class="dz-title">Drop Images to Crop</div>
-      <div class="dz-sub">Multiple images supported — JPG, PNG, WebP</div>
+      <div class="dz-sub">Multiple images — JPG, PNG, WebP</div>
     </div>
     <input type="file" id="file-input-crop" accept="image/*" multiple>
     <div class="file-list" id="file-list-crop"></div>
     
     <div class="crop-editor" id="crop-editor">
+      <div class="image-nav">
+        <button class="nav-btn" id="prev-btn" onclick="prevImage()">← Previous</button>
+        <div class="image-info" id="image-info">Image 1 of 1</div>
+        <button class="nav-btn" id="next-btn" onclick="nextImage()">Next →</button>
+      </div>
+      
+      <div class="crop-canvas-wrap">
+        <canvas id="crop-canvas"></canvas>
+      </div>
+      
       <div class="options">
+        <div class="options-title">📐 Crop Position & Size</div>
+        <div class="crop-grid">
+          <div class="crop-input">
+            <label>X (px)</label>
+            <input type="number" id="crop-x" min="0" value="0">
+          </div>
+          <div class="crop-input">
+            <label>Y (px)</label>
+            <input type="number" id="crop-y" min="0" value="0">
+          </div>
+          <div class="crop-input">
+            <label>Width (px)</label>
+            <input type="number" id="crop-w" min="1" value="100">
+          </div>
+          <div class="crop-input">
+            <label>Height (px)</label>
+            <input type="number" id="crop-h" min="1" value="100">
+          </div>
+        </div>
+      </div>
+      
+      <div class="options" style="margin-top: 20px;">
         <div class="options-title">📐 Aspect Ratio</div>
         <div class="aspect-grid">
-          <button class="aspect-btn active" onclick="setCropAspect(0)">Free</button>
-          <button class="aspect-btn" onclick="setCropAspect(1)">1:1</button>
-          <button class="aspect-btn" onclick="setCropAspect(16/9)">16:9</button>
-          <button class="aspect-btn" onclick="setCropAspect(4/3)">4:3</button>
-          <button class="aspect-btn" onclick="setCropAspect(3/2)">3:2</button>
-          <button class="aspect-btn" onclick="setCropAspect(21/9)">21:9</button>
-          <button class="aspect-btn" onclick="setCropAspect(9/16)">9:16</button>
-          <button class="aspect-btn" onclick="setCropAspect(0.618)">Golden</button>
-        </div>
-      </div>
-      
-      <div style="margin-top: 20px;">
-        <div class="options-title">🖱️ DRAG TO SELECT CROP AREA</div>
-        <div class="crop-canvas-wrap">
-          <canvas id="crop-canvas"></canvas>
+          <button class="aspect-btn active" onclick="setAspect(0)">Free</button>
+          <button class="aspect-btn" onclick="setAspect(1)">1:1</button>
+          <button class="aspect-btn" onclick="setAspect(16/9)">16:9</button>
+          <button class="aspect-btn" onclick="setAspect(4/3)">4:3</button>
+          <button class="aspect-btn" onclick="setAspect(3/2)">3:2</button>
+          <button class="aspect-btn" onclick="setAspect(21/9)">21:9</button>
+          <button class="aspect-btn" onclick="setAspect(9/16)">9:16</button>
+          <button class="aspect-btn" onclick="setAspect(0.618)">Golden</button>
         </div>
       </div>
       
       <div class="options" style="margin-top: 20px;">
-        <div class="options-title">📐 Crop Dimensions</div>
-        <div class="slider-row">
-          <label class="opt-label">X</label>
-          <input type="number" id="crop-x" min="0" value="0" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);">
-          <span class="slider-val">px</span>
-        </div>
-        <div class="slider-row">
-          <label class="opt-label">Y</label>
-          <input type="number" id="crop-y" min="0" value="0" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);">
-          <span class="slider-val">px</span>
-        </div>
+        <div class="options-title">📏 Resize Output</div>
         <div class="slider-row">
           <label class="opt-label">Width</label>
-          <input type="number" id="crop-w" min="1" value="100" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);">
+          <input type="number" id="resize-width" min="100" max="5000" value="1000">
           <span class="slider-val">px</span>
         </div>
         <div class="slider-row">
           <label class="opt-label">Height</label>
-          <input type="number" id="crop-h" min="1" value="100" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);">
+          <input type="number" id="resize-height" value="auto" placeholder="auto (maintain ratio)">
           <span class="slider-val">px</span>
-        </div>
-      </div>
-      
-      <div class="options" style="margin-top: 20px;">
-        <div class="options-title">📏 Resize Image</div>
-        <div class="slider-row">
-          <label class="opt-label">Width</label>
-          <input type="number" id="resize-width" min="100" max="5000" value="1000" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);">
-          <span class="slider-val" style="min-width: auto;">px</span>
-        </div>
-        <div class="slider-row">
-          <label class="opt-label">Height</label>
-          <input type="number" id="resize-height" min="100" max="5000" value="auto" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);" placeholder="auto (maintain ratio)">
         </div>
       </div>
       
       <div class="crop-controls">
-        <button class="crop-btn" onclick="rotateCrop(-90)">↺ Rotate</button>
-        <button class="crop-btn" onclick="flipCropH()">↔ Flip H</button>
-        <button class="crop-btn" onclick="flipCropV()">↕ Flip V</button>
+        <button class="crop-btn" onclick="rotateCrop()">↺ Rotate</button>
+        <button class="crop-btn" onclick="flipH()">↔ Flip H</button>
+        <button class="crop-btn" onclick="flipV()">↕ Flip V</button>
         <button class="crop-btn" onclick="resetCrop()">Reset</button>
       </div>
       
       <button class="convert-btn" id="crop-btn" disabled>CROP & RESIZE ALL IMAGES</button>
-      <div class="progress-wrap" id="progress-crop"></div>
       <div class="result-section" id="results-crop"></div>
     </div>
   </div>
@@ -311,20 +300,18 @@
 </footer>
 
 <script>
-// MENU TOGGLE
 function toggleMenu() {
   document.getElementById('nav-toggle').classList.toggle('open');
   document.getElementById('nav-menu').classList.toggle('open');
 }
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', (e) => {
   if (!e.target.closest('.nav-dropdown')) {
     document.getElementById('nav-toggle').classList.remove('open');
     document.getElementById('nav-menu').classList.remove('open');
   }
 });
 
-// TAB SWITCHING
 function switchTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -332,15 +319,14 @@ function switchTab(tab) {
   document.getElementById(tab + '-panel').classList.add('active');
 }
 
-// COMPRESS FUNCTIONALITY
+// ===== COMPRESS =====
 const compressInput = document.getElementById('file-input-compress');
 const compressDz = document.getElementById('dz-compress');
 const compressBtn = document.getElementById('compress-btn');
 const qualitySlider = document.getElementById('quality');
-const qualityVal = document.getElementById('quality-val');
 
 qualitySlider.addEventListener('input', () => {
-  qualityVal.textContent = qualitySlider.value + '%';
+  document.getElementById('quality-val').textContent = qualitySlider.value + '%';
 });
 
 compressDz.addEventListener('click', () => compressInput.click());
@@ -360,11 +346,7 @@ function handleCompressFiles(files) {
     if (!file.type.startsWith('image/')) return;
     const item = document.createElement('div');
     item.className = 'file-item';
-    item.innerHTML = `
-      <div class="file-dot"></div>
-      <span class="file-name">${file.name}</span>
-      <span class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
-    `;
+    item.innerHTML = `<div class="file-dot"></div><span class="file-name">${file.name}</span><span class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</span>`;
     list.appendChild(item);
   });
   compressBtn.disabled = files.length === 0;
@@ -372,13 +354,12 @@ function handleCompressFiles(files) {
 
 compressBtn.addEventListener('click', () => {
   const files = compressInput.files;
-  if (files.length === 0) return;
-  
   const quality = qualitySlider.value / 100;
   const results = document.getElementById('results-compress');
   results.innerHTML = '';
+  results.classList.add('active');
   
-  Array.from(files).forEach((file, idx) => {
+  Array.from(files).forEach((file) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
@@ -386,20 +367,12 @@ compressBtn.addEventListener('click', () => {
         const canvas = document.createElement('canvas');
         canvas.width = img.width;
         canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        
+        canvas.getContext('2d').drawImage(img, 0, 0);
         canvas.toBlob(blob => {
           const savings = ((1 - blob.size / file.size) * 100).toFixed(1);
           const item = document.createElement('div');
           item.className = 'result-item';
-          item.innerHTML = `
-            <div>
-              <div class="result-name">${file.name}</div>
-              <small style="color: var(--muted); font-size: 0.65rem;">${(blob.size / 1024 / 1024).toFixed(2)} MB (saved ${savings}%)</small>
-            </div>
-            <a class="download-btn" href="${URL.createObjectURL(blob)}" download="${file.name}">Download</a>
-          `;
+          item.innerHTML = `<div><div class="result-name">${file.name}</div><small style="color: var(--muted); font-size: 0.65rem;">${(blob.size / 1024 / 1024).toFixed(2)} MB (saved ${savings}%)</small></div><a class="download-btn" href="${URL.createObjectURL(blob)}" download="${file.name}">Download</a>`;
           results.appendChild(item);
         }, file.type, quality);
       };
@@ -407,21 +380,21 @@ compressBtn.addEventListener('click', () => {
     };
     reader.readAsDataURL(file);
   });
-  
-  document.getElementById('results-compress').classList.add('active');
 });
 
-// CROP FUNCTIONALITY - BATCH + VISUAL EDITOR
+// ===== CROP =====
 const cropInput = document.getElementById('file-input-crop');
 const cropDz = document.getElementById('dz-crop');
 const cropEditor = document.getElementById('crop-editor');
 const cropCanvas = document.getElementById('crop-canvas');
 const cropBtn = document.getElementById('crop-btn');
+
 let cropFiles = [];
-let cropImages = [];
-let currentCropIndex = 0;
-let cropSelection = { x: 0, y: 0, width: 0, height: 0, selecting: false };
-let cropAspect = 0;
+let cropImagesData = [];
+let currentIdx = 0;
+let currentAspect = 0;
+let isDragging = false;
+let dragStart = { x: 0, y: 0 };
 
 cropDz.addEventListener('click', () => cropInput.click());
 cropDz.addEventListener('dragover', e => { e.preventDefault(); cropDz.classList.add('dragging'); });
@@ -435,20 +408,24 @@ cropInput.addEventListener('change', () => handleCropFiles(cropInput.files));
 
 function handleCropFiles(files) {
   cropFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
-  cropImages = [];
+  cropImagesData = [];
   const list = document.getElementById('file-list-crop');
   list.innerHTML = '';
   
-  cropFiles.forEach((file, idx) => {
+  cropFiles.forEach((file, i) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        cropImages[idx] = img;
-        if (cropImages.filter(Boolean).length === cropFiles.length) {
-          currentCropIndex = 0;
+        cropImagesData[i] = {
+          img: img,
+          crops: { x: 0, y: 0, w: img.width, h: img.height }
+        };
+        if (cropImagesData.filter(Boolean).length === cropFiles.length) {
+          currentIdx = 0;
           cropEditor.classList.add('active');
-          drawCropCanvas();
+          cropBtn.disabled = false;
+          drawCrop();
         }
       };
       img.src = e.target.result;
@@ -457,255 +434,176 @@ function handleCropFiles(files) {
     
     const item = document.createElement('div');
     item.className = 'file-item';
-    item.innerHTML = `
-      <div class="file-dot"></div>
-      <span class="file-name">${file.name}</span>
-      <span class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
-    `;
+    item.innerHTML = `<div class="file-dot"></div><span class="file-name">${file.name}</span><span class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</span>`;
     list.appendChild(item);
   });
-  
-  cropBtn.disabled = false;
 }
 
-function drawCropCanvas() {
-  if (!cropImages[currentCropIndex]) return;
-  const img = cropImages[currentCropIndex];
+function drawCrop() {
+  if (!cropImagesData[currentIdx]) return;
+  const data = cropImagesData[currentIdx];
+  const img = data.img;
+  const crops = data.crops;
+  
   const rect = cropCanvas.parentElement.getBoundingClientRect();
-  const maxWidth = rect.width - 20;
-  const maxHeight = 400;
+  const maxW = rect.width - 40;
+  const maxH = 500;
   
-  const imgRatio = img.width / img.height;
-  let displayWidth = maxWidth;
-  let displayHeight = maxWidth / imgRatio;
+  let w = maxW, h = (img.height / img.width) * maxW;
+  if (h > maxH) { h = maxH; w = (img.width / img.height) * maxH; }
   
-  if (displayHeight > maxHeight) {
-    displayHeight = maxHeight;
-    displayWidth = maxHeight * imgRatio;
-  }
-  
-  cropCanvas.width = displayWidth;
-  cropCanvas.height = displayHeight;
+  cropCanvas.width = w;
+  cropCanvas.height = h;
   
   const ctx = cropCanvas.getContext('2d');
-  ctx.drawImage(img, 0, 0, displayWidth, displayHeight);
+  ctx.drawImage(img, 0, 0, w, h);
   
-  // Draw crop selection
-  if (cropSelection.width > 0 && cropSelection.height > 0) {
-    ctx.strokeStyle = '#e8ff3c';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(cropSelection.x, cropSelection.y, cropSelection.width, cropSelection.height);
-    
-    ctx.fillStyle = 'rgba(0,0,0,0.3)';
-    ctx.fillRect(0, 0, displayWidth, cropSelection.y);
-    ctx.fillRect(0, cropSelection.y, cropSelection.x, cropSelection.height);
-    ctx.fillRect(cropSelection.x + cropSelection.width, cropSelection.y, displayWidth - cropSelection.x - cropSelection.width, cropSelection.height);
-    ctx.fillRect(0, cropSelection.y + cropSelection.height, displayWidth, displayHeight - cropSelection.y - cropSelection.height);
-  }
+  // Draw selection
+  const sx = w / img.width, sy = h / img.height;
+  const cx = crops.x * sx, cy = crops.y * sy, cw = crops.w * sx, ch = crops.h * sy;
+  
+  ctx.fillStyle = 'rgba(0,0,0,0.5)';
+  ctx.fillRect(0, 0, w, cy);
+  ctx.fillRect(0, cy, cx, ch);
+  ctx.fillRect(cx + cw, cy, w - cx - cw, ch);
+  ctx.fillRect(0, cy + ch, w, h - cy - ch);
+  
+  ctx.strokeStyle = '#e8ff3c';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(cx, cy, cw, ch);
+  
+  // Update inputs
+  document.getElementById('crop-x').value = crops.x;
+  document.getElementById('crop-y').value = crops.y;
+  document.getElementById('crop-w').value = crops.w;
+  document.getElementById('crop-h').value = crops.h;
+  
+  // Update info
+  document.getElementById('image-info').textContent = `Image ${currentIdx + 1} of ${cropFiles.length}`;
+  document.getElementById('prev-btn').disabled = currentIdx === 0;
+  document.getElementById('next-btn').disabled = currentIdx === cropFiles.length - 1;
 }
 
-// Update inputs when crop selection changes
-function updateCropInputs() {
-  document.getElementById('crop-x').value = Math.round(cropSelection.x);
-  document.getElementById('crop-y').value = Math.round(cropSelection.y);
-  document.getElementById('crop-w').value = Math.round(cropSelection.width);
-  document.getElementById('crop-h').value = Math.round(cropSelection.height);
-}
-
-// Listen to input changes and update selection
-document.getElementById('crop-x').addEventListener('input', () => {
-  cropSelection.x = parseInt(document.getElementById('crop-x').value) || 0;
-  drawCropCanvas();
-});
-
-document.getElementById('crop-y').addEventListener('input', () => {
-  cropSelection.y = parseInt(document.getElementById('crop-y').value) || 0;
-  drawCropCanvas();
-});
-
-document.getElementById('crop-w').addEventListener('input', () => {
-  cropSelection.width = parseInt(document.getElementById('crop-w').value) || 0;
-  if (cropAspect > 0) {
-    cropSelection.height = cropSelection.width / cropAspect;
-    document.getElementById('crop-h').value = Math.round(cropSelection.height);
-  }
-  drawCropCanvas();
-});
-
-document.getElementById('crop-h').addEventListener('input', () => {
-  cropSelection.height = parseInt(document.getElementById('crop-h').value) || 0;
-  drawCropCanvas();
-});
-
-// Mouse events para crop selection
+// Drag on canvas
 cropCanvas.addEventListener('mousedown', (e) => {
+  isDragging = true;
   const rect = cropCanvas.getBoundingClientRect();
-  cropSelection.x = e.clientX - rect.left;
-  cropSelection.y = e.clientY - rect.top;
-  cropSelection.selecting = true;
+  const img = cropImagesData[currentIdx].img;
+  const sx = cropCanvas.width / img.width, sy = cropCanvas.height / img.height;
+  dragStart = {
+    x: Math.round((e.clientX - rect.left) / sx),
+    y: Math.round((e.clientY - rect.top) / sy)
+  };
 });
 
 cropCanvas.addEventListener('mousemove', (e) => {
-  if (!cropSelection.selecting) return;
+  if (!isDragging) return;
   const rect = cropCanvas.getBoundingClientRect();
-  let endX = e.clientX - rect.left;
-  let endY = e.clientY - rect.top;
+  const img = cropImagesData[currentIdx].img;
+  const sx = cropCanvas.width / img.width, sy = cropCanvas.height / img.height;
+  const x = Math.round((e.clientX - rect.left) / sx);
+  const y = Math.round((e.clientY - rect.top) / sy);
   
-  if (cropAspect > 0) {
-    const width = endX - cropSelection.x;
-    const height = width / cropAspect;
-    cropSelection.width = width;
-    cropSelection.height = height;
-  } else {
-    cropSelection.width = endX - cropSelection.x;
-    cropSelection.height = endY - cropSelection.y;
+  cropImagesData[currentIdx].crops.x = Math.min(dragStart.x, x);
+  cropImagesData[currentIdx].crops.y = Math.min(dragStart.y, y);
+  cropImagesData[currentIdx].crops.w = Math.abs(x - dragStart.x);
+  cropImagesData[currentIdx].crops.h = Math.abs(y - dragStart.y);
+  
+  if (currentAspect > 0) {
+    cropImagesData[currentIdx].crops.h = cropImagesData[currentIdx].crops.w / currentAspect;
   }
   
-  updateCropInputs();
-  drawCropCanvas();
+  drawCrop();
 });
 
-cropCanvas.addEventListener('mouseup', () => {
-  cropSelection.selecting = false;
+cropCanvas.addEventListener('mouseup', () => { isDragging = false; });
+
+// Input listeners
+['crop-x', 'crop-y', 'crop-w', 'crop-h'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    const data = cropImagesData[currentIdx];
+    data.crops.x = parseInt(document.getElementById('crop-x').value) || 0;
+    data.crops.y = parseInt(document.getElementById('crop-y').value) || 0;
+    data.crops.w = parseInt(document.getElementById('crop-w').value) || 1;
+    data.crops.h = parseInt(document.getElementById('crop-h').value) || 1;
+    drawCrop();
+  });
 });
 
-cropCanvas.addEventListener('mouseleave', () => {
-  cropSelection.selecting = false;
-});
-
-function setCropAspect(ratio) {
-  cropAspect = ratio;
+function prevImage() { currentIdx = Math.max(0, currentIdx - 1); drawCrop(); }
+function nextImage() { currentIdx = Math.min(cropFiles.length - 1, currentIdx + 1); drawCrop(); }
+function setAspect(ratio) {
+  currentAspect = ratio;
   document.querySelectorAll('.aspect-btn').forEach(b => b.classList.remove('active'));
   event.target.classList.add('active');
 }
-
-function rotateCrop(deg) {
-  if (!cropImages[currentCropIndex]) return;
-  const img = cropImages[currentCropIndex];
+function rotateCrop() {
+  const data = cropImagesData[currentIdx];
   const canvas = document.createElement('canvas');
+  canvas.width = data.img.height;
+  canvas.height = data.img.width;
   const ctx = canvas.getContext('2d');
-  
-  if (deg === -90 || deg === 270) {
-    canvas.width = img.height;
-    canvas.height = img.width;
-    ctx.translate(canvas.width, 0);
-    ctx.rotate((90 * Math.PI) / 180);
-  } else if (deg === 90) {
-    canvas.width = img.height;
-    canvas.height = img.width;
-    ctx.translate(0, canvas.height);
-    ctx.rotate((-90 * Math.PI) / 180);
-  }
-  ctx.drawImage(img, 0, 0);
-  cropImages[currentCropIndex] = canvas;
-  cropSelection = { x: 0, y: 0, width: 0, height: 0, selecting: false };
-  drawCropCanvas();
+  ctx.translate(canvas.width, 0);
+  ctx.rotate(Math.PI / 2);
+  ctx.drawImage(data.img, 0, 0);
+  data.img = canvas;
+  data.crops = { x: 0, y: 0, w: canvas.width, h: canvas.height };
+  drawCrop();
 }
-
-function flipCropH() {
-  if (!cropImages[currentCropIndex]) return;
-  const img = cropImages[currentCropIndex];
+function flipH() {
+  const data = cropImagesData[currentIdx];
   const canvas = document.createElement('canvas');
-  canvas.width = img.width;
-  canvas.height = img.height;
+  canvas.width = data.img.width;
+  canvas.height = data.img.height;
   const ctx = canvas.getContext('2d');
   ctx.scale(-1, 1);
-  ctx.drawImage(img, -canvas.width, 0);
-  cropImages[currentCropIndex] = canvas;
-  drawCropCanvas();
+  ctx.drawImage(data.img, -canvas.width, 0);
+  data.img = canvas;
+  drawCrop();
 }
-
-function flipCropV() {
-  if (!cropImages[currentCropIndex]) return;
-  const img = cropImages[currentCropIndex];
+function flipV() {
+  const data = cropImagesData[currentIdx];
   const canvas = document.createElement('canvas');
-  canvas.width = img.width;
-  canvas.height = img.height;
+  canvas.width = data.img.width;
+  canvas.height = data.img.height;
   const ctx = canvas.getContext('2d');
   ctx.scale(1, -1);
-  ctx.drawImage(img, 0, -canvas.height);
-  cropImages[currentCropIndex] = canvas;
-  drawCropCanvas();
+  ctx.drawImage(data.img, 0, -canvas.height);
+  data.img = canvas;
+  drawCrop();
 }
-
 function resetCrop() {
-  cropSelection = { x: 0, y: 0, width: 0, height: 0, selecting: false };
-  drawCropCanvas();
+  const data = cropImagesData[currentIdx];
+  data.crops = { x: 0, y: 0, w: data.img.width, h: data.img.height };
+  drawCrop();
 }
 
 cropBtn.addEventListener('click', () => {
-  if (cropFiles.length === 0 || cropSelection.width === 0) {
-    alert('Please select a crop area');
-    return;
-  }
-  
   const results = document.getElementById('results-crop');
   results.innerHTML = '';
   results.classList.add('active');
   
-  const resizeWidth = parseInt(document.getElementById('resize-width').value) || 0;
-  const resizeHeightInput = document.getElementById('resize-height').value;
-  let resizeHeight = resizeHeightInput === 'auto' ? null : (parseInt(resizeHeightInput) || 0);
+  const resizeW = parseInt(document.getElementById('resize-width').value) || 0;
+  const resizeH = document.getElementById('resize-height').value === 'auto' ? null : parseInt(document.getElementById('resize-height').value);
   
-  // Calcular coordenadas de crop em relação à imagem original
-  const img = cropImages[currentCropIndex];
-  const displayImg = new Image();
-  displayImg.onload = () => {
-    const scaleX = img.width / cropCanvas.width;
-    const scaleY = img.height / cropCanvas.height;
+  cropFiles.forEach((file, idx) => {
+    const data = cropImagesData[idx];
+    const { x, y, w, h } = data.crops;
     
-    const cropX = Math.round(cropSelection.x * scaleX);
-    const cropY = Math.round(cropSelection.y * scaleY);
-    const cropW = Math.round(cropSelection.width * scaleX);
-    const cropH = Math.round(cropSelection.height * scaleY);
+    const canvas = document.createElement('canvas');
+    canvas.width = resizeW > 0 ? resizeW : w;
+    canvas.height = resizeH > 0 ? resizeH : (resizeW > 0 ? Math.round((h / w) * resizeW) : h);
     
-    // Aplicar crop e resize a todas as imagens
-    cropFiles.forEach((file, idx) => {
-      const originalImg = cropImages[idx];
-      
-      // Passo 1: Fazer crop
-      const tempCanvas = document.createElement('canvas');
-      tempCanvas.width = cropW;
-      tempCanvas.height = cropH;
-      const tempCtx = tempCanvas.getContext('2d');
-      
-      const sx = originalImg.width / img.width;
-      const sy = originalImg.height / img.height;
-      
-      tempCtx.drawImage(originalImg, cropX * sx, cropY * sy, cropW * sx, cropH * sy, 0, 0, cropW, cropH);
-      
-      // Passo 2: Fazer resize
-      let finalCanvas = tempCanvas;
-      if (resizeWidth > 0) {
-        finalCanvas = document.createElement('canvas');
-        finalCanvas.width = resizeWidth;
-        
-        if (resizeHeight > 0) {
-          finalCanvas.height = resizeHeight;
-        } else {
-          // Manter proporção
-          finalCanvas.height = Math.round((cropH / cropW) * resizeWidth);
-        }
-        
-        const finalCtx = finalCanvas.getContext('2d');
-        finalCtx.drawImage(tempCanvas, 0, 0, resizeWidth, finalCanvas.height);
-      }
-      
-      finalCanvas.toBlob(blob => {
-        const item = document.createElement('div');
-        item.className = 'result-item';
-        item.innerHTML = `
-          <div>
-            <div class="result-name">${file.name}</div>
-            <small style="color: var(--muted); font-size: 0.65rem;">${finalCanvas.width}x${finalCanvas.height}px</small>
-          </div>
-          <a class="download-btn" href="${URL.createObjectURL(blob)}" download="crop-${file.name}">Download</a>
-        `;
-        results.appendChild(item);
-      }, file.type || 'image/png');
-    });
-  };
-  displayImg.src = cropCanvas.toDataURL();
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(data.img, x, y, w, h, 0, 0, canvas.width, canvas.height);
+    
+    canvas.toBlob(blob => {
+      const item = document.createElement('div');
+      item.className = 'result-item';
+      item.innerHTML = `<div><div class="result-name">${file.name}</div><small style="color: var(--muted); font-size: 0.65rem;">${canvas.width}x${canvas.height}px</small></div><a class="download-btn" href="${URL.createObjectURL(blob)}" download="crop-${file.name}">Download</a>`;
+      results.appendChild(item);
+    }, file.type || 'image/png');
+  });
 });
 </script>
 </body>
