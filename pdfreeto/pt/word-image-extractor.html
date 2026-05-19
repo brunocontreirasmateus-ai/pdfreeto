@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EXHT3PYZF8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EXHT3PYZF8');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Extrair Imagens de Word Grátis — PDFreeto</title>
+<meta name="description" content="Extraia todas as imagens de documentos Word (.docx) em resolução completa. Sem upload, sem registo. 100% baseado no navegador e privado.">
+<link rel="canonical" href="https://pdfreeto.com/pt/word-image-extractor.html">
+<link rel="alternate" hreflang="en" href="https://pdfreeto.com/word-image-extractor.html">
+<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/word-image-extractor.html">
+<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/word-image-extractor.html">
+<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/word-image-extractor.html">
+<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/word-image-extractor.html">
+<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/word-image-extractor.html">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  :root { --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a; --border: #2a2a2a; --accent: #e8ff3c; --accent2: #ff5533; --text: #f0ede6; --muted: #666; --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px); background-size: 60px 60px; }
+  
+  /* HEADER STYLES */
+  header {
+    position: relative; z-index: 100;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+
+  /* Dropdown */
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text); background: none; border: 1px solid var(--border);
+    padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-menu.open { display: block; }
+  .nav-menu a {
+    display: block; padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+
+  /* Lang switcher */
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    padding: 5px 9px; background: none; border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; transition: all 0.2s;
+  }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
+
+  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .blog-btn.active { border-color: var(--accent); color: var(--accent); }
+
+  /* MAIN CONTENT STYLES */
+  .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
+  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .content { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; padding: 36px 40px 80px; }
+  .drop-zone { border: 2px dashed var(--border); padding: 60px 40px; text-align: center; cursor: pointer; transition: all 0.25s; background: var(--surface); overflow: hidden; position: relative; }
+  .drop-zone::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 60%, rgba(232,255,60,0.04)); pointer-events: none; }
+  .drop-zone:hover, .drop-zone.dragging { border-color: var(--accent); background: rgba(232,255,60,0.04); }
+  .drop-zone:hover .dz-icon, .drop-zone.dragging .dz-icon { transform: scale(1.1) translateY(-4px); color: var(--accent); }
+  .dz-icon { font-size: 3rem; margin-bottom: 16px; display: block; color: var(--muted); transition: all 0.3s; }
+  .dz-title { font-family: var(--display); font-size: 1.8rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 8px; }
+  .dz-sub { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  input[type="file"] { display: none; }
+  .file-list { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .file-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.78rem; }
+  .file-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .file-name { flex: 1; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-size { color: var(--muted); flex-shrink: 0; }
+  .convert-btn { margin-top: 28px; width: 100%; padding: 18px; background: var(--accent); color: #0a0a0a; font-family: var(--display); font-size: 1.4rem; letter-spacing: 0.12em; border: none; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+  .convert-btn::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0); transition: background 0.2s; }
+  .convert-btn:hover::after { background: rgba(255,255,255,0.1); }
+  .convert-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+  .progress-wrap { margin-top: 16px; display: none; }
+  .progress-bar { height: 3px; background: var(--border); overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .progress-text { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-align: center; letter-spacing: 0.1em; text-transform: uppercase; }
+  .result-section { margin-top: 24px; display: none; }
+  .result-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .images-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .image-item { border: 1px solid var(--border); background: var(--surface2); padding: 8px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .image-item img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .result-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(232,255,60,0.05); border: 1px solid rgba(232,255,60,0.2); margin-bottom: 8px; }
+  .result-name { font-family: var(--mono); font-size: 0.78rem; color: var(--text); }
+  .download-btn { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 16px; background: none; border: 1px solid var(--accent); color: var(--accent); cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+  .download-btn:hover { background: var(--accent); color: #0a0a0a; }
+  .seo-block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .seo-block h2 { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px; }
+  .seo-block p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
+  .footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-sep { color: var(--border); font-family: var(--mono); font-size: 0.65rem; }
+  .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  @media (max-width: 480px) {
+    header { padding: 12px 16px; }
+    .logo { font-size: 1.5rem; }
+    .lang-btn { padding: 4px 6px; font-size: 0.55rem; }
+    .nav-toggle { padding: 6px 10px; font-size: 0.65rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/pt/" class="logo">PDF<span>reeto</span></a>
+
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Todas <span class="arrow">▾</span></button>
+    <div class="nav-menu" id="nav-menu">
+    <a href="/pt/"  class=active>JPG ↔ PDF</a>
+    <a href="/pt/pdf-to-word.html"  class=active>Word para PDF</a>
+    <a href="/pt/word-image-extractor.html"  class=active>Extrair Imagens</a>
+    <a href="/pt/compress-pdf.html"  class=active>Comprimir PDF</a>
+    <a href="/pt/compress-jpg.html"  class=active>Comprimir JPG</a>
+    <a href="/pt/merge-jpg.html"  class=active>Juntar JPG</a>
+    <a href="/pt/merge-pdf.html"  class=active>Juntar PDF</a>
+    <a href="/pt/tts.html"  class=active>Texto para Voz</a>
+    <a href="/pt/pdf-ai.html"  class=active>PDF AI</a>
+    <a href="/pt/social-media.html"  class=active>Redes Sociais</a>
+    <a href="/pt/seo.html"  class=active>SEO</a>
+    </div>
+  </div>
+
+  <a href="/capas.html" class="blog-btn">Capas</a>
+  <a href="/pt/blog/" class="blog-btn">Blog</a>
+  <div class="lang-switcher">
+    
+<a href="/" class="lang-btn">EN</a>    <a href="/pt/" class="lang-btn  active">PT</a>    <a href="/br/" class="lang-btn">BR</a>    <a href="/es/" class="lang-btn">ES</a>    <a href="/fr/" class="lang-btn">FR</a>    <a href="/de/" class="lang-btn">DE</a>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Extrair <span class="hl">Imagens</span> de Word</h1>
+  <p>Descarregue todas as imagens de ficheiros .docx em resolução completa</p>
+</div>
+
+<div class="content">
+  <div class="drop-zone" id="drop-zone">
+    <span class="dz-icon">📁</span>
+    <div class="dz-title">Largue o ficheiro Word aqui</div>
+    <div class="dz-sub">Ou clique para procurar (.docx, .pptx — máx 200 MB)</div>
+  </div>
+  <input type="file" id="file-input" accept=".docx,.pptx">
+  
+  <div class="file-list" id="file-list"></div>
+  
+  <button class="convert-btn" id="convert-btn" disabled>EXTRAIR IMAGENS</button>
+  
+  <div class="progress-wrap" id="progress">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-text" id="progress-text">Processando...</div>
+  </div>
+  
+  <div class="result-section" id="result-section">
+    <div class="result-title">IMAGENS EXTRAÍDAS</div>
+    <div class="images-grid" id="images-grid"></div>
+    <div class="result-title" style="margin-top: 24px;">DESCARREGAMENTOS</div>
+    <div class="result-item">
+      <span class="result-name" id="result-name">imagens.zip</span>
+      <a href="#" class="download-btn" id="download-all">Descarregar Tudo</a>
+    </div>
+    <div id="result-list"></div>
+  </div>
+
+  <div class="seo-block">
+    <h2>Por que usar o PDFreeto?</h2>
+    <p><strong>Rápido e Grátis:</strong> Extraia todas as imagens de documentos Word em segundos. Sem registo, sem limitações, completamente gratuito.</p>
+    <p><strong>100% Privado:</strong> Todo o processamento ocorre no seu navegador. Os seus ficheiros nunca saem do seu dispositivo ou tocam nos nossos servidores.</p>
+    <p><strong>Qualidade Original:</strong> As imagens são extraídas na sua resolução original. Sem compressão, sem perda de qualidade.</p>
+    <p><strong>Todos os Formatos:</strong> Suporta JPEG, PNG, GIF, BMP, TIFF, EMF e muito mais. Funciona com qualquer documento Word.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="pdf-to-word.html">Converter Word para PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="word-image-extractor.html">Extrair Imagens</a>
+    <span class="footer-sep">·</span>
+    <a href="compress-pdf.html">Comprimir PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="compress-jpg.html">Comprimir JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="merge-jpg.html">Juntar JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="merge-pdf.html">Juntar PDF</a>
+  </div>
+  <div class="footer-note">© 2026 PDFreeto — 100% Baseado no Navegador • Sem Uploads • Completamente Privado</div>
+</footer>
+
+<script>
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+
+  let allImages = [];
+  let selectedFile = null;
+
+  const dz = document.getElementById('drop-zone');
+  const inp = document.getElementById('file-input');
+  const btn = document.getElementById('convert-btn');
+  const prog = document.getElementById('progress');
+  const fill = document.getElementById('progress-fill');
+  const progText = document.getElementById('progress-text');
+  const resultSec = document.getElementById('result-section');
+  const imagesGrid = document.getElementById('images-grid');
+  const resultList = document.getElementById('result-list');
+  const fileList = document.getElementById('file-list');
+
+  dz.addEventListener('click', () => inp.click());
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragging'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('dragging'));
+  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragging'); setFile(e.dataTransfer.files[0]); });
+  inp.addEventListener('change', () => setFile(inp.files[0]));
+
+  function setFile(f) {
+    if (!f || (!f.name.endsWith('.docx') && !f.name.endsWith('.pptx'))) return;
+    selectedFile = f;
+    fileList.innerHTML = `<div class="file-item"><div class="file-dot"></div><span class="file-name">${f.name}</span><span class="file-size">${fmt(f.size)}</span></div>`;
+    btn.disabled = false;
+    resultSec.style.display = 'none';
+  }
+
+  btn.addEventListener('click', extractImages);
+
+  async function extractImages() {
+    if (!selectedFile) return;
+    btn.disabled = true;
+    prog.style.display = 'block';
+    fill.style.width = '0%';
+    progText.textContent = 'Lendo ficheiro...';
+
+    try {
+      fill.style.width = '20%';
+      const ab = await selectedFile.arrayBuffer();
+      const zip = new JSZip();
+      const data = await zip.loadAsync(ab);
+      
+      fill.style.width = '40%';
+      progText.textContent = 'Extraindo imagens...';
+
+      const mediaFolder = data.folder('word/media') || data.folder('ppt/media');
+      allImages = [];
+
+      if (mediaFolder) {
+        const files = Object.keys(mediaFolder.files);
+        for (const filePath of files) {
+          const imageFile = mediaFolder.files[filePath];
+          if (!imageFile.dir) {
+            const blob = await imageFile.async('blob');
+            const url = URL.createObjectURL(blob);
+            const ext = filePath.split('.').pop().toLowerCase();
+            allImages.push({ name: filePath.split('/').pop(), url, blob, type: ext });
+          }
+        }
+      }
+
+      fill.style.width = '100%';
+      prog.style.display = 'none';
+      btn.disabled = false;
+
+      if (allImages.length > 0) displayResults();
+    } catch (e) {
+      console.error(e);
+      progText.textContent = 'Ocorreu um erro';
+      prog.style.display = 'none';
+      btn.disabled = false;
+    }
+  }
+
+  function displayResults() {
+    imagesGrid.innerHTML = '';
+    allImages.forEach((img, idx) => {
+      const item = document.createElement('div');
+      item.className = 'image-item';
+      item.innerHTML = `<img src="${img.url}" alt="${img.name}" title="${img.name}">`;
+      imagesGrid.appendChild(item);
+    });
+
+    resultList.innerHTML = '';
+    allImages.forEach((img, idx) => {
+      const item = document.createElement('div');
+      item.className = 'result-item';
+      item.innerHTML = `<span class="result-name">${img.name}</span><a href="${img.url}" download="${img.name}" class="download-btn">Descarregar</a>`;
+      resultList.appendChild(item);
+    });
+
+    document.getElementById('download-all').addEventListener('click', downloadAllAsZip);
+    resultSec.style.display = 'block';
+  }
+
+  async function downloadAllAsZip(e) {
+    e.preventDefault();
+    const zip = new JSZip();
+    allImages.forEach(img => zip.file(img.name, img.blob));
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'imagens-' + Date.now() + '.zip';
+    a.click();
+  }
+
+  function fmt(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+    return (b/1048576).toFixed(1) + ' MB';
+  }
+</script>
+</body>
+</html>
