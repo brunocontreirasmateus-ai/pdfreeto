@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extrair Imagens de Word | PDFreeto - Ferramenta Online Grátis</title>
+    <meta name="description" content="Baixe todas as imagens de documentos Word em resolução completa. Grátis, rápido e sem necessidade de cadastro. Extrai JPEG, PNG, GIF e muito mais de arquivos .docx instantaneamente.">
+    <meta name="keywords" content="extrair imagens de word, extrator de imagens word, extrator docx, baixar imagens word">
+    <meta property="og:title" content="Extrair Imagens de Word | PDFreeto">
+    <meta property="og:description" content="Baixe todas as imagens de documentos Word em resolução completa. Grátis e sem cadastro necessário.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1e40af;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-tertiary: #9ca3af;
+            --border: #e5e7eb;
+            --border-light: #f3f4f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-light: #60a5fa;
+            --primary-dark: #1e40af;
+            --text-primary: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --text-tertiary: #9ca3af;
+            --border: #374151;
+            --border-light: #1f2937;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-primary);
+            background: #ffffff;
+            line-height: 1.6;
+        }
+
+        [data-theme="dark"] body {
+            background: #111827;
+        }
+
+        /* Navigation */
+        nav {
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            background: #ffffff;
+            z-index: 100;
+        }
+
+        [data-theme="dark"] nav {
+            background: #1f2937;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .trust-bar {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: inline-block;
+            margin: 0 -8px;
+            border: 2px solid #ffffff;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .upload-box {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--border-light);
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        [data-theme="dark"] .upload-box:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .upload-box.dragactive {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .upload-box h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .upload-box p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* Results Section */
+        .results-section {
+            margin-bottom: 4rem;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .results-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .image-card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--border-light);
+        }
+
+        [data-theme="dark"] .image-card {
+            border-color: #374151;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 140px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .image-preview {
+            background: #1f2937;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .image-info {
+            padding: 1rem;
+        }
+
+        .image-name {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-bottom: 0.75rem;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        .image-download-btn {
+            width: 100%;
+            padding: 0.5rem;
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .image-download-btn:hover {
+            background: var(--border-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        [data-theme="dark"] .image-download-btn:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--border-light);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--border-light);
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+            border-radius: 12px;
+        }
+
+        [data-theme="dark"] .features {
+            background: #1f2937;
+        }
+
+        .features-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        [data-theme="dark"] .feature-card {
+            background: #111827;
+            border-color: #374151;
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 4rem 2rem;
+        }
+
+        .faq-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+        }
+
+        .faq-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s;
+        }
+
+        .faq-answer.open {
+            max-height: 200px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-primary);
+            color: #ffffff;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 14px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .images-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">PDFreeto</a>
+            <div class="nav-links">
+                <a href="/">JPG para PDF</a>
+                <a href="#features">Recursos</a>
+                <a href="#faq">Perguntas Frequentes</a>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="container">
+            <h1>Extrair Imagens de Word</h1>
+            <p>Baixe todas as imagens de documentos Word em resolução completa. Grátis e sem necessidade de cadastro.</p>
+            
+            <div class="trust-bar">
+                <div class="trust-item">
+                    <div style="display: flex; gap: -8px;">
+                        <div class="avatar"></div>
+                        <div class="avatar" style="background: #10b981;"></div>
+                        <div class="avatar" style="background: #f59e0b;"></div>
+                        <div class="avatar" style="background: #ef4444;"></div>
+                    </div>
+                </div>
+                <div class="trust-item">Usado por milhares diariamente</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="container">
+        <div class="upload-section">
+            <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon">📁</div>
+                <h3>Enviar seu arquivo Word</h3>
+                <p>.docx — máximo 200 MB</p>
+            </div>
+            <input type="file" id="fileInput" accept=".docx,.pptx">
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loadingState" style="display: none;">
+            <div class="spinner"></div>
+            <p style="color: var(--text-secondary);">Extraindo imagens do seu documento...</p>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <div class="results-header">
+                <h2 id="resultsTitle">Encontradas 0 imagens</h2>
+                <button class="btn btn-primary" id="downloadAllBtn" onclick="downloadAllAsZip()">
+                    ⬇️ Baixar Tudo em ZIP
+                </button>
+            </div>
+            <div class="images-grid" id="imagesGrid"></div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-icon">📭</div>
+            <p>Nenhuma imagem encontrada neste documento.</p>
+            <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()" style="margin-top: 1rem;">
+                Tentar outro arquivo
+            </button>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features" id="features">
+        <div class="container">
+            <h2 class="features-title">Por que escolher PDFreeto?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✓</div>
+                    <h3>Resolução Original</h3>
+                    <p>As imagens são extraídas em sua resolução original, sem qualquer redimensionamento ou compressão.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Processamento Rápido</h3>
+                    <p>Extrai todas as imagens em segundos, não importa quantas imagens seu documento contém.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>100% Seguro</h3>
+                    <p>O processamento acontece completamente no seu navegador. Seus arquivos nunca são enviados ou armazenados.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Todos os Formatos</h3>
+                    <p>Extrai JPEG, PNG, GIF, BMP, TIFF e imagens EMF do seu documento Word.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>Sem Software Necessário</h3>
+                    <p>Funciona completamente no seu navegador. Não requer Microsoft Word ou Office.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Download em Lote</h3>
+                    <p>Baixe todas as imagens de uma vez em arquivo ZIP. Sem necessidade de salvar individualmente.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq" id="faq">
+        <div class="container">
+            <h2 class="faq-title">Perguntas frequentes</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Quais formatos de imagem podem ser extraídos?</span>
+                        <span style="font-size: 20px;">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>O PDFreeto extrai todos os formatos de imagem comuns, incluindo JPEG, PNG, GIF, BMP, TIFF e imagens EMF que estejam incorporadas em documentos Word.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>A qualidade da imagem será preservada?</span>
+                        <span style="font-size: 20px;">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim! O PDFreeto extrai imagens em sua resolução original, sem qualquer compressão ou perda de qualidade. As imagens são extraídas exatamente como foram incorporadas no documento.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>É seguro enviar meus arquivos Word?</span>
+                        <span style="font-size: 20px;">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutamente! O PDFreeto processa seus arquivos completamente no seu navegador. Seus documentos nunca são enviados para nossos servidores nem armazenados em lugar algum. Todo o processamento acontece localmente no seu dispositivo.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Esta ferramenta é gratuita?</span>
+                        <span style="font-size: 20px;">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim, o Extrator de Imagens de Word do PDFreeto é 100% grátis. Sem inscrições, sem cadastro necessário, e sem limites de tamanho de arquivo. Use quantas vezes quiser.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 PDFreeto. Todos os direitos reservados.</p>
+        <p>Rápido, seguro, 100% processamento local - seus arquivos nunca deixam seu dispositivo.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm"></script>
+    <script>
+        let allImages = [];
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInput = document.getElementById('fileInput');
+        const loadingState = document.getElementById('loadingState');
+        const resultsSection = document.getElementById('resultsSection');
+        const emptyState = document.getElementById('emptyState');
+        const imagesGrid = document.getElementById('imagesGrid');
+
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.classList.add('dragactive');
+        });
+
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.classList.remove('dragactive');
+        });
+
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadBox.classList.remove('dragactive');
+            if (e.dataTransfer.files[0]) {
+                extractImages(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files[0]) {
+                extractImages(e.target.files[0]);
+            }
+        });
+
+        async function extractImages(file) {
+            loadingState.style.display = 'block';
+            resultsSection.style.display = 'none';
+            emptyState.style.display = 'none';
+
+            try {
+                const JSZip = (await import('https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm')).default;
+                const arrayBuffer = await file.arrayBuffer();
+                const zip = await JSZip.loadAsync(arrayBuffer);
+
+                const mediaFolder = zip.folder('word/media') || zip.folder('ppt/media');
+                allImages = [];
+
+                if (mediaFolder) {
+                    const files = Object.keys(mediaFolder.files);
+                    for (const filePath of files) {
+                        const imageFile = mediaFolder.files[filePath];
+                        if (!imageFile.dir) {
+                            const blob = await imageFile.async('blob');
+                            const url = URL.createObjectURL(blob);
+                            const ext = filePath.split('.').pop().toLowerCase();
+                            allImages.push({
+                                name: filePath.split('/').pop(),
+                                url,
+                                blob,
+                                type: ext
+                            });
+                        }
+                    }
+                }
+
+                loadingState.style.display = 'none';
+
+                if (allImages.length > 0) {
+                    displayResults();
+                } else {
+                    emptyState.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error extracting images:', error);
+                loadingState.style.display = 'none';
+                emptyState.style.display = 'block';
+            }
+        }
+
+        function displayResults() {
+            const title = document.getElementById('resultsTitle');
+            title.textContent = `Encontradas ${allImages.length} imagem${allImages.length !== 1 ? 'ns' : ''}`;
+
+            imagesGrid.innerHTML = '';
+            allImages.forEach((img, idx) => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.innerHTML = `
+                    <div class="image-preview">
+                        <img src="${img.url}" alt="${img.name}">
+                    </div>
+                    <div class="image-info">
+                        <div class="image-name" title="${img.name}">${img.name}</div>
+                        <button class="image-download-btn" onclick="downloadImage(${idx})">
+                            ⬇️ Baixar
+                        </button>
+                    </div>
+                `;
+                imagesGrid.appendChild(card);
+            });
+
+            resultsSection.style.display = 'block';
+        }
+
+        function downloadImage(idx) {
+            const img = allImages[idx];
+            const link = document.createElement('a');
+            link.href = img.url;
+            link.download = img.name;
+            link.click();
+        }
+
+        async function downloadAllAsZip() {
+            const JSZip = (await import('https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm')).default;
+            const zip = new JSZip();
+            
+            allImages.forEach((img) => {
+                zip.file(img.name, img.blob);
+            });
+            
+            const blob = await zip.generateAsync({ type: 'blob' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `imagens-${Date.now()}.zip`;
+            link.click();
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            answer.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton();
+        }
+
+        function updateThemeButton() {
+            const button = document.querySelector('.theme-toggle');
+            const current = document.documentElement.getAttribute('data-theme');
+            button.textContent = current === 'dark' ? '☀️' : '🌙';
+        }
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButton();
+    </script>
+</body>
+</html>
