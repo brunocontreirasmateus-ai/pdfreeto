@@ -93,8 +93,13 @@
   .crop-editor { display: none; }
   .crop-editor.active { display: block; }
   
-  .crop-canvas-wrap { position: relative; background: var(--surface); border: 1px solid var(--border); margin: 20px 0; padding: 20px; text-align: center; }
+  .crop-canvas-wrap { position: relative; background: var(--surface); border: 1px solid var(--border); margin: 20px 0; padding: 20px; display: flex; align-items: center; justify-content: center; gap: 20px; }
+  .canvas-container { flex: 1; text-align: center; }
   #crop-canvas { cursor: crosshair; max-width: 100%; max-height: 500px; display: inline-block; }
+  
+  .nav-arrow { font-size: 2.5rem; color: var(--muted); cursor: pointer; transition: all 0.2s; padding: 10px; flex-shrink: 0; }
+  .nav-arrow:hover { color: var(--accent); transform: scale(1.2); }
+  .nav-arrow:disabled { opacity: 0.3; cursor: not-allowed; color: var(--muted); }
   
   .image-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 12px; }
   .nav-btn { padding: 8px 14px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-family: var(--mono); font-size: 0.7rem; cursor: pointer; transition: all 0.2s; }
@@ -217,14 +222,14 @@
     <div class="file-list" id="file-list-crop"></div>
     
     <div class="crop-editor" id="crop-editor">
-      <div class="image-nav">
-        <button class="nav-btn" id="prev-btn" onclick="prevImage()">← Previous</button>
-        <div class="image-info" id="image-info">Image 1 of 1</div>
-        <button class="nav-btn" id="next-btn" onclick="nextImage()">Next →</button>
-      </div>
+      <div class="image-info" id="image-info" style="margin-bottom: 20px;">Image 1 of 1</div>
       
       <div class="crop-canvas-wrap">
-        <canvas id="crop-canvas"></canvas>
+        <button class="nav-arrow" id="prev-btn" onclick="prevImage()" title="Previous image">←</button>
+        <div class="canvas-container">
+          <canvas id="crop-canvas"></canvas>
+        </div>
+        <button class="nav-arrow" id="next-btn" onclick="nextImage()" title="Next image">→</button>
       </div>
       
       <div class="options">
@@ -478,10 +483,12 @@ function drawCrop() {
   document.getElementById('crop-w').value = crops.w;
   document.getElementById('crop-h').value = crops.h;
   
-  // Update info
+  // Update info and arrows
   document.getElementById('image-info').textContent = `Image ${currentIdx + 1} of ${cropFiles.length}`;
-  document.getElementById('prev-btn').disabled = currentIdx === 0;
-  document.getElementById('next-btn').disabled = currentIdx === cropFiles.length - 1;
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  prevBtn.disabled = currentIdx === 0;
+  nextBtn.disabled = currentIdx === cropFiles.length - 1;
 }
 
 // Drag on canvas
