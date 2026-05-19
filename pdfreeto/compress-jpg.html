@@ -669,6 +669,24 @@ function resetCrop() {
 }
 
 cropBtn.addEventListener('click', () => {
+  // Validate that crop has been defined
+  if (!cropFiles.length) {
+    alert('Please upload images first');
+    return;
+  }
+  
+  let hasValidCrop = false;
+  cropImagesData.forEach(data => {
+    if (data && data.crops.w > 0 && data.crops.h > 0) {
+      hasValidCrop = true;
+    }
+  });
+  
+  if (!hasValidCrop) {
+    alert('Please define crop size (Width and Height must be greater than 0)');
+    return;
+  }
+  
   const results = document.getElementById('results-crop');
   results.innerHTML = '';
   results.classList.add('active');
@@ -676,6 +694,15 @@ cropBtn.addEventListener('click', () => {
   cropFiles.forEach((file, idx) => {
     const data = cropImagesData[idx];
     const { x, y, w, h } = data.crops;
+    
+    // Skip if no crop defined for this image
+    if (w === 0 || h === 0) {
+      const item = document.createElement('div');
+      item.className = 'result-item';
+      item.innerHTML = `<div><div class="result-name">${file.name}</div><small style="color: var(--accent2); font-size: 0.65rem;">⚠️ No crop defined for this image</small></div>`;
+      results.appendChild(item);
+      return;
+    }
     
     const canvas = document.createElement('canvas');
     canvas.width = w;
