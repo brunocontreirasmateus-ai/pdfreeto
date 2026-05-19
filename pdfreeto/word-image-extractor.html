@@ -1,840 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extract Images from Word | PDFreeto - Free Online Tool</title>
-    <meta name="description" content="Download all images from Word documents in full resolution. Free, fast, and no sign-up required. Extract JPEG, PNG, GIF, and more from .docx files instantly.">
-    <meta name="keywords" content="extract images from word, word image extractor, docx image extractor, download images from word">
-    <meta property="og:title" content="Extract Images from Word | PDFreeto">
-    <meta property="og:description" content="Download all images from Word documents in full resolution. Free and no sign-up required.">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #2563eb;
-            --primary-light: #3b82f6;
-            --primary-dark: #1e40af;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --text-tertiary: #9ca3af;
-            --border: #e5e7eb;
-            --border-light: #f3f4f6;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-        }
-
-        [data-theme="dark"] {
-            --primary: #3b82f6;
-            --primary-light: #60a5fa;
-            --primary-dark: #1e40af;
-            --text-primary: #f3f4f6;
-            --text-secondary: #d1d5db;
-            --text-tertiary: #9ca3af;
-            --border: #374151;
-            --border-light: #1f2937;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            color: var(--text-primary);
-            background: #ffffff;
-            line-height: 1.6;
-        }
-
-        [data-theme="dark"] body {
-            background: #111827;
-        }
-
-        /* Navigation */
-        nav {
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            background: #ffffff;
-            z-index: 100;
-        }
-
-        [data-theme="dark"] nav {
-            background: #1f2937;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 20px;
-            color: var(--text-primary);
-        }
-
-        /* Main Content */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .hero p {
-            font-size: 20px;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .trust-bar {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .trust-item {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: inline-block;
-            margin: 0 -8px;
-            border: 2px solid #ffffff;
-        }
-
-        /* Upload Section */
-        .upload-section {
-            max-width: 600px;
-            margin: 0 auto 4rem;
-        }
-
-        .upload-box {
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 3rem 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: var(--border-light);
-        }
-
-        .upload-box:hover {
-            border-color: var(--primary);
-            background: #eff6ff;
-        }
-
-        [data-theme="dark"] .upload-box:hover {
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .upload-box.dragactive {
-            border-color: var(--primary);
-            background: #eff6ff;
-        }
-
-        .upload-icon {
-            font-size: 48px;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .upload-box h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .upload-box p {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        #fileInput {
-            display: none;
-        }
-
-        /* Results Section */
-        .results-section {
-            margin-bottom: 4rem;
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .results-header h2 {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .images-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .image-card {
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            background: var(--border-light);
-        }
-
-        [data-theme="dark"] .image-card {
-            border-color: #374151;
-        }
-
-        .image-preview {
-            width: 100%;
-            height: 140px;
-            background: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        [data-theme="dark"] .image-preview {
-            background: #1f2937;
-        }
-
-        .image-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .image-info {
-            padding: 1rem;
-        }
-
-        .image-name {
-            font-size: 12px;
-            color: var(--text-tertiary);
-            margin-bottom: 0.75rem;
-            word-break: break-word;
-            line-height: 1.4;
-        }
-
-        .image-download-btn {
-            width: 100%;
-            padding: 0.5rem;
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 13px;
-            cursor: pointer;
-            color: var(--text-primary);
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .image-download-btn:hover {
-            background: var(--border-light);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        [data-theme="dark"] .image-download-btn:hover {
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: #ffffff;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-secondary {
-            background: var(--border-light);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--border);
-        }
-
-        /* Features Section */
-        .features {
-            background: var(--border-light);
-            padding: 4rem 2rem;
-            margin: 4rem 0;
-            border-radius: 12px;
-        }
-
-        [data-theme="dark"] .features {
-            background: #1f2937;
-        }
-
-        .features-title {
-            text-align: center;
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 3rem;
-            color: var(--text-primary);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .feature-card {
-            background: #ffffff;
-            padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        [data-theme="dark"] .feature-card {
-            background: #111827;
-            border-color: #374151;
-        }
-
-        .feature-icon {
-            font-size: 32px;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .feature-card p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* FAQ Section */
-        .faq {
-            padding: 4rem 2rem;
-        }
-
-        .faq-title {
-            text-align: center;
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 3rem;
-            color: var(--text-primary);
-        }
-
-        .faq-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-
-        .faq-question {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.75rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .faq-answer {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s;
-        }
-
-        .faq-answer.open {
-            max-height: 200px;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--text-primary);
-            color: #ffffff;
-            padding: 3rem 2rem;
-            margin-top: 4rem;
-            text-align: center;
-        }
-
-        footer p {
-            font-size: 14px;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Loading State */
-        .loading {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--border);
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-secondary);
-        }
-
-        .empty-state-icon {
-            font-size: 64px;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 32px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .images-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-        }
-    </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EXHT3PYZF8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EXHT3PYZF8');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Extract Images from Word Free — PDFreeto</title>
+<meta name="description" content="Extract all images from Word (.docx) documents in full resolution. No upload, no signup. 100% browser-based and private.">
+<link rel="canonical" href="https://pdfreeto.com/word-image-extractor.html">
+<link rel="alternate" hreflang="en" href="https://pdfreeto.com/word-image-extractor.html">
+<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/word-image-extractor.html">
+<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/word-image-extractor.html">
+<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/word-image-extractor.html">
+<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/word-image-extractor.html">
+<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/word-image-extractor.html">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  :root { --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a; --border: #2a2a2a; --accent: #e8ff3c; --accent2: #ff5533; --text: #f0ede6; --muted: #666; --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(232,255,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,60,0.03) 1px, transparent 1px); background-size: 60px 60px; }
+  header { position: relative; z-index: 100; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 16px; }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
+  .logo span { color: var(--accent); }
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu { display: none; position: absolute; top: calc(100% + 8px); left: 0; background: var(--surface); border: 1px solid var(--border); min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  .nav-menu.open { display: block; }
+  .nav-menu a { display: block; padding: 10px 16px; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); transition: all 0.15s; }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+  .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
+  .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
+  .hero h1 .hl { color: var(--accent); }
+  .hero p { margin-top: 18px; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .content { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; padding: 36px 40px 80px; }
+  .drop-zone { border: 2px dashed var(--border); padding: 60px 40px; text-align: center; cursor: pointer; transition: all 0.25s; background: var(--surface); overflow: hidden; position: relative; }
+  .drop-zone::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 60%, rgba(232,255,60,0.04)); pointer-events: none; }
+  .drop-zone:hover, .drop-zone.dragging { border-color: var(--accent); background: rgba(232,255,60,0.04); }
+  .drop-zone:hover .dz-icon, .drop-zone.dragging .dz-icon { transform: scale(1.1) translateY(-4px); color: var(--accent); }
+  .dz-icon { font-size: 3rem; margin-bottom: 16px; display: block; color: var(--muted); transition: all 0.3s; }
+  .dz-title { font-family: var(--display); font-size: 1.8rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 8px; }
+  .dz-sub { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  input[type="file"] { display: none; }
+  .file-list { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .file-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.78rem; }
+  .file-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .file-name { flex: 1; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-size { color: var(--muted); flex-shrink: 0; }
+  .convert-btn { margin-top: 28px; width: 100%; padding: 18px; background: var(--accent); color: #0a0a0a; font-family: var(--display); font-size: 1.4rem; letter-spacing: 0.12em; border: none; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+  .convert-btn::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0); transition: background 0.2s; }
+  .convert-btn:hover::after { background: rgba(255,255,255,0.1); }
+  .convert-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+  .progress-wrap { margin-top: 16px; display: none; }
+  .progress-bar { height: 3px; background: var(--border); overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .progress-text { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-align: center; letter-spacing: 0.1em; text-transform: uppercase; }
+  .result-section { margin-top: 24px; display: none; }
+  .result-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .images-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .image-item { border: 1px solid var(--border); background: var(--surface2); padding: 8px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .image-item img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .result-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(232,255,60,0.05); border: 1px solid rgba(232,255,60,0.2); margin-bottom: 8px; }
+  .result-name { font-family: var(--mono); font-size: 0.78rem; color: var(--text); }
+  .download-btn { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 16px; background: none; border: 1px solid var(--accent); color: var(--accent); cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+  .download-btn:hover { background: var(--accent); color: #0a0a0a; }
+  .seo-block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .seo-block h2 { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 12px; }
+  .seo-block p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  footer { position: relative; z-index: 10; text-align: center; padding: 24px; border-top: 1px solid var(--border); }
+  .footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .footer-links a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-sep { color: var(--border); font-family: var(--mono); font-size: 0.65rem; }
+  .footer-note { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  @media (max-width: 640px) { header { padding: 12px 20px; } .hero { padding: 40px 20px 24px; } .content { padding: 24px 20px 60px; } .dz-icon { font-size: 2rem; } .dz-title { font-size: 1.4rem; } }
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <a href="/" class="logo">PDFreeto</a>
-            <div class="nav-links">
-                <a href="/">JPG to PDF</a>
-                <a href="#features">Features</a>
-                <a href="#faq">FAQ</a>
-                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <div class="hero">
-        <div class="container">
-            <h1>Extract Images from Word</h1>
-            <p>Download all images from any Word (.docx) document in full resolution. Free and no sign-up required.</p>
-            
-            <div class="trust-bar">
-                <div class="trust-item">
-                    <div style="display: flex; gap: -8px;">
-                        <div class="avatar"></div>
-                        <div class="avatar" style="background: #10b981;"></div>
-                        <div class="avatar" style="background: #f59e0b;"></div>
-                        <div class="avatar" style="background: #ef4444;"></div>
-                    </div>
-                </div>
-                <div class="trust-item">Used by thousands daily</div>
-            </div>
-        </div>
+<header>
+  <a href="/" class="logo">PDF<span>reet</span>o</a>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-btn">Tools <span class="arrow">▼</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/">JPG to PDF</a>
+      <a href="/compress-pdf.html">Compress PDF</a>
+      <a href="/compress-jpg.html">Compress JPG</a>
+      <a href="/merge-pdf.html">Merge PDF</a>
+      <a href="/merge-jpg.html">Merge JPG</a>
+      <a href="/pdf-to-word.html">PDF to Word</a>
+      <a href="/word-image-extractor.html" class="active">Extract Images</a>
     </div>
+  </div>
+</header>
 
-    <!-- Upload Section -->
-    <div class="container">
-        <div class="upload-section">
-            <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
-                <div class="upload-icon">📁</div>
-                <h3>Upload your Word file here</h3>
-                <p>.docx — max 200 MB</p>
-            </div>
-            <input type="file" id="fileInput" accept=".docx,.pptx">
-        </div>
+<div class="hero">
+  <h1>Extract <span class="hl">Images</span> from Word</h1>
+  <p>Download all images from .docx files in full resolution</p>
+</div>
 
-        <!-- Loading State -->
-        <div class="loading" id="loadingState" style="display: none;">
-            <div class="spinner"></div>
-            <p style="color: var(--text-secondary);">Extracting images from your document...</p>
-        </div>
-
-        <!-- Results Section -->
-        <div class="results-section" id="resultsSection" style="display: none;">
-            <div class="results-header">
-                <h2 id="resultsTitle">Found 0 images</h2>
-                <button class="btn btn-primary" id="downloadAllBtn" onclick="downloadAllAsZip()">
-                    ⬇️ Download All as ZIP
-                </button>
-            </div>
-            <div class="images-grid" id="imagesGrid"></div>
-        </div>
-
-        <!-- Empty State -->
-        <div class="empty-state" id="emptyState" style="display: none;">
-            <div class="empty-state-icon">📭</div>
-            <p>No images found in this document.</p>
-            <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()" style="margin-top: 1rem;">
-                Try another file
-            </button>
-        </div>
+<div class="content">
+  <div class="drop-zone" id="drop-zone">
+    <span class="dz-icon">📁</span>
+    <div class="dz-title">Drop Word file here</div>
+    <div class="dz-sub">Or click to browse (.docx, .pptx — max 200 MB)</div>
+  </div>
+  <input type="file" id="file-input" accept=".docx,.pptx">
+  
+  <div class="file-list" id="file-list"></div>
+  
+  <button class="convert-btn" id="convert-btn" disabled>EXTRACT IMAGES</button>
+  
+  <div class="progress-wrap" id="progress">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-text" id="progress-text">Processing...</div>
+  </div>
+  
+  <div class="result-section" id="result-section">
+    <div class="result-title">IMAGES EXTRACTED</div>
+    <div class="images-grid" id="images-grid"></div>
+    <div class="result-title" style="margin-top: 24px;">DOWNLOADS</div>
+    <div class="result-item">
+      <span class="result-name" id="result-name">images.zip</span>
+      <a href="#" class="download-btn" id="download-all">Download All</a>
     </div>
+    <div id="result-list"></div>
+  </div>
 
-    <!-- Features Section -->
-    <div class="features" id="features">
-        <div class="container">
-            <h2 class="features-title">Why choose PDFreeto?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">✓</div>
-                    <h3>Original Resolution</h3>
-                    <p>Images are extracted at their original resolution with no downscaling or compression applied.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Fast Processing</h3>
-                    <p>Extract all images in seconds, no matter how many images your document contains.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>100% Secure</h3>
-                    <p>Processing happens entirely in your browser. Your files are never uploaded or stored.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3>All Formats Supported</h3>
-                    <p>Extracts JPEG, PNG, GIF, BMP, TIFF, and EMF images from your Word document.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💻</div>
-                    <h3>No Software Needed</h3>
-                    <p>Works entirely in your browser. No Microsoft Word or Office installation required.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📦</div>
-                    <h3>Bulk Download</h3>
-                    <p>Download all images at once as a ZIP file. No need to save them individually.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="seo-block">
+    <h2>Why Use PDFreeto?</h2>
+    <p><strong>Fast & Free:</strong> Extract all images from Word documents in seconds. No signup, no limitations, completely free.</p>
+    <p><strong>100% Private:</strong> All processing happens in your browser. Your files never leave your device or touch our servers.</p>
+    <p><strong>Original Quality:</strong> Images are extracted at their original resolution. No compression, no quality loss.</p>
+    <p><strong>All Formats:</strong> Supports JPEG, PNG, GIF, BMP, TIFF, EMF and more. Works with any Word document.</p>
+  </div>
+</div>
 
-    <!-- FAQ Section -->
-    <div class="faq" id="faq">
-        <div class="container">
-            <h2 class="faq-title">Frequently asked questions</h2>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>What image formats can be extracted?</span>
-                        <span style="font-size: 20px;">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>PDFreeto extracts all common image formats including JPEG, PNG, GIF, BMP, TIFF, and EMF images that are embedded in Word documents.</p>
-                    </div>
-                </div>
+<footer>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <span class="footer-sep">—</span>
+    <a href="/compress-pdf.html">Compress</a>
+    <span class="footer-sep">—</span>
+    <a href="/merge-pdf.html">Merge</a>
+  </div>
+  <div class="footer-note">© 2026 PDFreeto — 100% Browser-Based • No Uploads • Completely Private</div>
+</footer>
 
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>Will image quality be preserved?</span>
-                        <span style="font-size: 20px;">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes! PDFreeto extracts images at their original resolution without any compression or quality loss. Your images are extracted exactly as they were embedded in the document.</p>
-                    </div>
-                </div>
+<script>
+  let allImages = [];
+  let selectedFile = null;
 
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>Is it safe to upload my Word files?</span>
-                        <span style="font-size: 20px;">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Absolutely! PDFreeto processes your files entirely in your browser. Your documents are never uploaded to our servers or stored anywhere. All processing happens locally on your device.</p>
-                    </div>
-                </div>
+  const dz = document.getElementById('drop-zone');
+  const inp = document.getElementById('file-input');
+  const btn = document.getElementById('convert-btn');
+  const prog = document.getElementById('progress');
+  const fill = document.getElementById('progress-fill');
+  const progText = document.getElementById('progress-text');
+  const resultSec = document.getElementById('result-section');
+  const imagesGrid = document.getElementById('images-grid');
+  const resultList = document.getElementById('result-list');
+  const fileList = document.getElementById('file-list');
+  const navBtn = document.getElementById('nav-btn');
+  const navMenu = document.getElementById('nav-menu');
 
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>Is this tool free?</span>
-                        <span style="font-size: 20px;">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes, PDFreeto Word Image Extractor is 100% free. No subscriptions, no account required, and no file size limits. Use it as many times as you want.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  navBtn.addEventListener('click', () => {
+    navBtn.classList.toggle('open');
+    navMenu.classList.toggle('open');
+  });
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 PDFreeto. All rights reserved.</p>
-        <p>Fast, secure, 100% local processing - files never leave your device.</p>
-    </footer>
+  dz.addEventListener('click', () => inp.click());
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragging'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('dragging'));
+  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragging'); setFile(e.dataTransfer.files[0]); });
+  inp.addEventListener('change', () => setFile(inp.files[0]));
 
-    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm"></script>
-    <script>
-        let allImages = [];
-        const uploadBox = document.getElementById('uploadBox');
-        const fileInput = document.getElementById('fileInput');
-        const loadingState = document.getElementById('loadingState');
-        const resultsSection = document.getElementById('resultsSection');
-        const emptyState = document.getElementById('emptyState');
-        const imagesGrid = document.getElementById('imagesGrid');
+  function setFile(f) {
+    if (!f || (!f.name.endsWith('.docx') && !f.name.endsWith('.pptx'))) return;
+    selectedFile = f;
+    fileList.innerHTML = `<div class="file-item"><div class="file-dot"></div><span class="file-name">${f.name}</span><span class="file-size">${fmt(f.size)}</span></div>`;
+    btn.disabled = false;
+    resultSec.style.display = 'none';
+  }
 
-        // Drag and drop
-        uploadBox.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadBox.classList.add('dragactive');
-        });
+  btn.addEventListener('click', extractImages);
 
-        uploadBox.addEventListener('dragleave', () => {
-            uploadBox.classList.remove('dragactive');
-        });
+  async function extractImages() {
+    if (!selectedFile) return;
+    btn.disabled = true;
+    prog.style.display = 'block';
+    fill.style.width = '0%';
+    progText.textContent = 'Reading file...';
 
-        uploadBox.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadBox.classList.remove('dragactive');
-            if (e.dataTransfer.files[0]) {
-                extractImages(e.dataTransfer.files[0]);
-            }
-        });
+    try {
+      fill.style.width = '20%';
+      const ab = await selectedFile.arrayBuffer();
+      const zip = new JSZip();
+      const data = await zip.loadAsync(ab);
+      
+      fill.style.width = '40%';
+      progText.textContent = 'Extracting images...';
 
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files[0]) {
-                extractImages(e.target.files[0]);
-            }
-        });
+      const mediaFolder = data.folder('word/media') || data.folder('ppt/media');
+      allImages = [];
 
-        async function extractImages(file) {
-            loadingState.style.display = 'block';
-            resultsSection.style.display = 'none';
-            emptyState.style.display = 'none';
-
-            try {
-                const JSZip = (await import('https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm')).default;
-                const arrayBuffer = await file.arrayBuffer();
-                const zip = await JSZip.loadAsync(arrayBuffer);
-
-                const mediaFolder = zip.folder('word/media') || zip.folder('ppt/media');
-                allImages = [];
-
-                if (mediaFolder) {
-                    const files = Object.keys(mediaFolder.files);
-                    for (const filePath of files) {
-                        const imageFile = mediaFolder.files[filePath];
-                        if (!imageFile.dir) {
-                            const blob = await imageFile.async('blob');
-                            const url = URL.createObjectURL(blob);
-                            const ext = filePath.split('.').pop().toLowerCase();
-                            allImages.push({
-                                name: filePath.split('/').pop(),
-                                url,
-                                blob,
-                                type: ext
-                            });
-                        }
-                    }
-                }
-
-                loadingState.style.display = 'none';
-
-                if (allImages.length > 0) {
-                    displayResults();
-                } else {
-                    emptyState.style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Error extracting images:', error);
-                loadingState.style.display = 'none';
-                emptyState.style.display = 'block';
-            }
+      if (mediaFolder) {
+        const files = Object.keys(mediaFolder.files);
+        for (const filePath of files) {
+          const imageFile = mediaFolder.files[filePath];
+          if (!imageFile.dir) {
+            const blob = await imageFile.async('blob');
+            const url = URL.createObjectURL(blob);
+            const ext = filePath.split('.').pop().toLowerCase();
+            allImages.push({ name: filePath.split('/').pop(), url, blob, type: ext });
+          }
         }
+      }
 
-        function displayResults() {
-            const title = document.getElementById('resultsTitle');
-            title.textContent = `Found ${allImages.length} image${allImages.length !== 1 ? 's' : ''}`;
+      fill.style.width = '100%';
+      prog.style.display = 'none';
+      btn.disabled = false;
 
-            imagesGrid.innerHTML = '';
-            allImages.forEach((img, idx) => {
-                const card = document.createElement('div');
-                card.className = 'image-card';
-                card.innerHTML = `
-                    <div class="image-preview">
-                        <img src="${img.url}" alt="${img.name}">
-                    </div>
-                    <div class="image-info">
-                        <div class="image-name" title="${img.name}">${img.name}</div>
-                        <button class="image-download-btn" onclick="downloadImage(${idx})">
-                            ⬇️ Download
-                        </button>
-                    </div>
-                `;
-                imagesGrid.appendChild(card);
-            });
+      if (allImages.length > 0) displayResults();
+    } catch (e) {
+      console.error(e);
+      progText.textContent = 'Error occurred';
+      prog.style.display = 'none';
+      btn.disabled = false;
+    }
+  }
 
-            resultsSection.style.display = 'block';
-        }
+  function displayResults() {
+    imagesGrid.innerHTML = '';
+    allImages.forEach((img, idx) => {
+      const item = document.createElement('div');
+      item.className = 'image-item';
+      item.innerHTML = `<img src="${img.url}" alt="${img.name}" title="${img.name}">`;
+      imagesGrid.appendChild(item);
+    });
 
-        function downloadImage(idx) {
-            const img = allImages[idx];
-            const link = document.createElement('a');
-            link.href = img.url;
-            link.download = img.name;
-            link.click();
-        }
+    resultList.innerHTML = '';
+    allImages.forEach((img, idx) => {
+      const item = document.createElement('div');
+      item.className = 'result-item';
+      item.innerHTML = `<span class="result-name">${img.name}</span><a href="${img.url}" download="${img.name}" class="download-btn">Download</a>`;
+      resultList.appendChild(item);
+    });
 
-        async function downloadAllAsZip() {
-            const JSZip = (await import('https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm')).default;
-            const zip = new JSZip();
-            
-            allImages.forEach((img) => {
-                zip.file(img.name, img.blob);
-            });
-            
-            const blob = await zip.generateAsync({ type: 'blob' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `images-${Date.now()}.zip`;
-            link.click();
-        }
+    document.getElementById('download-all').addEventListener('click', downloadAllAsZip);
+    resultSec.style.display = 'block';
+  }
 
-        function toggleFaq(element) {
-            const answer = element.nextElementSibling;
-            answer.classList.toggle('open');
-        }
+  async function downloadAllAsZip(e) {
+    e.preventDefault();
+    const zip = new JSZip();
+    allImages.forEach(img => zip.file(img.name, img.blob));
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'images-' + Date.now() + '.zip';
+    a.click();
+  }
 
-        function toggleTheme() {
-            const html = document.documentElement;
-            const current = html.getAttribute('data-theme');
-            const newTheme = current === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeButton();
-        }
-
-        function updateThemeButton() {
-            const button = document.querySelector('.theme-toggle');
-            const current = document.documentElement.getAttribute('data-theme');
-            button.textContent = current === 'dark' ? '☀️' : '🌙';
-        }
-
-        // Initialize theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        updateThemeButton();
-    </script>
+  function fmt(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+    return (b/1048576).toFixed(1) + ' MB';
+  }
+</script>
 </body>
 </html>
