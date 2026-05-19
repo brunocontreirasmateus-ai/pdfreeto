@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-PT">
 <head>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXHT3PYZF8"></script>
 <script>
@@ -10,9 +10,15 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Compress & Crop JPG — Edit Images Online Free — PDFreeto</title>
-<meta name="description" content="Compress and crop JPG/PNG images for free. Reduce size, resize, crop and edit images without quality loss. 100% browser-based and private.">
-<link rel="canonical" href="https://pdfreeto.com/compress-jpg.html">
+<title>Comprimir e Cortar Imagens JPG — Editar Imagens Online Grátis — PDFreeto</title>
+<meta name="description" content="Comprima e corte imagens JPG/PNG grátis. Reduza o tamanho, redimensione e edite imagens sem perda de qualidade. 100% local no navegador e privado.">
+<link rel="alternate" hreflang="en" href="https://pdfreeto.com/compress-jpg.html">
+<link rel="alternate" hreflang="pt-PT" href="https://pdfreeto.com/pt/compress-jpg.html">
+<link rel="alternate" hreflang="pt-BR" href="https://pdfreeto.com/br/compress-jpg.html">
+<link rel="alternate" hreflang="es" href="https://pdfreeto.com/es/compress-jpg.html">
+<link rel="alternate" hreflang="fr" href="https://pdfreeto.com/fr/compress-jpg.html">
+<link rel="alternate" hreflang="de" href="https://pdfreeto.com/de/compress-jpg.html">
+<link rel="canonical" href="https://pdfreeto.com/pt/compress-jpg.html">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -138,7 +144,7 @@
     .crop-controls { grid-template-columns: repeat(2, 1fr); }
     header { padding: 12px 16px; }
     footer { padding: 20px 16px; }
-    .footer-links, .footer-links a { gap: 8px; }
+    .footer-links { gap: 8px; }
   }
 </style>
 </head>
@@ -147,26 +153,25 @@
 <header>
   <a href="/" class="logo">PDF<span>reeto</span></a>
   <div class="nav-dropdown">
-    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">All <span class="arrow">▾</span></button>
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">Tudo <span class="arrow">▾</span></button>
     <div class="nav-menu" id="nav-menu">
-    <a href="/">JPG ↔ PDF</a>
-    <a href="/pdf-to-word.html">Word to PDF</a>
-    <a href="/word-image-extractor.html">Extract Images</a>
-    <a href="/remove-background.html">Remove Background</a>
-    <a href="/compress-pdf.html">Compress PDF</a>
-    <a href="/compress-jpg.html" class="active">Compress & Crop</a>
-    <a href="/merge-jpg.html">Merge JPG</a>
-    <a href="/merge-pdf.html">Merge PDF</a>
-    <a href="/tts.html">Text to Speech</a>
-    <a href="/pdf-ai.html">PDF AI</a>
-    <a href="/social-media.html">Social Media</a>
-    <a href="/seo.html">SEO</a>
+      <a href="/pt/">JPG ↔ PDF</a>
+      <a href="/pt/pdf-to-word.html">Word para PDF</a>
+      <a href="/pt/word-image-extractor.html">Extrair Imagens</a>
+      <a href="/pt/compress-pdf.html">Comprimir PDF</a>
+      <a href="/pt/compress-jpg.html" class="active">Comprimir e Cortar</a>
+      <a href="/pt/merge-jpg.html">Juntar JPG</a>
+      <a href="/pt/merge-pdf.html">Juntar PDF</a>
+      <a href="/pt/tts.html">Texto para Voz</a>
+      <a href="/pt/pdf-ai.html">PDF AI</a>
+      <a href="/pt/social-media.html">Redes Sociais</a>
+      <a href="/pt/seo.html">SEO</a>
     </div>
   </div>
-  <a href="/blog/" class="blog-btn">Blog</a>
+  <a href="/pt/blog/" class="blog-btn">Blog</a>
   <div class="lang-switcher">
-    <a href="/compress-jpg.html" class="lang-btn active">EN</a>
-    <a href="/pt/compress-jpg.html" class="lang-btn">PT</a>
+    <a href="/compress-jpg.html" class="lang-btn">EN</a>
+    <a href="/pt/compress-jpg.html" class="lang-btn active">PT</a>
     <a href="/br/compress-jpg.html" class="lang-btn">BR</a>
     <a href="/es/compress-jpg.html" class="lang-btn">ES</a>
     <a href="/fr/compress-jpg.html" class="lang-btn">FR</a>
@@ -175,49 +180,49 @@
 </header>
 
 <div class="hero">
-  <h1>Compress <span class="hl">&</span> Crop</h1>
-  <p>Reduce size and edit images — 100% browser-based</p>
+  <h1>Comprimir <span class="hl">&</span> Cortar</h1>
+  <p>Reduza o tamanho e edite imagens — 100% no navegador</p>
 </div>
 
 <div class="content">
   <div class="tabs-wrap">
-    <button class="tab active" onclick="switchTab('compress')">📦 Compress</button>
-    <button class="tab" onclick="switchTab('crop')">✂️ Crop</button>
+    <button class="tab active" onclick="switchTab('compress')">📦 Comprimir</button>
+    <button class="tab" onclick="switchTab('crop')">✂️ Cortar</button>
   </div>
 
   <div class="tab-panel active" id="compress-panel">
     <div class="drop-zone" id="dz-compress" onclick="document.getElementById('file-input-compress').click()">
       <span class="dz-icon">📁</span>
-      <div class="dz-title">Drop Images Here</div>
-      <div class="dz-sub">JPG, PNG, WebP — multiple files supported</div>
+      <div class="dz-title">Largue as imagens aqui</div>
+      <div class="dz-sub">JPG, PNG, WebP — múltiplos ficheiros suportados</div>
     </div>
     <input type="file" id="file-input-compress" accept="image/*" multiple>
     <div class="file-list" id="file-list-compress"></div>
     
     <div class="options">
-      <div class="options-title">⚙ Compression Settings</div>
+      <div class="options-title">⚙ Definições de Compressão</div>
       <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
-        <label class="opt-label" style="font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; min-width: 80px;">Quality</label>
+        <label class="opt-label" style="font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; min-width: 80px;">Qualidade</label>
         <input type="range" id="quality" min="10" max="95" value="75" style="flex: 1; -webkit-appearance: none; height: 3px; background: var(--border); outline: none;">
         <span id="quality-val" style="font-family: var(--mono); font-size: 0.85rem; color: var(--accent); min-width: 40px; text-align: right;">75%</span>
       </div>
     </div>
     
-    <button class="convert-btn" id="compress-btn" disabled>COMPRESS IMAGES</button>
+    <button class="convert-btn" id="compress-btn" disabled>COMPRIMIR IMAGENS</button>
     <div class="result-section" id="results-compress"></div>
   </div>
 
   <div class="tab-panel" id="crop-panel">
     <div class="drop-zone" id="dz-crop" onclick="document.getElementById('file-input-crop').click()">
       <span class="dz-icon">✂️</span>
-      <div class="dz-title">Drop Images to Crop</div>
-      <div class="dz-sub">Multiple images — JPG, PNG, WebP</div>
+      <div class="dz-title">Largue as imagens para cortar</div>
+      <div class="dz-sub">Múltiplas imagens — JPG, PNG, WebP</div>
     </div>
     <input type="file" id="file-input-crop" accept="image/*" multiple>
     <div class="file-list" id="file-list-crop"></div>
     
     <div class="crop-editor" id="crop-editor">
-      <div class="image-info" id="image-info">Image 1 of 1</div>
+      <div class="image-info" id="image-info">Imagem 1 de 1</div>
       
       <div class="crop-canvas-wrap">
         <button class="nav-arrow" id="prev-btn" onclick="prevImage()">←</button>
@@ -228,57 +233,82 @@
       </div>
       
       <div class="options">
-        <div class="options-title">📐 Crop Size</div>
+        <div class="options-title">📐 Tamanho do Corte</div>
         <div class="crop-grid">
           <div class="crop-input">
-            <label>Width (px)</label>
+            <label>Largura (px)</label>
             <input type="number" id="crop-w" min="0" value="0">
           </div>
           <div class="crop-input">
-            <label>Height (px)</label>
+            <label>Altura (px)</label>
             <input type="number" id="crop-h" min="0" value="0">
           </div>
         </div>
         <div class="checkbox-label">
           <input type="checkbox" id="apply-all">
-          <label for="apply-all">Apply to All Images</label>
+          <label for="apply-all">Aplicar a Todas as Imagens</label>
         </div>
       </div>
       
       <div class="options" style="margin-top: 20px;">
-        <div class="options-title">📐 Aspect Ratio</div>
+        <div class="options-title">📐 Proporção de Aspecto</div>
         <div class="aspect-grid">
-          <button class="aspect-btn active" onclick="setAspect(0)">Free</button>
+          <button class="aspect-btn active" onclick="setAspect(0)">Livre</button>
           <button class="aspect-btn" onclick="setAspect(1)">1:1</button>
           <button class="aspect-btn" onclick="setAspect(1.777777)">16:9</button>
           <button class="aspect-btn" onclick="setAspect(1.333333)">4:3</button>
           <button class="aspect-btn" onclick="setAspect(1.5)">3:2</button>
           <button class="aspect-btn" onclick="setAspect(2.333333)">21:9</button>
           <button class="aspect-btn" onclick="setAspect(0.5625)">9:16</button>
-          <button class="aspect-btn" onclick="setAspect(0.618)">Golden</button>
+          <button class="aspect-btn" onclick="setAspect(0.618)">Ouro</button>
         </div>
       </div>
       
       <div class="crop-controls">
-        <button class="crop-btn" onclick="rotateCrop()">↺ Rotate</button>
-        <button class="crop-btn" onclick="flipH()">↔ Flip H</button>
-        <button class="crop-btn" onclick="flipV()">↕ Flip V</button>
-        <button class="crop-btn" onclick="resetCrop()">Reset</button>
+        <button class="crop-btn" onclick="rotateCrop()">↺ Rodar</button>
+        <button class="crop-btn" onclick="flipH()">↔ Espelhar H</button>
+        <button class="crop-btn" onclick="flipV()">↕ Espelhar V</button>
+        <button class="crop-btn" onclick="resetCrop()">Repor</button>
       </div>
       
-      <button class="convert-btn" id="crop-btn" disabled>CROP ALL IMAGES</button>
+      <button class="convert-btn" id="crop-btn" disabled>CORTAR TODAS AS IMAGENS</button>
       <div class="result-section" id="results-crop"></div>
     </div>
   </div>
 
   <div style="margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--border);">
-    <h2 style="font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 16px;">How to Compress & Crop Images</h2>
-    <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px;">PDFreeto compresses your JPG and PNG images directly in your browser using intelligent quality reduction — reducing file size while maintaining visual clarity. The crop tool lets you trim unwanted areas from multiple images at once, with a visual editor and support for aspect ratios. No file is ever uploaded to a server. Drop your images, adjust compression quality or define crop areas, and download instantly.</p>
+    <h2 style="font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 16px;">Como Comprimir e Cortar Imagens</h2>
+    <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px;">O PDFreeto comprime as suas imagens JPG e PNG diretamente no navegador, utilizando redução inteligente de qualidade — reduzindo o tamanho do ficheiro mantendo a clareza visual. A ferramenta de corte permite aparar áreas desnecessárias em múltiplas imagens em simultâneo, com um editor visual e suporte para proporções de aspecto. Nenhum ficheiro é enviado para um servidor. Largue as suas imagens, ajuste a qualidade de compressão ou defina áreas de corte, e transfira instantaneamente.</p>
     
-    <h2 style="font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 16px; margin-top: 32px;">When to Compress & Crop?</h2>
-    <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px;">Compressing images is essential when emailing large photo collections (many mail servers limit attachments to 10–25MB), uploading to web forms with size restrictions, or storing thousands of photos without consuming excessive disk space. Cropping is useful for removing unwanted background, focusing on a subject, standardizing image dimensions for social media, or preparing product photos for e-commerce. PDFreeto handles batch operations — compress or crop multiple images in one go, with each image maintaining its own position settings when using "Apply to All Images" for consistent sizing.</p>
+    <h2 style="font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 16px; margin-top: 32px;">Quando Comprimir e Cortar Imagens?</h2>
+    <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px;">Comprimir imagens é essencial quando envia grandes coleções de fotos por email (muitos servidores limitam anexos a 10–25MB), carrega em formulários da web com restrições de tamanho, ou armazena milhares de fotografias sem consumir espaço excessivo em disco. Cortar é útil para remover fundo desnecessário, focar num assunto, padronizar dimensões para redes sociais, ou preparar fotografias de produtos para e-commerce. O PDFreeto processa múltiplas imagens numa única operação — comprima ou corte várias imagens de uma vez, mantendo cada imagem com a sua própria posição ao usar "Aplicar a Todas as Imagens" para dimensionamento consistente.</p>
   </div>
 </div>
+
+<footer>
+  <div class="footer-links">
+    <a href="/pt/">JPG ↔ PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/pdf-to-word.html">Word para PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/word-image-extractor.html">Extrair Imagens</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/compress-pdf.html">Comprimir PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/compress-jpg.html">Comprimir e Cortar</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/merge-jpg.html">Juntar JPG</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/merge-pdf.html">Juntar PDF</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/tts.html">Texto para Voz</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/pdf-ai.html">PDF AI</a>
+    <span class="footer-sep">·</span>
+    <a href="/pt/seo.html">SEO</a>
+  </div>
+  <div class="footer-note">Processamento 100% local — os seus ficheiros nunca saem do seu dispositivo</div>
+</footer>
 
 <script>
 function toggleMenu() {
@@ -335,7 +365,7 @@ compressBtn.addEventListener('click', function() {
           const savings = ((1 - blob.size / file.size) * 100).toFixed(1);
           const item = document.createElement('div');
           item.className = 'result-item';
-          item.innerHTML = `<div><div class="result-name">${file.name}</div><small style="color: var(--muted); font-size: 0.65rem;">${(blob.size / 1024 / 1024).toFixed(2)} MB (saved ${savings}%)</small></div><a class="download-btn" href="${URL.createObjectURL(blob)}" download="${file.name}">Download</a>`;
+          item.innerHTML = `<div><div class="result-name">${file.name}</div><small style="color: var(--muted); font-size: 0.65rem;">${(blob.size / 1024 / 1024).toFixed(2)} MB (economizou ${savings}%)</small></div><a class="download-btn" href="${URL.createObjectURL(blob)}" download="${file.name}">Transferir</a>`;
           results.appendChild(item);
         }, file.type, quality);
       };
@@ -395,7 +425,6 @@ function drawCrop() {
   const img = data.img;
   const applyAll = document.getElementById('apply-all').checked;
   
-  // Use global size if Apply to All is checked
   if (applyAll && globalCropSize.w > 0) {
     data.crops.w = globalCropSize.w;
     data.crops.h = globalCropSize.h;
@@ -433,7 +462,7 @@ function drawCrop() {
   
   document.getElementById('crop-w').value = crops.w;
   document.getElementById('crop-h').value = crops.h;
-  document.getElementById('image-info').textContent = `Image ${currentIdx + 1} of ${cropFiles.length}`;
+  document.getElementById('image-info').textContent = `Imagem ${currentIdx + 1} de ${cropFiles.length}`;
   document.getElementById('prev-btn').disabled = currentIdx === 0;
   document.getElementById('next-btn').disabled = currentIdx === cropFiles.length - 1;
 }
@@ -552,7 +581,6 @@ document.getElementById('crop-h').addEventListener('input', function() {
 
 document.getElementById('apply-all').addEventListener('change', function() {
   if (this.checked) {
-    // When enabling Apply to All, sync current size to all images
     const currentData = cropImagesData[currentIdx];
     globalCropSize.w = currentData.crops.w;
     globalCropSize.h = currentData.crops.h;
@@ -617,13 +645,13 @@ function resetCrop() {
 
 cropBtn.addEventListener('click', function() {
   if (!cropFiles.length) {
-    alert('Please upload images first');
+    alert('Carregue as imagens primeiro');
     return;
   }
   
   let hasValidCrop = cropImagesData.some(data => data && data.crops.w > 0 && data.crops.h > 0);
   if (!hasValidCrop) {
-    alert('Please define crop size');
+    alert('Defina o tamanho do corte');
     return;
   }
   
@@ -638,7 +666,7 @@ cropBtn.addEventListener('click', function() {
     if (w === 0 || h === 0) {
       const item = document.createElement('div');
       item.className = 'result-item';
-      item.innerHTML = `<div><div class="result-name">${file.name}</div><small style="color: var(--accent2); font-size: 0.65rem;">⚠️ No crop</small></div>`;
+      item.innerHTML = `<div><div class="result-name">${file.name}</div><small style="color: var(--accent2); font-size: 0.65rem;">⚠️ Sem corte</small></div>`;
       results.appendChild(item);
       return;
     }
@@ -652,33 +680,11 @@ cropBtn.addEventListener('click', function() {
     canvas.toBlob(blob => {
       const item = document.createElement('div');
       item.className = 'result-item';
-      item.innerHTML = `<div><div class="result-name">${file.name}</div><small style="color: var(--muted); font-size: 0.65rem;">${w}x${h}px</small></div><a class="download-btn" href="${URL.createObjectURL(blob)}" download="crop-${file.name}">Download</a>`;
+      item.innerHTML = `<div><div class="result-name">${file.name}</div><small style="color: var(--muted); font-size: 0.65rem;">${w}x${h}px</small></div><a class="download-btn" href="${URL.createObjectURL(blob)}" download="crop-${file.name}">Transferir</a>`;
       results.appendChild(item);
     }, file.type || 'image/png');
   });
 });
 </script>
-<footer>
-  <div class="footer-links">
-    <a href="/">JPG ↔ PDF</a>
-    <span class="footer-sep">·</span>
-    <a href="/pdf-to-word.html">Word to PDF</a>
-    <span class="footer-sep">·</span>
-    <a href="/word-image-extractor.html">Extract Images</a>
-    <span class="footer-sep">·</span>
-    <a href="/compress-pdf.html">Compress PDF</a>
-    <span class="footer-sep">·</span>
-    <a href="/compress-jpg.html">Compress & Crop</a>
-    <span class="footer-sep">·</span>
-    <a href="/merge-jpg.html">Merge JPG</a>
-    <span class="footer-sep">·</span>
-    <a href="/merge-pdf.html">Merge PDF</a>
-    <span class="footer-sep">·</span>
-    <a href="/tts.html">Text to Speech</a>
-    <span class="footer-sep">·</span>
-    <a href="/pdf-ai.html">PDF AI</a>
-    <span class="footer-sep">·</span>
-    <a href="/seo.html">SEO</a>
-  </div>
-  <div class="footer-note">100% browser-based processing — your files never leave your device</div>
-</footer>
+</body>
+</html>
