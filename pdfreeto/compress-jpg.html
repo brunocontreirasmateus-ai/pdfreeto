@@ -354,6 +354,7 @@ let currentAspect = 0;
 let isDragging = false;
 let dragMode = null;
 let dragStart = { x: 0, y: 0 };
+let globalCropSize = { w: 0, h: 0 };
 
 cropInput.addEventListener('change', function() {
   cropFiles = Array.from(this.files).filter(f => f.type.startsWith('image/'));
@@ -389,6 +390,14 @@ function drawCrop() {
   if (!cropImagesData[currentIdx]) return;
   const data = cropImagesData[currentIdx];
   const img = data.img;
+  const applyAll = document.getElementById('apply-all').checked;
+  
+  // Use global size if Apply to All is checked
+  if (applyAll && globalCropSize.w > 0) {
+    data.crops.w = globalCropSize.w;
+    data.crops.h = globalCropSize.h;
+  }
+  
   const crops = data.crops;
   
   const rect = cropCanvas.parentElement.getBoundingClientRect();
@@ -491,10 +500,14 @@ document.getElementById('crop-w').addEventListener('input', function() {
   const applyAll = document.getElementById('apply-all').checked;
   
   if (applyAll) {
+    globalCropSize.w = w;
     cropImagesData.forEach(data => {
       if (data) {
         data.crops.w = w;
-        if (currentAspect > 0) data.crops.h = Math.round(w / currentAspect);
+        if (currentAspect > 0) {
+          data.crops.h = Math.round(w / currentAspect);
+          globalCropSize.h = data.crops.h;
+        }
       }
     });
   } else {
@@ -513,10 +526,14 @@ document.getElementById('crop-h').addEventListener('input', function() {
   const applyAll = document.getElementById('apply-all').checked;
   
   if (applyAll) {
+    globalCropSize.h = h;
     cropImagesData.forEach(data => {
       if (data) {
         data.crops.h = h;
-        if (currentAspect > 0) data.crops.w = Math.round(h * currentAspect);
+        if (currentAspect > 0) {
+          data.crops.w = Math.round(h * currentAspect);
+          globalCropSize.w = data.crops.w;
+        }
       }
     });
   } else {
@@ -531,7 +548,20 @@ document.getElementById('crop-h').addEventListener('input', function() {
 });
 
 document.getElementById('apply-all').addEventListener('change', function() {
-  console.log('Apply to All:', this.checked);
+  if (this.checked) {
+    // When enabling Apply to All, sync current size to all images
+    const currentData = cropImagesData[currentIdx];
+    globalCropSize.w = currentData.crops.w;
+    globalCropSize.h = currentData.crops.h;
+    
+    cropImagesData.forEach(data => {
+      if (data) {
+        data.crops.w = globalCropSize.w;
+        data.crops.h = globalCropSize.h;
+      }
+    });
+  }
+  drawCrop();
 });
 
 function prevImage() { if (currentIdx > 0) { currentIdx--; drawCrop(); } }
