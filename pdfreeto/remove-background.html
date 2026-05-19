@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Remove Background with AI Free — PDFreeto</title>
-<meta name="description" content="Remove image backgrounds instantly with AI. Perfect for product photos, listings, and profiles. 100% browser-based and private.">
+<meta name="description" content="Remove image backgrounds instantly with AI. Perfect for product photos, car listings, and profiles. 100% browser-based and private.">
 <link rel="canonical" href="https://pdfreeto.com/remove-background.html">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
@@ -90,8 +90,7 @@
   .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
   .control-group { display: flex; flex-direction: column; gap: 8px; }
   .control-group label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-  .control-group input[type="color"], .control-group input[type="range"] { background: var(--surface); border: 1px solid var(--border); padding: 8px; color: var(--text); }
-  .control-group input[type="range"] { cursor: pointer; }
+  .control-group input[type="color"] { background: var(--surface); border: 1px solid var(--border); padding: 8px; color: var(--text); }
   
   .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
   .btn { padding: 12px 20px; background: none; border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
@@ -119,7 +118,6 @@
   @media (max-width: 480px) {
     header { padding: 12px 16px; }
     .logo { font-size: 1.5rem; }
-    .controls { grid-template-columns: 1fr; }
     .dz-icon { font-size: 2rem; }
   }
 </style>
@@ -158,7 +156,7 @@
 
 <div class="hero">
   <h1>Remove <span class="hl">Backgrounds</span> Instantly</h1>
-  <p>Perfect for product photos, listings, and profiles. No photoshoot, no agency, no wait.</p>
+  <p>Perfect for product photos, car listings, and profiles. No photoshoot, no agency, no wait.</p>
 </div>
 
 <div class="content">
@@ -173,7 +171,7 @@
     <div class="editor-title">EDITOR</div>
     <div class="progress-wrap" id="progress">
       <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-      <div class="progress-text" id="progress-text">Loading AI model...</div>
+      <div class="progress-text" id="progress-text">Loading AI...</div>
     </div>
     <div class="canvas-container" id="canvas-container">
       <canvas id="output-canvas"></canvas>
@@ -182,10 +180,6 @@
       <div class="control-group">
         <label>Background Color</label>
         <input type="color" id="bg-color" value="#ffffff">
-      </div>
-      <div class="control-group">
-        <label>Transparency</label>
-        <input type="range" id="transparency" min="0" max="100" value="100">
       </div>
     </div>
     <div class="btn-group">
@@ -197,10 +191,10 @@
 
   <div class="seo-block">
     <h2>Why Use PDFreeto?</h2>
-    <p><strong>Instant Results:</strong> Remove backgrounds from product photos, e-commerce listings, and social media images in seconds. AI-powered, no manual editing needed.</p>
+    <p><strong>Works on Anything:</strong> Remove backgrounds from cars, products, people, and more. Perfect for e-commerce, real estate, and auto listings.</p>
     <p><strong>100% Private:</strong> All processing happens in your browser. Your images never touch our servers or leave your device.</p>
     <p><strong>No Watermarks:</strong> Get clean, professional results without any branding or watermarks added to your images.</p>
-    <p><strong>Multiple Formats:</strong> Download as PNG with transparency, or composite on any color background. Perfect for any use case.</p>
+    <p><strong>Multiple Backgrounds:</strong> Download as PNG with transparency, or composite on any color background. Perfect for any use case.</p>
   </div>
 </div>
 
@@ -221,8 +215,7 @@
   <div class="footer-note">© 2026 PDFreeto — 100% Browser-Based • No Uploads • Completely Private</div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.2.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@2.2.4"></script>
 
 <script>
 function toggleMenu() {
@@ -237,10 +230,8 @@ document.addEventListener('click', function(e) {
   }
 });
 
-let net = null;
-let modelReady = false;
 let originalImage = null;
-let segmentation = null;
+let processedBlob = null;
 
 const dz = document.getElementById('drop-zone');
 const inp = document.getElementById('file-input');
@@ -248,7 +239,6 @@ const editorWrap = document.getElementById('editor-wrap');
 const canvas = document.getElementById('output-canvas');
 const ctx = canvas.getContext('2d');
 const bgColor = document.getElementById('bg-color');
-const transparency = document.getElementById('transparency');
 const downloadBtn = document.getElementById('download-btn');
 const resetBtn = document.getElementById('reset-btn');
 const removeAgainBtn = document.getElementById('remove-again-btn');
@@ -256,45 +246,13 @@ const progress = document.getElementById('progress');
 const progressFill = document.getElementById('progress-fill');
 const progressText = document.getElementById('progress-text');
 
-// Load model
-async function loadModel() {
-  try {
-    progress.style.display = 'block';
-    progressText.textContent = 'Initializing AI model...';
-    progressFill.style.width = '30%';
-    
-    net = await bodyPix.load({
-      architecture: 'MobileNetV1',
-      outputStride: 16,
-      multiplier: 0.5,
-      quantBytes: 2,
-    });
-    
-    progressFill.style.width = '100%';
-    progressText.textContent = 'Ready!';
-    modelReady = true;
-    
-    setTimeout(() => {
-      progress.style.display = 'none';
-      dz.style.opacity = '1';
-      dz.style.pointerEvents = 'auto';
-    }, 500);
-  } catch (e) {
-    console.error('Error loading model:', e);
-    progressText.textContent = 'Error. Please refresh page.';
-  }
-}
-
-window.addEventListener('load', loadModel);
-
-dz.addEventListener('click', () => !modelReady ? alert('AI still loading...') : inp.click());
+dz.addEventListener('click', () => inp.click());
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragging'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('dragging'));
 dz.addEventListener('drop', e => {
   e.preventDefault();
   dz.classList.remove('dragging');
-  if (modelReady) setImage(e.dataTransfer.files[0]);
-  else alert('AI still loading...');
+  setImage(e.dataTransfer.files[0]);
 });
 inp.addEventListener('change', () => setImage(inp.files[0]));
 
@@ -317,63 +275,63 @@ async function processImage() {
   editorWrap.style.display = 'block';
   progress.style.display = 'block';
   progressFill.style.width = '0%';
-  progressText.textContent = 'Processing...';
+  progressText.textContent = 'Removing background...';
   
   try {
-    progressFill.style.width = '50%';
+    progressFill.style.width = '30%';
+    
+    // Remove background using imgly
+    const blob = await window.removeBackground(originalImage);
+    processedBlob = blob;
+    
+    progressFill.style.width = '70%';
     canvas.width = originalImage.width;
     canvas.height = originalImage.height;
     
-    progressFill.style.width = '80%';
-    segmentation = await net.segmentPerson(originalImage, {
-      flipHorizontal: false,
-      internalResolution: 'medium',
-      segmentationThreshold: 0.3
-    });
-    
-    progressFill.style.width = '100%';
-    setTimeout(() => {
-      progress.style.display = 'none';
-      render();
-    }, 300);
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0);
+      progressFill.style.width = '100%';
+      setTimeout(() => {
+        progress.style.display = 'none';
+        render();
+      }, 300);
+    };
+    img.src = url;
   } catch (e) {
     console.error(e);
-    progressText.textContent = 'Error processing';
+    progressText.textContent = 'Error processing image';
   }
 }
 
 function render() {
-  if (!segmentation || !originalImage) return;
+  if (!originalImage || !canvas) return;
   
   canvas.width = originalImage.width;
   canvas.height = originalImage.height;
   
-  // Draw original image
-  ctx.drawImage(originalImage, 0, 0);
-  
-  // Get image data
+  // Get the current canvas image
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const data = imageData.data;
   
   const bgColorVal = hexToRgb(bgColor.value);
-  const transVal = parseInt(transparency.value) / 100;
   
-  // Apply segmentation mask
-  for (let i = 0; i < segmentation.data.length; i++) {
-    const alpha = segmentation.data[i]; // 0 to 1 where 1 is person
-    const pixelIndex = i * 4;
-    
-    if (alpha === 0) {
-      // Background - replace completely
-      data[pixelIndex] = bgColorVal.r;
-      data[pixelIndex + 1] = bgColorVal.g;
-      data[pixelIndex + 2] = bgColorVal.b;
-      data[pixelIndex + 3] = Math.round(255 * transVal);
+  // If background color is not white, composite it
+  if (bgColor.value !== '#ffffff') {
+    for (let i = 0; i < data.length; i += 4) {
+      const alpha = data[i + 3] / 255; // Get current alpha
+      
+      // If pixel is transparent, add background color
+      if (alpha < 1) {
+        data[i] = Math.round(data[i] * alpha + bgColorVal.r * (1 - alpha));
+        data[i + 1] = Math.round(data[i + 1] * alpha + bgColorVal.g * (1 - alpha));
+        data[i + 2] = Math.round(data[i + 2] * alpha + bgColorVal.b * (1 - alpha));
+        data[i + 3] = 255; // Full opacity
+      }
     }
-    // else: alpha > 0 means person, keep original
+    ctx.putImageData(imageData, 0, 0);
   }
-  
-  ctx.putImageData(imageData, 0, 0);
 }
 
 function hexToRgb(hex) {
@@ -382,7 +340,6 @@ function hexToRgb(hex) {
 }
 
 bgColor.addEventListener('change', render);
-transparency.addEventListener('input', render);
 
 downloadBtn.addEventListener('click', () => {
   const link = document.createElement('a');
@@ -391,14 +348,16 @@ downloadBtn.addEventListener('click', () => {
   link.click();
 });
 
-resetBtn.addEventListener('click', () => originalImage && processImage());
+resetBtn.addEventListener('click', () => {
+  if (originalImage) processImage();
+});
 
 removeAgainBtn.addEventListener('click', () => {
   dz.style.display = 'block';
   editorWrap.style.display = 'none';
   inp.value = '';
   originalImage = null;
-  segmentation = null;
+  processedBlob = null;
 });
 </script>
 </body>
