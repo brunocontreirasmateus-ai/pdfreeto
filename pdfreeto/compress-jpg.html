@@ -30,11 +30,26 @@
     background-size: 60px 60px;
   }
   
-  header { position: relative; z-index: 10; padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
-  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  header { position: relative; z-index: 10; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 16px; }
+  .logo { font-family: var(--display); font-size: 2rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; flex-shrink: 0; }
   .logo span { color: var(--accent); }
-  .back-link { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: 6px 14px; transition: all 0.2s; }
-  .back-link:hover { color: var(--accent); border-color: var(--accent); }
+  .nav-dropdown { position: relative; flex-shrink: 0; }
+  .nav-toggle { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+  .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; }
+  .nav-toggle.open .arrow { transform: rotate(180deg); }
+  .nav-menu { display: none; position: absolute; top: calc(100% + 8px); left: 0; background: var(--surface); border: 1px solid var(--border); min-width: 200px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  .nav-menu.open { display: block; }
+  .nav-menu a { display: block; padding: 10px 16px; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); transition: all 0.15s; }
+  .nav-menu a:last-child { border-bottom: none; }
+  .nav-menu a:hover { color: var(--accent); background: rgba(232,255,60,0.05); padding-left: 22px; }
+  .nav-menu a.active { color: var(--accent); }
+  .blog-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid var(--border); padding: 7px 14px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+  .blog-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-switcher { display: flex; align-items: center; gap: 4px; }
+  .lang-btn { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; padding: 5px 9px; background: none; border: 1px solid var(--border); color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .lang-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .lang-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(232,255,60,0.06); }
   
   .hero { position: relative; z-index: 10; text-align: center; padding: 56px 40px 36px; }
   .hero h1 { font-family: var(--display); font-size: clamp(3rem, 9vw, 7rem); line-height: 0.95; letter-spacing: 0.02em; }
@@ -138,7 +153,32 @@
 
 <header>
   <a href="/" class="logo">PDF<span>reeto</span></a>
-  <a href="/" class="back-link">← Back</a>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleMenu()">All <span class="arrow">▾</span></button>
+    <div class="nav-menu" id="nav-menu">
+    <a href="/">JPG ↔ PDF</a>
+    <a href="/pdf-to-word.html">Word to PDF</a>
+    <a href="/word-image-extractor.html">Extract Images</a>
+    <a href="/remove-background.html">Remove Background</a>
+    <a href="/compress-pdf.html">Compress PDF</a>
+    <a href="/compress-jpg.html" class="active">Compress & Crop</a>
+    <a href="/merge-jpg.html">Merge JPG</a>
+    <a href="/merge-pdf.html">Merge PDF</a>
+    <a href="/tts.html">Text to Speech</a>
+    <a href="/pdf-ai.html">PDF AI</a>
+    <a href="/social-media.html">Social Media</a>
+    <a href="/seo.html">SEO</a>
+    </div>
+  </div>
+  <a href="/blog/" class="blog-btn">Blog</a>
+  <div class="lang-switcher">
+    <a href="/compress-jpg.html" class="lang-btn active">EN</a>
+    <a href="/pt/compress-jpg.html" class="lang-btn">PT</a>
+    <a href="/br/compress-jpg.html" class="lang-btn">BR</a>
+    <a href="/es/compress-jpg.html" class="lang-btn">ES</a>
+    <a href="/fr/compress-jpg.html" class="lang-btn">FR</a>
+    <a href="/de/compress-jpg.html" class="lang-btn">DE</a>
+  </div>
 </header>
 
 <div class="hero">
@@ -211,6 +251,30 @@
       </div>
       
       <div class="options" style="margin-top: 20px;">
+        <div class="options-title">📐 Crop Dimensions</div>
+        <div class="slider-row">
+          <label class="opt-label">X</label>
+          <input type="number" id="crop-x" min="0" value="0" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);">
+          <span class="slider-val">px</span>
+        </div>
+        <div class="slider-row">
+          <label class="opt-label">Y</label>
+          <input type="number" id="crop-y" min="0" value="0" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);">
+          <span class="slider-val">px</span>
+        </div>
+        <div class="slider-row">
+          <label class="opt-label">Width</label>
+          <input type="number" id="crop-w" min="1" value="100" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);">
+          <span class="slider-val">px</span>
+        </div>
+        <div class="slider-row">
+          <label class="opt-label">Height</label>
+          <input type="number" id="crop-h" min="1" value="100" style="flex: 1; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono);">
+          <span class="slider-val">px</span>
+        </div>
+      </div>
+      
+      <div class="options" style="margin-top: 20px;">
         <div class="options-title">📏 Resize Image</div>
         <div class="slider-row">
           <label class="opt-label">Width</label>
@@ -247,6 +311,19 @@
 </footer>
 
 <script>
+// MENU TOGGLE
+function toggleMenu() {
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+
 // TAB SWITCHING
 function switchTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -427,6 +504,39 @@ function drawCropCanvas() {
   }
 }
 
+// Update inputs when crop selection changes
+function updateCropInputs() {
+  document.getElementById('crop-x').value = Math.round(cropSelection.x);
+  document.getElementById('crop-y').value = Math.round(cropSelection.y);
+  document.getElementById('crop-w').value = Math.round(cropSelection.width);
+  document.getElementById('crop-h').value = Math.round(cropSelection.height);
+}
+
+// Listen to input changes and update selection
+document.getElementById('crop-x').addEventListener('input', () => {
+  cropSelection.x = parseInt(document.getElementById('crop-x').value) || 0;
+  drawCropCanvas();
+});
+
+document.getElementById('crop-y').addEventListener('input', () => {
+  cropSelection.y = parseInt(document.getElementById('crop-y').value) || 0;
+  drawCropCanvas();
+});
+
+document.getElementById('crop-w').addEventListener('input', () => {
+  cropSelection.width = parseInt(document.getElementById('crop-w').value) || 0;
+  if (cropAspect > 0) {
+    cropSelection.height = cropSelection.width / cropAspect;
+    document.getElementById('crop-h').value = Math.round(cropSelection.height);
+  }
+  drawCropCanvas();
+});
+
+document.getElementById('crop-h').addEventListener('input', () => {
+  cropSelection.height = parseInt(document.getElementById('crop-h').value) || 0;
+  drawCropCanvas();
+});
+
 // Mouse events para crop selection
 cropCanvas.addEventListener('mousedown', (e) => {
   const rect = cropCanvas.getBoundingClientRect();
@@ -451,6 +561,7 @@ cropCanvas.addEventListener('mousemove', (e) => {
     cropSelection.height = endY - cropSelection.y;
   }
   
+  updateCropInputs();
   drawCropCanvas();
 });
 
