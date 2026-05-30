@@ -280,14 +280,7 @@ async function runBuild(url){
   // Step 2: AI
   setStep('ai','active','Building your learning app with AI (30-60 seconds)...');
   var sysMsg='You are an expert educational app developer. Create a complete self-contained interactive HTML learning app. IMPORTANT: Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no code fences, no explanation. Dark design: bg #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: topic overview, explanations per concept, 8+ quiz questions with answer feedback, flashcards, summary. Mobile responsive.';
-  var userMsg='Build a complete interactive learning app from this transcript.
-
-Title: '+videoTitle+'
-
-Transcript:
-'+transcript+'
-
-Return ONLY the HTML, starting with <!DOCTYPE html>.';
+  var userMsg='Build a complete interactive learning app from this transcript.\n\nTitle: '+videoTitle+'\n\nTranscript:\n'+transcript+'\n\nReturn ONLY the HTML, starting with <!DOCTYPE html>.';
 
   try{
     var r2=await fetch('/.netlify/functions/claude',{
