@@ -356,7 +356,8 @@ function buildFromManual(){
   if (!text) { alert('Please paste the transcript text first.'); return; }
   var titleEl = document.getElementById('yt-title');
   videoTitle = (titleEl && titleEl.value.trim()) || 'Learning App';
-  document.getElementById('manual-wrap').style.display='none';
+  var mw = document.getElementById('manual-wrap');
+  if (mw) mw.style.display='none';
   document.getElementById('progress-wrap').style.display='block';
   document.getElementById('error-box').style.display='none';
   setStep('transcript','done','Text provided manually');
