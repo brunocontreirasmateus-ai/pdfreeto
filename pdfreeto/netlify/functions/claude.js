@@ -1,32 +1,21 @@
 const https = require('https');
 
 exports.handler = async function (event) {
-  console.log('Function called, method:', event.httpMethod);
-
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  console.log('API key present:', !!apiKey);
-  console.log('API key starts with:', apiKey ? apiKey.substring(0, 10) : 'MISSING');
-
   if (!apiKey) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'ANTHROPIC_API_KEY not set' })
-    };
+    return { statusCode: 500, body: JSON.stringify({ error: { message: 'ANTHROPIC_API_KEY not set' } }) };
   }
 
   let body;
   try {
     body = JSON.parse(event.body);
     body.stream = false;
-    console.log('Request model:', body.model);
-    console.log('Message length:', body.messages?.[0]?.content?.length);
   } catch (e) {
-    console.log('Body parse error:', e.message);
-    return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON body' }) };
+    return { statusCode: 400, body: JSON.stringify({ error: { message: 'Invalid JSON body' } }) };
   }
 
   const postData = JSON.stringify(body);
@@ -45,11 +34,9 @@ exports.handler = async function (event) {
     };
 
     const req = https.request(options, (res) => {
-      console.log('Anthropic status:', res.statusCode);
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
-        console.log('Anthropic response:', data.substring(0, 200));
         resolve({
           statusCode: 200,
           headers: {
@@ -61,11 +48,21 @@ exports.handler = async function (event) {
       });
     });
 
-    req.on('error', (err) => {
-      console.log('Request error:', err.message);
+    // Timeout before Netlify's 26s limit
+    req.setTimeout(24000, () => {
+      req.destroy();
       resolve({
-        statusCode: 500,
-        body: JSON.stringify({ error: err.message })
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+        body: JSON.stringify({ error: { message: 'Request timed out. Try with less text or a shorter prompt.' } })
+      });
+    });
+
+    req.on('error', (err) => {
+      resolve({
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+        body: JSON.stringify({ error: { message: err.message } })
       });
     });
 
