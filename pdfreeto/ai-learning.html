@@ -5,7 +5,7 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-EXHT3PYZF8");</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Turn Any YouTube Video Into a Learning App — Free | PDFreeto</title>
+<title>Turn Any YouTube Video Into a Learning App — Free | PDFreeto v2</title>
 <meta name="description" content="Paste a YouTube URL. We extract the transcript, send it to AI, and build you a personal learning app with quizzes and explanations. Free. No signup.">
 <link rel="canonical" href="https://pdfreeto.com/ai-learning">
 <meta property="og:title" content="YouTube → Personal Learning App in 60 Seconds | PDFreeto">
@@ -135,15 +135,15 @@
 </header>
 
 <div class="hero">
-  <div class="eyebrow">AI Learning &middot; Free &middot; No Code</div>
+  <div class="eyebrow">AI Learning &middot; Free &middot; No Code <span style="background:var(--accent);color:#000;padding:2px 6px;font-size:.5rem;margin-left:8px">v2</span></div>
   <h1>Turn any<br><span class="hl">YouTube course</span><br>into your<br><span class="hl2">personal app.</span></h1>
   <p class="hero-lead">Paste a YouTube URL. We extract the transcript, send it to AI, and build you a personal learning app with quizzes, flashcards and plain-language explanations. Free. No signup.</p>
 
   <div class="url-wrap">
     <div class="url-row">
-      <input type="url" class="url-input" id="yt-url"
+      <input type="url" class="url-input" id="yt-url" onkeydown="if(event.key==='Enter')buildApp()"
         placeholder="https://youtube.com/watch?v=... or playlist URL">
-      <button class="go-btn" id="go-btn">BUILD APP</button>
+      <button class="go-btn" id="go-btn" onclick="buildApp()">BUILD APP</button>
     </div>
     <div class="url-hint" style="margin-top:8px">Works with any YouTube video or playlist that has captions &middot; Usually takes 30&ndash;60 seconds</div>
   </div>
@@ -214,160 +214,132 @@
 </footer>
 
 <script>
+// v2 — using direct onclick handlers for maximum compatibility
+
 // NAV
-document.getElementById("nav-toggle").addEventListener("click", function() {
-  this.classList.toggle("open");
-  document.getElementById("nav-menu").classList.toggle("open");
-});
-document.addEventListener("click", function(e) {
-  if (!e.target.closest(".nav-dropdown")) {
-    document.getElementById("nav-toggle").classList.remove("open");
-    document.getElementById("nav-menu").classList.remove("open");
+function toggleMenu(){
+  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.nav-dropdown')){
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
   }
 });
 
-// ENTER KEY
-document.getElementById("yt-url").addEventListener("keydown", function(e) {
-  if (e.key === "Enter") document.getElementById("go-btn").click();
-});
+var generatedHTML='', videoTitle='';
 
-// BUILD BUTTON
-document.getElementById("go-btn").addEventListener("click", function() {
-  buildApp();
-});
-
-var generatedHTML = "";
-var videoTitle = "";
-
-function setStep(id, state, label) {
-  var step = document.getElementById("step-" + id);
-  var icon = document.getElementById("step-" + id + "-icon");
-  var lbl  = document.getElementById("step-" + id + "-label");
-  if (!step) return;
-  step.className = "pstep " + state;
-  if (label) lbl.textContent = label;
-  if (state === "active") icon.textContent = "↻";
-  else if (state === "done") icon.textContent = "✓";
-  else if (state === "error") icon.textContent = "✗";
-  else icon.textContent = "●";
+function setStep(id,state,label){
+  var step=document.getElementById('step-'+id);
+  var icon=document.getElementById('step-'+id+'-icon');
+  var lbl=document.getElementById('step-'+id+'-label');
+  if(!step)return;
+  step.className='pstep '+state;
+  if(label)lbl.textContent=label;
+  icon.textContent=state==='active'?'↻':state==='done'?'✓':state==='error'?'✗':'●';
 }
 
-function showError(msg) {
-  var box = document.getElementById("error-box");
-  box.textContent = msg;
-  box.style.display = "block";
-  document.getElementById("go-btn").disabled = false;
+function showBuildError(msg){
+  var box=document.getElementById('error-box');
+  box.textContent=msg;
+  box.style.display='block';
+  document.getElementById('go-btn').disabled=false;
 }
 
-async function buildApp() {
-  var urlEl = document.getElementById("yt-url");
-  var url = urlEl ? urlEl.value.trim() : "";
-  if (!url) {
-    alert("Please paste a YouTube URL first.");
+function buildApp(){
+  var url=document.getElementById('yt-url').value.trim();
+  if(!url){alert('Please paste a YouTube URL first.');return;}
+
+  document.getElementById('error-box').style.display='none';
+  document.getElementById('progress-wrap').style.display='block';
+  document.getElementById('app-section').style.display='none';
+  document.getElementById('go-btn').disabled=true;
+  setStep('transcript','','');setStep('ai','','');setStep('render','','');
+
+  runBuild(url);
+}
+
+async function runBuild(url){
+  // Step 1: transcript
+  setStep('transcript','active','Extracting transcript from YouTube...');
+  var transcript='';
+  try{
+    var r=await fetch('/.netlify/functions/youtube-transcript?url='+encodeURIComponent(url));
+    var d=await r.json();
+    if(d.error)throw new Error(d.error);
+    transcript=d.transcript||'';
+    videoTitle=d.title||url;
+    setStep('transcript','done','Transcript extracted - '+(Math.round(transcript.length/1000))+'k chars');
+  }catch(e){
+    setStep('transcript','error','Failed');
+    showBuildError('Transcript error: '+e.message);
     return;
   }
 
-  // Reset UI
-  document.getElementById("error-box").style.display = "none";
-  document.getElementById("progress-wrap").style.display = "block";
-  document.getElementById("app-section").style.display = "none";
-  document.getElementById("seo-section").style.display = "block";
-  document.getElementById("go-btn").disabled = true;
-  setStep("transcript", "", "");
-  setStep("ai", "", "");
-  setStep("render", "", "");
+  // Step 2: AI
+  setStep('ai','active','Building your learning app with AI (30-60 seconds)...');
+  var sysMsg='You are an expert educational app developer. Create a complete self-contained interactive HTML learning app. IMPORTANT: Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no code fences, no explanation. Dark design: bg #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: topic overview, explanations per concept, 8+ quiz questions with answer feedback, flashcards, summary. Mobile responsive.';
+  var userMsg='Build a complete interactive learning app from this transcript.
 
-  // ── STEP 1: Transcript ──
-  setStep("transcript", "active", "Extracting transcript from YouTube...");
-  var transcript = "";
-
-  try {
-    var r1 = await fetch("/.netlify/functions/youtube-transcript?url=" + encodeURIComponent(url));
-    var d1 = await r1.json();
-    if (d1.error) throw new Error(d1.error);
-    transcript = d1.transcript || "";
-    videoTitle = d1.title || url;
-    var chars = Math.round((d1.chars || transcript.length) / 1000);
-    setStep("transcript", "done", "Transcript extracted — " + chars + "k chars" + (d1.truncated ? " (truncated)" : ""));
-  } catch(e) {
-    setStep("transcript", "error", "Transcript extraction failed");
-    showError("Could not get transcript: " + e.message);
-    return;
-  }
-
-  // ── STEP 2: Build with Claude ──
-  setStep("ai", "active", "AI is building your learning app... (30–60 seconds)");
-
-  var systemMsg = "You are an expert educational app developer. Create a complete self-contained interactive learning app as a single HTML file. Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no explanation, no code blocks. Use dark design: background #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: 1) Topic overview from the content, 2) Plain-language explanations for each main concept, 3) Quiz with 8+ multiple choice questions from the actual content with answer feedback, 4) Flashcards for key terms, 5) Summary of top 5 takeaways. Make it interactive and mobile responsive.";
-
-  var userMsg = "Build a complete interactive learning app from this transcript.
-
-Title: " + videoTitle + "
+Title: '+videoTitle+'
 
 Transcript:
-" + transcript + "
+'+transcript+'
 
-Return ONLY the HTML app, starting with <!DOCTYPE html>.";
+Return ONLY the HTML, starting with <!DOCTYPE html>.';
 
-  try {
-    var r2 = await fetch("/.netlify/functions/claude", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-5",
-        max_tokens: 8000,
-        system: systemMsg,
-        messages: [{ role: "user", content: userMsg }]
-      })
+  try{
+    var r2=await fetch('/.netlify/functions/claude',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:8000,system:sysMsg,messages:[{role:'user',content:userMsg}]})
     });
-    var d2 = await r2.json();
-    if (d2.error) throw new Error(d2.error.message || JSON.stringify(d2.error));
-    generatedHTML = (d2.content && d2.content[0] && d2.content[0].text) || "";
-    if (!generatedHTML) throw new Error("Empty response from AI");
-    // Strip markdown code fences if present
-    generatedHTML = generatedHTML.replace(/^[\s\S]*?<!DOCTYPE/i, "<!DOCTYPE");
-    if (!generatedHTML.toLowerCase().includes("<!doctype")) throw new Error("AI did not return valid HTML");
-    setStep("ai", "done", "Learning app built successfully");
-  } catch(e) {
-    setStep("ai", "error", "AI build failed");
-    showError("AI error: " + e.message);
+    var d2=await r2.json();
+    if(d2.error)throw new Error(d2.error.message||JSON.stringify(d2.error));
+    var raw=(d2.content&&d2.content[0]&&d2.content[0].text)||'';
+    if(!raw)throw new Error('Empty AI response');
+    var dtIdx=raw.toLowerCase().indexOf('<!doctype');
+    if(dtIdx>0)raw=raw.substring(dtIdx);
+    if(dtIdx===-1)throw new Error('AI did not return valid HTML');
+    generatedHTML=raw;
+    setStep('ai','done','Learning app built');
+  }catch(e){
+    setStep('ai','error','AI build failed');
+    showBuildError('AI error: '+e.message);
     return;
   }
 
-  // ── STEP 3: Render ──
-  setStep("render", "active", "Rendering your app...");
-  try {
-    var frame = document.getElementById("app-frame");
-    frame.srcdoc = generatedHTML;
-    document.getElementById("app-video-title").textContent = videoTitle;
-    setStep("render", "done", "Your learning app is ready!");
-    document.getElementById("app-section").style.display = "block";
-    document.getElementById("seo-section").style.display = "none";
-    document.getElementById("app-section").scrollIntoView({ behavior: "smooth" });
-  } catch(e) {
-    setStep("render", "error", "Render failed");
-    showError("Render error: " + e.message);
+  // Step 3: render
+  setStep('render','active','Rendering...');
+  try{
+    document.getElementById('app-frame').srcdoc=generatedHTML;
+    document.getElementById('app-video-title').textContent=videoTitle;
+    setStep('render','done','Your learning app is ready!');
+    document.getElementById('app-section').style.display='block';
+    document.getElementById('seo-section').style.display='none';
+    document.getElementById('app-section').scrollIntoView({behavior:'smooth'});
+  }catch(e){
+    setStep('render','error','Render error');
+    showBuildError('Render error: '+e.message);
   }
-  document.getElementById("go-btn").disabled = false;
+  document.getElementById('go-btn').disabled=false;
 }
 
-function downloadApp() {
-  if (!generatedHTML) return;
-  var name = (videoTitle || "learning-app").replace(/[^a-z0-9]/gi, "-").toLowerCase().substring(0, 40) + ".html";
-  var a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([generatedHTML], { type: "text/html" }));
-  a.download = name;
+function downloadApp(){
+  if(!generatedHTML)return;
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([generatedHTML],{type:'text/html'}));
+  a.download=(videoTitle||'learning-app').replace(/[^a-z0-9]/gi,'-').toLowerCase().substring(0,40)+'.html';
   a.click();
 }
 
-function resetApp() {
-  document.getElementById("app-section").style.display = "none";
-  document.getElementById("seo-section").style.display = "block";
-  document.getElementById("progress-wrap").style.display = "none";
-  document.getElementById("yt-url").value = "";
-  document.getElementById("yt-url").focus();
-  generatedHTML = "";
-  videoTitle = "";
+function resetApp(){
+  document.getElementById('app-section').style.display='none';
+  document.getElementById('seo-section').style.display='block';
+  document.getElementById('progress-wrap').style.display='none';
+  document.getElementById('yt-url').value='';
+  generatedHTML='';videoTitle='';
 }
 </script>
 </body>
