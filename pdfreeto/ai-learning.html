@@ -310,7 +310,7 @@ async function runBuild(url){
     var r2=await fetch('/.netlify/functions/claude',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:800,system:sysMsg,messages:[{role:'user',content:userMsg}]})
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,system:sysMsg,messages:[{role:'user',content:userMsg}]})
     });
     var txt2=await r2.text();
     var d2;
@@ -373,7 +373,7 @@ async function runBuild2(transcript){
   var sysMsg='Extract learning content as compact JSON. Return ONLY JSON. Schema: {"title":"short title","summary":"1 sentence","concepts":[{"term":"term","explanation":"1 sentence"}],"quiz":[{"question":"?","options":["A)","B)","C)","D)"],"answer":0}],"flashcards":[{"front":"term","back":"def"}],"takeaways":["..."]}. Include 3 concepts, 4 quiz questions, 4 flashcards, 3 takeaways. Be very concise.';
   var userMsg='Extract learning content from this text as JSON.\n\nTitle: '+videoTitle+'\n\nContent:\n'+transcript.substring(0,3000)+'\n\nReturn ONLY the JSON object.';
   try{
-    var r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:800,system:sysMsg,messages:[{role:'user',content:userMsg}]})});
+    var r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,system:sysMsg,messages:[{role:'user',content:userMsg}]})});
     var txt=await r.text();
     var d;
     try{ d=JSON.parse(txt); }catch(e){ throw new Error('Server error (not JSON). Try with less text.'); }
