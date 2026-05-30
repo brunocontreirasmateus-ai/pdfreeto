@@ -143,7 +143,7 @@
     <div class="url-row">
       <input type="url" class="url-input" id="yt-url"
         placeholder="https://youtube.com/watch?v=... or playlist URL">
-      <button class="go-btn" id="go-btn" onclick="buildApp()">BUILD APP</button>
+      <button class="go-btn" id="go-btn">BUILD APP</button>
     </div>
     <div class="url-hint" style="margin-top:8px">Works with any YouTube video or playlist that has captions &middot; Usually takes 30&ndash;60 seconds</div>
   </div>
@@ -215,25 +215,41 @@
 
 <script>
 // NAV
-function toggleMenu(){document.getElementById("nav-toggle").classList.toggle("open");document.getElementById("nav-menu").classList.toggle("open");}
-document.addEventListener("click",function(e){if(!e.target.closest(".nav-dropdown")){document.getElementById("nav-toggle").classList.remove("open");document.getElementById("nav-menu").classList.remove("open");}});
+document.getElementById("nav-toggle").addEventListener("click", function() {
+  this.classList.toggle("open");
+  document.getElementById("nav-menu").classList.toggle("open");
+});
+document.addEventListener("click", function(e) {
+  if (!e.target.closest(".nav-dropdown")) {
+    document.getElementById("nav-toggle").classList.remove("open");
+    document.getElementById("nav-menu").classList.remove("open");
+  }
+});
 
-// Enter key
-document.getElementById("yt-url").addEventListener("keydown",function(e){if(e.key==="Enter")buildApp();});
+// ENTER KEY
+document.getElementById("yt-url").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") document.getElementById("go-btn").click();
+});
 
-var generatedHTML = '';
-var videoTitle = '';
+// BUILD BUTTON
+document.getElementById("go-btn").addEventListener("click", function() {
+  buildApp();
+});
+
+var generatedHTML = "";
+var videoTitle = "";
 
 function setStep(id, state, label) {
   var step = document.getElementById("step-" + id);
   var icon = document.getElementById("step-" + id + "-icon");
   var lbl  = document.getElementById("step-" + id + "-label");
+  if (!step) return;
   step.className = "pstep " + state;
   if (label) lbl.textContent = label;
-  if (state === "active") icon.innerHTML = "&#8635;";
-  else if (state === "done") icon.innerHTML = "&#10003;";
-  else if (state === "error") icon.innerHTML = "&#10007;";
-  else icon.innerHTML = "&#9679;";
+  if (state === "active") icon.textContent = "↻";
+  else if (state === "done") icon.textContent = "✓";
+  else if (state === "error") icon.textContent = "✗";
+  else icon.textContent = "●";
 }
 
 function showError(msg) {
@@ -244,8 +260,12 @@ function showError(msg) {
 }
 
 async function buildApp() {
-  var url = document.getElementById("yt-url").value.trim();
-  if (!url) { alert("Please paste a YouTube URL first."); return; }
+  var urlEl = document.getElementById("yt-url");
+  var url = urlEl ? urlEl.value.trim() : "";
+  if (!url) {
+    alert("Please paste a YouTube URL first.");
+    return;
+  }
 
   // Reset UI
   document.getElementById("error-box").style.display = "none";
@@ -253,110 +273,90 @@ async function buildApp() {
   document.getElementById("app-section").style.display = "none";
   document.getElementById("seo-section").style.display = "block";
   document.getElementById("go-btn").disabled = true;
-  ["transcript","ai","render"].forEach(function(s){ setStep(s,"",""); });
+  setStep("transcript", "", "");
+  setStep("ai", "", "");
+  setStep("render", "", "");
 
-  // ── STEP 1: Get transcript ──
-  setStep("transcript","active","Extracting transcript from YouTube...");
+  // ── STEP 1: Transcript ──
+  setStep("transcript", "active", "Extracting transcript from YouTube...");
   var transcript = "";
-  videoTitle = "";
 
   try {
-    var res = await fetch("/.netlify/functions/youtube-transcript?url=" + encodeURIComponent(url));
-    var data = await res.json();
-    if (data.error) throw new Error(data.error);
-    transcript = data.transcript;
-    videoTitle = data.title || url;
-    setStep("transcript","done","Transcript extracted — " + Math.round(data.chars/1000) + "k characters" + (data.truncated ? " (truncated to first 40k)" : ""));
+    var r1 = await fetch("/.netlify/functions/youtube-transcript?url=" + encodeURIComponent(url));
+    var d1 = await r1.json();
+    if (d1.error) throw new Error(d1.error);
+    transcript = d1.transcript || "";
+    videoTitle = d1.title || url;
+    var chars = Math.round((d1.chars || transcript.length) / 1000);
+    setStep("transcript", "done", "Transcript extracted — " + chars + "k chars" + (d1.truncated ? " (truncated)" : ""));
   } catch(e) {
-    setStep("transcript","error","Failed to extract transcript");
-    showError("Could not get transcript: " + e.message + ". Make sure the video has captions enabled.");
+    setStep("transcript", "error", "Transcript extraction failed");
+    showError("Could not get transcript: " + e.message);
     return;
   }
 
-  // ── STEP 2: Build app with Claude ──
-  setStep("ai","active","AI is reading the content and building your learning app... (30–60 seconds)");
+  // ── STEP 2: Build with Claude ──
+  setStep("ai", "active", "AI is building your learning app... (30–60 seconds)");
 
-  var systemPrompt = `You are an expert educational app developer. Your task is to create a complete, self-contained, interactive learning app as a single HTML file.
+  var systemMsg = "You are an expert educational app developer. Create a complete self-contained interactive learning app as a single HTML file. Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no explanation, no code blocks. Use dark design: background #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: 1) Topic overview from the content, 2) Plain-language explanations for each main concept, 3) Quiz with 8+ multiple choice questions from the actual content with answer feedback, 4) Flashcards for key terms, 5) Summary of top 5 takeaways. Make it interactive and mobile responsive.";
 
-RULES:
-- Return ONLY valid HTML. No markdown, no explanation, no code blocks.
-- The HTML must be complete and self-contained (all CSS and JS inline).
-- Use a clean, modern dark design (background #0f0f0f, white text, accent color #e8ff3c).
-- The app must be fully functional without any external dependencies or API calls.
-- Make it genuinely educational and engaging.
+  var userMsg = "Build a complete interactive learning app from this transcript.
 
-THE APP MUST INCLUDE:
-1. A title section with the course/video name
-2. A structured overview of the main topics (use the transcript content)
-3. For each main topic: a clear explanation in plain language
-4. A QUIZ section with at least 8 questions drawn from the actual content (multiple choice, with correct answer highlighted after selection)
-5. A FLASHCARDS section with key terms and definitions from the content
-6. A SUMMARY section with the 5 most important takeaways
-
-DESIGN:
-- Dark background (#0f0f0f), text (#f0ede6), accent (#e8ff3c)
-- Clean typography, good spacing
-- Interactive elements (quiz answers clickable, flashcards flippable)
-- Progress tracking for the quiz (score at the end)
-- Mobile responsive`;
-
-  var userPrompt = `Build a complete interactive learning app from this YouTube transcript.
-
-Video title: ${videoTitle}
+Title: " + videoTitle + "
 
 Transcript:
-${transcript}
+" + transcript + "
 
-Create the full HTML learning app now. Return ONLY the HTML, starting with <!DOCTYPE html>.`;
+Return ONLY the HTML app, starting with <!DOCTYPE html>.";
 
   try {
-    var aiRes = await fetch("/.netlify/functions/claude", {
+    var r2 = await fetch("/.netlify/functions/claude", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "claude-sonnet-4-5",
         max_tokens: 8000,
-        system: systemPrompt,
-        messages: [{ role: "user", content: userPrompt }]
+        system: systemMsg,
+        messages: [{ role: "user", content: userMsg }]
       })
     });
-    var aiData = await aiRes.json();
-    if (aiData.error) throw new Error(aiData.error.message || JSON.stringify(aiData.error));
-    generatedHTML = (aiData.content && aiData.content[0] && aiData.content[0].text) || "";
-    if (!generatedHTML || !generatedHTML.includes("<!DOCTYPE")) throw new Error("AI did not return valid HTML");
-    // Strip any markdown code blocks just in case
-    generatedHTML = generatedHTML.replace(/^```html
-?/i,"").replace(/
-?```$/,"").trim();
-    setStep("ai","done","Learning app built by AI");
+    var d2 = await r2.json();
+    if (d2.error) throw new Error(d2.error.message || JSON.stringify(d2.error));
+    generatedHTML = (d2.content && d2.content[0] && d2.content[0].text) || "";
+    if (!generatedHTML) throw new Error("Empty response from AI");
+    // Strip markdown code fences if present
+    generatedHTML = generatedHTML.replace(/^[\s\S]*?<!DOCTYPE/i, "<!DOCTYPE");
+    if (!generatedHTML.toLowerCase().includes("<!doctype")) throw new Error("AI did not return valid HTML");
+    setStep("ai", "done", "Learning app built successfully");
   } catch(e) {
-    setStep("ai","error","AI build failed");
+    setStep("ai", "error", "AI build failed");
     showError("AI error: " + e.message);
     return;
   }
 
   // ── STEP 3: Render ──
-  setStep("render","active","Rendering your learning app...");
+  setStep("render", "active", "Rendering your app...");
   try {
     var frame = document.getElementById("app-frame");
     frame.srcdoc = generatedHTML;
     document.getElementById("app-video-title").textContent = videoTitle;
-    setStep("render","done","Your learning app is ready!");
+    setStep("render", "done", "Your learning app is ready!");
     document.getElementById("app-section").style.display = "block";
     document.getElementById("seo-section").style.display = "none";
-    document.getElementById("app-section").scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("app-section").scrollIntoView({ behavior: "smooth" });
   } catch(e) {
-    setStep("render","error","Render failed");
-    showError("Could not render app: " + e.message);
+    setStep("render", "error", "Render failed");
+    showError("Render error: " + e.message);
   }
   document.getElementById("go-btn").disabled = false;
 }
 
 function downloadApp() {
   if (!generatedHTML) return;
+  var name = (videoTitle || "learning-app").replace(/[^a-z0-9]/gi, "-").toLowerCase().substring(0, 40) + ".html";
   var a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([generatedHTML], { type: "text/html" }));
-  a.download = (videoTitle || "learning-app").replace(/[^a-z0-9]/gi,"-").toLowerCase().substring(0,40) + ".html";
+  a.download = name;
   a.click();
 }
 
