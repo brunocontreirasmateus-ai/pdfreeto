@@ -303,8 +303,8 @@ async function runBuild(url){
 
   // Step 2: AI
   setStep('ai','active','Building your learning app with AI (30-60 seconds)...');
-  var sysMsg='You are an expert educational app developer. Create a self-contained HTML learning app. Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no code fences. Dark design: bg #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: overview, plain explanations, 6 quiz questions with feedback, flashcards, summary.';
-  var userMsg='Build an interactive learning app from this transcript.\n\nTitle: '+videoTitle+'\n\nTranscript:\n'+transcript.substring(0,15000)+'\n\nReturn ONLY the HTML starting with <!DOCTYPE html>.';
+  var sysMsg='You are an expert educational content analyser. Extract structured learning content from the provided text and return ONLY valid JSON — no markdown, no explanation, no code fences. Use this exact structure: {"title":"...","summary":"2-3 sentence overview","concepts":[{"term":"...","explanation":"plain language explanation in 2-3 sentences"},...],"quiz":[{"question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":0},...],"flashcards":[{"front":"...","back":"..."},...],"takeaways":["...","...",...]} Include 4-6 concepts, 6 quiz questions (answer is 0-indexed), 6 flashcards, 5 takeaways.';
+  var userMsg='Extract learning content from this transcript as JSON.\n\nTitle: '+videoTitle+'\n\nTranscript:\n'+transcript.substring(0,15000)+'\n\nReturn ONLY the JSON object.';
 
   try{
     var r2=await fetch('/.netlify/functions/claude',{
@@ -318,10 +318,12 @@ async function runBuild(url){
     if(d2.error)throw new Error(d2.error.message||JSON.stringify(d2.error));
     var raw=(d2.content&&d2.content[0]&&d2.content[0].text)||'';
     if(!raw)throw new Error('Empty AI response');
-    var dtIdx=raw.toLowerCase().indexOf('<!doctype');
-    if(dtIdx>0)raw=raw.substring(dtIdx);
-    if(dtIdx===-1)throw new Error('AI did not return valid HTML');
-    generatedHTML=raw;
+    var clean=raw.replace(/^```json\n?|^```\n?|\n?```$/g,'').trim();
+    var jsonStart=clean.indexOf('{'), jsonEnd=clean.lastIndexOf('}');
+    if(jsonStart>-1&&jsonEnd>-1) clean=clean.slice(jsonStart,jsonEnd+1);
+    var data;
+    try{ data=JSON.parse(clean); }catch(e){ throw new Error('Could not parse AI response: '+e.message); }
+    generatedHTML=buildTemplate(data);
     setStep('ai','done','Learning app built');
   }catch(e){
     setStep('ai','error','AI build failed');
@@ -368,8 +370,8 @@ function buildFromManual(){
 
 async function runBuild2(transcript){
   setStep('ai','active','Building your learning app with AI (30-60 seconds)...');
-  var sysMsg='You are an expert educational app developer. Create a self-contained HTML learning app. Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no code fences. Dark design: bg #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: overview, plain explanations, 6 quiz questions with feedback, flashcards, summary.';
-  var userMsg='Build an interactive learning app from this content.\n\nTitle: '+videoTitle+'\n\nContent:\n'+transcript.substring(0,15000)+'\n\nReturn ONLY the HTML starting with <!DOCTYPE html>.';
+  var sysMsg='You are an expert educational content analyser. Extract structured learning content from the provided text and return ONLY valid JSON — no markdown, no explanation, no code fences. Use this exact structure: {"title":"...","summary":"2-3 sentence overview","concepts":[{"term":"...","explanation":"plain language explanation in 2-3 sentences"},...],"quiz":[{"question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":0},...],"flashcards":[{"front":"...","back":"..."},...],"takeaways":["...","...",...]} Include 4-6 concepts, 6 quiz questions (answer is 0-indexed), 6 flashcards, 5 takeaways.';
+  var userMsg='Extract learning content from this text as JSON.\n\nTitle: '+videoTitle+'\n\nContent:\n'+transcript.substring(0,15000)+'\n\nReturn ONLY the JSON object.';
   try{
     var r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:2000,system:sysMsg,messages:[{role:'user',content:userMsg}]})});
     var txt=await r.text();
@@ -378,10 +380,13 @@ async function runBuild2(transcript){
     if(!r.ok || d.error)throw new Error((d.error&&(d.error.message||JSON.stringify(d.error)))||'HTTP '+r.status);
     var raw=(d.content&&d.content[0]&&d.content[0].text)||'';
     if(!raw)throw new Error('Empty AI response');
-    var dtIdx=raw.toLowerCase().indexOf('<!doctype');
-    if(dtIdx>0)raw=raw.substring(dtIdx);
-    if(dtIdx===-1)throw new Error('AI did not return valid HTML');
-    generatedHTML=raw;
+    // Parse JSON content
+    var clean=raw.replace(/^```json\n?|^```\n?|\n?```$/g,'').trim();
+    var jsonStart=clean.indexOf('{'), jsonEnd=clean.lastIndexOf('}');
+    if(jsonStart>-1&&jsonEnd>-1) clean=clean.slice(jsonStart,jsonEnd+1);
+    var data;
+    try{ data=JSON.parse(clean); }catch(e){ throw new Error('Could not parse AI response: '+e.message); }
+    generatedHTML=buildTemplate(data);
     setStep('ai','done','Learning app built');
   }catch(e){
     setStep('ai','error','Failed'); showBuildError('AI error: '+e.message); return;
@@ -430,6 +435,40 @@ function tryAutoExtract(){
       showBuildError('Error: '+e.message);
       document.getElementById('go-btn').disabled=false;
     });
+}
+
+function buildTemplate(d){
+  var title=d.title||videoTitle||'Learning App';
+  var summary=d.summary||'';
+  var concepts=d.concepts||[];
+  var quiz=d.quiz||[];
+  var flashcards=d.flashcards||[];
+  var takeaways=d.takeaways||[];
+
+  var conceptsHTML=concepts.map(function(c){
+    return '<div class="card"><h3>'+esc(c.term)+'</h3><p>'+esc(c.explanation)+'</p></div>';
+  }).join('');
+
+  var quizHTML=quiz.map(function(q,qi){
+    var opts=q.options.map(function(o,oi){
+      return '<button class="opt" onclick="answer('+qi+','+oi+','+q.answer+',this)">'+esc(o)+'</button>';
+    }).join('');
+    return '<div class="qblock" id="q'+qi+'"><p class="qtext"><strong>Q'+(qi+1)+':</strong> '+esc(q.question)+'</p><div class="opts">'+opts+'</div><div class="feedback" id="f'+qi+'"></div></div>';
+  }).join('');
+
+  var fcHTML=flashcards.map(function(fc,i){
+    return '<div class="fc" onclick="flipCard(this)"><div class="fc-inner"><div class="fc-front">'+esc(fc.front)+'</div><div class="fc-back">'+esc(fc.back)+'</div></div></div>';
+  }).join('');
+
+  var tkHTML=takeaways.map(function(t,i){
+    return '<li><span class="num">'+(i+1)+'</span>'+esc(t)+'</li>';
+  }).join('');
+
+  return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+'</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0f0f0f;color:#f0ede6;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6;padding:0 0 60px}.hero{background:#111;border-bottom:1px solid #2a2a2a;padding:40px 24px;text-align:center}.hero h1{font-size:clamp(1.6rem,5vw,3rem);font-weight:800;color:#e8ff3c;margin-bottom:12px}.hero p{color:#999;max-width:600px;margin:0 auto}.tabs{display:flex;overflow-x:auto;border-bottom:1px solid #2a2a2a;background:#111;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{padding:14px 20px;cursor:pointer;color:#666;border:none;background:none;font-size:.85rem;font-family:inherit;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}.tab.active{color:#e8ff3c;border-bottom-color:#e8ff3c}.panel{display:none;padding:24px;max-width:820px;margin:0 auto}.panel.active{display:block}.panel h2{font-size:1.4rem;color:#e8ff3c;margin-bottom:20px}.card{background:#1a1a1a;border:1px solid #2a2a2a;border-left:3px solid #e8ff3c;padding:20px;margin-bottom:14px;border-radius:2px}.card h3{color:#f0ede6;font-size:1rem;margin-bottom:8px}.card p{color:#999;font-size:.9rem}.qblock{background:#1a1a1a;border:1px solid #2a2a2a;padding:20px;margin-bottom:16px;border-radius:2px}.qtext{margin-bottom:12px;font-size:.95rem}.opts{display:flex;flex-direction:column;gap:8px}.opt{text-align:left;padding:10px 14px;background:#111;border:1px solid #333;color:#ccc;cursor:pointer;border-radius:2px;font-size:.88rem;font-family:inherit;transition:all .15s}.opt:hover{border-color:#e8ff3c;color:#f0ede6}.opt.correct{background:#0a2a0a;border-color:#4cff4c;color:#4cff4c}.opt.wrong{background:#2a0a0a;border-color:#ff4c4c;color:#ff4c4c}.opt:disabled{cursor:not-allowed}.feedback{margin-top:10px;font-size:.82rem;color:#999;min-height:20px}.fc{width:100%;min-height:120px;cursor:pointer;margin-bottom:12px;perspective:600px}.fc-inner{position:relative;width:100%;min-height:120px;transform-style:preserve-3d;transition:transform .4s}.fc.flipped .fc-inner{transform:rotateY(180deg)}.fc-front,.fc-back{position:absolute;width:100%;min-height:120px;padding:20px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;text-align:center;border-radius:2px;font-size:.9rem}.fc-front{background:#1a1a1a;border:1px solid #2a2a2a;color:#f0ede6;font-weight:600}.fc-back{background:#0a1a0a;border:1px solid #2a4a2a;color:#4cff8c;transform:rotateY(180deg)}.fc-hint{font-size:.7rem;color:#555;text-align:center;margin-bottom:8px}.tk-list{list-style:none;display:flex;flex-direction:column;gap:12px}.tk-list li{display:flex;align-items:flex-start;gap:14px;background:#1a1a1a;border:1px solid #2a2a2a;padding:16px;border-radius:2px;font-size:.92rem;color:#ccc}.num{background:#e8ff3c;color:#000;font-weight:800;font-size:.75rem;padding:3px 8px;border-radius:2px;flex-shrink:0;margin-top:2px}#score{margin-top:20px;padding:16px;background:#1a1a1a;border:1px solid #2a2a2a;text-align:center;font-size:1.1rem;display:none}</style></head><body><div class="hero"><h1>'+esc(title)+'</h1><p>'+esc(summary)+'</p></div><div class="tabs"><button class="tab active" onclick="show(0,this)">&#128214; Concepts</button><button class="tab" onclick="show(1,this)">&#127299; Quiz</button><button class="tab" onclick="show(2,this)">&#127183; Flashcards</button><button class="tab" onclick="show(3,this)">&#9889; Takeaways</button></div><div class="panel active" id="p0"><h2>Key Concepts</h2>'+conceptsHTML+'</div><div class="panel" id="p1"><h2>Quiz</h2>'+quizHTML+'<div id="score"></div></div><div class="panel" id="p2"><h2>Flashcards</h2><div class="fc-hint">Click a card to reveal the answer</div>'+fcHTML+'</div><div class="panel" id="p3"><h2>Top Takeaways</h2><ul class="tk-list">'+tkHTML+'</ul></div><script>var panels=document.querySelectorAll(".panel"),tabs=document.querySelectorAll(".tab");function show(i,t){panels.forEach(function(p,j){p.classList.toggle("active",i===j);});tabs.forEach(function(b){b.classList.remove("active");});t.classList.add("active");}var scores={};function answer(qi,oi,correct,btn){var block=document.getElementById("q"+qi);if(block.dataset.done)return;block.dataset.done=1;block.querySelectorAll(".opt").forEach(function(b,i){b.disabled=true;if(i===correct)b.classList.add("correct");});var fb=document.getElementById("f"+qi);if(oi===correct){btn.classList.add("correct");scores[qi]=1;fb.innerHTML="<span style=color:#4cff4c>&#10003; Correct!</span>";}else{btn.classList.add("wrong");scores[qi]=0;fb.innerHTML="<span style=color:#ff4c4c>&#10007; Wrong. Correct answer: "+btn.closest(".qblock").querySelectorAll(".opt")[correct].textContent+"</span>";}var done=Object.keys(scores).length,total=document.querySelectorAll(".qblock").length;if(done===total){var sc=Object.values(scores).filter(Boolean).length;var el=document.getElementById("score");el.innerHTML="Score: "+sc+"/"+total+" ("+(Math.round(sc/total*100))+"%)";el.style.display="block";}}function flipCard(el){el.classList.toggle("flipped");}<\/script></body></html>';
+}
+
+function esc(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
 function resetApp(){
