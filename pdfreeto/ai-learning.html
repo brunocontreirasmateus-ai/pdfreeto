@@ -310,7 +310,7 @@ async function runBuild(url){
     var r2=await fetch('/.netlify/functions/claude',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,system:sysMsg,messages:[{role:'user',content:userMsg}]})
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1100,system:sysMsg,messages:[{role:'user',content:userMsg}]})
     });
     var txt2=await r2.text();
     var d2;
@@ -318,11 +318,8 @@ async function runBuild(url){
     if(d2.error)throw new Error(d2.error.message||JSON.stringify(d2.error));
     var raw=(d2.content&&d2.content[0]&&d2.content[0].text)||'';
     if(!raw)throw new Error('Empty AI response');
-    var clean=raw.replace(/^```json\n?|^```\n?|\n?```$/g,'').trim();
-    var jsonStart=clean.indexOf('{'), jsonEnd=clean.lastIndexOf('}');
-    if(jsonStart>-1&&jsonEnd>-1) clean=clean.slice(jsonStart,jsonEnd+1);
-    var data;
-    try{ data=JSON.parse(clean); }catch(e){ throw new Error('Could not parse AI response: '+e.message); }
+    var data=parseJSON(raw);
+    if(!data) throw new Error('Could not parse AI response. Please try again.');
     generatedHTML=buildTemplate(data);
     setStep('ai','done','Learning app built');
   }catch(e){
@@ -373,7 +370,7 @@ async function runBuild2(transcript){
   var sysMsg='Extract learning content as compact JSON. Return ONLY JSON. Schema: {"title":"short title","summary":"1 sentence","concepts":[{"term":"term","explanation":"1 sentence"}],"quiz":[{"question":"?","options":["A)","B)","C)","D)"],"answer":0}],"flashcards":[{"front":"term","back":"def"}],"takeaways":["..."]}. Include 3 concepts, 4 quiz questions, 4 flashcards, 3 takeaways. Be very concise.';
   var userMsg='Extract learning content from this text as JSON.\n\nTitle: '+videoTitle+'\n\nContent:\n'+transcript.substring(0,3000)+'\n\nReturn ONLY the JSON object.';
   try{
-    var r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,system:sysMsg,messages:[{role:'user',content:userMsg}]})});
+    var r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1100,system:sysMsg,messages:[{role:'user',content:userMsg}]})});
     var txt=await r.text();
     var d;
     try{ d=JSON.parse(txt); }catch(e){ throw new Error('Server error (not JSON). Try with less text.'); }
@@ -381,11 +378,8 @@ async function runBuild2(transcript){
     var raw=(d.content&&d.content[0]&&d.content[0].text)||'';
     if(!raw)throw new Error('Empty AI response');
     // Parse JSON content
-    var clean=raw.replace(/^```json\n?|^```\n?|\n?```$/g,'').trim();
-    var jsonStart=clean.indexOf('{'), jsonEnd=clean.lastIndexOf('}');
-    if(jsonStart>-1&&jsonEnd>-1) clean=clean.slice(jsonStart,jsonEnd+1);
-    var data;
-    try{ data=JSON.parse(clean); }catch(e){ throw new Error('Could not parse AI response: '+e.message); }
+    var data=parseJSON(raw);
+    if(!data) throw new Error('Could not parse AI response. Please try again.');
     generatedHTML=buildTemplate(data);
     setStep('ai','done','Learning app built');
   }catch(e){
@@ -435,6 +429,49 @@ function tryAutoExtract(){
       showBuildError('Error: '+e.message);
       document.getElementById('go-btn').disabled=false;
     });
+}
+
+function parseJSON(raw){
+  // Strip markdown fences
+  var s=raw.replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+  // Find JSON boundaries
+  var start=s.indexOf('{'), end=s.lastIndexOf('}');
+  if(start>-1&&end>-1) s=s.slice(start,end+1);
+  // Try direct parse
+  try{ return JSON.parse(s); }catch(e){}
+  // Repair: close unclosed brackets/braces
+  try{
+    var depth=0,inStr=false,escaped=false,repaired=s;
+    var stack=[];
+    for(var i=0;i<s.length;i++){
+      var c=s[i];
+      if(escaped){escaped=false;continue;}
+      if(c==='\\'){escaped=true;continue;}
+      if(c==='"'&&!escaped){inStr=!inStr;continue;}
+      if(!inStr){
+        if(c==='{') stack.push('}');
+        else if(c==='[') stack.push(']');
+        else if(c==='}'){if(stack[stack.length-1]==='}')stack.pop();}
+        else if(c===']'){if(stack[stack.length-1]===']')stack.pop();}
+      }
+    }
+    // Remove trailing comma before closing
+    repaired=s.replace(/,\s*([}\]])/g,'$1');
+    // Close unclosed structures
+    while(stack.length>0) repaired+=stack.pop();
+    return JSON.parse(repaired);
+  }catch(e){}
+  // Last resort: extract partial data
+  try{
+    var partial={title:'Learning App',summary:'',concepts:[],quiz:[],flashcards:[],takeaways:[]};
+    var tm=s.match(/"title"\s*:\s*"([^"]+)"/); if(tm) partial.title=tm[1];
+    var sm=s.match(/"summary"\s*:\s*"([^"]+)"/); if(sm) partial.summary=sm[1];
+    var cm=[...s.matchAll(/"term"\s*:\s*"([^"]+)"[^}]*"explanation"\s*:\s*"([^"]+)"/g)];
+    cm.forEach(function(m){partial.concepts.push({term:m[1],explanation:m[2]});});
+    var qm=[...s.matchAll(/"question"\s*:\s*"([^"]+)"/g)];
+    qm.forEach(function(m,i){partial.quiz.push({question:m[1],options:['A) Option A','B) Option B','C) Option C','D) Option D'],answer:0});});
+    return partial.title?partial:null;
+  }catch(e){ return null; }
 }
 
 function buildTemplate(d){
