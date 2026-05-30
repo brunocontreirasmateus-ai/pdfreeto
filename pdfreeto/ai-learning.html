@@ -107,6 +107,11 @@
     .seo-section{padding:36px 20px 60px}
     .lang-btn{padding:4px 6px;font-size:.55rem}
   }
+
+  .txt-input{transition:border-color .2s}
+  .txt-input:focus{border-color:var(--accent) !important;outline:none}
+  .extract-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:var(--mono);font-size:.6rem;padding:4px 10px;cursor:pointer;transition:all .2s}
+  .extract-btn:hover{border-color:var(--accent);color:var(--accent)}
 </style>
 </head>
 <body>
@@ -137,15 +142,32 @@
 <div class="hero">
   <div class="eyebrow">AI Learning &middot; Free &middot; No Code <span style="background:var(--accent);color:#000;padding:2px 6px;font-size:.5rem;margin-left:8px">v2</span></div>
   <h1>Turn any<br><span class="hl">YouTube course</span><br>into your<br><span class="hl2">personal app.</span></h1>
-  <p class="hero-lead">Paste a YouTube URL. We extract the transcript, send it to AI, and build you a personal learning app with quizzes, flashcards and plain-language explanations. Free. No signup.</p>
+  <p class="hero-lead">Paste the transcript of any YouTube video. AI builds you a personal learning app with quizzes, flashcards and plain-language explanations. Free. No signup. 60 seconds.</p>
 
-  <div class="url-wrap">
-    <div class="url-row">
-      <input type="url" class="url-input" id="yt-url" onkeydown="if(event.key==='Enter')buildApp()"
-        placeholder="https://youtube.com/watch?v=... or playlist URL">
-      <button class="go-btn" id="go-btn" onclick="buildApp()">BUILD APP</button>
+  <!-- HOW TO GET TRANSCRIPT -->
+  <div id="how-to" style="max-width:680px;margin-bottom:24px;padding:16px 20px;background:var(--surface);border:1px solid var(--border)">
+    <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:10px">How to get the transcript from YouTube</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div style="font-family:var(--mono);font-size:.72rem;color:var(--text);display:flex;gap:10px"><span style="color:var(--accent);flex-shrink:0">1.</span><span>Open the YouTube video in your browser</span></div>
+      <div style="font-family:var(--mono);font-size:.72rem;color:var(--text);display:flex;gap:10px"><span style="color:var(--accent);flex-shrink:0">2.</span><span>Click <strong style="color:var(--text)">&#8943;</strong> (three dots) below the video → <strong style="color:var(--text)">Show transcript</strong></span></div>
+      <div style="font-family:var(--mono);font-size:.72rem;color:var(--text);display:flex;gap:10px"><span style="color:var(--accent);flex-shrink:0">3.</span><span>Click the three dots in the transcript panel → <strong style="color:var(--text)">Toggle timestamps</strong> (off) → Select all text → Copy</span></div>
+      <div style="font-family:var(--mono);font-size:.72rem;color:var(--text);display:flex;gap:10px"><span style="color:var(--accent);flex-shrink:0">4.</span><span>Paste below and click <strong style="color:var(--text)">Build App</strong></span></div>
     </div>
-    <div class="url-hint" style="margin-top:8px">Works with any YouTube video or playlist that has captions &middot; Usually takes 30&ndash;60 seconds</div>
+  </div>
+
+  <!-- MAIN INPUT -->
+  <div style="max-width:680px">
+    <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Video title (optional)</div>
+    <input type="text" id="yt-title" style="width:100%;padding:10px 16px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:.82rem;outline:none;margin-bottom:12px;transition:border-color .2s" placeholder="e.g. Anthropic Prompt Engineering Course" class="txt-input">
+    <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Transcript or video content <span style="color:var(--accent)">*</span></div>
+    <textarea id="manual-text" style="width:100%;height:200px;background:var(--surface);border:2px solid var(--border);color:var(--text);font-family:var(--sans);font-size:.88rem;padding:16px;outline:none;resize:vertical;line-height:1.6;transition:border-color .2s" placeholder="Paste the YouTube transcript here..." class="txt-input"></textarea>
+    <div style="display:flex;gap:12px;margin-top:12px;align-items:center;flex-wrap:wrap">
+      <button id="go-btn" onclick="buildFromManual()" style="padding:16px 32px;background:var(--accent);color:#0a0a0a;font-family:var(--display);font-size:1.4rem;letter-spacing:.12em;border:none;cursor:pointer;transition:opacity .2s">BUILD APP</button>
+      <span style="font-family:var(--mono);font-size:.62rem;color:var(--muted)">or try auto-extract: <input type="url" id="yt-url" style="background:none;border:none;border-bottom:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:.62rem;padding:2px 6px;outline:none;width:240px" placeholder="paste YouTube URL" onkeydown="if(event.key==='Enter')tryAutoExtract()"> <button onclick="tryAutoExtract()" style="background:none;border:1px solid var(--border);color:var(--muted);font-family:var(--mono);font-size:.6rem;padding:4px 10px;cursor:pointer;transition:all .2s" class="extract-btn">Extract &#8599;</button></span>
+    </div>
+  </div>
+
+
   </div>
 
   <div class="progress-wrap" id="progress-wrap">
@@ -272,8 +294,10 @@ async function runBuild(url){
     videoTitle=d.title||url;
     setStep('transcript','done','Transcript extracted - '+(Math.round(transcript.length/1000))+'k chars');
   }catch(e){
-    setStep('transcript','error','Failed');
-    showBuildError('Transcript error: '+e.message);
+    setStep('transcript','error','Auto-extract failed');
+    showBuildError('Could not extract transcript automatically. Paste the video text below to continue.');
+    document.getElementById('manual-wrap').style.display='block';
+    document.getElementById('manual-text').focus();
     return;
   }
 
@@ -327,11 +351,89 @@ function downloadApp(){
   a.click();
 }
 
+function buildFromManual(){
+  var text = document.getElementById('manual-text').value.trim();
+  if (!text) { alert('Please paste the transcript text first.'); return; }
+  var titleEl = document.getElementById('yt-title');
+  videoTitle = (titleEl && titleEl.value.trim()) || 'Learning App';
+  document.getElementById('manual-wrap').style.display='none';
+  document.getElementById('progress-wrap').style.display='block';
+  document.getElementById('error-box').style.display='none';
+  setStep('transcript','done','Text provided manually');
+  runBuild2(text);
+}
+
+async function runBuild2(transcript){
+  setStep('ai','active','Building your learning app with AI (30-60 seconds)...');
+  var sysMsg='You are an expert educational app developer. Create a complete self-contained interactive HTML learning app. IMPORTANT: Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no code fences. Dark design: bg #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: topic overview, explanations per concept, 8+ quiz questions with answer feedback, flashcards, summary. Mobile responsive.';
+  var userMsg='Build a complete interactive learning app from this content.\n\nTitle: '+videoTitle+'\n\nContent:\n'+transcript.substring(0,40000)+'\n\nReturn ONLY the HTML, starting with <!DOCTYPE html>.';
+  try{
+    var r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:8000,system:sysMsg,messages:[{role:'user',content:userMsg}]})});
+    var d=await r.json();
+    if(d.error)throw new Error(d.error.message||JSON.stringify(d.error));
+    var raw=(d.content&&d.content[0]&&d.content[0].text)||'';
+    if(!raw)throw new Error('Empty AI response');
+    var dtIdx=raw.toLowerCase().indexOf('<!doctype');
+    if(dtIdx>0)raw=raw.substring(dtIdx);
+    if(dtIdx===-1)throw new Error('AI did not return valid HTML');
+    generatedHTML=raw;
+    setStep('ai','done','Learning app built');
+  }catch(e){
+    setStep('ai','error','Failed'); showBuildError('AI error: '+e.message); return;
+  }
+  setStep('render','active','Rendering...');
+  try{
+    document.getElementById('app-frame').srcdoc=generatedHTML;
+    document.getElementById('app-video-title').textContent=videoTitle;
+    setStep('render','done','Your learning app is ready!');
+    document.getElementById('app-section').style.display='block';
+    document.getElementById('seo-section').style.display='none';
+    document.getElementById('app-section').scrollIntoView({behavior:'smooth'});
+  }catch(e){ setStep('render','error','Render error'); showBuildError('Render error: '+e.message); }
+  document.getElementById('go-btn').disabled=false;
+}
+
+function tryAutoExtract(){
+  var url = document.getElementById('yt-url').value.trim();
+  if (!url) { alert('Paste a YouTube URL first.'); return; }
+  document.getElementById('error-box').style.display='none';
+  document.getElementById('progress-wrap').style.display='block';
+  document.getElementById('go-btn').disabled=true;
+  setStep('transcript','active','Trying to extract transcript...');
+  setStep('ai','','');setStep('render','','');
+
+  fetch('/.netlify/functions/youtube-transcript?url='+encodeURIComponent(url))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.error){
+        setStep('transcript','error','Auto-extract failed');
+        document.getElementById('progress-wrap').style.display='none';
+        showBuildError('Auto-extract failed: '+d.error+'. Please paste the transcript manually above.');
+        document.getElementById('go-btn').disabled=false;
+        return;
+      }
+      document.getElementById('manual-text').value = d.transcript || '';
+      if(d.title) document.getElementById('yt-title').value = d.title;
+      setStep('transcript','done','Transcript extracted — '+(Math.round((d.chars||0)/1000))+'k chars');
+      document.getElementById('progress-wrap').style.display='none';
+      document.getElementById('go-btn').disabled=false;
+      document.getElementById('manual-text').scrollIntoView({behavior:'smooth'});
+    })
+    .catch(function(e){
+      setStep('transcript','error','Failed');
+      document.getElementById('progress-wrap').style.display='none';
+      showBuildError('Error: '+e.message);
+      document.getElementById('go-btn').disabled=false;
+    });
+}
+
 function resetApp(){
   document.getElementById('app-section').style.display='none';
   document.getElementById('seo-section').style.display='block';
   document.getElementById('progress-wrap').style.display='none';
   document.getElementById('yt-url').value='';
+  document.getElementById('manual-text').value='';
+  document.getElementById('yt-title').value='';
   generatedHTML='';videoTitle='';
 }
 </script>
