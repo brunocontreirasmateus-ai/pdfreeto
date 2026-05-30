@@ -303,14 +303,14 @@ async function runBuild(url){
 
   // Step 2: AI
   setStep('ai','active','Building your learning app with AI (30-60 seconds)...');
-  var sysMsg='You are an expert educational app developer. Create a complete self-contained interactive HTML learning app. IMPORTANT: Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no code fences, no explanation. Dark design: bg #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: topic overview, explanations per concept, 8+ quiz questions with answer feedback, flashcards, summary. Mobile responsive.';
-  var userMsg='Build a complete interactive learning app from this transcript.\n\nTitle: '+videoTitle+'\n\nTranscript:\n'+transcript+'\n\nReturn ONLY the HTML, starting with <!DOCTYPE html>.';
+  var sysMsg='You are an expert educational app developer. Create a self-contained HTML learning app. Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no code fences. Dark design: bg #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: overview, plain explanations, 6 quiz questions with feedback, flashcards, summary.';
+  var userMsg='Build an interactive learning app from this transcript.\n\nTitle: '+videoTitle+'\n\nTranscript:\n'+transcript.substring(0,15000)+'\n\nReturn ONLY the HTML starting with <!DOCTYPE html>.';
 
   try{
     var r2=await fetch('/.netlify/functions/claude',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:8000,system:sysMsg,messages:[{role:'user',content:userMsg}]})
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:4000,system:sysMsg,messages:[{role:'user',content:userMsg}]})
     });
     var d2=await r2.json();
     if(d2.error)throw new Error(d2.error.message||JSON.stringify(d2.error));
@@ -366,12 +366,12 @@ function buildFromManual(){
 
 async function runBuild2(transcript){
   setStep('ai','active','Building your learning app with AI (30-60 seconds)...');
-  var sysMsg='You are an expert educational app developer. Create a complete self-contained interactive HTML learning app. IMPORTANT: Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no code fences. Dark design: bg #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: topic overview, explanations per concept, 8+ quiz questions with answer feedback, flashcards, summary. Mobile responsive.';
-  var userMsg='Build a complete interactive learning app from this content.\n\nTitle: '+videoTitle+'\n\nContent:\n'+transcript.substring(0,40000)+'\n\nReturn ONLY the HTML, starting with <!DOCTYPE html>.';
+  var sysMsg='You are an expert educational app developer. Create a self-contained HTML learning app. Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no code fences. Dark design: bg #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: overview, plain explanations, 6 quiz questions with feedback, flashcards, summary.';
+  var userMsg='Build an interactive learning app from this content.\n\nTitle: '+videoTitle+'\n\nContent:\n'+transcript.substring(0,15000)+'\n\nReturn ONLY the HTML starting with <!DOCTYPE html>.';
   try{
-    var r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:8000,system:sysMsg,messages:[{role:'user',content:userMsg}]})});
+    var r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:4000,system:sysMsg,messages:[{role:'user',content:userMsg}]})});
     var d=await r.json();
-    if(d.error)throw new Error(d.error.message||JSON.stringify(d.error));
+    if(!r.ok || d.error)throw new Error((d.error&&(d.error.message||JSON.stringify(d.error)))||'HTTP '+r.status);
     var raw=(d.content&&d.content[0]&&d.content[0].text)||'';
     if(!raw)throw new Error('Empty AI response');
     var dtIdx=raw.toLowerCase().indexOf('<!doctype');
