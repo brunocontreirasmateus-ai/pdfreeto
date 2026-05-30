@@ -310,9 +310,11 @@ async function runBuild(url){
     var r2=await fetch('/.netlify/functions/claude',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:4000,system:sysMsg,messages:[{role:'user',content:userMsg}]})
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:2000,system:sysMsg,messages:[{role:'user',content:userMsg}]})
     });
-    var d2=await r2.json();
+    var txt2=await r2.text();
+    var d2;
+    try{ d2=JSON.parse(txt2); }catch(e){ throw new Error('Server timeout. Try with shorter text.'); }
     if(d2.error)throw new Error(d2.error.message||JSON.stringify(d2.error));
     var raw=(d2.content&&d2.content[0]&&d2.content[0].text)||'';
     if(!raw)throw new Error('Empty AI response');
@@ -369,8 +371,10 @@ async function runBuild2(transcript){
   var sysMsg='You are an expert educational app developer. Create a self-contained HTML learning app. Return ONLY valid HTML starting with <!DOCTYPE html>. No markdown, no code fences. Dark design: bg #0f0f0f, text #f0ede6, accent #e8ff3c. No external dependencies. Include: overview, plain explanations, 6 quiz questions with feedback, flashcards, summary.';
   var userMsg='Build an interactive learning app from this content.\n\nTitle: '+videoTitle+'\n\nContent:\n'+transcript.substring(0,15000)+'\n\nReturn ONLY the HTML starting with <!DOCTYPE html>.';
   try{
-    var r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:4000,system:sysMsg,messages:[{role:'user',content:userMsg}]})});
-    var d=await r.json();
+    var r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:2000,system:sysMsg,messages:[{role:'user',content:userMsg}]})});
+    var txt=await r.text();
+    var d;
+    try{ d=JSON.parse(txt); }catch(e){ throw new Error('Server error (not JSON). Try with less text.'); }
     if(!r.ok || d.error)throw new Error((d.error&&(d.error.message||JSON.stringify(d.error)))||'HTTP '+r.status);
     var raw=(d.content&&d.content[0]&&d.content[0].text)||'';
     if(!raw)throw new Error('Empty AI response');
