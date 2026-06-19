@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EXHT3PYZF8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EXHT3PYZF8');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Audio Cutter — Trim MP3, WAV, OGG Online | PDFreeto</title>
+<meta name="description" content="Upload any audio file, select the section you want, and download the trimmed clip. Free, instant, no upload to server. Works entirely in your browser.">
+<link rel="canonical" href="https://pdfreeto.com/audio-cutter">
+<meta property="og:title" content="Free Audio Cutter — Trim Any Audio File | PDFreeto">
+<meta property="og:description" content="Upload audio, drag to select your clip, download. Free and private — nothing leaves your browser.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0a0a;--surface:#111;--surface2:#1a1a1a;--border:#2a2a2a;--accent:#e8ff3c;--accent2:#ff5533;--text:#f0ede6;--muted:#666;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;--display:'Bebas Neue',sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(232,255,60,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(232,255,60,.03) 1px,transparent 1px);background-size:60px 60px}
+
+  header{position:relative;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);gap:16px}
+  .logo{font-family:var(--display);font-size:2rem;letter-spacing:.08em;color:var(--text);text-decoration:none;flex-shrink:0}
+  .logo span{color:var(--accent)}
+  .nav-dropdown{position:relative;flex-shrink:0}
+  .nav-toggle{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text);background:none;border:1px solid var(--border);padding:7px 14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
+  .nav-toggle:hover{border-color:var(--accent);color:var(--accent)}
+  .nav-toggle .arr{font-size:.6rem;transition:transform .2s}
+  .nav-toggle.open .arr{transform:rotate(180deg)}
+  .nav-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;background:var(--surface);border:1px solid var(--border);min-width:220px;z-index:200;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+  .nav-menu.open{display:block}
+  .nav-menu a{display:block;padding:10px 16px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--border);transition:all .15s}
+  .nav-menu a:last-child{border-bottom:none}
+  .nav-menu a:hover,.nav-menu a.active{color:var(--accent);padding-left:22px}
+  .blog-btn{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text);background:none;border:1px solid var(--border);padding:7px 14px;text-decoration:none;transition:all .2s}
+  .blog-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .lang-sw{display:flex;gap:4px}
+  .lb{font-family:var(--mono);font-size:.62rem;padding:5px 9px;background:none;border:1px solid var(--border);color:var(--muted);text-decoration:none;transition:all .2s}
+  .lb:hover,.lb.active{color:var(--accent);border-color:var(--accent)}
+
+  /* HERO */
+  .hero{position:relative;z-index:10;padding:64px 40px 48px;border-bottom:1px solid var(--border)}
+  .eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:'';display:inline-block;width:24px;height:2px;background:var(--accent)}
+  .hero h1{font-family:var(--display);font-size:clamp(3rem,8vw,7rem);line-height:.92;letter-spacing:.02em;margin-bottom:16px}
+  .hero h1 .hl{color:var(--accent)}
+  .hero-sub{font-size:1rem;color:var(--muted);max-width:520px;line-height:1.7}
+
+  /* MAIN */
+  .main{position:relative;z-index:10;max-width:960px;margin:0 auto;padding:40px 40px 80px}
+
+  /* DROP ZONE */
+  .drop-zone{border:2px dashed var(--border);padding:56px 40px;text-align:center;cursor:pointer;transition:all .25s;background:var(--surface);position:relative;overflow:hidden}
+  .drop-zone::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,rgba(232,255,60,.03));pointer-events:none}
+  .drop-zone:hover,.drop-zone.drag{border-color:var(--accent);background:rgba(232,255,60,.03)}
+  .drop-zone:hover .dz-icon{color:var(--accent);transform:scale(1.1) translateY(-4px)}
+  .dz-icon{font-size:2.8rem;display:block;margin-bottom:14px;color:var(--muted);transition:all .3s}
+  .dz-title{font-family:var(--display);font-size:1.8rem;letter-spacing:.05em;color:var(--text);margin-bottom:8px}
+  .dz-sub{font-family:var(--mono);font-size:.68rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+  input[type=file]{display:none}
+
+  /* FILE INFO */
+  .file-info{display:none;margin-top:16px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);font-family:var(--mono);font-size:.78rem;align-items:center;gap:12px}
+  .fdot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+  .fname{flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .fdur{color:var(--muted);flex-shrink:0}
+
+  /* EDITOR */
+  .editor{display:none;margin-top:32px;background:var(--surface);border:1px solid var(--border)}
+  .editor-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+  .editor-title{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+  .editor-hint{font-family:var(--mono);font-size:.62rem;color:var(--muted);letter-spacing:.06em}
+
+  /* WAVEFORM */
+  .waveform-wrap{position:relative;padding:20px 20px 0;cursor:crosshair;user-select:none}
+  #waveform{width:100%;height:120px;display:block}
+  /* selection overlay drawn on canvas */
+
+  /* TIME RULER */
+  .ruler{position:relative;height:24px;margin:0 20px;border-top:1px solid var(--border)}
+  #ruler-canvas{width:100%;height:24px;display:block}
+
+  /* PLAYHEAD */
+  .playhead{position:absolute;top:20px;width:2px;background:var(--accent);pointer-events:none;height:120px;transform:translateX(-1px);transition:none}
+
+  /* TIME INPUTS */
+  .time-row{display:flex;gap:12px;padding:16px 20px;border-top:1px solid var(--border)}
+  .time-group{display:flex;flex-direction:column;gap:6px;flex:1}
+  .time-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+  .time-input{background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:.9rem;padding:10px 12px;outline:none;transition:border-color .2s;width:100%}
+  .time-input:focus{border-color:var(--accent)}
+  .selection-dur{font-family:var(--mono);font-size:.78rem;color:var(--accent);padding:10px 0;display:flex;align-items:center;gap:6px;flex-shrink:0}
+
+  /* CONTROLS */
+  .controls{display:flex;gap:10px;padding:16px 20px;border-top:1px solid var(--border);flex-wrap:wrap;align-items:center}
+  .ctrl-btn{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:10px 18px;background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+  .ctrl-btn:hover{border-color:var(--text);color:var(--text)}
+  .ctrl-btn.primary{background:var(--accent);color:#0a0a0a;border-color:var(--accent)}
+  .ctrl-btn.primary:hover{opacity:.9}
+  .ctrl-btn.playing{border-color:var(--accent);color:var(--accent)}
+  .ctrl-btn:disabled{opacity:.4;cursor:not-allowed}
+  .vol-wrap{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .vol-label{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+  input[type=range]{-webkit-appearance:none;height:3px;background:var(--border);outline:none;cursor:pointer;width:80px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--accent);cursor:pointer}
+
+  /* DOWNLOAD */
+  .download-section{display:none;padding:20px;border-top:1px solid var(--border);background:rgba(232,255,60,.03)}
+  .dl-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .dl-info{font-family:var(--mono);font-size:.72rem;color:var(--muted);flex:1}
+  .dl-btn{font-family:var(--display);font-size:1.2rem;letter-spacing:.1em;padding:12px 28px;background:var(--accent);color:#0a0a0a;border:none;cursor:pointer;transition:opacity .2s}
+  .dl-btn:hover{opacity:.9}
+  .dl-format{background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:.72rem;padding:10px 14px;cursor:pointer;outline:none}
+
+  /* PROGRESS */
+  .progress{display:none;padding:20px;border-top:1px solid var(--border)}
+  .progress-bar{height:3px;background:var(--border);overflow:hidden;margin-bottom:8px}
+  .progress-fill{height:100%;background:var(--accent);width:0%;transition:width .3s}
+  .progress-text{font-family:var(--mono);font-size:.68rem;color:var(--muted);text-align:center;letter-spacing:.1em;text-transform:uppercase}
+
+  /* SEO */
+  .seo{margin-top:56px;padding-top:40px;border-top:1px solid var(--border)}
+  .seo h2{font-family:var(--display);font-size:1.8rem;letter-spacing:.05em;margin-bottom:12px}
+  .seo h3{font-family:var(--display);font-size:1.3rem;letter-spacing:.05em;margin-bottom:8px;margin-top:24px}
+  .seo p{font-size:.9rem;color:var(--muted);line-height:1.8;margin-bottom:12px}
+
+  footer{position:relative;z-index:10;text-align:center;padding:24px;border-top:1px solid var(--border);margin-top:40px}
+  .fl{display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+  .fl a{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text);text-decoration:none}
+  .fl a:hover{color:var(--accent)}
+  .fsep{color:var(--border)}
+  .fn{font-family:var(--mono);font-size:.65rem;color:var(--muted)}
+
+  @media(max-width:600px){
+    header{padding:12px 16px;gap:8px}.logo{font-size:1.4rem}
+    .hero{padding:40px 20px 32px}.main{padding:24px 16px 60px}
+    .controls{gap:8px}.ctrl-btn{padding:8px 12px;font-size:.6rem}
+    .time-row{flex-wrap:wrap}.vol-wrap{margin-left:0;width:100%}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">PDF<span>reeto</span></a>
+  <div class="nav-dropdown">
+    <button class="nav-toggle" id="nav-toggle">All <span class="arr">&#9662;</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <a href="/">JPG &#8596; PDF</a>
+      <a href="/pdf-to-word.html">Word to PDF</a>
+      <a href="/compress-pdf.html">Compress PDF</a>
+      <a href="/pdf-ai.html">PDF AI</a>
+      <a href="/social-media.html">Social Media</a>
+      <a href="/seo.html">SEO</a>
+      <a href="/voice.html">Voice</a>
+      <a href="/audio-cutter.html" class="active">Audio Cutter &#9733;</a>
+    </div>
+  </div>
+  <a href="/blog/" class="blog-btn">Blog</a>
+  <div class="lang-sw"><a href="/audio-cutter.html" class="lb active">EN</a></div>
+</header>
+
+<div class="hero">
+  <div class="eyebrow">Audio Cutter &middot; Free &middot; Browser-only</div>
+  <h1>Trim any<br><span class="hl">audio clip</span><br>in seconds.</h1>
+  <p class="hero-sub">Upload your audio, drag to select the section you want, and download the trimmed clip. Supports MP3, WAV, OGG, M4A, FLAC and more. Nothing is uploaded to any server.</p>
+</div>
+
+<div class="main">
+
+  <!-- DROP ZONE -->
+  <div class="drop-zone" id="drop-zone">
+    <input type="file" id="file-input" accept="audio/*">
+    <span class="dz-icon">&#127925;</span>
+    <div class="dz-title">Drop your audio file here</div>
+    <div class="dz-sub">MP3 &middot; WAV &middot; OGG &middot; M4A &middot; FLAC &middot; AAC &middot; or click to browse</div>
+  </div>
+  <div class="file-info" id="file-info">
+    <div class="fdot"></div>
+    <span class="fname" id="fname"></span>
+    <span class="fdur" id="fdur"></span>
+    <button class="ctrl-btn" onclick="resetTool()" style="margin-left:auto;padding:6px 12px;font-size:.6rem">&#10005; Remove</button>
+  </div>
+
+  <!-- EDITOR -->
+  <div class="editor" id="editor">
+    <div class="editor-header">
+      <span class="editor-title">&#9658; Waveform Editor</span>
+      <span class="editor-hint">Click &amp; drag on waveform to select &middot; Drag handles to adjust</span>
+    </div>
+
+    <div class="waveform-wrap" id="waveform-wrap">
+      <canvas id="waveform"></canvas>
+      <div class="playhead" id="playhead" style="display:none"></div>
+    </div>
+    <div class="ruler"><canvas id="ruler-canvas"></canvas></div>
+
+    <div class="time-row">
+      <div class="time-group">
+        <span class="time-label">&#9650; Start</span>
+        <input type="text" class="time-input" id="start-input" placeholder="0:00.000">
+      </div>
+      <div class="selection-dur" id="sel-dur">&#8212;</div>
+      <div class="time-group">
+        <span class="time-label">&#9660; End</span>
+        <input type="text" class="time-input" id="end-input" placeholder="0:00.000">
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="ctrl-btn" id="play-all-btn" title="Play full audio">&#9654; Full</button>
+      <button class="ctrl-btn primary" id="play-sel-btn" title="Play selection" disabled>&#9654; Selection</button>
+      <button class="ctrl-btn" id="stop-btn" title="Stop">&#9646;&#9646; Stop</button>
+      <button class="ctrl-btn" id="sel-all-btn" title="Select all">&#9646;&#9646; Select All</button>
+      <div class="vol-wrap">
+        <span class="vol-label">Vol</span>
+        <input type="range" id="vol" min="0" max="2" step="0.1" value="1">
+      </div>
+    </div>
+
+    <div class="progress" id="proc-progress">
+      <div class="progress-bar"><div class="progress-fill" id="proc-fill"></div></div>
+      <div class="progress-text" id="proc-text">Processing...</div>
+    </div>
+
+    <div class="download-section" id="dl-section">
+      <div class="dl-row">
+        <div class="dl-info">
+          <span id="dl-info-text">Selection ready</span>
+        </div>
+        <select class="dl-format" id="dl-format">
+          <option value="wav">WAV</option>
+          <option value="mp3">MP3 (via browser)</option>
+        </select>
+        <button class="dl-btn" id="dl-btn">&#8595; Download</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEO -->
+  <div class="seo">
+    <h2>Free Online Audio Cutter</h2>
+    <p>PDFreeto's Audio Cutter lets you trim any audio file directly in your browser — no upload, no account, no waiting. Your audio file never leaves your device. Load the file, drag to select your clip on the waveform, and download.</p>
+    <h3>Supported formats</h3>
+    <p>The Audio Cutter accepts any format your browser can decode: MP3, WAV, OGG, M4A, AAC, FLAC, WebM and OPUS. The output is a high-quality WAV file that preserves the original audio quality of your selection.</p>
+    <h3>How to trim audio</h3>
+    <p>Upload your file by dropping it on the page or clicking to browse. The waveform loads automatically. Click and drag on the waveform to select the section you want to keep. Type precise start and end times in the fields below the waveform for exact cuts. Click Play Selection to preview your clip before downloading.</p>
+    <h3>Privacy</h3>
+    <p>The entire operation runs in your browser using the Web Audio API. Your audio file is processed locally — no data is sent to any server at any point.</p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="fl">
+    <a href="/">JPG &#8596; PDF</a><span class="fsep">&#183;</span>
+    <a href="/tts.html">Text to Speech</a><span class="fsep">&#183;</span>
+    <a href="/voice.html">Voice</a><span class="fsep">&#183;</span>
+    <a href="/audio-cutter.html">Audio Cutter</a><span class="fsep">&#183;</span>
+    <a href="/blog/">Blog</a>
+  </div>
+  <div class="fn">PDFreeto &middot; Free browser tools</div>
+</footer>
+
+<script>
+// ── NAV ──
+document.getElementById('nav-toggle').addEventListener('click', function() {
+  this.classList.toggle('open');
+  document.getElementById('nav-menu').classList.toggle('open');
+});
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.getElementById('nav-toggle').classList.remove('open');
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+});
+
+// ── STATE ──
+var audioCtx = null;
+var audioBuffer = null;
+var sourceNode = null;
+var isPlaying = false;
+var playStart = 0;
+var playOffset = 0;
+var animFrame = null;
+var selStart = 0;
+var selEnd = 0;
+var duration = 0;
+var isDragging = false;
+var dragOrigin = 0;
+var fileName = '';
+
+// ── DROP ZONE ──
+var dz = document.getElementById('drop-zone');
+var fi = document.getElementById('file-input');
+dz.addEventListener('click', function() { fi.click(); });
+dz.addEventListener('dragover', function(e) { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', function() { dz.classList.remove('drag'); });
+dz.addEventListener('drop', function(e) { e.preventDefault(); dz.classList.remove('drag'); loadFile(e.dataTransfer.files[0]); });
+fi.addEventListener('change', function() { loadFile(fi.files[0]); });
+
+function loadFile(f) {
+  if (!f) return;
+  fileName = f.name;
+  document.getElementById('fname').textContent = f.name;
+  document.getElementById('file-info').style.display = 'flex';
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    audioCtx.decodeAudioData(e.target.result, function(buf) {
+      audioBuffer = buf;
+      duration = buf.duration;
+      selStart = 0;
+      selEnd = duration;
+      document.getElementById('fdur').textContent = fmtTime(duration);
+      drawWaveform();
+      drawRuler();
+      document.getElementById('editor').style.display = 'block';
+      document.getElementById('play-sel-btn').disabled = false;
+      updateTimeInputs();
+      showDownload();
+    }, function(err) {
+      alert('Could not decode audio: ' + err.message + '. Try a different file format.');
+    });
+  };
+  reader.readAsArrayBuffer(f);
+}
+
+// ── WAVEFORM ──
+function drawWaveform() {
+  var canvas = document.getElementById('waveform');
+  var wrap = document.getElementById('waveform-wrap');
+  canvas.width = wrap.clientWidth;
+  canvas.height = 120;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+
+  // Get channel data (use first channel)
+  var data = audioBuffer.getChannelData(0);
+  var step = Math.ceil(data.length / W);
+  var amp = H / 2;
+
+  // Background
+  ctx.fillStyle = '#111';
+  ctx.fillRect(0, 0, W, H);
+
+  // Selection highlight
+  var sx = Math.round((selStart / duration) * W);
+  var ex = Math.round((selEnd / duration) * W);
+  ctx.fillStyle = 'rgba(232,255,60,0.08)';
+  ctx.fillRect(sx, 0, ex - sx, H);
+
+  // Waveform
+  ctx.beginPath();
+  ctx.strokeStyle = '#e8ff3c';
+  ctx.lineWidth = 1;
+  for (var i = 0; i < W; i++) {
+    var min = 0, max = 0;
+    for (var j = 0; j < step; j++) {
+      var v = data[i * step + j] || 0;
+      if (v < min) min = v;
+      if (v > max) max = v;
+    }
+    ctx.moveTo(i, amp + min * amp * 0.9);
+    ctx.lineTo(i, amp + max * amp * 0.9);
+  }
+  ctx.stroke();
+
+  // Selection handles
+  ctx.fillStyle = '#e8ff3c';
+  ctx.fillRect(sx - 1, 0, 3, H);
+  ctx.fillRect(ex - 1, 0, 3, H);
+
+  // Handle triangles
+  ctx.beginPath();
+  ctx.moveTo(sx, 0); ctx.lineTo(sx + 10, 0); ctx.lineTo(sx, 14); ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(ex, 0); ctx.lineTo(ex - 10, 0); ctx.lineTo(ex, 14); ctx.fill();
+
+  // Center line
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, amp); ctx.lineTo(W, amp);
+  ctx.stroke();
+}
+
+function drawRuler() {
+  var canvas = document.getElementById('ruler-canvas');
+  var wrap = document.getElementById('waveform-wrap');
+  canvas.width = wrap.clientWidth;
+  canvas.height = 24;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width;
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(0, 0, W, 24);
+  ctx.font = '9px DM Mono, monospace';
+  ctx.fillStyle = '#666';
+  ctx.strokeStyle = '#2a2a2a';
+
+  // Calculate interval
+  var interval = 1;
+  if (duration > 120) interval = 30;
+  else if (duration > 60) interval = 10;
+  else if (duration > 30) interval = 5;
+  else if (duration > 10) interval = 2;
+
+  for (var t = 0; t <= duration; t += interval) {
+    var x = Math.round((t / duration) * W);
+    ctx.beginPath();
+    ctx.strokeStyle = '#2a2a2a';
+    ctx.moveTo(x, 0); ctx.lineTo(x, 8);
+    ctx.stroke();
+    ctx.fillStyle = '#555';
+    ctx.fillText(fmtTime(t), x + 3, 20);
+  }
+}
+
+// ── DRAG SELECTION ──
+var wWrap = document.getElementById('waveform-wrap');
+wWrap.addEventListener('mousedown', function(e) {
+  if (!audioBuffer) return;
+  isDragging = true;
+  var rect = wWrap.getBoundingClientRect();
+  dragOrigin = (e.clientX - rect.left) / rect.width;
+  selStart = dragOrigin * duration;
+  selEnd = selStart;
+  drawWaveform();
+});
+wWrap.addEventListener('mousemove', function(e) {
+  if (!isDragging || !audioBuffer) return;
+  var rect = wWrap.getBoundingClientRect();
+  var pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  if (pos * duration < dragOrigin * duration) {
+    selStart = pos * duration;
+    selEnd = dragOrigin * duration;
+  } else {
+    selStart = dragOrigin * duration;
+    selEnd = pos * duration;
+  }
+  drawWaveform();
+  updateTimeInputs();
+  updateSelDur();
+});
+document.addEventListener('mouseup', function() {
+  if (isDragging) {
+    isDragging = false;
+    if (selEnd - selStart < 0.01) { selStart = 0; selEnd = duration; }
+    drawWaveform();
+    updateTimeInputs();
+    updateSelDur();
+    showDownload();
+  }
+});
+
+// Touch support
+wWrap.addEventListener('touchstart', function(e) {
+  if (!audioBuffer) return;
+  e.preventDefault();
+  isDragging = true;
+  var rect = wWrap.getBoundingClientRect();
+  dragOrigin = (e.touches[0].clientX - rect.left) / rect.width;
+  selStart = dragOrigin * duration;
+  selEnd = selStart;
+  drawWaveform();
+}, { passive: false });
+wWrap.addEventListener('touchmove', function(e) {
+  if (!isDragging || !audioBuffer) return;
+  e.preventDefault();
+  var rect = wWrap.getBoundingClientRect();
+  var pos = Math.max(0, Math.min(1, (e.touches[0].clientX - rect.left) / rect.width));
+  if (pos * duration < dragOrigin * duration) {
+    selStart = pos * duration;
+    selEnd = dragOrigin * duration;
+  } else {
+    selStart = dragOrigin * duration;
+    selEnd = pos * duration;
+  }
+  drawWaveform(); updateTimeInputs(); updateSelDur();
+}, { passive: false });
+wWrap.addEventListener('touchend', function() {
+  isDragging = false;
+  if (selEnd - selStart < 0.01) { selStart = 0; selEnd = duration; }
+  drawWaveform(); updateTimeInputs(); updateSelDur(); showDownload();
+});
+
+// ── TIME INPUTS ──
+function fmtTime(s) {
+  var m = Math.floor(s / 60);
+  var sec = (s % 60).toFixed(3);
+  return m + ':' + (parseFloat(sec) < 10 ? '0' : '') + sec;
+}
+
+function parseTime(str) {
+  str = str.trim();
+  // Accept m:ss.mmm or ss.mmm or seconds
+  var parts = str.split(':');
+  if (parts.length === 2) return parseFloat(parts[0]) * 60 + parseFloat(parts[1]);
+  return parseFloat(str);
+}
+
+function updateTimeInputs() {
+  document.getElementById('start-input').value = fmtTime(selStart);
+  document.getElementById('end-input').value = fmtTime(selEnd);
+  updateSelDur();
+}
+
+function updateSelDur() {
+  var d = selEnd - selStart;
+  document.getElementById('sel-dur').textContent = d > 0 ? fmtTime(d) : '—';
+}
+
+document.getElementById('start-input').addEventListener('change', function() {
+  var v = parseTime(this.value);
+  if (!isNaN(v)) { selStart = Math.max(0, Math.min(v, selEnd - 0.01)); drawWaveform(); updateTimeInputs(); showDownload(); }
+});
+document.getElementById('end-input').addEventListener('change', function() {
+  var v = parseTime(this.value);
+  if (!isNaN(v)) { selEnd = Math.min(duration, Math.max(v, selStart + 0.01)); drawWaveform(); updateTimeInputs(); showDownload(); }
+});
+
+// ── PLAYBACK ──
+function stopPlayback() {
+  if (sourceNode) { try { sourceNode.stop(); } catch(e) {} sourceNode = null; }
+  isPlaying = false;
+  if (animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
+  document.getElementById('play-all-btn').textContent = '\u25B6 Full';
+  document.getElementById('play-sel-btn').textContent = '\u25B6 Selection';
+  document.getElementById('play-all-btn').classList.remove('playing');
+  document.getElementById('play-sel-btn').classList.remove('playing');
+  document.getElementById('playhead').style.display = 'none';
+}
+
+function playAudio(start, end) {
+  stopPlayback();
+  if (!audioBuffer) return;
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  sourceNode = audioCtx.createBufferSource();
+  sourceNode.buffer = audioBuffer;
+  var gain = audioCtx.createGain();
+  gain.gain.value = parseFloat(document.getElementById('vol').value);
+  sourceNode.connect(gain);
+  gain.connect(audioCtx.destination);
+  sourceNode.start(0, start, end - start);
+  isPlaying = true;
+  playStart = audioCtx.currentTime;
+  playOffset = start;
+
+  sourceNode.onended = function() { stopPlayback(); };
+
+  // Animate playhead
+  var ph = document.getElementById('playhead');
+  var canvas = document.getElementById('waveform');
+  ph.style.display = 'block';
+  ph.style.height = canvas.height + 'px';
+  function animate() {
+    if (!isPlaying) return;
+    var elapsed = audioCtx.currentTime - playStart;
+    var pos = (playOffset + elapsed) / duration;
+    ph.style.left = (pos * 100) + '%';
+    animFrame = requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+document.getElementById('play-all-btn').addEventListener('click', function() {
+  if (isPlaying) { stopPlayback(); return; }
+  this.textContent = '\u23F8 Stop';
+  this.classList.add('playing');
+  playAudio(0, duration);
+});
+document.getElementById('play-sel-btn').addEventListener('click', function() {
+  if (isPlaying) { stopPlayback(); return; }
+  this.textContent = '\u23F8 Stop';
+  this.classList.add('playing');
+  playAudio(selStart, selEnd);
+});
+document.getElementById('stop-btn').addEventListener('click', stopPlayback);
+document.getElementById('sel-all-btn').addEventListener('click', function() {
+  selStart = 0; selEnd = duration;
+  drawWaveform(); updateTimeInputs(); showDownload();
+});
+
+// ── DOWNLOAD ──
+function showDownload() {
+  var d = selEnd - selStart;
+  document.getElementById('dl-info-text').textContent =
+    'Selection: ' + fmtTime(selStart) + ' → ' + fmtTime(selEnd) + ' (' + fmtTime(d) + ')';
+  document.getElementById('dl-section').style.display = 'block';
+}
+
+document.getElementById('dl-btn').addEventListener('click', function() {
+  if (!audioBuffer) return;
+  stopPlayback();
+  document.getElementById('proc-progress').style.display = 'block';
+  document.getElementById('proc-fill').style.width = '30%';
+  document.getElementById('proc-text').textContent = 'Extracting selection...';
+
+  setTimeout(function() {
+    try {
+      var startSample = Math.floor(selStart * audioBuffer.sampleRate);
+      var endSample = Math.ceil(selEnd * audioBuffer.sampleRate);
+      var length = endSample - startSample;
+      var sampleRate = audioBuffer.sampleRate;
+      var numChannels = audioBuffer.numberOfChannels;
+
+      // Create new buffer with selection
+      var newBuf = audioCtx.createBuffer(numChannels, length, sampleRate);
+      for (var c = 0; c < numChannels; c++) {
+        var src = audioBuffer.getChannelData(c);
+        var dst = newBuf.getChannelData(c);
+        for (var i = 0; i < length; i++) dst[i] = src[startSample + i];
+      }
+
+      document.getElementById('proc-fill').style.width = '60%';
+      document.getElementById('proc-text').textContent = 'Encoding WAV...';
+
+      setTimeout(function() {
+        var wav = encodeWAV(newBuf);
+        document.getElementById('proc-fill').style.width = '100%';
+        document.getElementById('proc-text').textContent = 'Done!';
+
+        // Generate filename
+        var baseName = fileName.replace(/\.[^.]+$/, '');
+        var dlName = baseName + '_' + fmtTime(selStart).replace(/[:.]/g,'-') + '_' + fmtTime(selEnd).replace(/[:.]/g,'-') + '.wav';
+
+        var blob = new Blob([wav], { type: 'audio/wav' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = dlName;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        setTimeout(function() {
+          document.getElementById('proc-progress').style.display = 'none';
+        }, 1500);
+      }, 100);
+    } catch(e) {
+      alert('Export error: ' + e.message);
+      document.getElementById('proc-progress').style.display = 'none';
+    }
+  }, 50);
+});
+
+// ── WAV ENCODER ──
+function encodeWAV(buffer) {
+  var numChannels = buffer.numberOfChannels;
+  var sampleRate = buffer.sampleRate;
+  var length = buffer.length;
+  var dataLength = length * numChannels * 2; // 16-bit
+  var wavBuffer = new ArrayBuffer(44 + dataLength);
+  var view = new DataView(wavBuffer);
+
+  function write(offset, str) {
+    for (var i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+  }
+  write(0, 'RIFF');
+  view.setUint32(4, 36 + dataLength, true);
+  write(8, 'WAVE');
+  write(12, 'fmt ');
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true); // PCM
+  view.setUint16(22, numChannels, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * numChannels * 2, true);
+  view.setUint16(32, numChannels * 2, true);
+  view.setUint16(34, 16, true);
+  write(36, 'data');
+  view.setUint32(40, dataLength, true);
+
+  // Interleave channels
+  var offset = 44;
+  for (var i = 0; i < length; i++) {
+    for (var c = 0; c < numChannels; c++) {
+      var s = Math.max(-1, Math.min(1, buffer.getChannelData(c)[i]));
+      view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+      offset += 2;
+    }
+  }
+  return wavBuffer;
+}
+
+// ── RESET ──
+function resetTool() {
+  stopPlayback();
+  audioBuffer = null;
+  selStart = 0; selEnd = 0; duration = 0;
+  document.getElementById('editor').style.display = 'none';
+  document.getElementById('file-info').style.display = 'none';
+  document.getElementById('dl-section').style.display = 'none';
+  document.getElementById('proc-progress').style.display = 'none';
+  fi.value = '';
+}
+
+// ── RESIZE ──
+window.addEventListener('resize', function() {
+  if (audioBuffer) { drawWaveform(); drawRuler(); }
+});
+</script>
+</body>
+</html>
